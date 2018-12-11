@@ -11,6 +11,6 @@
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <StartArguments>/f c:\prg\tmp\demo.sql /t db2</StartArguments>
+    <StartArguments>/f c:\prg\tmp\demo.sql /t mssql /showDetail</StartArguments>
   </PropertyGroup>
 </Project>

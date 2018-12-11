@@ -37,8 +37,13 @@
                 <path location="${jar.demos.dir}/listGSPInfo.jar"/>
             </classpath>
         </java>
+		<antcall target="clean" />
     </target>
 	
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
+
 </project>	
 	
 	

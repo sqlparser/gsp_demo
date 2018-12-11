@@ -1,14 +1,6 @@
-Namespace of demos
-
-All demos in this package: gudusoft.gsqlparser.demos
-
-gudusoft.gsqlparser.demos.appname, appname is he demo name.
-
-gudusoft.gsqlparser.demos.util, package including help classes.
+### Demos for General SQL Parser .NET version
 
 
-All testcases in this package: gudusoft.gsqlparser.test
+run msbuild to build all demos.
 
-
-
-
+Please check readme file under each demo directory for more information.
