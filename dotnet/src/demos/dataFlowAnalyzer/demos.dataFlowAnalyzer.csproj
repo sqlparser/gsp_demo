@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0B1384E5-684A-4C19-B91E-A2E3BE0F7E00}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>dataFlowAnalyzer</RootNamespace>
+    <AssemblyName>dataFlowAnalyzer</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataFlowAnalyzer.cs" />
+    <Compile Include="dataflow\model\AbstractRelation.cs" />
+    <Compile Include="dataflow\model\DataFlowRelation.cs" />
+    <Compile Include="dataflow\model\ImpactRelation.cs" />
+    <Compile Include="dataflow\model\ModelBindingManager.cs" />
+    <Compile Include="dataflow\model\ModelFactory.cs" />
+    <Compile Include="dataflow\model\QueryTable.cs" />
+    <Compile Include="dataflow\model\QueryTableRelationElement.cs" />
+    <Compile Include="dataflow\model\RecordSetRelation.cs" />
+    <Compile Include="dataflow\model\Relation.cs" />
+    <Compile Include="dataflow\model\RelationElement.cs" />
+    <Compile Include="dataflow\model\RelationType.cs" />
+    <Compile Include="dataflow\model\ResultColumn.cs" />
+    <Compile Include="dataflow\model\ResultColumnRelationElement.cs" />
+    <Compile Include="dataflow\model\ResultSet.cs" />
+    <Compile Include="dataflow\model\SelectResultSet.cs" />
+    <Compile Include="dataflow\model\SelectSetResultColumn.cs" />
+    <Compile Include="dataflow\model\SelectSetResultSet.cs" />
+    <Compile Include="dataflow\model\Table.cs" />
+    <Compile Include="dataflow\model\TableColumn.cs" />
+    <Compile Include="dataflow\model\TableColumnRelationElement.cs" />
+    <Compile Include="dataflow\model\TableRelationElement.cs" />
+    <Compile Include="dataflow\model\View.cs" />
+    <Compile Include="dataflow\model\ViewColumn.cs" />
+    <Compile Include="dataflow\model\ViewColumnRelationElement.cs" />
+    <Compile Include="dataflow\model\xml\column.cs" />
+    <Compile Include="dataflow\model\xml\dataflow.cs" />
+    <Compile Include="dataflow\model\xml\PositionUtil.cs" />
+    <Compile Include="dataflow\model\xml\relation.cs" />
+    <Compile Include="dataflow\model\xml\sourceColumn.cs" />
+    <Compile Include="dataflow\model\xml\table.cs" />
+    <Compile Include="dataflow\model\xml\targetColumn.cs" />
+    <Compile Include="dataflow\model\xml\XML2Model.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="..\util\common.cs">
+      <Link>common.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <PropertyGroup>
+    <UseGSPLib>False</UseGSPLib>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>gudusoft.gsqlparser.demos.dlineage.DataFlowAnalyzer</StartupObject>
+  </PropertyGroup>
+  <Choose>
+    <When Condition=" '$(UseGSPLib)'=='True' ">
+      <ItemGroup>
+        <Reference Include="gudusoft.gsqlparser">
+          <HintPath>..\..\..\lib\gudusoft.gsqlparser.dll</HintPath>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <ProjectReference Include="..\..\..\..\..\gsp_dotnet\gudusoft\gsqlparser\gsqlparser.csproj">
+          <Project>{145e8732-c089-4eb2-9f83-95a692c03fc9}</Project>
+          <Name>gsqlparser</Name>
+        </ProjectReference>
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\dlineageCommon\demos.dlineageCommon.csproj">
+      <Project>{34780f5c-4d09-4e01-a5ef-417308e7062e}</Project>
+      <Name>demos.dlineageCommon</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

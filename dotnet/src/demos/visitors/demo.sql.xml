@@ -1,0 +1,146 @@
+<?xml-stylesheet type="text/xsl" href="tree-view.xsl"?>
+<sqlscript dbvendor="dbvmssql" stmt_count="1" xmlns="http://www.sqlparser.com/xml/sqlquery" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sqlparser.com/xml/sqlquery file:/C:/prg/gsp_java/library/doc/xml/sqlquery.xsd">
+  <statement type="sstselect">
+    <select_statement>
+      <query_expression is_parenthesis="false">
+        <query_specification>
+          <select_list>
+            <result_column>
+              <expression expr_type="simple_object_name_t">
+                <column_referenced_expr>
+                  <objectName>
+                    <identifier>ProductNumber</identifier>
+                  </objectName>
+                </column_referenced_expr>
+              </expression>
+            </result_column>
+            <result_column>
+              <expression expr_type="sqlserver_proprietary_column_alias_t">
+                <binary_expr operator="=">
+                  <first_expr expr_type="simple_object_name_t">
+                    <column_referenced_expr>
+                      <objectName>
+                        <identifier>Category</identifier>
+                      </objectName>
+                    </column_referenced_expr>
+                  </first_expr>
+                  <second_expr expr_type="case_t">
+                    <case_expr>
+                      <input_expression expr_type="simple_object_name_t">
+                        <column_referenced_expr>
+                          <objectName>
+                            <identifier>ProductLine</identifier>
+                          </objectName>
+                        </column_referenced_expr>
+                      </input_expression>
+                      <when_then_clause>
+                        <search_expression expr_type="simple_constant_t">
+                          <constant_expr>
+                            <literal>
+                              <value>'R'</value>
+                            </literal>
+                          </constant_expr>
+                        </search_expression>
+                        <result_expression expr_type="simple_constant_t">
+                          <constant_expr>
+                            <literal>
+                              <value>'Road'</value>
+                            </literal>
+                          </constant_expr>
+                        </result_expression>
+                      </when_then_clause>
+                      <when_then_clause>
+                        <search_expression expr_type="simple_constant_t">
+                          <constant_expr>
+                            <literal>
+                              <value>'M'</value>
+                            </literal>
+                          </constant_expr>
+                        </search_expression>
+                        <result_expression expr_type="simple_constant_t">
+                          <constant_expr>
+                            <literal>
+                              <value>'Mountain'</value>
+                            </literal>
+                          </constant_expr>
+                        </result_expression>
+                      </when_then_clause>
+                      <when_then_clause>
+                        <search_expression expr_type="simple_constant_t">
+                          <constant_expr>
+                            <literal>
+                              <value>'T'</value>
+                            </literal>
+                          </constant_expr>
+                        </search_expression>
+                        <result_expression expr_type="simple_constant_t">
+                          <constant_expr>
+                            <literal>
+                              <value>'Touring'</value>
+                            </literal>
+                          </constant_expr>
+                        </result_expression>
+                      </when_then_clause>
+                      <when_then_clause>
+                        <search_expression expr_type="simple_constant_t">
+                          <constant_expr>
+                            <literal>
+                              <value>'S'</value>
+                            </literal>
+                          </constant_expr>
+                        </search_expression>
+                        <result_expression expr_type="simple_constant_t">
+                          <constant_expr>
+                            <literal>
+                              <value>'Other sale items'</value>
+                            </literal>
+                          </constant_expr>
+                        </result_expression>
+                      </when_then_clause>
+                      <else_expression expr_type="simple_constant_t">
+                        <constant_expr>
+                          <literal>
+                            <value>'Not for sale'</value>
+                          </literal>
+                        </constant_expr>
+                      </else_expression>
+                    </case_expr>
+                  </second_expr>
+                </binary_expr>
+              </expression>
+            </result_column>
+            <result_column>
+              <expression expr_type="simple_object_name_t">
+                <column_referenced_expr>
+                  <objectName>
+                    <identifier>Name</identifier>
+                  </objectName>
+                </column_referenced_expr>
+              </expression>
+            </result_column>
+          </select_list>
+          <from_clause>
+            <table_reference type="objectname">
+              <named_table_reference>
+                <table_name>
+                  <identifier>Production.Product</identifier>
+                </table_name>
+              </named_table_reference>
+            </table_reference>
+          </from_clause>
+          <order_by_clause>
+            <order_by_item>
+              <sort_key expr_type="simple_object_name_t">
+                <column_referenced_expr>
+                  <objectName>
+                    <identifier>ProductNumber</identifier>
+                  </objectName>
+                </column_referenced_expr>
+              </sort_key>
+            </order_by_item>
+          </order_by_clause>
+        </query_specification>
+      </query_expression>
+    </select_statement>
+  </statement>
+</sqlscript>

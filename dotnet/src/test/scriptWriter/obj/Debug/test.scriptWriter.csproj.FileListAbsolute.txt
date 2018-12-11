@@ -1,0 +1,11 @@
+C:\prg\gsp_demo\dotnet\src\demos\testScriptWriter\bin\Debug\test.scriptWriter.dll
+C:\prg\gsp_demo\dotnet\src\demos\testScriptWriter\bin\Debug\test.scriptWriter.pdb
+C:\prg\gsp_demo\dotnet\src\demos\testScriptWriter\bin\Debug\gudusoft.gsqlparser.dll
+C:\prg\gsp_demo\dotnet\src\demos\testScriptWriter\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\prg\gsp_demo\dotnet\src\demos\testScriptWriter\bin\Debug\gudusoft.gsqlparser.pdb
+C:\prg\gsp_demo\dotnet\src\demos\testScriptWriter\bin\Debug\gudusoft.gsqlparser.xml
+C:\prg\gsp_demo\dotnet\src\demos\testScriptWriter\bin\Debug\zh-Hans\Microsoft.VisualStudio.QualityTools.UnitTestFramework.resources.dll
+C:\prg\gsp_demo\dotnet\src\demos\testScriptWriter\obj\Debug\test.scriptWriter.csproj.CoreCompileInputs.cache
+C:\prg\gsp_demo\dotnet\src\demos\testScriptWriter\obj\Debug\test.scriptWriter.csproj.CopyComplete
+C:\prg\gsp_demo\dotnet\src\demos\testScriptWriter\obj\Debug\test.scriptWriter.dll
+C:\prg\gsp_demo\dotnet\src\demos\testScriptWriter\obj\Debug\test.scriptWriter.pdb

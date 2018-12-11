@@ -1,0 +1,301 @@
+﻿namespace demos.dlineage.model.metadata
+{
+    using demos.util;
+    using EDbVendor = gudusoft.gsqlparser.EDbVendor;
+
+    using SQLUtil = demos.dlineage.util.SQLUtil;
+
+    public class ProcedureMetaData : LinkedHashMap<string, object>
+	{
+
+		private const string PROP_NAME = "name";
+		private const string PROP_CATALOGNAME = "catalogName";
+		private const string PROP_SCHEMANAME = "schemaName";
+
+		private string name;
+		private string schemaName;
+		private string catalogName;
+
+		private string displayName;
+		private string catalogDisplayName;
+		private string schemaDisplayName;
+
+		private bool isFunction = false;
+		private bool isTrigger = false;
+
+		private bool strict = false;
+
+		private EDbVendor vendor = EDbVendor.dbvmssql;
+
+		public ProcedureMetaData(EDbVendor vendor, bool strict)
+		{
+			this.vendor = vendor;
+			this.strict = strict;
+			this.isFunction = false;
+			this[PROP_CATALOGNAME] = "";
+			this[PROP_SCHEMANAME] = "";
+		}
+
+		public virtual string Name
+		{
+			set
+			{
+				if (SQLUtil.isEmpty(value))
+				{
+					return;
+				}
+				displayName = value;
+				value = SQLUtil.trimObjectName(value);
+				this.name = value;
+				if (!string.ReferenceEquals(value, null))
+				{
+					this[PROP_NAME] = value;
+				}
+			}
+			get
+			{
+				return (string) this[PROP_NAME];
+			}
+		}
+
+		public virtual string CatalogName
+		{
+			set
+			{
+				if (SQLUtil.isEmpty(value))
+				{
+					return;
+				}
+				catalogDisplayName = value;
+				value = SQLUtil.trimObjectName(value);
+				this.catalogName = value;
+				if (!string.ReferenceEquals(value, null))
+				{
+					this[PROP_CATALOGNAME] = value;
+				}
+			}
+			get
+			{
+				return (string) this[PROP_CATALOGNAME];
+			}
+		}
+
+		public virtual string SchemaName
+		{
+			set
+			{
+				if (SQLUtil.isEmpty(value))
+				{
+					return;
+				}
+				if (EDbVendor.dbvmysql == vendor)
+				{
+					CatalogName = value;
+				}
+				else
+				{
+					schemaDisplayName = value;
+					value = SQLUtil.trimObjectName(value);
+					this.schemaName = value;
+					if (!string.ReferenceEquals(value, null))
+					{
+						this[PROP_SCHEMANAME] = value;
+					}
+				}
+			}
+			get
+			{
+				return (string) this[PROP_SCHEMANAME];
+			}
+		}
+
+		public virtual string DisplayName
+		{
+			get
+			{
+				return displayName;
+			}
+			set
+			{
+				this.displayName = value;
+			}
+		}
+
+
+		public virtual string CatalogDisplayName
+		{
+			get
+			{
+				return catalogDisplayName;
+			}
+			set
+			{
+				this.catalogDisplayName = value;
+			}
+		}
+
+
+		public virtual string SchemaDisplayName
+		{
+			get
+			{
+				return schemaDisplayName;
+			}
+			set
+			{
+				this.schemaDisplayName = value;
+			}
+		}
+
+
+
+
+
+		public override int GetHashCode()
+		{
+			const int prime = 31;
+			int result = 0;
+			result = prime * result + ((string.ReferenceEquals(name, null)) ? 0 : name.GetHashCode());
+			if (strict)
+			{
+				result = prime * result + ((string.ReferenceEquals(catalogName, null)) ? 0 : catalogName.GetHashCode());
+				result = prime * result + ((string.ReferenceEquals(schemaName, null)) ? 0 : schemaName.GetHashCode());
+			}
+			return result;
+		}
+
+		public override bool Equals(object obj)
+		{
+			if (this == obj)
+			{
+				return true;
+			}
+
+			if (!(obj is ProcedureMetaData))
+			{
+				return false;
+			}
+
+			ProcedureMetaData other = (ProcedureMetaData) obj;
+
+			if (strict)
+			{
+				if (string.ReferenceEquals(catalogName, null))
+				{
+					if (!string.ReferenceEquals(other.catalogName, null))
+					{
+						return false;
+					}
+				}
+				else if (!catalogName.Equals(other.catalogName))
+				{
+					return false;
+				}
+
+				if (string.ReferenceEquals(schemaName, null))
+				{
+					if (!string.ReferenceEquals(other.schemaName, null))
+					{
+						return false;
+					}
+				}
+				else if (!schemaName.Equals(other.schemaName))
+				{
+					return false;
+				}
+			}
+
+			if (string.ReferenceEquals(name, null))
+			{
+				if (!string.ReferenceEquals(other.name, null))
+				{
+					return false;
+				}
+			}
+			else if (!name.Equals(other.name))
+			{
+				return false;
+			}
+
+			return true;
+		}
+
+		public virtual string FullName
+		{
+			get
+			{
+				string fullName = name;
+				if (!string.ReferenceEquals(schemaName, null))
+				{
+					fullName = schemaName + "." + fullName;
+				}
+				if (!string.ReferenceEquals(catalogName, null))
+				{
+					fullName = catalogName + "." + fullName;
+				}
+				return fullName;
+			}
+		}
+
+		public virtual string DisplayFullName
+		{
+			get
+			{
+				string fullName = displayName;
+				if (!string.ReferenceEquals(schemaDisplayName, null))
+				{
+					fullName = schemaDisplayName + "." + fullName;
+				}
+				if (!string.ReferenceEquals(catalogDisplayName, null))
+				{
+					fullName = catalogDisplayName + "." + fullName;
+				}
+				return fullName;
+			}
+		}
+
+		public virtual bool Function
+		{
+			get
+			{
+				return isFunction;
+			}
+			set
+			{
+				this.isFunction = value;
+			}
+		}
+
+
+		public virtual bool Strict
+		{
+			get
+			{
+				return strict;
+			}
+		}
+
+		public virtual EDbVendor Vendor
+		{
+			get
+			{
+				return vendor;
+			}
+		}
+
+		public virtual bool Trigger
+		{
+			get
+			{
+				return isTrigger;
+			}
+			set
+			{
+				this.isTrigger = value;
+			}
+		}
+
+
+	}
+
+}

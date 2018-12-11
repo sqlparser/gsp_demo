@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<sqlscript dbvendor="dbvoracle" stmt_count="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.sqlparser.com/xml/sqlschema/1.0">
+  <statement type="sstmerge">
+    <merge_statement>
+      <target_table type="objectname">
+        <named_table_reference>
+          <table_name object_type="table">
+            <full_name>bonuses</full_name>
+            <object_name>bonuses</object_name>
+          </table_name>
+          <alias_clause with_as="false">
+            <object_name object_type="table_alias">
+              <full_name>D</full_name>
+              <object_name>D</object_name>
+            </object_name>
+          </alias_clause>
+        </named_table_reference>
+      </target_table>
+      <source_table type="subquery">
+        <query_table_reference>
+          <query_expression is_parenthesis="True">
+            <query_specification>
+              <select_list>
+                <result_column>
+                  <expression expr_type="simple_object_name_t">
+                    <column_referenced_expr>
+                      <objectName object_type="column">
+                        <full_name>employee_id</full_name>
+                        <part_name>employee_id</part_name>
+                      </objectName>
+                    </column_referenced_expr>
+                  </expression>
+                </result_column>
+                <result_column>
+                  <expression expr_type="simple_object_name_t">
+                    <column_referenced_expr>
+                      <objectName object_type="column">
+                        <full_name>salary</full_name>
+                        <part_name>salary</part_name>
+                      </objectName>
+                    </column_referenced_expr>
+                  </expression>
+                </result_column>
+                <result_column>
+                  <expression expr_type="simple_object_name_t">
+                    <column_referenced_expr>
+                      <objectName object_type="column">
+                        <full_name>department_id</full_name>
+                        <part_name>department_id</part_name>
+                      </objectName>
+                    </column_referenced_expr>
+                  </expression>
+                </result_column>
+              </select_list>
+              <from_clause>
+                <table_reference type="objectname">
+                  <named_table_reference>
+                    <table_name object_type="table">
+                      <full_name>employees</full_name>
+                      <object_name>employees</object_name>
+                    </table_name>
+                  </named_table_reference>
+                </table_reference>
+              </from_clause>
+              <where_clause>
+                <condition expr_type="simple_comparison_t">
+                  <comparison_expr type="=">
+                    <first_expr expr_type="simple_object_name_t">
+                      <column_referenced_expr>
+                        <objectName object_type="column">
+                          <full_name>department_id</full_name>
+                          <part_name>department_id</part_name>
+                        </objectName>
+                      </column_referenced_expr>
+                    </first_expr>
+                    <second_expr expr_type="simple_constant_t">
+                      <constant_expr>
+                        <literal>
+                          <value>80</value>
+                        </literal>
+                      </constant_expr>
+                    </second_expr>
+                  </comparison_expr>
+                </condition>
+              </where_clause>
+            </query_specification>
+          </query_expression>
+          <alias_clause with_as="false">
+            <object_name object_type="table_alias">
+              <full_name>S</full_name>
+              <object_name>S</object_name>
+            </object_name>
+          </alias_clause>
+        </query_table_reference>
+      </source_table>
+      <search_condition expr_type="simple_comparison_t">
+        <comparison_expr type="=">
+          <first_expr expr_type="simple_object_name_t">
+            <column_referenced_expr>
+              <objectName object_type="column">
+                <full_name>D.employee_id</full_name>
+                <object_name>D</object_name>
+                <part_name>employee_id</part_name>
+              </objectName>
+            </column_referenced_expr>
+          </first_expr>
+          <second_expr expr_type="simple_object_name_t">
+            <column_referenced_expr>
+              <objectName object_type="column">
+                <full_name>S.employee_id</full_name>
+                <object_name>S</object_name>
+                <part_name>employee_id</part_name>
+              </objectName>
+            </column_referenced_expr>
+          </second_expr>
+        </comparison_expr>
+      </search_condition>
+      <merge_action>
+        <merge_update_action>
+          <assignment_set_clause expr_type="assignment_t">
+            <assignment_expr>
+              <first_expr expr_type="simple_object_name_t">
+                <column_referenced_expr>
+                  <objectName object_type="column">
+                    <full_name>D.bonus</full_name>
+                    <object_name>D</object_name>
+                    <part_name>bonus</part_name>
+                  </objectName>
+                </column_referenced_expr>
+              </first_expr>
+              <second_expr expr_type="arithmetic_plus_t">
+                <binary_expr operator="+">
+                  <first_expr expr_type="simple_object_name_t">
+                    <column_referenced_expr>
+                      <objectName object_type="column">
+                        <full_name>D.bonus</full_name>
+                        <object_name>D</object_name>
+                        <part_name>bonus</part_name>
+                      </objectName>
+                    </column_referenced_expr>
+                  </first_expr>
+                  <second_expr expr_type="arithmetic_times_t">
+                    <binary_expr operator="*">
+                      <first_expr expr_type="simple_object_name_t">
+                        <column_referenced_expr>
+                          <objectName object_type="column">
+                            <full_name>S.salary</full_name>
+                            <object_name>S</object_name>
+                            <part_name>salary</part_name>
+                          </objectName>
+                        </column_referenced_expr>
+                      </first_expr>
+                      <second_expr expr_type="simple_constant_t">
+                        <constant_expr>
+                          <literal>
+                            <value>.01</value>
+                          </literal>
+                        </constant_expr>
+                      </second_expr>
+                    </binary_expr>
+                  </second_expr>
+                </binary_expr>
+              </second_expr>
+            </assignment_expr>
+          </assignment_set_clause>
+        </merge_update_action>
+      </merge_action>
+      <merge_action>
+        <merge_insert_action>
+          <column_list_reference>
+            <objectName object_type="column">
+              <full_name>D.employee_id</full_name>
+              <object_name>D</object_name>
+              <part_name>employee_id</part_name>
+            </objectName>
+            <objectName object_type="column">
+              <full_name>D.bonus</full_name>
+              <object_name>D</object_name>
+              <part_name>bonus</part_name>
+            </objectName>
+          </column_list_reference>
+          <row_values>
+            <expression expr_type="simple_object_name_t">
+              <column_referenced_expr>
+                <objectName object_type="column">
+                  <full_name>S.employee_id</full_name>
+                  <object_name>S</object_name>
+                  <part_name>employee_id</part_name>
+                </objectName>
+              </column_referenced_expr>
+            </expression>
+            <expression expr_type="arithmetic_times_t">
+              <binary_expr operator="*">
+                <first_expr expr_type="simple_object_name_t">
+                  <column_referenced_expr>
+                    <objectName object_type="column">
+                      <full_name>S.salary</full_name>
+                      <object_name>S</object_name>
+                      <part_name>salary</part_name>
+                    </objectName>
+                  </column_referenced_expr>
+                </first_expr>
+                <second_expr expr_type="simple_constant_t">
+                  <constant_expr>
+                    <literal>
+                      <value>0.1</value>
+                    </literal>
+                  </constant_expr>
+                </second_expr>
+              </binary_expr>
+            </expression>
+          </row_values>
+        </merge_insert_action>
+      </merge_action>
+    </merge_statement>
+  </statement>
+</sqlscript>

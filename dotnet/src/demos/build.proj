@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003"  ToolsVersion="12">
+
+  <Target Name="Build">
+    <MSBuild Projects="checksyntax\demos.checksyntax.csproj" Targets="Build" Properties="Configuration=release;Platform=AnyCPU;UseGSPLib=True"/>
+    <MSBuild Projects="columnImpact\demos.columnImpact.csproj" Targets="Build" Properties="Configuration=release;Platform=AnyCPU;UseGSPLib=True"/>
+	<MSBuild Projects="dlineageCommon\demos.dlineageCommon.csproj" Targets="Build" Properties="Configuration=release;Platform=AnyCPU;UseGSPLib=True"/>
+	<MSBuild Projects="dlineage\demos.dlineage.csproj" Targets="Build" Properties="Configuration=release;Platform=AnyCPU;UseGSPLib=True"/>
+    <MSBuild Projects="dlineageRelation\demos.dlineageRelation.csproj" Targets="Build" Properties="Configuration=release;Platform=AnyCPU;UseGSPLib=True"/>
+    <MSBuild Projects="formatsql\demos.formatsql.csproj" Targets="Build" Properties="Configuration=release;Platform=AnyCPU;UseGSPLib=True"/>
+    <MSBuild Projects="gettablecolumns\demos.gettablecolumns.csproj" Targets="Build" Properties="Configuration=release;Platform=AnyCPU;UseGSPLib=True"/>
+    <MSBuild Projects="visitors\demos.toXML.csproj" Targets="Build" Properties="Configuration=release;Platform=AnyCPU;UseGSPLib=True"/>
+	<MSBuild Projects="antiSQLInjection\demos.antiSQLInjection.csproj" Targets="Build" Properties="Configuration=release;Platform=AnyCPU;UseGSPLib=True"/>
+	<MSBuild Projects="joinRelationAnalyze\demos.joinRelationAnalyze.csproj" Targets="Build" Properties="Configuration=release;Platform=AnyCPU;UseGSPLib=True"/>
+	<MSBuild Projects="tableColumnRename\demos.tableColumnRename.csproj" Targets="Build" Properties="Configuration=release;Platform=AnyCPU;UseGSPLib=True"/>
+	<MSBuild Projects="expressionTraverser\demos.expressionTraverser.csproj" Targets="Build" Properties="Configuration=release;Platform=AnyCPU;UseGSPLib=True"/>
+	<MSBuild Projects="convertJoin\demos.convertJoin.csproj" Targets="Build" Properties="Configuration=release;Platform=AnyCPU;UseGSPLib=True"/>
+	<MSBuild Projects="removeCondition\demos.removeCondition.csproj" Targets="Build" Properties="Configuration=release;Platform=AnyCPU;UseGSPLib=True"/>
+	<MSBuild Projects="analyzesp\demos.analyzesp.csproj" Targets="Build" Properties="Configuration=release;Platform=AnyCPU;UseGSPLib=True"/>
+	<MSBuild Projects="removeCondition\demos.removeCondition.csproj" Targets="Build" Properties="Configuration=release;Platform=AnyCPU;UseGSPLib=True"/>
+	<MSBuild Projects="removeColumn\demos.removeColumn.csproj" Targets="Build" Properties="Configuration=release;Platform=AnyCPU;UseGSPLib=True"/>
+	<MSBuild Projects="dataFlowAnalyzer\demos.dataFlowAnalyzer.csproj" Targets="Build" Properties="Configuration=release;Platform=AnyCPU;UseGSPLib=True"/>
+	<MSBuild Projects="removevars\demos.removevars.csproj" Targets="Build" Properties="Configuration=release;Platform=AnyCPU;UseGSPLib=True"/>
+	<MSBuild Projects="listGSPInfo\demos.listGSPInfo.csproj" Targets="Build" Properties="Configuration=release;Platform=AnyCPU;UseGSPLib=True"/>
+  </Target>
+
+
+  <Target Name="Clean">
+    <Message Text="Clean..." />
+    <MSBuild Projects="checksyntax\demos.checksyntax.csproj" Targets="Clean"/>
+	<MSBuild Projects="columnImpact\demos.columnImpact.csproj" Targets="Clean"/>
+	<MSBuild Projects="dlineageCommon\demos.dlineageCommon.csproj" Targets="Clean"/>
+	<MSBuild Projects="dlineage\demos.dlineage.csproj" Targets="Clean"/>
+	<MSBuild Projects="dlineageRelation\demos.dlineageRelation.csproj" Targets="Clean"/>
+	<MSBuild Projects="formatsql\demos.formatsql.csproj" Targets="Clean"/>
+	<MSBuild Projects="gettablecolumns\demos.gettablecolumns.csproj" Targets="Clean"/>
+	<MSBuild Projects="visitors\demos.toXML.csproj" Targets="Clean"/>
+	<MSBuild Projects="antiSQLInjection\demos.antiSQLInjection.csproj" Targets="Clean"/>
+	<MSBuild Projects="joinRelationAnalyze\demos.joinRelationAnalyze.csproj" Targets="Clean"/>
+	<MSBuild Projects="tableColumnRename\demos.tableColumnRename.csproj" Targets="Clean"/>
+	<MSBuild Projects="expressionTraverser\demos.expressionTraverser.csproj" Targets="Clean"/>
+	<MSBuild Projects="convertJoin\demos.convertJoin.csproj" Targets="Clean"/>
+	<MSBuild Projects="removeCondition\demos.removeCondition.csproj" Targets="Clean"/>
+	<MSBuild Projects="analyzesp\demos.analyzesp.csproj" Targets="Clean"/>
+	<MSBuild Projects="removeCondition\demos.removeCondition.csproj" Targets="Clean"/>
+	<MSBuild Projects="removeColumn\demos.removeColumn.csproj" Targets="Clean"/>
+	<MSBuild Projects="dataFlowAnalyzer\demos.dataFlowAnalyzer.csproj" Targets="Clean"/>
+	<MSBuild Projects="removevars\demos.removevars.csproj" Targets="Clean"/>
+	<MSBuild Projects="listGSPInfo\demos.listGSPInfo.csproj" Targets="Clean"/>
+  </Target>
+
+  <Target Name="RemoveBin">
+	<Message Text="Clean..." />
+	<RemoveDir Directories="analyzesp\bin" />
+	<RemoveDir Directories="analyzesp\obj" />
+	<RemoveDir Directories="analyzesp\.vs" />
+	<RemoveDir Directories="antiSQLInjection\bin" />
+	<RemoveDir Directories="antiSQLInjection\obj" />
+	<RemoveDir Directories="antiSQLInjection\.vs" />
+	<RemoveDir Directories="checksyntax\bin" />
+	<RemoveDir Directories="checksyntax\obj" />
+	<RemoveDir Directories="checksyntax\.vs" />
+	<RemoveDir Directories="columnImpact\bin" />
+	<RemoveDir Directories="columnImpact\obj" />
+	<RemoveDir Directories="columnImpact\.vs" />
+	<RemoveDir Directories="dlineage\bin" />
+	<RemoveDir Directories="dlineage\obj" />
+	<RemoveDir Directories="dlineage\.vs" />
+	<RemoveDir Directories="dlineageCommon\bin" />
+	<RemoveDir Directories="dlineageCommon\obj" />
+	<RemoveDir Directories="dlineageCommon\.vs" />
+	<RemoveDir Directories="dlineageRelation\bin" />
+	<RemoveDir Directories="dlineageRelation\obj" />
+	<RemoveDir Directories="dlineageRelation\.vs" />
+	<RemoveDir Directories="expressionTraverser\bin" />
+	<RemoveDir Directories="expressionTraverser\obj" />
+	<RemoveDir Directories="expressionTraverser\.vs" />
+	<RemoveDir Directories="formatsql\bin" />
+	<RemoveDir Directories="formatsql\obj" />
+	<RemoveDir Directories="formatsql\.vs" />
+	<RemoveDir Directories="gettablecolumns\bin" />
+	<RemoveDir Directories="gettablecolumns\obj" />
+	<RemoveDir Directories="gettablecolumns\.vs" />
+	<RemoveDir Directories="convertJoin\bin" />
+	<RemoveDir Directories="convertJoin\obj" />
+	<RemoveDir Directories="convertJoin\.vs" />
+	<RemoveDir Directories="joinRelationAnalyze\bin" />
+	<RemoveDir Directories="joinRelationAnalyze\obj" />
+	<RemoveDir Directories="joinRelationAnalyze\.vs" />
+	<RemoveDir Directories="removeCondition\bin" />
+	<RemoveDir Directories="removeCondition\obj" />
+	<RemoveDir Directories="removeCondition\.vs" />
+	<RemoveDir Directories="tableColumnRename\bin" />
+	<RemoveDir Directories="tableColumnRename\obj" />
+	<RemoveDir Directories="tableColumnRename\.vs" />
+	<RemoveDir Directories="visitors\bin" />
+	<RemoveDir Directories="visitors\obj" />
+	<RemoveDir Directories="visitors\.vs" />
+	<RemoveDir Directories="removeCondition\bin" />
+	<RemoveDir Directories="removeCondition\obj" />
+	<RemoveDir Directories="removeCondition\.vs" />
+	<RemoveDir Directories="removeColumn\bin" />
+	<RemoveDir Directories="removeColumn\obj" />
+	<RemoveDir Directories="removeColumn\.vs" />
+	<RemoveDir Directories="dataFlowAnalyzer\bin" />
+	<RemoveDir Directories="dataFlowAnalyzer\obj" />
+	<RemoveDir Directories="dataFlowAnalyzer\.vs" />
+	<RemoveDir Directories="removevars\bin" />
+	<RemoveDir Directories="removevars\obj" />
+	<RemoveDir Directories="removevars\.vs" />
+	<RemoveDir Directories="listGSPInfo\bin" />
+	<RemoveDir Directories="listGSPInfo\obj" />
+	<RemoveDir Directories="listGSPInfo\.vs" />
+</Target>
+
+</Project>

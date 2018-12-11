@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003"  ToolsVersion="12">
+
+  <Target Name="Build">
+	<MSBuild Projects="getTableColumn\tools.getTableColumn.csproj" Targets="Build" Properties="Configuration=release;Platform=AnyCPU;UseGSPLib=True"/>
+  </Target>
+
+
+  <Target Name="Clean">
+    <Message Text="Clean..." />
+	<MSBuild Projects="getTableColumn\tools.getTableColumn.csproj" Targets="Clean"/>
+  </Target>
+
+  <Target Name="RemoveBin">
+	<Message Text="Clean..." />
+	<RemoveDir Directories="getTableColumn\bin" />
+	<RemoveDir Directories="getTableColumn\obj" />
+	<RemoveDir Directories="getTableColumn\.vs" />
+  </Target>
+
+</Project>

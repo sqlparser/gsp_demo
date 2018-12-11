@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{34780F5C-4D09-4E01-A5EF-417308E7062E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>demos.dlineageCommon</RootNamespace>
+    <AssemblyName>demos.dlineageCommon</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\util\LinkedHashMap.cs">
+      <Link>LinkedHashMap.cs</Link>
+    </Compile>
+    <Compile Include="columnImpact\ColumnImpact.cs" />
+    <Compile Include="DlineageCommon.cs" />
+    <Compile Include="metadata\DDLParser.cs" />
+    <Compile Include="metadata\DDLSchema.cs" />
+    <Compile Include="metadata\MetaDB.cs" />
+    <Compile Include="metadata\ProcedureRelationScanner.cs" />
+    <Compile Include="metadata\ViewParser.cs" />
+    <Compile Include="model\ddl\schema\column.cs" />
+    <Compile Include="model\ddl\schema\database.cs" />
+    <Compile Include="model\ddl\schema\foreignKey.cs" />
+    <Compile Include="model\ddl\schema\index.cs" />
+    <Compile Include="model\ddl\schema\indexColumn.cs" />
+    <Compile Include="model\ddl\schema\reference.cs" />
+    <Compile Include="model\ddl\schema\table.cs" />
+    <Compile Include="model\ddl\schema\unique.cs" />
+    <Compile Include="model\ddl\schema\uniqueColumn.cs" />
+    <Compile Include="model\metadata\ColumnMetaData.cs" />
+    <Compile Include="model\metadata\MetaScanner.cs" />
+    <Compile Include="model\metadata\ProcedureMetaData.cs" />
+    <Compile Include="model\metadata\TableMetaData.cs" />
+    <Compile Include="model\view\AliasModel.cs" />
+    <Compile Include="model\view\Clause.cs" />
+    <Compile Include="model\view\ColumnImpactModel.cs" />
+    <Compile Include="model\view\ColumnModel.cs" />
+    <Compile Include="model\view\FieldModel.cs" />
+    <Compile Include="model\view\ReferenceModel.cs" />
+    <Compile Include="model\view\TableModel.cs" />
+    <Compile Include="model\xml\columnImpactResult.cs" />
+    <Compile Include="model\xml\linkTable.cs" />
+    <Compile Include="model\xml\procedure.cs" />
+    <Compile Include="model\xml\procedureImpactResult.cs" />
+    <Compile Include="model\xml\sourceColumn.cs" />
+    <Compile Include="model\xml\sourceProcedure.cs" />
+    <Compile Include="model\xml\table.cs" />
+    <Compile Include="model\xml\targetColumn.cs" />
+    <Compile Include="model\xml\targetProcedure.cs" />
+    <Compile Include="model\xml\XML2Model.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="util\SQLUtil.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <PropertyGroup>
+    <UseGSPLib>False</UseGSPLib>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <Choose>
+    <When Condition=" '$(UseGSPLib)'=='True' ">
+      <ItemGroup>
+        <Reference Include="gudusoft.gsqlparser">
+          <HintPath>..\..\..\lib\gudusoft.gsqlparser.dll</HintPath>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <ProjectReference Include="..\..\..\..\..\gsp_dotnet\gudusoft\gsqlparser\gsqlparser.csproj">
+          <Project>{145e8732-c089-4eb2-9f83-95a692c03fc9}</Project>
+          <Name>gsqlparser</Name>
+        </ProjectReference>
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
