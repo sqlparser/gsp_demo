@@ -17,7 +17,7 @@ public class testVariableDeclare extends TestCase {
 
     protected void setUp() throws Exception {
         super.setUp();
-        sqlfile = "c:/prg/gsqlparser/Test/TestCases/java/oracle/exception_handler.sql";
+        sqlfile = test.gspCommon.BASE_SQL_DIR+"java/oracle/exception_handler.sql";
         parser = new TGSqlParser(EDbVendor.dbvoracle);
     }
 

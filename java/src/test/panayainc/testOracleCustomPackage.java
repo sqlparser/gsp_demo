@@ -13,7 +13,7 @@ public class testOracleCustomPackage extends TestCase {
     // custom package syntax.
     public void test1(){
         TGSqlParser sqlparser = new TGSqlParser(EDbVendor.dbvoracle);
-        sqlparser.sqlfilename = "c:\\prg\\gsqlparser\\Test\\TestCases\\java\\oracle\\panayainc\\custompackage.sql";
+        sqlparser.sqlfilename = test.gspCommon.BASE_SQL_DIR+"java\\oracle\\panayainc\\custompackage.sql";
         assertTrue(sqlparser.parse() == 0);
     }
 

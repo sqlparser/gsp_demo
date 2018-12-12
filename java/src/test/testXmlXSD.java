@@ -92,7 +92,7 @@ public class testXmlXSD extends TestCase {
     //static String xsdfile = "c:\\prg\\gsqlparser\\xml\\define\\gsp.xsd";
    // static String xmlfile =  "c:\\prg\\gsqlparser\\xml\\define\\test1.xml";
    // static  String create_table_sqlfile = "c:\\prg\\gsqlparser\\xml\\define\\createtable.sql";
-    static  String alter_table_sqlfile = "c:\\prg\\gsqlparser\\Test\\TestCases\\xml\\define\\altertable.sql";
+    static  String alter_table_sqlfile = test.gspCommon.BASE_SQL_DIR+"xml\\define\\altertable.sql";
 
     public static String tag_sql_script = "sql_script";
     public static String tag_create_table_statement = "create_table_statement";

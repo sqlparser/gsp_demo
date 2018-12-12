@@ -8,6 +8,7 @@ import gudusoft.gsqlparser.EDbVendor;
 import gudusoft.gsqlparser.IMetaDatabase;
 import junit.framework.TestCase;
 import test.SqlFileList;
+import test.gspCommon;
 
 import java.io.*;
 
@@ -180,13 +181,13 @@ public static String getDesiredTablesColumns(String sqlfile){
   }
 
    public static void testOracle(){
-       doTest(EDbVendor.dbvoracle,"c:/prg/gsqlparser/Test/TestCases/java/oracle/dbobject/");
-       doTest(EDbVendor.dbvoracle,"C:\\prg\\gsqlparser\\Test\\TestCases\\fetchdbobject\\oracle\\");
+       doTest(EDbVendor.dbvoracle, gspCommon.BASE_SQL_DIR+ "java/oracle/dbobject/");
+       doTest(EDbVendor.dbvoracle,gspCommon.BASE_SQL_DIR+ "fetchdbobject\\oracle\\");
    }
 
     public static void testSqlServer(){
-        doTest(EDbVendor.dbvmssql,"c:/prg/gsqlparser/Test/TestCases/java/mssql/dbobject/");
-        doTest(EDbVendor.dbvmssql,"C:\\prg\\gsqlparser\\Test\\TestCases\\fetchdbobject\\mssql\\bydbobject\\");
+        doTest(EDbVendor.dbvmssql,gspCommon.BASE_SQL_DIR+ "java/mssql/dbobject/");
+        doTest(EDbVendor.dbvmssql,gspCommon.BASE_SQL_DIR+ "fetchdbobject\\mssql\\bydbobject\\");
     }
 
     public static void testTableEffectDelete(){

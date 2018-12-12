@@ -8,7 +8,7 @@ import junit.framework.TestCase;
 
 public class testRawStatements extends TestCase {
 
-    String rootdir = "c:\\prg\\gsqlparser\\Test\\TestCases\\mdx\\";
+    String rootdir = test.gspCommon.BASE_SQL_DIR+"mdx\\";
 
     public void testMdx1(){
         TGSqlParser sqlparser = new TGSqlParser(EDbVendor.dbvmdx);
