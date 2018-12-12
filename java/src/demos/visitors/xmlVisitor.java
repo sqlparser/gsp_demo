@@ -12,6 +12,7 @@ import gudusoft.gsqlparser.TStatementList;
 import gudusoft.gsqlparser.nodes.*;
 import gudusoft.gsqlparser.stmt.TAlterTableStatement;
 import gudusoft.gsqlparser.stmt.TAssignStmt;
+import gudusoft.gsqlparser.stmt.TCallStatement;
 import gudusoft.gsqlparser.stmt.TCaseStmt;
 import gudusoft.gsqlparser.stmt.TCloseStmt;
 import gudusoft.gsqlparser.stmt.TCommentOnSqlStmt;
@@ -5305,6 +5306,23 @@ public class xmlVisitor extends TParseTreeVisitor
 		stmt.getStatement( ).accept( this );
 		elementStack.pop( );
 
+		elementStack.pop( );
+
+	}
+	
+	public void preVisit( TCallStatement stmt )
+	{
+		e_parent = (Element) elementStack.peek( );
+		Element e_call_stmt = xmldoc.createElement( "call_statement" );
+		e_parent.appendChild( e_call_stmt );
+		elementStack.push( e_call_stmt );
+		current_objectName_tag = "routine_name";
+		stmt.getRoutineName().accept( this );
+		if ( stmt.getArgs() != null )
+		{
+			current_expression_list_tag = "parameter_list";
+			stmt.getArgs( ).accept( this );
+		}
 		elementStack.pop( );
 
 	}
