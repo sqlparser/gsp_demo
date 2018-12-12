@@ -74,7 +74,7 @@ namespace gudusoft.gsqlparser.test
         [TestMethod]
         public void TestSybaseFiles()
         {
-            String[] allfiles = System.IO.Directory.GetFiles(@"c:\prg\gsqlparser\Test\TestCases\sybase\", "*.sql", System.IO.SearchOption.AllDirectories);
+            String[] allfiles = System.IO.Directory.GetFiles(UnitTestCommon.BASE_SQL_DIR + @"sybase\", "*.sql", System.IO.SearchOption.AllDirectories);
             int cnt = 0;
             foreach (var file in allfiles)
             {
@@ -87,7 +87,7 @@ namespace gudusoft.gsqlparser.test
         [TestMethod]
         public void TestSybaseFiles2()
         {
-            String[] allfiles = System.IO.Directory.GetFiles(@"c:\prg\gsqlparser\Test\TestCases\new_dotnet\sybase\", "*.sql", System.IO.SearchOption.AllDirectories);
+            String[] allfiles = System.IO.Directory.GetFiles(UnitTestCommon.BASE_SQL_DIR + @"new_dotnet\sybase\", "*.sql", System.IO.SearchOption.AllDirectories);
             int cnt = 0;
             foreach (var file in allfiles)
             {

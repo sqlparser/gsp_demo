@@ -78,7 +78,7 @@ namespace gudusoft.gsqlparser.test
         [TestMethod]
         public void TestMySQLFiles()
         {
-            String[] allfiles = System.IO.Directory.GetFiles(@"c:\prg\gsqlparser\Test\TestCases\mysql\", "*.sql", System.IO.SearchOption.AllDirectories);
+            String[] allfiles = System.IO.Directory.GetFiles(UnitTestCommon.BASE_SQL_DIR + @"mysql\", "*.sql", System.IO.SearchOption.AllDirectories);
             int cnt = 0;
             foreach (var file in allfiles)
             {
@@ -91,7 +91,7 @@ namespace gudusoft.gsqlparser.test
         [TestMethod]
         public void TestMySQLFiles2()
         {
-            String[] allfiles = System.IO.Directory.GetFiles(@"c:\prg\gsqlparser\Test\TestCases\new_dotnet\mysql\", "*.sql", System.IO.SearchOption.AllDirectories);
+            String[] allfiles = System.IO.Directory.GetFiles(UnitTestCommon.BASE_SQL_DIR + @"new_dotnet\mysql\", "*.sql", System.IO.SearchOption.AllDirectories);
             int cnt = 0;
             List<string> excludeFiles = new List<string> { "altertable_comment_change_column.sql" };
             foreach (var file in allfiles)

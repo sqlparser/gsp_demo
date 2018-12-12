@@ -77,7 +77,7 @@ namespace gudusoft.gsqlparser.test
         [TestMethod]
         public void TestDB2Files()
         {
-            String[] allfiles = System.IO.Directory.GetFiles(@"c:\prg\gsqlparser\Test\TestCases\db2\", "*.sql", System.IO.SearchOption.AllDirectories);
+            String[] allfiles = System.IO.Directory.GetFiles(UnitTestCommon.BASE_SQL_DIR + @"db2/", "*.sql", System.IO.SearchOption.AllDirectories);
             int cnt = 0;
             foreach (var file in allfiles)
             {
@@ -90,7 +90,7 @@ namespace gudusoft.gsqlparser.test
         [TestMethod]
         public void TestDB2Files2()
         {
-            String[] allfiles = System.IO.Directory.GetFiles(@"c:\prg\gsqlparser\Test\TestCases\new_dotnet\db2\", "*.sql", System.IO.SearchOption.AllDirectories);
+            String[] allfiles = System.IO.Directory.GetFiles(UnitTestCommon.BASE_SQL_DIR + @"new_dotnet\db2\", "*.sql", System.IO.SearchOption.AllDirectories);
             int cnt = 0;
             foreach (var file in allfiles)
             {

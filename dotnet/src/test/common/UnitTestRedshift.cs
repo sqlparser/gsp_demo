@@ -75,7 +75,7 @@ namespace gudusoft.gsqlparser.test
         [TestMethod]
         public void TestRedshiftFiles2()
         {
-            String[] allfiles = System.IO.Directory.GetFiles(@"c:\prg\gsqlparser\Test\TestCases\new_dotnet\redshift\", "*.sql", System.IO.SearchOption.AllDirectories);
+            String[] allfiles = System.IO.Directory.GetFiles(UnitTestCommon.BASE_SQL_DIR + @"new_dotnet\redshift\", "*.sql", System.IO.SearchOption.AllDirectories);
             int cnt = 0;
             List<string> excludeFiles = new List<string> {
                 "modulo.sql" ,"qualified_name_drop_table.sql","with_clause_select_insert.sql"

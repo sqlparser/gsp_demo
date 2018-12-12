@@ -8,11 +8,15 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 
 
+
 namespace gudusoft.gsqlparser.test.gettablecolumns
 {
+
     [TestClass()]
     public class testGetTableColumns
     {
+        public const string BASE_SQL_DIR = @"../../../../../../../gsp_sqlfiles/TestCases/";
+
         private void doGetTableColumn(EDbVendor dbvendor, String sqlText, String requiredStr)
         {
             TGetTableColumn getTableColumn = new TGetTableColumn(dbvendor);
@@ -117,7 +121,7 @@ issuer.partyp_id"
                  "createpackagebody.sql","merge.sql","no_qualified_subquery.sql"
             };
             doTableColumnFiles(EDbVendor.dbvoracle,
-                @"c:\prg\gsqlparser\Test\TestCases\java\oracle\dbobject\",
+                BASE_SQL_DIR + @"java\oracle\dbobject\",
                 includeFiles
                 );
         }
@@ -136,13 +140,18 @@ issuer.partyp_id"
            "funcitonOnXMLColumn.sql"
             };
             doTableColumnFiles(EDbVendor.dbvmssql,
-                @"c:\prg\gsqlparser\Test\TestCases\java\mssql\dbobject\",
+                BASE_SQL_DIR+@"java\mssql\dbobject\",
                 includeFiles
                 );
         }
 
         private void doTableColumnFiles(EDbVendor dbVendor, String dir, List<String> includeFiles)
         {
+            if (!Directory.Exists(dir))
+            {
+                Console.WriteLine("Skip this testcase, directory not exists:"+dir);
+                return;
+            }
             
             TGetTableColumn getTableColumn = new TGetTableColumn(dbVendor);
             getTableColumn.listStarColumn = false;

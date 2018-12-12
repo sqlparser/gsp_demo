@@ -82,7 +82,7 @@ FROM [Adventure Works]";
         [TestMethod]
         public void TestMdxFiles()
         {
-            String[] allfiles = System.IO.Directory.GetFiles(@"c:\prg\gsqlparser\Test\TestCases\mdx\", "*.sql", System.IO.SearchOption.AllDirectories);
+            String[] allfiles = System.IO.Directory.GetFiles(UnitTestCommon.BASE_SQL_DIR + @"mdx\", "*.sql", System.IO.SearchOption.AllDirectories);
             int cnt = 0;
             foreach (var file in allfiles)
             {
@@ -212,7 +212,8 @@ FROM [Adventure Works]";
         [TestMethod]
         public void testRawStatements()
         {
-            string rootdir = "c:\\prg\\gsqlparser\\Test\\TestCases\\mdx\\";
+            const string BASE_SQL_DIR = @"../../../../../../../gsp_sqlfiles/TestCases/";
+            string rootdir = BASE_SQL_DIR+@"mdx\";
             TGSqlParser sqlparser = new TGSqlParser(EDbVendor.dbvmdx);
 
             sqlparser.sqlfilename = rootdir + "case.sql";
