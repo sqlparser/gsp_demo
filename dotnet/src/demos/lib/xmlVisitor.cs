@@ -4811,6 +4811,23 @@ namespace gudusoft.gsqlparser.demos.lib
             e_parent.Add(e_rollback_stmt);
            // e_rollback_stmt.Value = stmt.ToString();
         } 
+        
+        public override void preVisit(TCallStatement stmt)
+        {
+            e_parent = (XElement)elementStack.Peek();
+            XElement e_call_stmt = new XElement(defaultNamespace + "call_statement");
+            e_parent.Add(e_call_stmt);
+            elementStack.Push(e_call_stmt);
+            current_objectName_tag = "routine_name";
+            stmt.RoutineName.accept(this);
+            if (stmt.Args != null)
+            {
+                current_expression_list_tag = "parameter_list";
+                stmt.Args.accept(this);
+            }
+            elementStack.Pop();
+
+        }
 
     }
 }
