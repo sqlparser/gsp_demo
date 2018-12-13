@@ -125,10 +125,14 @@ public class testAlterTable extends TestCase {
         assertTrue(sqlparser.parse() == 0);
         TAlterTableStatement alterTable = (TAlterTableStatement)sqlparser.sqlstatements.get(0);
         assertTrue(alterTable.getTableName().toString().equalsIgnoreCase("foo"));
+        assertTrue(alterTable.getTableName().getTableString().equalsIgnoreCase("foo"));
+        assertTrue(alterTable.getTableName().getTableToken().toString().equalsIgnoreCase("foo"));
 
         TAlterTableOption ato = alterTable.getAlterTableOptionList().getAlterTableOption(0);
         assertTrue(ato.getOptionType() == EAlterTableOptionType.RenameTable);
         assertTrue(ato.getNewTableName().toString().equalsIgnoreCase("bar"));
+        assertTrue(ato.getNewTableName().getTableString().equalsIgnoreCase("bar"));
+        assertTrue(ato.getNewTableName().getTableToken().toString().equalsIgnoreCase("bar"));
 
         assertTrue(alterTable.tables.size() == 2);
     }
@@ -210,10 +214,24 @@ public class testAlterTable extends TestCase {
         assertTrue(sqlparser.parse() == 0);
         TAlterTableStatement alterTable = (TAlterTableStatement)sqlparser.sqlstatements.get(0);
         assertTrue(alterTable.getTableName().toString().equalsIgnoreCase("contacts"));
+        assertTrue(alterTable.getAlterTableOptionList().size() == 1);
         TAlterTableOption alterTableOption = alterTable.getAlterTableOptionList().getAlterTableOption(0);
         assertTrue(alterTableOption.getConstraintName().toString().equalsIgnoreCase("contacts_unique"));
         assertTrue(alterTableOption.getOptionType() == EAlterTableOptionType.AddConstraintUnique);
         assertTrue(alterTableOption.getIndexCols().getElement(0).getColumnName().toString().equalsIgnoreCase("reference_number"));
+    }
+
+    public void testMySQLAlterTableAddConstraint2(){
+        TGSqlParser sqlparser = new TGSqlParser(EDbVendor.dbvmysql);
+        sqlparser.sqltext = "Alter table table_name add Constraint constraint_name unique(column_name)";
+        assertTrue(sqlparser.parse() == 0);
+        TAlterTableStatement alterTable = (TAlterTableStatement)sqlparser.sqlstatements.get(0);
+        assertTrue(alterTable.getTableName().toString().equalsIgnoreCase("table_name"));
+        assertTrue(alterTable.getAlterTableOptionList().size() == 1);
+        for(int i=0;i<alterTable.getAlterTableOptionList().size();i++){
+            TAlterTableOption tableOpt = alterTable.getAlterTableOptionList().getAlterTableOption(i);
+            String constrName = tableOpt.getConstraintName().toString(); //getting nullpointerexception here
+        }
     }
 
     public void testMySQLAlterTableAddForeignKey(){
