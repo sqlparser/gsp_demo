@@ -13,6 +13,7 @@ import gudusoft.gsqlparser.nodes.TParseTreeNode;
 import gudusoft.gsqlparser.nodes.TResultColumn;
 import gudusoft.gsqlparser.nodes.TResultColumnList;
 import gudusoft.gsqlparser.nodes.TTable;
+import gudusoft.gsqlparser.nodes.TTableList;
 import gudusoft.gsqlparser.stmt.TCreateViewSqlStatement;
 import gudusoft.gsqlparser.stmt.TSelectSqlStatement;
 import gudusoft.gsqlparser.stmt.TUpdateSqlStatement;
@@ -60,6 +61,23 @@ public class ModelBindingManager
 		else if ( gspModel instanceof QueryTable )
 		{
 			table = ( (QueryTable) gspModel ).getTableObject( );
+		}
+		else if ( gspModel instanceof TCTE )
+		{
+			TTableList tables = ((TCTE) gspModel).getSubquery().tables;
+			for (int j = 0; j < tables.size(); j++) 
+			{
+				TTable item = tables.getTable(j);
+				if ( item != null && item.getAliasName( ) != null )
+				{
+					tableAliasMap.put( item.getAliasName( ), item );
+				}
+
+				if ( item != null )
+				{
+					tableSet.add( item );
+				}
+			}
 		}
 
 		if ( table != null && table.getAliasName( ) != null )

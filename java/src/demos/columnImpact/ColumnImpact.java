@@ -2313,20 +2313,85 @@ public class ColumnImpact {
 	}
 
 	private String removeQuote(String string) {
-		if (string != null && string.indexOf('.') != -1) {
-			String[] splits = string.split("\\.");
-			StringBuffer result = new StringBuffer();
-			for (int i = 0; i < splits.length; i++) {
-				result.append(removeQuote(splits[i]));
-				if (i < splits.length - 1) {
-					result.append(".");
+		if ( string == null )
+			return string;
+
+		if ( string.indexOf( '.' ) != -1 && string.length( ) < 128 )
+		{
+			List<String> splits = parseNames( string );
+			StringBuilder buffer = new StringBuilder( );
+			for ( int i = 0; i < splits.size( ); i++ )
+			{
+				buffer.append( splits.get( i ) );
+				if ( i < splits.size( ) - 1 )
+				{
+					buffer.append( "." );
 				}
 			}
-			return result.toString();
+			string = buffer.toString( );
 		}
-		if (string != null && string.startsWith("\"") && string.endsWith("\""))
-			return string.substring(1, string.length() - 1);
+		else
+		{
+			if ( string.startsWith( "\"" ) && string.endsWith( "\"" ) )
+				return string.substring( 1, string.length( ) - 1 );
+
+			if ( string.startsWith( "[" ) && string.endsWith( "]" ) )
+				return string.substring( 1, string.length( ) - 1 );
+		}
 		return string;
+	}
+	
+	public static List<String> parseNames( String nameString )
+	{
+		String name = nameString.trim( );
+		List<String> names = new ArrayList<String>( );
+		String[] splits = nameString.split( "\\." );
+		if ( ( name.startsWith( "\"" ) && name.endsWith( "\"" ) )
+				|| ( name.startsWith( "[" ) && name.endsWith( "]" ) ) )
+		{
+			for ( int i = 0; i < splits.length; i++ )
+			{
+				String split = splits[i].trim( );
+				if ( split.startsWith( "[" ) && !split.endsWith( "]" ) )
+				{
+					StringBuilder buffer = new StringBuilder( );
+					buffer.append( splits[i] );
+					while ( !( split = splits[++i].trim( ) ).endsWith( "]" ) )
+					{
+						buffer.append( "." );
+						buffer.append( splits[i] );
+					}
+
+					buffer.append( "." );
+					buffer.append( splits[i] );
+
+					names.add( buffer.toString( ) );
+					continue;
+				}
+				if ( split.startsWith( "\"" ) && !split.endsWith( "\"" ) )
+				{
+					StringBuilder buffer = new StringBuilder( );
+					buffer.append( splits[i] );
+					while ( !( split = splits[++i].trim( ) ).endsWith( "\"" ) )
+					{
+						buffer.append( "." );
+						buffer.append( splits[i] );
+					}
+
+					buffer.append( "." );
+					buffer.append( splits[i] );
+
+					names.add( buffer.toString( ) );
+					continue;
+				}
+				names.add( splits[i] );
+			}
+		}
+		else
+		{
+			names.addAll( Arrays.asList( splits ) );
+		}
+		return names;
 	}
 	
 	private String format( Document doc, int indent ) throws Exception

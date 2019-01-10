@@ -2620,7 +2620,7 @@ namespace gudusoft.gsqlparser.demos.dlineage
                                     for (k = 0; k < columns.Count; k++)
                                     {
                                         ResultColumn column = columns[k];
-                                        if (columnName.ColumnNameOnly.Equals(column.Name))
+                                        if (SQLUtil.trimObjectName(columnName.ColumnNameOnly).Equals(SQLUtil.trimObjectName(column.Name)))
                                         {
                                             if (!column.Equals(modelObject))
                                             {

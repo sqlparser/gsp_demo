@@ -2491,27 +2491,92 @@ namespace gudusoft.gsqlparser.demos.columnImpact
 
         private string removeQuote(string @string)
         {
-            if (!string.ReferenceEquals(@string, null) && @string.IndexOf('.') != -1)
+            if (string.ReferenceEquals(@string, null))
             {
-                string[] splits = @string.Split(new Char[] { '.', '\\' });
+                return @string;
+            }
 
-
-                StringBuilder result = new StringBuilder();
-                for (int i = 0; i < splits.Length; i++)
+            if (@string.IndexOf('.') != -1
+                && @string.Length < 128)
+            {
+                IList<string> splits = parseNames(@string);
+                StringBuilder buffer = new StringBuilder();
+                for (int i = 0; i < splits.Count; i++)
                 {
-                    result.Append(removeQuote(splits[i]));
-                    if (i < splits.Length - 1)
+                    buffer.Append(splits[i]);
+                    if (i < splits.Count - 1)
                     {
-                        result.Append(".");
+                        buffer.Append(".");
                     }
                 }
-                return result.ToString();
+                @string = buffer.ToString();
             }
-            if (!string.ReferenceEquals(@string, null) && @string.StartsWith("\"", StringComparison.Ordinal) && @string.EndsWith("\"", StringComparison.Ordinal))
+            else
             {
-                return @string.Substring(1, (@string.Length - 1) - 1);
+                if (@string.StartsWith("\"", StringComparison.Ordinal) && @string.EndsWith("\"", StringComparison.Ordinal))
+                {
+                    return @string.Substring(1, (@string.Length - 1) - 1);
+                }
+
+                if (@string.StartsWith("[", StringComparison.Ordinal) && @string.EndsWith("]", StringComparison.Ordinal))
+                {
+                    return @string.Substring(1, (@string.Length - 1) - 1);
+                }
             }
             return @string;
+        }
+
+        public static IList<string> parseNames(string nameString)
+        {
+            String name = nameString.Trim();
+            List<String> names = new List<String>();
+            string[] splits = nameString.ToUpper().Split(new char[] { '.' });
+            if ((name.StartsWith("\"") && name.EndsWith("\""))
+                    || (name.StartsWith("[") && name.EndsWith("]")))
+            {
+                for (int i = 0; i < splits.Length; i++)
+                {
+                    string split = splits[i].Trim();
+                    if (split.StartsWith("[", StringComparison.Ordinal) && !split.EndsWith("]", StringComparison.Ordinal))
+                    {
+                        StringBuilder buffer = new StringBuilder();
+                        buffer.Append(splits[i]);
+                        while (!(split = splits[++i].Trim()).EndsWith("]", StringComparison.Ordinal))
+                        {
+                            buffer.Append(".");
+                            buffer.Append(splits[i]);
+                        }
+
+                        buffer.Append(".");
+                        buffer.Append(splits[i]);
+
+                        names.Add(buffer.ToString());
+                        continue;
+                    }
+                    if (split.StartsWith("\"", StringComparison.Ordinal) && !split.EndsWith("\"", StringComparison.Ordinal))
+                    {
+                        StringBuilder buffer = new StringBuilder();
+                        buffer.Append(splits[i]);
+                        while (!(split = splits[++i].Trim()).EndsWith("\"", StringComparison.Ordinal))
+                        {
+                            buffer.Append(".");
+                            buffer.Append(splits[i]);
+                        }
+
+                        buffer.Append(".");
+                        buffer.Append(splits[i]);
+
+                        names.Add(buffer.ToString());
+                        continue;
+                    }
+                    names.Add(splits[i]);
+                }
+            }
+            else
+            {
+                names.AddRange(splits);
+            }
+            return names;
         }
     }
 

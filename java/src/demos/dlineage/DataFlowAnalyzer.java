@@ -3625,7 +3625,8 @@ public class DataFlowAnalyzer
 									for ( k = 0; k < columns.size( ); k++ )
 									{
 										ResultColumn column = columns.get( k );
-										if ( getColumnName( columnName ).equals( column.getName( ) ) )
+										if (SQLUtil.trimObjectName(getColumnName(columnName))
+												.equals(SQLUtil.trimObjectName(column.getName())))
 										{
 											if ( !column.equals( modelObject ) )
 											{
