@@ -76,7 +76,7 @@ namespace gudusoft.gsqlparser.test
         [TestMethod]
         public void TestInformixFiles()
         {
-            String[] allfiles = System.IO.Directory.GetFiles(@"c:\prg\gsqlparser\Test\TestCases\informix\", "*.sql", System.IO.SearchOption.AllDirectories);
+            String[] allfiles = System.IO.Directory.GetFiles(UnitTestCommon.BASE_SQL_DIR + @"informix\", "*.sql", System.IO.SearchOption.AllDirectories);
             int cnt = 0;
             foreach (var file in allfiles)
             {

@@ -7,6 +7,7 @@ import gudusoft.gsqlparser.TCustomSqlStatement;
 import gudusoft.gsqlparser.EDbVendor;
 import gudusoft.gsqlparser.ESqlStatementType;
 import gudusoft.gsqlparser.TGSqlParser;
+import test.gspCommon;
 import test.metaDB;
 
 import java.io.BufferedReader;
@@ -26,7 +27,7 @@ class getObject{
     String[] desiredColumns = new String[100];
     int desiredTableCount = 0, desiredColumnCount = 0;
 
-    String oracle_sqldir = "c:/prg/gsqlparser/Test/TestCases/java/oracle/dbobject/";
+    String oracle_sqldir = gspCommon.BASE_SQL_DIR+ "java/oracle/dbobject/";
     String[] oracle_sqlfiles = {
         "berger_example_01","berger_sqltest_01","berger_sqltest_02",
         "berger_sqltest_03","berger_sqltest_04","berger_sqltest_05",
@@ -34,7 +35,7 @@ class getObject{
             "createpackagebody","merge","no_qualified_subquery"
     };
 
-    String sqlserver_sqldir = "c:/prg/gsqlparser/Test/TestCases/java/mssql/dbobject/";
+    String sqlserver_sqldir = gspCommon.BASE_SQL_DIR+  "java/mssql/dbobject/";
     String[] sqlserver_sqlfiles = {
         "bigjoin1","shurleyjoin",
             "delete1","delete2","delete4","delete5",

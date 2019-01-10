@@ -7,6 +7,8 @@ namespace gudusoft.gsqlparser.test
 {
     public class UnitTestCommon
     {
+        public const string BASE_SQL_DIR = @"../../../../../../../gsp_sqlfiles/TestCases/";
+
         public static void checkFile(TGSqlParser parser, string filename)
         {
            // Console.WriteLine(filename);

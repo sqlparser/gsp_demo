@@ -74,7 +74,7 @@ namespace gudusoft.gsqlparser.test
         [TestMethod]
         public void TestPostgreSQLFiles()
         {
-            String[] allfiles = System.IO.Directory.GetFiles(@"c:\prg\gsqlparser\Test\TestCases\postgresql\verified\", "*.sql", System.IO.SearchOption.AllDirectories);
+            String[] allfiles = System.IO.Directory.GetFiles(UnitTestCommon.BASE_SQL_DIR + @"postgresql\verified\", "*.sql", System.IO.SearchOption.AllDirectories);
             int cnt = 0;
             foreach (var file in allfiles)
             {
@@ -87,7 +87,7 @@ namespace gudusoft.gsqlparser.test
         [TestMethod]
         public void TestPostgreSQLFiles2()
         {
-            String[] allfiles = System.IO.Directory.GetFiles(@"c:\prg\gsqlparser\Test\TestCases\new_dotnet\postgresql\", "*.sql", System.IO.SearchOption.AllDirectories);
+            String[] allfiles = System.IO.Directory.GetFiles(UnitTestCommon.BASE_SQL_DIR + @"new_dotnet\postgresql\", "*.sql", System.IO.SearchOption.AllDirectories);
             int cnt = 0;
             List<String> excludeFiles = new List<string> {
                 "like_in_select_list.sql","modulo.sql" ,"with_clause_select_insert.sql",
