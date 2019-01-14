@@ -1179,6 +1179,18 @@ namespace gudusoft.gsqlparser.test
 
         }
 
+        [TestMethod]
+        public void testAlterTableAlterColumn()
+        {
+            TGSqlParser sqlparser = new TGSqlParser(EDbVendor.dbvmysql);
+            sqlparser.sqltext = "ALTER TABLE `world`.`t1` ALTER `c1` SET DEFAULT 'abc';";
+            Assert.IsTrue(sqlparser.parse() == 0);
+
+            TAlterTableStatement alterTableStatement = (TAlterTableStatement)sqlparser.sqlstatements.get(0);
+            TAlterTableOption alterTableOption = alterTableStatement.AlterTableOptionList.getAlterTableOption(0);
+            Assert.IsTrue(alterTableOption.OptionType == EAlterTableOptionType.AlterColumn);
+            Assert.IsTrue(alterTableOption.DefaultExpr.ToString().Equals("'abc'", StringComparison.CurrentCultureIgnoreCase));
+        }
 
 
     }
