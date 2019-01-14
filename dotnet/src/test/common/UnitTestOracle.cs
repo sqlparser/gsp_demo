@@ -1083,5 +1083,21 @@ namespace gudusoft.gsqlparser.test
             Assert.IsTrue(datatype.charUnitToken.ToString().Equals("CHAR", StringComparison.CurrentCultureIgnoreCase));
         }
 
+        [TestMethod]
+        public void testLabelNameOfBlock()
+        {
+
+            TGSqlParser sqlparser = new TGSqlParser(EDbVendor.dbvoracle);
+            sqlparser.sqltext = @"<<process_data>>
+                                   BEGIN
+                                      NULL;
+                                   END process_data;";
+            Assert.IsTrue(sqlparser.parse() == 0);
+            TCommonBlock block = (TCommonBlock)sqlparser.sqlstatements.get(0);
+           // Console.WriteLine(block.LabelName.ToString());
+            Assert.IsTrue(block.LabelName.ToString().Equals("process_data", StringComparison.CurrentCultureIgnoreCase));
+            Assert.IsTrue(block.EndLabelName.ToString().Equals("process_data", StringComparison.CurrentCultureIgnoreCase));
+        }
+
     }
 }

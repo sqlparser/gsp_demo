@@ -114,8 +114,10 @@ public class testUpdateStmt extends TestCase {
         TUpdateSqlStatement updateSqlStatement = (TUpdateSqlStatement)sqlparser.sqlstatements.get(0);
         assertTrue(updateSqlStatement.getTargetTable().toString().equalsIgnoreCase("films"));
 
-        assertTrue(updateSqlStatement.getReferenceJoins().size() == 1);
-        assertTrue(updateSqlStatement.getReferenceJoins().getJoin(0).getTable().toString().equalsIgnoreCase("lib"));
+//        assertTrue(updateSqlStatement.getReferenceJoins().size() == 1);
+//        assertTrue(updateSqlStatement.getReferenceJoins().getJoin(0).getTable().toString().equalsIgnoreCase("lib"));
+        assertTrue(updateSqlStatement.joins.size() == 1);
+        assertTrue(updateSqlStatement.joins.getJoin(0).getTable().toString().equalsIgnoreCase("lib"));
     }
 
 }

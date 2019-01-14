@@ -920,5 +920,23 @@ namespace gudusoft.gsqlparser.test
             Assert.IsTrue(createIndexSqlStatement.IndexName.ToString().Equals("[IDX_Spacial]", StringComparison.CurrentCultureIgnoreCase));
             Assert.IsTrue(createIndexSqlStatement.TableName.ToString().Equals("[dbo].[Master]", StringComparison.CurrentCultureIgnoreCase));
         }
+
+        [TestMethod]
+        public void testAlterTableAddConstriant()
+        {
+            TGSqlParser sqlparser = new TGSqlParser(EDbVendor.dbvmssql);
+            sqlparser.sqltext = "ALTER TABLE [dbo].[t1] ADD CONSTRAINT [df_c1] DEFAULT 'abc' FOR [c1]";
+            Assert.IsTrue(sqlparser.parse() == 0);
+
+            TAlterTableStatement alterTableStatement = (TAlterTableStatement)sqlparser.sqlstatements.get(0);
+            TAlterTableOption alterTableOption = alterTableStatement.AlterTableOptionList.getAlterTableOption(0);
+            Assert.IsTrue(alterTableOption.OptionType == EAlterTableOptionType.AddConstraint);
+            Assert.IsTrue(alterTableOption.ConstraintList.size() == 1);
+            TConstraint constraint = alterTableOption.ConstraintList[0];
+            Assert.IsTrue(constraint.ConstraintName.ToString().Equals("[df_c1]", StringComparison.CurrentCultureIgnoreCase));
+            Assert.IsTrue(constraint.DefaultExpression.ToString().Equals("'abc'", StringComparison.CurrentCultureIgnoreCase));
+            Assert.IsTrue(constraint.DefaultForColumnName.ToString().Equals("[c1]", StringComparison.CurrentCultureIgnoreCase));
+        }
+
     }
 }
