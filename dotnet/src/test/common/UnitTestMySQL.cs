@@ -445,6 +445,9 @@ namespace gudusoft.gsqlparser.test
             Assert.IsTrue(sqlparser.parse() == 0);
 
             TCreateTableSqlStatement createTable = (TCreateTableSqlStatement)sqlparser.sqlstatements.get(0);
+            TColumnDefinition cd0 = createTable.ColumnList.getColumn(0);
+            Assert.IsTrue(cd0.columnStorage == EColumnStorage.csNotSpecified);
+
             TColumnDefinition cd = createTable.ColumnList.getColumn(1);
             Assert.IsTrue(cd.Datatype.DataType == EDataType.char_t);
             Assert.IsTrue(cd.columnStorage == EColumnStorage.csDisk);
@@ -1024,6 +1027,12 @@ namespace gudusoft.gsqlparser.test
             Assert.IsTrue(stmt.DatabaseName.ToString().Equals("db1", StringComparison.CurrentCultureIgnoreCase));
             Assert.IsTrue(stmt.collationName.ToString().Equals("latin1_german1_ci", StringComparison.CurrentCultureIgnoreCase));
 
+            sqlparser.sqltext = "CREATE SCHEMA `test2` COLLATE=utf16_bin;";
+            Assert.IsTrue(sqlparser.parse() == 0);
+
+            stmt = (TCreateDatabaseSqlStatement)sqlparser.sqlstatements.get(0);
+            Assert.IsTrue(stmt.DatabaseName.ToString().Equals("`test2`", StringComparison.CurrentCultureIgnoreCase));
+            Assert.IsTrue(stmt.collationName.ToString().Equals("utf16_bin", StringComparison.CurrentCultureIgnoreCase));
         }
 
         [TestMethod]
@@ -1135,6 +1144,27 @@ namespace gudusoft.gsqlparser.test
         }
 
         [TestMethod]
+        public void testCreateTableColumnKeyConstraint()
+        {
+            TGSqlParser sqlparser = new TGSqlParser(EDbVendor.dbvmysql);
+            sqlparser.sqltext = @"CREATE TABLE `table`
+                                    (
+                                        Id int KEY,
+                                        c1 int UNIQUE
+                                    ); ";
+
+            Assert.IsTrue(sqlparser.parse() == 0);
+
+            TCreateTableSqlStatement createTableSqlStatement = (TCreateTableSqlStatement)sqlparser.sqlstatements.get(0);
+            TColumnDefinition column0 = createTableSqlStatement.ColumnList.getColumn(0);
+            Assert.IsTrue(string.Equals(column0.ColumnName.ToString(), "Id", StringComparison.CurrentCultureIgnoreCase));
+            Assert.IsTrue(column0.Constraints.getConstraint(0).Constraint_type == EConstraintType.key);
+            TColumnDefinition column1 = createTableSqlStatement.ColumnList.getColumn(1);
+            Assert.IsTrue(string.Equals(column1.ColumnName.ToString(), "c1", StringComparison.CurrentCultureIgnoreCase));
+            Assert.IsTrue(column1.Constraints.getConstraint(0).Constraint_type == EConstraintType.unique);
+        }
+
+        [TestMethod]
         public void testTableConstraint()
         {
 
@@ -1175,8 +1205,6 @@ namespace gudusoft.gsqlparser.test
 
             TConstraint fulltextKey = createTable.TableConstraints[3];
             Assert.IsTrue(fulltextKey.Constraint_type == EConstraintType.fulltextKey);
-
-
         }
 
         [TestMethod]
@@ -1192,6 +1220,24 @@ namespace gudusoft.gsqlparser.test
             Assert.IsTrue(alterTableOption.DefaultExpr.ToString().Equals("'abc'", StringComparison.CurrentCultureIgnoreCase));
         }
 
+        [TestMethod]
+        public void testAlterTableAddForeignKey()
+        {
+            TGSqlParser sqlparser = new TGSqlParser(EDbVendor.dbvmysql);
+            sqlparser.sqltext = @"ALTER TABLE `world`.`Detail2`
+                                    ADD CONSTRAINT `FK_Detail2_Master2` FOREIGN KEY (`MasterId`, `MasterId2`, `MasterId3`)
+                                        REFERENCES `world`.`Master2` (`MasterId`, `MasterId2`, `MasterId3`)";
+
+            Assert.IsTrue(sqlparser.parse() == 0);
+
+            TAlterTableStatement alterTableStatement = (TAlterTableStatement)sqlparser.sqlstatements.get(0);
+            TAlterTableOption alterTableOption = alterTableStatement.AlterTableOptionList.getAlterTableOption(0);
+            Assert.IsTrue(alterTableOption.OptionType == EAlterTableOptionType.AddConstraintFK);
+            Assert.IsTrue(alterTableOption.ConstraintName.ToString().Equals("`FK_Detail2_Master2`", StringComparison.CurrentCultureIgnoreCase));
+            Assert.IsTrue(alterTableOption.ColumnNameList.getObjectName(0).ToString().Equals("`MasterId`", StringComparison.CurrentCultureIgnoreCase));
+            Assert.IsTrue(alterTableOption.ReferencedObjectName.ToString().Equals("`world`.`Master2`", StringComparison.CurrentCultureIgnoreCase));
+            Assert.IsTrue(alterTableOption.ReferencedColumnList.getObjectName(0).ToString().Equals("`MasterId`", StringComparison.CurrentCultureIgnoreCase));
+        }
 
     }
 }

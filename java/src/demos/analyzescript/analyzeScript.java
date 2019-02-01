@@ -34,7 +34,7 @@ public class analyzeScript {
         }
 
          EDbVendor dbVendor = EDbVendor.dbvoracle;
-         String msg = "Please select SQL dialect: 1: SQL Server, 2: Oralce, 3: MySQL, 4: DB2, 5: PostGRESQL, 6: Teradta, default is 2: Oracle";
+         String msg = "Please select SQL dialect: 1: SQL Server, 2: Oralce, 3: MySQL, 4: DB2, 5: PostGRESQL, 6: Teradata, default is 2: Oracle";
          System.out.println(msg);
 
          BufferedReader br=new   BufferedReader(new InputStreamReader(System.in));

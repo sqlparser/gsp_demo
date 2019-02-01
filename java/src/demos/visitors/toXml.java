@@ -62,6 +62,10 @@ public class toXml
 			{
 				dbVendor = EDbVendor.dbvteradata;
 			}
+			else if ( args[index + 1].equalsIgnoreCase( "mdx" ) )
+			{
+				dbVendor = EDbVendor.dbvmdx;
+			}
 		}
 		System.out.println( "Selected SQL dialect: " + dbVendor.toString( ) );
 

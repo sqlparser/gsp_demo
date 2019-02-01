@@ -49,4 +49,27 @@ public class testExecImmediate extends TestCase {
         assertTrue(cv.getViewName().toString().equalsIgnoreCase("SCHEMATEMP.vls_master_d"));
      }
 
+    public void test3(){
+
+        TGSqlParser sqlparser = new TGSqlParser(EDbVendor.dbvoracle);
+        sqlparser.sqltext = "EXECUTE IMMEDIATE 'INSERT INTO XXX VALUES (''AA'', ''BB'')';";
+        assertTrue(sqlparser.parse() == 0);
+
+        assertTrue(sqlparser.sqlstatements.get(0).sqlstatementtype == ESqlStatementType.sstplsql_execimmestmt);
+        TPlsqlExecImmeStmt execImmeStmt = (TPlsqlExecImmeStmt) sqlparser.sqlstatements.get(0);
+        //System.out.println(execImmeStmt.getDynamicSQL().toString());
+        assertTrue(execImmeStmt.getDynamicSQL().toString().equalsIgnoreCase("INSERT INTO XXX VALUES (''AA'', ''BB'')"));
+    }
+
+    public void test4(){
+
+        TGSqlParser sqlparser = new TGSqlParser(EDbVendor.dbvoracle);
+        sqlparser.sqltext = "EXECUTE IMMEDIATE Q'[INSERT INTO XXX VALUES ('AA', 'BB')]';";
+        assertTrue(sqlparser.parse() == 0);
+
+        assertTrue(sqlparser.sqlstatements.get(0).sqlstatementtype == ESqlStatementType.sstplsql_execimmestmt);
+        TPlsqlExecImmeStmt execImmeStmt = (TPlsqlExecImmeStmt) sqlparser.sqlstatements.get(0);
+        //System.out.println(execImmeStmt.getDynamicSQL().toString());
+        assertTrue(execImmeStmt.getDynamicSQL().toString().equalsIgnoreCase("INSERT INTO XXX VALUES ('AA', 'BB')"));
+    }
 }
