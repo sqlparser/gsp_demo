@@ -87,6 +87,7 @@
             <xs:element ref="use_database_statement"/>
             <xs:element ref="variable_declaration_statement"/>
             <xs:element ref="while_statement"/>
+            <xs:element ref="mdx_select"/>
         </xs:choice>
         <xs:attribute name="type" type="xs:string"/>
     </xs:complexType>
@@ -1974,5 +1975,173 @@
     </xs:element>
 
     <xs:element name="plsql_null_statement" type="xs:string"/>
+    
+    <xs:element name="mdx_select" type="mdx_select_type">
+    </xs:element>    
 
+    <xs:complexType name="mdx_select_type">
+        <xs:sequence>
+            <xs:element name="with_clause" type="mdx_with_clause_type"  minOccurs="0"/>
+            <xs:element name="axis_clause" type="mdx_aixs_clause_type" minOccurs="1" maxOccurs="unbounded"/>
+            <xs:element name="cube_clause" type="mdx_cube_type" minOccurs="1"/>
+            <xs:element name="where_clause" type="mdx_where_type" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="mdx_with_clause_type">
+        <xs:choice>
+            <xs:element name="mdx_with_member" type="mdx_with_member_type" minOccurs="1" maxOccurs="unbounded"/>
+            <xs:element name="mdx_with_set" type="mdx_with_set_type" minOccurs="1" maxOccurs="unbounded"/>
+            <xs:element name="mdx_with_measure" type="mdx_with_measure_type" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:choice>
+    </xs:complexType>    
+
+    <xs:complexType name="mdx_with_member_type">
+        <xs:sequence>
+            <xs:element name="member_name" type="xs:string"/>
+            <xs:element name="value_expr" type="mdx_expr_type"/>
+        </xs:sequence>      
+    </xs:complexType>
+
+    <xs:complexType name="mdx_with_set_type">
+        <xs:sequence>
+            <xs:element name="set_name" type="xs:string"/>
+            <xs:element name="value_expr" type="mdx_expr_type"/>
+        </xs:sequence>      
+    </xs:complexType>
+
+    <xs:complexType name="mdx_with_measure_type">
+        <xs:sequence>
+            <xs:element name="measure_body" type="xs:string"/>
+        </xs:sequence>      
+    </xs:complexType>
+    
+    <xs:complexType name="mdx_cube_type">
+        <xs:choice>
+            <xs:element name="cube_name" type="xs:string"/>
+            <xs:element ref="mdx_select"/>
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:complexType name="mdx_where_type">
+        <xs:sequence>
+            <xs:element name="expr" type="mdx_expr_type"/>
+        </xs:sequence>      
+    </xs:complexType>
+    
+    <xs:complexType name="mdx_aixs_clause_type">
+        <xs:sequence>
+            <xs:element name="expr" type="mdx_expr_type"  minOccurs="1" maxOccurs="1"/>
+            <xs:element name="on_axis" type="mdx_axis_type"  minOccurs="1" maxOccurs="1"/>
+        </xs:sequence>        
+    </xs:complexType>
+    
+    <xs:complexType name="mdx_expr_type">
+        <xs:choice>
+            <xs:element name="mdx_binary_expr" type="mdx_binary_expr_type" />
+            <xs:element name="mdx_unary_expr" type="mdx_unary_expr_type" />
+            <xs:element name="mdx_value_primary_expr" type="mdx_value_primary_expr_type" />
+        </xs:choice>         
+    </xs:complexType>
+    
+    <xs:complexType name="mdx_binary_expr_type">
+        <xs:sequence>
+            <xs:element name="left_expr" type="mdx_expr_type" />
+            <xs:element name="right_expr" type="mdx_expr_type" />
+        </xs:sequence>  
+        <xs:attribute name="operator" type="xs:string"/>
+    </xs:complexType>
+    
+    <xs:complexType name="mdx_unary_expr_type">
+        <xs:sequence>
+            <xs:element name="expr" type="mdx_expr_type" />
+        </xs:sequence>  
+        <xs:attribute name="operator" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="mdx_value_primary_expr_type">
+        <xs:choice>
+            <xs:element name="mdx_identifier" type="mdx_identifier_type" />
+            <xs:element name="mdx_constant" type="mdx_constant_type" />
+            <xs:element name="mdx_function" type="mdx_function_type" />
+            <xs:element name="mdx_tuple" type="mdx_tuple_type" />
+            <xs:element name="mdx_set" type="mdx_set_type" />
+            <xs:element name="mdx_case" type="mdx_case_type" />
+        </xs:choice>         
+    </xs:complexType>
+
+    <xs:complexType name="mdx_case_type">
+        <xs:sequence>
+            <xs:element name="condition_expr" type="mdx_expr_type" />
+            <xs:element name="when_then_list" type="mdx_when_then_list_type" />
+            <xs:element name="else_value" type="mdx_expr_type"  minOccurs="0"/>
+        </xs:sequence>  
+    </xs:complexType>
+    
+    <xs:complexType name="mdx_when_then_type">
+        <xs:sequence>
+            <xs:element name="when_expr" type="mdx_expr_type" />
+            <xs:element name="then_value" type="mdx_expr_type" />
+        </xs:sequence>  
+    </xs:complexType>
+
+    <xs:complexType name="mdx_when_then_list_type">
+        <xs:sequence>
+            <xs:element name="mdx_when_then" type="mdx_when_then_type" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="mdx_set_type">
+        <xs:sequence>
+            <xs:element name="mdx_exprs" type="mdx_expr_list_type" />
+        </xs:sequence>  
+    </xs:complexType>
+   
+    <xs:complexType name="mdx_tuple_type">
+        <xs:sequence>
+            <xs:element name="mdx_members" type="mdx_expr_list_type" />
+        </xs:sequence>  
+    </xs:complexType>
+
+    <xs:complexType name="mdx_constant_type">
+        <xs:sequence>
+            <xs:element name="string_value" type="xs:string" />
+        </xs:sequence>  
+        <xs:attribute name="kind" type="xs:string"/>
+    </xs:complexType>
+    
+    <xs:complexType name="mdx_function_type">
+        <xs:sequence>
+            <xs:element name="function_name" type="xs:string" />
+            <xs:element name="function_args" type="expression_list_type"
+                minOccurs="0"/>            
+        </xs:sequence>  
+    </xs:complexType>
+
+    <xs:complexType name="mdx_expr_list_type">
+        <xs:sequence>
+            <xs:element name="mdx_expr" type="mdx_expr_type" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="mdx_axis_type">
+        <xs:sequence>
+            <xs:element name="string_value" type="xs:string" />
+        </xs:sequence>  
+    </xs:complexType>
+
+    <xs:complexType name="mdx_identifier_type">
+        <xs:sequence>
+            <xs:element name="mdx_identifier_name" type="xs:string" />
+            <xs:element name="mdx_key_parts" type="mdx_key_parts_type" minOccurs="0" />
+        </xs:sequence>  
+        <xs:attribute name="quoting" type="xs:string"/>
+    </xs:complexType>
+    
+    <xs:complexType name="mdx_key_parts_type">
+        <xs:sequence>
+            <xs:element name="mdx_key_part" type="mdx_identifier_type" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>    
+    
 </xs:schema>
