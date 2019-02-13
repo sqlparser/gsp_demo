@@ -2063,6 +2063,7 @@
         <xs:choice>
             <xs:element name="mdx_identifier" type="mdx_identifier_type" />
             <xs:element name="mdx_constant" type="mdx_constant_type" />
+            <xs:element name="mdx_property" type="mdx_property_type" />
             <xs:element name="mdx_function" type="mdx_function_type" />
             <xs:element name="mdx_tuple" type="mdx_tuple_type" />
             <xs:element name="mdx_set" type="mdx_set_type" />
@@ -2110,12 +2111,23 @@
         <xs:attribute name="kind" type="xs:string"/>
     </xs:complexType>
     
-    <xs:complexType name="mdx_function_type">
+    <xs:complexType name="mdx_property_type">
         <xs:sequence>
             <xs:element name="function_name" type="xs:string" />
-            <xs:element name="function_args" type="expression_list_type"
+            <xs:element name="function_args" type="mdx_expr_list_type"
                 minOccurs="0"/>            
         </xs:sequence>  
+        <xs:attribute name="expr_syntax" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="mdx_function_type">
+        <xs:sequence>
+            <xs:element name="function_name" type="mdx_identifier_type" />
+            <xs:element name="function_args" type="mdx_expr_list_type"
+                minOccurs="0"/>            
+            <xs:element name="object_expr" type="mdx_expr_type" minOccurs="0"/>
+        </xs:sequence>  
+        <xs:attribute name="expr_syntax" type="xs:string"/>
     </xs:complexType>
 
     <xs:complexType name="mdx_expr_list_type">
@@ -2130,18 +2142,28 @@
         </xs:sequence>  
     </xs:complexType>
 
-    <xs:complexType name="mdx_identifier_type">
-        <xs:sequence>
-            <xs:element name="mdx_identifier_name" type="xs:string" />
-            <xs:element name="mdx_key_parts" type="mdx_key_parts_type" minOccurs="0" />
-        </xs:sequence>  
+    <xs:complexType name="mdx_segment_type">
+        <xs:choice>
+            <xs:element name="name_segment" type="mdx_name_segment_type" />
+            <xs:element name="key_segment" type="mdx_key_segment_type" />
+        </xs:choice>  
+    </xs:complexType>
+    
+    <xs:complexType name="mdx_name_segment_type" >
+        <xs:attribute name="value" type="xs:string"/>
         <xs:attribute name="quoting" type="xs:string"/>
     </xs:complexType>
     
-    <xs:complexType name="mdx_key_parts_type">
+    <xs:complexType name="mdx_key_segment_type">
         <xs:sequence>
-            <xs:element name="mdx_key_part" type="mdx_identifier_type" maxOccurs="unbounded"/>
-        </xs:sequence>
-    </xs:complexType>    
+            <xs:element name="name_segment" type="mdx_name_segment_type" maxOccurs="unbounded"/>
+        </xs:sequence>  
+    </xs:complexType>
+
+    <xs:complexType name="mdx_identifier_type">
+        <xs:sequence>
+            <xs:element name="segment" type="mdx_segment_type"  maxOccurs="unbounded"/>
+        </xs:sequence>  
+    </xs:complexType>
     
 </xs:schema>
