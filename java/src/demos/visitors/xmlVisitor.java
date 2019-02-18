@@ -86,6 +86,7 @@ import gudusoft.gsqlparser.nodes.TWindowDef;
 import gudusoft.gsqlparser.nodes.TWindowFrame;
 import gudusoft.gsqlparser.nodes.TWindowFrameBoundary;
 import gudusoft.gsqlparser.nodes.TWithinGroup;
+import gudusoft.gsqlparser.nodes.mdx.EMdxExpSyntax;
 import gudusoft.gsqlparser.nodes.mdx.IMdxIdentifierSegment;
 import gudusoft.gsqlparser.nodes.mdx.TMdxAxis;
 import gudusoft.gsqlparser.nodes.mdx.TMdxAxisNode;
@@ -5629,6 +5630,11 @@ public class xmlVisitor extends TParseTreeVisitor
 
 			for ( int i = 0; i < node.getArguments( ).size( ); i++ )
 			{
+				if ( node.getExpSyntax( ).equals( EMdxExpSyntax.Method )
+						&& i == 0 )
+				{
+					continue;
+				}
 				TMdxExpNode element = node.getArguments( ).getElement( i );
 				Element e_mdx_expr = xmldoc.createElement( "mdx_expr" );
 				e_function_args.appendChild( e_mdx_expr );
@@ -5637,6 +5643,16 @@ public class xmlVisitor extends TParseTreeVisitor
 				elementStack.pop( );
 			}
 
+			elementStack.pop( );
+		}
+
+		if ( node.getExpSyntax( ).equals( EMdxExpSyntax.Method ) )
+		{
+			TMdxExpNode element = node.getArguments( ).getElement( 0 );
+			Element e_mdx_expr = xmldoc.createElement( "object_expr" );
+			e_mdx_function.appendChild( e_mdx_expr );
+			elementStack.push( e_mdx_expr );
+			handleMdxExpr( element );
 			elementStack.pop( );
 		}
 
