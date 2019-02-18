@@ -2073,7 +2073,7 @@
 
     <xs:complexType name="mdx_case_type">
         <xs:sequence>
-            <xs:element name="condition_expr" type="mdx_expr_type" />
+            <xs:element name="condition_expr" type="mdx_expr_type"  minOccurs="0"/>
             <xs:element name="when_then_list" type="mdx_when_then_list_type" />
             <xs:element name="else_value" type="mdx_expr_type"  minOccurs="0"/>
         </xs:sequence>  
