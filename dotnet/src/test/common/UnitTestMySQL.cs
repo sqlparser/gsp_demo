@@ -428,6 +428,21 @@ namespace gudusoft.gsqlparser.test
             Assert.IsTrue(cd.Datatype.DataType == EDataType.char_t);
             Assert.IsTrue(string.Equals(cd.Datatype.CollationName, "latin1_german1_ci", StringComparison.CurrentCultureIgnoreCase));
 
+            sqlparser.sqltext = @"CREATE TABLE `SQLDBM_EMPLOYEES`.`DEPT_MANAGER_TBL` 
+                                    ( `EMP_NO` INT(4) unsigned zerofill NOT NULL DEFAULT 1000 COMMENT 'comment emp\_no' , 
+                                    `DEPT_NO` CHAR(4) COLLATE latin1_german1_ci NOT NULL , 
+                                    `TO_DATE` GEOMETRY NOT NULL , 
+                                    `FROM_DATE` DATE NOT NULL , 
+                                    PRIMARY KEY (`EMP_NO`, `DEPT_NO`), 
+                                    SPATIAL KEY `Ind_86` (`TO_DATE`), 
+                                    FULLTEXT KEY `Ind_129` (`DEPT_NO`) 
+                                    ) COLLATE=utf8_unicode_ci;";
+            Assert.IsTrue(sqlparser.parse() == 0);
+
+             createTable = (TCreateTableSqlStatement)sqlparser.sqlstatements.get(0);
+             cd = createTable.ColumnList.getColumn(1);
+            Assert.IsTrue(cd.Datatype.DataType == EDataType.char_t);
+            Assert.IsTrue(string.Equals(cd.Datatype.CollationName, "latin1_german1_ci", StringComparison.CurrentCultureIgnoreCase));
         }
 
         [TestMethod]
