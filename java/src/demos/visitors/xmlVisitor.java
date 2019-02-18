@@ -9,7 +9,103 @@ import gudusoft.gsqlparser.ETriggerDmlType;
 import gudusoft.gsqlparser.TBaseType;
 import gudusoft.gsqlparser.TGSqlParser;
 import gudusoft.gsqlparser.TStatementList;
-import gudusoft.gsqlparser.nodes.*;
+import gudusoft.gsqlparser.nodes.TAliasClause;
+import gudusoft.gsqlparser.nodes.TAlterTableOption;
+import gudusoft.gsqlparser.nodes.TCTE;
+import gudusoft.gsqlparser.nodes.TCTEList;
+import gudusoft.gsqlparser.nodes.TCaseExpression;
+import gudusoft.gsqlparser.nodes.TColumnDefinition;
+import gudusoft.gsqlparser.nodes.TColumnDefinitionList;
+import gudusoft.gsqlparser.nodes.TConnectByClause;
+import gudusoft.gsqlparser.nodes.TConstant;
+import gudusoft.gsqlparser.nodes.TConstraint;
+import gudusoft.gsqlparser.nodes.TConstraintList;
+import gudusoft.gsqlparser.nodes.TDeclareVariable;
+import gudusoft.gsqlparser.nodes.TDeclareVariableList;
+import gudusoft.gsqlparser.nodes.TExceptionClause;
+import gudusoft.gsqlparser.nodes.TExceptionHandler;
+import gudusoft.gsqlparser.nodes.TExceptionHandlerList;
+import gudusoft.gsqlparser.nodes.TExecParameter;
+import gudusoft.gsqlparser.nodes.TExpression;
+import gudusoft.gsqlparser.nodes.TExpressionList;
+import gudusoft.gsqlparser.nodes.TForUpdate;
+import gudusoft.gsqlparser.nodes.TFunctionCall;
+import gudusoft.gsqlparser.nodes.TGroupBy;
+import gudusoft.gsqlparser.nodes.TGroupByItem;
+import gudusoft.gsqlparser.nodes.TGroupByItemList;
+import gudusoft.gsqlparser.nodes.TGroupingExpressionItem;
+import gudusoft.gsqlparser.nodes.TGroupingExpressionItemList;
+import gudusoft.gsqlparser.nodes.TGroupingSet;
+import gudusoft.gsqlparser.nodes.THierarchical;
+import gudusoft.gsqlparser.nodes.TInExpr;
+import gudusoft.gsqlparser.nodes.TIntoClause;
+import gudusoft.gsqlparser.nodes.TJoin;
+import gudusoft.gsqlparser.nodes.TJoinItem;
+import gudusoft.gsqlparser.nodes.TJoinItemList;
+import gudusoft.gsqlparser.nodes.TJoinList;
+import gudusoft.gsqlparser.nodes.TKeepDenseRankClause;
+import gudusoft.gsqlparser.nodes.TMergeDeleteClause;
+import gudusoft.gsqlparser.nodes.TMergeInsertClause;
+import gudusoft.gsqlparser.nodes.TMergeUpdateClause;
+import gudusoft.gsqlparser.nodes.TMergeWhenClause;
+import gudusoft.gsqlparser.nodes.TMultiTarget;
+import gudusoft.gsqlparser.nodes.TMultiTargetList;
+import gudusoft.gsqlparser.nodes.TObjectName;
+import gudusoft.gsqlparser.nodes.TObjectNameList;
+import gudusoft.gsqlparser.nodes.TOrderBy;
+import gudusoft.gsqlparser.nodes.TOrderByItem;
+import gudusoft.gsqlparser.nodes.TOrderByItemList;
+import gudusoft.gsqlparser.nodes.TParameterDeclaration;
+import gudusoft.gsqlparser.nodes.TParameterDeclarationList;
+import gudusoft.gsqlparser.nodes.TParseTreeNode;
+import gudusoft.gsqlparser.nodes.TParseTreeNodeList;
+import gudusoft.gsqlparser.nodes.TParseTreeVisitor;
+import gudusoft.gsqlparser.nodes.TPivotClause;
+import gudusoft.gsqlparser.nodes.TPivotInClause;
+import gudusoft.gsqlparser.nodes.TPivotedTable;
+import gudusoft.gsqlparser.nodes.TResultColumn;
+import gudusoft.gsqlparser.nodes.TResultColumnList;
+import gudusoft.gsqlparser.nodes.TRollupCube;
+import gudusoft.gsqlparser.nodes.TSelectDistinct;
+import gudusoft.gsqlparser.nodes.TSequenceOption;
+import gudusoft.gsqlparser.nodes.TTable;
+import gudusoft.gsqlparser.nodes.TTableHint;
+import gudusoft.gsqlparser.nodes.TTopClause;
+import gudusoft.gsqlparser.nodes.TTrimArgument;
+import gudusoft.gsqlparser.nodes.TTypeAttribute;
+import gudusoft.gsqlparser.nodes.TTypeAttributeList;
+import gudusoft.gsqlparser.nodes.TTypeName;
+import gudusoft.gsqlparser.nodes.TUnpivotInClause;
+import gudusoft.gsqlparser.nodes.TUnpivotInClauseItem;
+import gudusoft.gsqlparser.nodes.TVarDeclStmt;
+import gudusoft.gsqlparser.nodes.TViewAliasItem;
+import gudusoft.gsqlparser.nodes.TWhenClauseItem;
+import gudusoft.gsqlparser.nodes.TWhenClauseItemList;
+import gudusoft.gsqlparser.nodes.TWhereClause;
+import gudusoft.gsqlparser.nodes.TWindowDef;
+import gudusoft.gsqlparser.nodes.TWindowFrame;
+import gudusoft.gsqlparser.nodes.TWindowFrameBoundary;
+import gudusoft.gsqlparser.nodes.TWithinGroup;
+import gudusoft.gsqlparser.nodes.mdx.IMdxIdentifierSegment;
+import gudusoft.gsqlparser.nodes.mdx.TMdxAxis;
+import gudusoft.gsqlparser.nodes.mdx.TMdxAxisNode;
+import gudusoft.gsqlparser.nodes.mdx.TMdxBinOpNode;
+import gudusoft.gsqlparser.nodes.mdx.TMdxCaseNode;
+import gudusoft.gsqlparser.nodes.mdx.TMdxExpNode;
+import gudusoft.gsqlparser.nodes.mdx.TMdxFloatConstNode;
+import gudusoft.gsqlparser.nodes.mdx.TMdxFunctionNode;
+import gudusoft.gsqlparser.nodes.mdx.TMdxIdentifierNode;
+import gudusoft.gsqlparser.nodes.mdx.TMdxIntegerConstNode;
+import gudusoft.gsqlparser.nodes.mdx.TMdxPropertyNode;
+import gudusoft.gsqlparser.nodes.mdx.TMdxSetNode;
+import gudusoft.gsqlparser.nodes.mdx.TMdxStringConstNode;
+import gudusoft.gsqlparser.nodes.mdx.TMdxTupleNode;
+import gudusoft.gsqlparser.nodes.mdx.TMdxUnaryOpNode;
+import gudusoft.gsqlparser.nodes.mdx.TMdxWhenNode;
+import gudusoft.gsqlparser.nodes.mdx.TMdxWhereNode;
+import gudusoft.gsqlparser.nodes.mdx.TMdxWithMemberNode;
+import gudusoft.gsqlparser.nodes.mdx.TMdxWithNode;
+import gudusoft.gsqlparser.nodes.mdx.TMdxWithSetNode;
 import gudusoft.gsqlparser.stmt.TAlterTableStatement;
 import gudusoft.gsqlparser.stmt.TAssignStmt;
 import gudusoft.gsqlparser.stmt.TCallStatement;
@@ -50,6 +146,7 @@ import gudusoft.gsqlparser.stmt.TTruncateStatement;
 import gudusoft.gsqlparser.stmt.TUpdateSqlStatement;
 import gudusoft.gsqlparser.stmt.TUseDatabase;
 import gudusoft.gsqlparser.stmt.db2.TCreateVariableStmt;
+import gudusoft.gsqlparser.stmt.mdx.TMdxSelect;
 import gudusoft.gsqlparser.stmt.mssql.TMssqlBlock;
 import gudusoft.gsqlparser.stmt.mssql.TMssqlCommit;
 import gudusoft.gsqlparser.stmt.mssql.TMssqlCreateFunction;
@@ -1258,12 +1355,14 @@ public class xmlVisitor extends TParseTreeVisitor
 	public void preVisit( TJoin node )
 	{
 
-		if((node.getJoin() != null )&& (node.getJoinItems().size() == 0)){
-			//			SELECT   ALL A.CATEGORYNAME,
-			//					sum(B.UNITSONORDER)
-			//			FROM     (NORTHWIND.CATEGORIES A
-			//					INNER JOIN NORTHWIND.PRODUCTS B
-			//					ON A.CATEGORYID=B.CATEGORYID)
+		if ( ( node.getJoin( ) != null )
+				&& ( node.getJoinItems( ).size( ) == 0 ) )
+		{
+			// SELECT ALL A.CATEGORYNAME,
+			// sum(B.UNITSONORDER)
+			// FROM (NORTHWIND.CATEGORIES A
+			// INNER JOIN NORTHWIND.PRODUCTS B
+			// ON A.CATEGORYID=B.CATEGORYID)
 			preVisit( node.getJoin( ) );
 			return;
 		}
@@ -2324,12 +2423,14 @@ public class xmlVisitor extends TParseTreeVisitor
 		elementStack.push( e_create_schema );
 		current_objectName_tag = "schema_name";
 		stmt.getSchemaName( ).accept( this );
-		if (stmt.getOwnerName() != null){
+		if ( stmt.getOwnerName( ) != null )
+		{
 			current_objectName_tag = "owner_name";
 			stmt.getOwnerName( ).accept( this );
 		}
-		if (stmt.getBodyStatements().size() > 0){
-			stmt.getBodyStatements().accept(this);
+		if ( stmt.getBodyStatements( ).size( ) > 0 )
+		{
+			stmt.getBodyStatements( ).accept( this );
 		}
 		elementStack.pop( );
 	}
@@ -3195,15 +3296,16 @@ public class xmlVisitor extends TParseTreeVisitor
 		stmt.getForName( ).accept( this );
 		elementStack.pop( );
 	}
+
 	public void preVisit( TCreateVariableStmt stmt )
 	{
 		e_parent = (Element) elementStack.peek( );
 		Element e_create_variable = xmldoc.createElement( "create_variable_statement" );
 		e_parent.appendChild( e_create_variable );
-		elementStack.push(e_create_variable);
+		elementStack.push( e_create_variable );
 		current_objectName_tag = "variable_name";
-		stmt.getVariableName().accept( this );
-		stmt.getVariableDatatype().accept(this);
+		stmt.getVariableName( ).accept( this );
+		stmt.getVariableDatatype( ).accept( this );
 		elementStack.pop( );
 	}
 
@@ -3212,37 +3314,41 @@ public class xmlVisitor extends TParseTreeVisitor
 		e_parent = (Element) elementStack.peek( );
 		Element e_create_alias = xmldoc.createElement( "create_alias_statement" );
 		e_parent.appendChild( e_create_alias );
-		elementStack.push(e_create_alias);
+		elementStack.push( e_create_alias );
 		current_objectName_tag = "alias_name";
-		stmt.getAliasName().accept( this );
-		e_create_alias.setAttribute( "object_type", stmt.getAliasType().toString( ) );
-		switch (stmt.getAliasType()){
-			case table:
+		stmt.getAliasName( ).accept( this );
+		e_create_alias.setAttribute( "object_type", stmt.getAliasType( )
+				.toString( ) );
+		switch ( stmt.getAliasType( ) )
+		{
+			case table :
 				current_objectName_tag = "table_name";
-				stmt.getTableAlias().accept(this);
+				stmt.getTableAlias( ).accept( this );
 				break;
-			case module:
+			case module :
 				current_objectName_tag = "module_name";
-				stmt.getModuleAlias().accept(this);
+				stmt.getModuleAlias( ).accept( this );
 				break;
-			case sequence:
+			case sequence :
 				current_objectName_tag = "sequence_name";
-				stmt.getSequenceAlias().accept(this );
+				stmt.getSequenceAlias( ).accept( this );
 				break;
 		}
 		elementStack.pop( );
 	}
 
-   public void preVisit( TSetDatabaseObjectStmt stmt ) {
-	   e_parent = (Element) elementStack.peek();
-	   Element e_set_database = xmldoc.createElement("set_database_object_statement");
-	   e_parent.appendChild(e_set_database);
-	   e_set_database.setAttribute( "object_type", stmt.getObjectType().toString( ) );
-	   elementStack.push( e_set_database);
-	   current_objectName_tag = "object_name";
-	   stmt.getDatabaseObjectName( ).accept( this );
-	   elementStack.pop( );
-   }
+	public void preVisit( TSetDatabaseObjectStmt stmt )
+	{
+		e_parent = (Element) elementStack.peek( );
+		Element e_set_database = xmldoc.createElement( "set_database_object_statement" );
+		e_parent.appendChild( e_set_database );
+		e_set_database.setAttribute( "object_type", stmt.getObjectType( )
+				.toString( ) );
+		elementStack.push( e_set_database );
+		current_objectName_tag = "object_name";
+		stmt.getDatabaseObjectName( ).accept( this );
+		elementStack.pop( );
+	}
 
 	public void preVisit( TExecParameter node )
 	{
@@ -4236,7 +4342,7 @@ public class xmlVisitor extends TParseTreeVisitor
 	public void preVisit( TMssqlIfElse node )
 	{
 		e_parent = (Element) elementStack.peek( );
-		
+
 		Element e_if_stmt = xmldoc.createElement( "if_statement" );
 		e_parent.appendChild( e_if_stmt );
 		elementStack.push( e_if_stmt );
@@ -4247,16 +4353,16 @@ public class xmlVisitor extends TParseTreeVisitor
 		}
 
 		current_statement_list_tag = "then_statement_list";
-		TStatementList ifList = new TStatementList();
-		ifList.add(node.getStmt( ));
-		ifList.accept(this);
-		
-		if(node.getElseStmt()!=null)
-		{	
+		TStatementList ifList = new TStatementList( );
+		ifList.add( node.getStmt( ) );
+		ifList.accept( this );
+
+		if ( node.getElseStmt( ) != null )
+		{
 			current_statement_list_tag = "else_statement_list";
-			TStatementList elseList = new TStatementList();
-			elseList.add(node.getElseStmt());
-			elseList.accept(this);
+			TStatementList elseList = new TStatementList( );
+			elseList.add( node.getElseStmt( ) );
+			elseList.accept( this );
 		}
 		elementStack.pop( );
 	}
@@ -4691,15 +4797,15 @@ public class xmlVisitor extends TParseTreeVisitor
 		Element e_go = xmldoc.createElement( "go_statement" );
 		e_parent.appendChild( e_go );
 	}
-	
+
 	public void preVisit( TMssqlPrint node )
 	{
 		e_parent = (Element) elementStack.peek( );
 		Element e_print = xmldoc.createElement( "print_statement" );
 		e_parent.appendChild( e_print );
 		elementStack.push( e_print );
-		node.getMessages().accept(this);
-		elementStack.pop();
+		node.getMessages( ).accept( this );
+		elementStack.pop( );
 	}
 
 	public void preVisit( TMssqlCreateProcedure node )
@@ -5309,7 +5415,7 @@ public class xmlVisitor extends TParseTreeVisitor
 		elementStack.pop( );
 
 	}
-	
+
 	public void preVisit( TCallStatement stmt )
 	{
 		e_parent = (Element) elementStack.peek( );
@@ -5317,8 +5423,8 @@ public class xmlVisitor extends TParseTreeVisitor
 		e_parent.appendChild( e_call_stmt );
 		elementStack.push( e_call_stmt );
 		current_objectName_tag = "routine_name";
-		stmt.getRoutineName().accept( this );
-		if ( stmt.getArgs() != null )
+		stmt.getRoutineName( ).accept( this );
+		if ( stmt.getArgs( ) != null )
 		{
 			current_expression_list_tag = "parameter_list";
 			stmt.getArgs( ).accept( this );
@@ -5326,7 +5432,564 @@ public class xmlVisitor extends TParseTreeVisitor
 		elementStack.pop( );
 
 	}
-	
+
+	public void preVisit( TMdxSelect node )
+	{
+		e_parent = (Element) elementStack.peek( );
+		Element e_select = xmldoc.createElement( "mdx_select" );
+		e_parent.appendChild( e_select );
+		elementStack.push( e_select );
+
+		if ( node.getWiths( ) != null )
+		{
+			for ( int i = 0; i < node.getWiths( ).size( ); i++ )
+			{
+				node.getWiths( ).getElement( i ).accept( this );
+			}
+		}
+
+		if ( node.getAxes( ) != null )
+		{
+			for ( int i = 0; i < node.getAxes( ).size( ); i++ )
+			{
+				TMdxAxisNode mdxAxis = node.getAxes( ).getElement( i );
+				mdxAxis.accept( this );
+			}
+		}
+
+		if ( node.getCube( ) != null )
+		{
+			Element e_cube_clause = xmldoc.createElement( "cube_clause" );
+			e_select.appendChild( e_cube_clause );
+			elementStack.push( e_cube_clause );
+
+			if ( node.getCube( ) != null )
+			{
+				Element e_cube_name = xmldoc.createElement( "cube_name" );
+				e_cube_clause.appendChild( e_cube_name );
+				e_cube_name.setTextContent( node.getCube( ).toString( ) );
+			}
+			else if ( node.getSubQuery( ) != null )
+			{
+				node.getSubQuery( ).accept( this );
+			}
+			elementStack.pop( );
+		}
+
+		if ( node.getWhere( ) != null )
+		{
+			node.getWhere( ).accept( this );
+		}
+
+		elementStack.pop( );
+	}
+
+	public void preVisit( TMdxWithNode node )
+	{
+		Element e_with_clause = xmldoc.createElement( "with_clause" );
+		e_parent = (Element) elementStack.peek( );
+		e_parent.appendChild( e_with_clause );
+		elementStack.push( e_with_clause );
+
+		if ( node instanceof TMdxWithMemberNode )
+		{
+			preVisit( (TMdxWithMemberNode) node );
+		}
+		else if ( node instanceof TMdxWithSetNode )
+		{
+			preVisit( (TMdxWithSetNode) node );
+		}
+
+		elementStack.pop( );
+	}
+
+	public void preVisit( TMdxWithMemberNode node )
+	{
+		Element e_mdx_with_member = xmldoc.createElement( "mdx_with_member" );
+		e_parent = (Element) elementStack.peek( );
+		e_parent.appendChild( e_mdx_with_member );
+		elementStack.push( e_mdx_with_member );
+
+		if ( node.getNameNode( ) != null )
+		{
+			Element e_member_name = xmldoc.createElement( "member_name" );
+			e_mdx_with_member.appendChild( e_member_name );
+			e_member_name.setTextContent( node.getNameNode( ).toString( ) );
+		}
+
+		if ( node.getExprNode( ) != null )
+		{
+			Element e_value_expr = xmldoc.createElement( "value_expr" );
+			e_mdx_with_member.appendChild( e_value_expr );
+			elementStack.push( e_value_expr );
+			handleMdxExpr( node.getExprNode( ) );
+			elementStack.pop( );
+		}
+
+		elementStack.pop( );
+	}
+
+	public void preVisit( TMdxWithSetNode node )
+	{
+		Element e_mdx_set_member = xmldoc.createElement( "mdx_with_set" );
+		e_parent = (Element) elementStack.peek( );
+		e_parent.appendChild( e_mdx_set_member );
+		elementStack.push( e_mdx_set_member );
+
+		if ( node.getNameNode( ) != null )
+		{
+			Element e_set_name = xmldoc.createElement( "set_name" );
+			e_mdx_set_member.appendChild( e_set_name );
+			e_set_name.setTextContent( node.getNameNode( ).toString( ) );
+		}
+
+		if ( node.getExprNode( ) != null )
+		{
+			Element e_value_expr = xmldoc.createElement( "value_expr" );
+			e_mdx_set_member.appendChild( e_value_expr );
+			elementStack.push( e_value_expr );
+			handleMdxExpr( node.getExprNode( ) );
+			elementStack.pop( );
+		}
+
+		elementStack.pop( );
+	}
+
+	public void preVisit( TMdxWhereNode node )
+	{
+		Element e_where_clause = xmldoc.createElement( "where_clause" );
+		e_parent = (Element) elementStack.peek( );
+		e_parent.appendChild( e_where_clause );
+		elementStack.push( e_where_clause );
+
+		Element e_expr = xmldoc.createElement( "expr" );
+		e_where_clause.appendChild( e_expr );
+		elementStack.push( e_expr );
+
+		if ( node.getFilter( ) != null )
+		{
+			handleMdxExpr( node.getFilter( ) );
+		}
+
+		elementStack.pop( );
+		elementStack.pop( );
+	}
+
+	public void preVisit( TMdxAxisNode node )
+	{
+		Element e_axis_clause = xmldoc.createElement( "axis_clause" );
+		e_parent = (Element) elementStack.peek( );
+		e_parent.appendChild( e_axis_clause );
+		elementStack.push( e_axis_clause );
+
+		Element e_expr = xmldoc.createElement( "expr" );
+		e_axis_clause.appendChild( e_expr );
+		elementStack.push( e_expr );
+
+		if ( node.getExpNode( ) != null )
+		{
+			handleMdxExpr( node.getExpNode( ) );
+		}
+
+		elementStack.pop( );
+
+		if ( node.getAxis( ) != null )
+		{
+			preVisit( node.getAxis( ) );
+		}
+
+		elementStack.pop( );
+	}
+
+	public void preVisit( TMdxFunctionNode node )
+	{
+		e_parent = (Element) elementStack.peek( );
+
+		Element e_mdx_function = xmldoc.createElement( "mdx_function" );
+		e_parent.appendChild( e_mdx_function );
+		elementStack.push( e_mdx_function );
+
+		Element e_function_name = xmldoc.createElement( "function_name" );
+		e_mdx_function.appendChild( e_function_name );
+		elementStack.push( e_function_name );
+
+		Element e_segment = xmldoc.createElement( "segment" );
+		e_function_name.appendChild( e_segment );
+		elementStack.push( e_segment );
+		preVisit( node.getFunctionSegment( ) );
+		elementStack.pop( );
+
+		elementStack.pop( );
+
+		if ( node.getArguments( ).size( ) > 0 )
+		{
+			Element e_function_args = xmldoc.createElement( "function_args" );
+			e_mdx_function.appendChild( e_function_args );
+			elementStack.push( e_function_args );
+
+			for ( int i = 0; i < node.getArguments( ).size( ); i++ )
+			{
+				TMdxExpNode element = node.getArguments( ).getElement( i );
+				Element e_mdx_expr = xmldoc.createElement( "mdx_expr" );
+				e_function_args.appendChild( e_mdx_expr );
+				elementStack.push( e_mdx_expr );
+				handleMdxExpr( element );
+				elementStack.pop( );
+			}
+
+			elementStack.pop( );
+		}
+
+		e_mdx_function.setAttribute( "expr_syntax", node.getExpSyntax( ).name( ) );
+
+		elementStack.pop( );
+	}
+
+	private void handleMdxExpr( TMdxExpNode element )
+	{
+		if ( element instanceof TMdxUnaryOpNode )
+		{
+			( (TMdxUnaryOpNode) element ).accept( this );
+		}
+		else if ( element instanceof TMdxBinOpNode )
+		{
+			( (TMdxBinOpNode) element ).accept( this );
+		}
+		else
+		{
+			e_parent = (Element) elementStack.peek( );
+			Element e_mdx_value_primary_expr = xmldoc.createElement( "mdx_value_primary_expr" );
+			e_parent.appendChild( e_mdx_value_primary_expr );
+			elementStack.push( e_mdx_value_primary_expr );
+			element.accept( this );
+			elementStack.pop( );
+		}
+	}
+
+	public void preVisit( TMdxPropertyNode node )
+	{
+		e_parent = (Element) elementStack.peek( );
+
+		Element e_mdx_function = xmldoc.createElement( "mdx_property" );
+		e_parent.appendChild( e_mdx_function );
+		elementStack.push( e_mdx_function );
+
+		Element e_function_name = xmldoc.createElement( "function_name" );
+		e_function_name.setTextContent( node.getFunctionName( ) );
+		e_mdx_function.appendChild( e_function_name );
+
+		if ( node.getArguments( ).size( ) > 0 )
+		{
+			Element e_function_args = xmldoc.createElement( "function_args" );
+			e_mdx_function.appendChild( e_function_args );
+			elementStack.push( e_function_args );
+
+			for ( int i = 0; i < node.getArguments( ).size( ); i++ )
+			{
+				TMdxExpNode element = node.getArguments( ).getElement( i );
+				Element e_mdx_expr = xmldoc.createElement( "mdx_expr" );
+				e_function_args.appendChild( e_mdx_expr );
+				elementStack.push( e_mdx_expr );
+				handleMdxExpr( element );
+				elementStack.pop( );
+			}
+
+			elementStack.pop( );
+		}
+
+		e_mdx_function.setAttribute( "expr_syntax", node.getExpSyntax( ).name( ) );
+
+		elementStack.pop( );
+	}
+
+	public void preVisit( TMdxAxis node )
+	{
+		Element e_on_axis = xmldoc.createElement( "on_axis" );
+		e_parent = (Element) elementStack.peek( );
+		e_parent.appendChild( e_on_axis );
+		elementStack.push( e_on_axis );
+
+		Element e_string_value = xmldoc.createElement( "string_value" );
+		e_string_value.setTextContent( node.toString( ) );
+		e_on_axis.appendChild( e_string_value );
+
+		elementStack.pop( );
+	}
+
+	public void preVisit( TMdxSetNode node )
+	{
+		e_parent = (Element) elementStack.peek( );
+
+		Element e_mdx_set = xmldoc.createElement( "mdx_set" );
+		e_parent.appendChild( e_mdx_set );
+		elementStack.push( e_mdx_set );
+
+		Element e_mdx_exprs = xmldoc.createElement( "mdx_exprs" );
+		e_mdx_set.appendChild( e_mdx_exprs );
+		elementStack.push( e_mdx_exprs );
+
+		for ( int i = 0; i < node.getTupleList( ).size( ); i++ )
+		{
+			TMdxExpNode element = node.getTupleList( ).getElement( i );
+			Element e_mdx_expr = xmldoc.createElement( "mdx_expr" );
+			e_mdx_exprs.appendChild( e_mdx_expr );
+			elementStack.push( e_mdx_expr );
+			handleMdxExpr( element );
+			elementStack.pop( );
+		}
+
+		elementStack.pop( );
+		elementStack.pop( );
+	}
+
+	public void preVisit( TMdxTupleNode node )
+	{
+		e_parent = (Element) elementStack.peek( );
+
+		Element e_mdx_tuple = xmldoc.createElement( "mdx_tuple" );
+		e_parent.appendChild( e_mdx_tuple );
+		elementStack.push( e_mdx_tuple );
+
+		Element e_mdx_exprs = xmldoc.createElement( "mdx_members" );
+		e_mdx_tuple.appendChild( e_mdx_exprs );
+		elementStack.push( e_mdx_exprs );
+
+		for ( int i = 0; i < node.getExprList( ).size( ); i++ )
+		{
+			TMdxExpNode element = node.getExprList( ).getElement( i );
+			Element e_mdx_expr = xmldoc.createElement( "mdx_expr" );
+			e_mdx_exprs.appendChild( e_mdx_expr );
+			elementStack.push( e_mdx_expr );
+			handleMdxExpr( element );
+			elementStack.pop( );
+		}
+
+		elementStack.pop( );
+		elementStack.pop( );
+	}
+
+	public void preVisit( TMdxBinOpNode node )
+	{
+		e_parent = (Element) elementStack.peek( );
+
+		Element e_mdx_binary_expr = xmldoc.createElement( "mdx_binary_expr" );
+		e_parent.appendChild( e_mdx_binary_expr );
+		elementStack.push( e_mdx_binary_expr );
+
+		Element e_left_expr = xmldoc.createElement( "left_expr" );
+		e_mdx_binary_expr.appendChild( e_left_expr );
+		elementStack.push( e_left_expr );
+		handleMdxExpr( node.getLeftExprNode( ) );
+		elementStack.pop( );
+
+		Element e_right_expr = xmldoc.createElement( "right_expr" );
+		e_mdx_binary_expr.appendChild( e_right_expr );
+		elementStack.push( e_right_expr );
+		handleMdxExpr( node.getRightExprNode( ) );
+		elementStack.pop( );
+
+		e_mdx_binary_expr.setAttribute( "operator", node.getOperator( )
+				.toString( ) );
+
+		elementStack.pop( );
+	}
+
+	public void preVisit( TMdxUnaryOpNode node )
+	{
+		e_parent = (Element) elementStack.peek( );
+
+		Element e_mdx_unary_expr = xmldoc.createElement( "mdx_unary_expr" );
+		e_parent.appendChild( e_mdx_unary_expr );
+		elementStack.push( e_mdx_unary_expr );
+
+		Element e_expr = xmldoc.createElement( "expr" );
+		e_mdx_unary_expr.appendChild( e_expr );
+		elementStack.push( e_expr );
+		handleMdxExpr( node.getExpNode( ) );
+		elementStack.pop( );
+
+		e_mdx_unary_expr.setAttribute( "operator", node.getOperator( )
+				.toString( ) );
+
+		elementStack.pop( );
+	}
+
+	public void preVisit( TMdxCaseNode node )
+	{
+		e_parent = (Element) elementStack.peek( );
+
+		Element e_mdx_case = xmldoc.createElement( "mdx_case" );
+		e_parent.appendChild( e_mdx_case );
+		elementStack.push( e_mdx_case );
+
+		if ( node.getCondition( ) != null )
+		{
+			Element e_condition_expr = xmldoc.createElement( "condition_expr" );
+			e_mdx_case.appendChild( e_condition_expr );
+			elementStack.push( e_condition_expr );
+			handleMdxExpr( node.getCondition( ) );
+			elementStack.pop( );
+		}
+
+		if ( node.getWhenList( ) != null )
+		{
+			Element e_when_then_list = xmldoc.createElement( "when_then_list" );
+			e_mdx_case.appendChild( e_when_then_list );
+			elementStack.push( e_when_then_list );
+			for ( int i = 0; i < node.getWhenList( ).size( ); i++ )
+			{
+				TMdxWhenNode whenNode = (TMdxWhenNode) node.getWhenList( )
+						.getElement( i );
+				whenNode.accept( this );
+			}
+			elementStack.pop( );
+		}
+
+		if ( node.getElseExpr( ) != null )
+		{
+			Element e_else_value = xmldoc.createElement( "else_value" );
+			e_mdx_case.appendChild( e_else_value );
+			elementStack.push( e_else_value );
+			handleMdxExpr( node.getElseExpr( ) );
+			elementStack.pop( );
+		}
+
+		elementStack.pop( );
+	}
+
+	public void preVisit( TMdxWhenNode node )
+	{
+		Element e_mdx_when_then = xmldoc.createElement( "mdx_when_then" );
+		e_parent = (Element) elementStack.peek( );
+		e_parent.appendChild( e_mdx_when_then );
+		elementStack.push( e_mdx_when_then );
+
+		if ( node.getWhenExpr( ) != null )
+		{
+			Element e_when_expr = xmldoc.createElement( "when_expr" );
+			e_mdx_when_then.appendChild( e_when_expr );
+			elementStack.push( e_when_expr );
+			handleMdxExpr( node.getWhenExpr( ) );
+			elementStack.pop( );
+		}
+
+		if ( node.getThenExpr( ) != null )
+		{
+			Element e_then_value = xmldoc.createElement( "then_value" );
+			e_mdx_when_then.appendChild( e_then_value );
+			elementStack.push( e_then_value );
+			handleMdxExpr( node.getWhenExpr( ) );
+			elementStack.pop( );
+		}
+
+		elementStack.pop( );
+	}
+
+	public void preVisit( TMdxIdentifierNode node )
+	{
+		e_parent = (Element) elementStack.peek( );
+
+		Element e_mdx_identifier = xmldoc.createElement( "mdx_identifier" );
+		e_parent.appendChild( e_mdx_identifier );
+		elementStack.push( e_mdx_identifier );
+
+		for ( int i = 0; i < node.getSegments( ).size( ); i++ )
+		{
+			Element e_segment = xmldoc.createElement( "segment" );
+			e_mdx_identifier.appendChild( e_segment );
+			elementStack.push( e_segment );
+
+			IMdxIdentifierSegment segment = node.getSegments( ).getElement( i );
+			preVisit( segment );
+
+			elementStack.pop( );
+		}
+		elementStack.pop( );
+	}
+
+	public void preVisit( TMdxStringConstNode node )
+	{
+		e_parent = (Element) elementStack.peek( );
+
+		Element e_mdx_constant = xmldoc.createElement( "mdx_constant" );
+		e_parent.appendChild( e_mdx_constant );
+		elementStack.push( e_mdx_constant );
+
+		Element e_string_value = xmldoc.createElement( "string_value" );
+		e_string_value.setTextContent( node.toString( ) );
+		e_mdx_constant.appendChild( e_string_value );
+
+		e_mdx_constant.setAttribute( "kind", "String" );
+
+		elementStack.pop( );
+	}
+
+	public void preVisit( TMdxIntegerConstNode node )
+	{
+		e_parent = (Element) elementStack.peek( );
+
+		Element e_mdx_constant = xmldoc.createElement( "mdx_constant" );
+		e_parent.appendChild( e_mdx_constant );
+		elementStack.push( e_mdx_constant );
+
+		Element e_string_value = xmldoc.createElement( "string_value" );
+		e_string_value.setTextContent( node.toString( ) );
+		e_mdx_constant.appendChild( e_string_value );
+
+		e_mdx_constant.setAttribute( "kind", "Integer" );
+
+		elementStack.pop( );
+	}
+
+	public void preVisit( TMdxFloatConstNode node )
+	{
+		e_parent = (Element) elementStack.peek( );
+
+		Element e_mdx_constant = xmldoc.createElement( "mdx_constant" );
+		e_parent.appendChild( e_mdx_constant );
+		elementStack.push( e_mdx_constant );
+
+		Element e_string_value = xmldoc.createElement( "string_value" );
+		e_string_value.setTextContent( node.toString( ) );
+		e_mdx_constant.appendChild( e_string_value );
+
+		e_mdx_constant.setAttribute( "kind", "Float" );
+
+		elementStack.pop( );
+	}
+
+	private void preVisit( IMdxIdentifierSegment segment )
+	{
+		e_parent = (Element) elementStack.peek( );
+
+		if ( segment.getName( ) != null )
+		{
+			Element e_name_segment = xmldoc.createElement( "name_segment" );
+			e_parent.appendChild( e_name_segment );
+			e_name_segment.setAttribute( "value", segment.getName( ) );
+			if ( segment.getQuoting( ) != null )
+			{
+				e_name_segment.setAttribute( "quoting", segment.getQuoting( )
+						.name( ) );
+			}
+		}
+
+		if ( segment.getKeyParts( ) != null )
+		{
+			Element e_key_segment = xmldoc.createElement( "key_segment" );
+			e_parent.appendChild( e_key_segment );
+			elementStack.push( e_key_segment );
+
+			for ( int j = 0; j < segment.getKeyParts( ).size( ); j++ )
+			{
+				preVisit( (IMdxIdentifierSegment) segment.getKeyParts( )
+						.getElement( j ) );
+			}
+			elementStack.pop( );
+		}
+
+	}
+
 	private String format( Document doc, int indent ) throws Exception
 	{
 		DOMSource domSource = new DOMSource( doc );
