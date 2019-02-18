@@ -2,6 +2,7 @@
 using System.Text;
 using gudusoft.gsqlparser;
 using gudusoft.gsqlparser.nodes;
+using System.Collections.Generic;
 
 namespace gudusoft.gsqlparser.demos.removevars
 {
@@ -13,6 +14,8 @@ namespace gudusoft.gsqlparser.demos.removevars
         internal StringBuilder buffer = new StringBuilder();
 
         internal StringBuilder tokenBuffer = new StringBuilder();
+
+        private List<TExpression> removeExprs = new List<TExpression>();
 
         public ExpressionChecker(removevars removevars)
         {
@@ -48,6 +51,10 @@ namespace gudusoft.gsqlparser.demos.removevars
         public virtual void checkExpression(TExpression expr)
         {
             expr.postOrderTraverse(this);
+            for (int i = 0; i < removeExprs.Count; i++) {
+                removeExprs[i].remove();
+            }
+            removeExprs.Clear();
         }
 
         public virtual void checkFunctionCall(TFunctionCall func)
@@ -286,13 +293,12 @@ namespace gudusoft.gsqlparser.demos.removevars
 
         internal virtual bool is_compare_condition(EExpressionType t)
         {
-            return ((t == EExpressionType.simple_comparison_t) || (t == EExpressionType.group_comparison_t) || (t == EExpressionType.logical_and_t) || (t == EExpressionType.logical_or_t));
+            return ((t == EExpressionType.simple_comparison_t) || (t == EExpressionType.group_comparison_t));
         }
 
         private void removeExpression(TExpression expression)
         {
-            expression.remove();
-
+            removeExprs.Add(expression);
         }
     }
 
