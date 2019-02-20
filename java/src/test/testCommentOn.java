@@ -28,4 +28,15 @@ public class testCommentOn extends TestCase {
         assertTrue(commentOnSqlStmt.getObjectName().toString().equalsIgnoreCase("LOAD_INPUT_DATASET.STATUS_CD"));
         assertTrue(commentOnSqlStmt.getMessage().toString().equalsIgnoreCase("'[0=Loading;1=Ready;2=Failed;3=Archived;4=Purged]'"));
     }
+
+    public void testOracle(){
+        TGSqlParser sqlparser = new TGSqlParser(EDbVendor.dbvoracle);
+        sqlparser.sqltext = "comment on column sql_policy.policy_id is 'test'";
+        assertTrue(sqlparser.parse() == 0);
+        TCommentOnSqlStmt commentOnSqlStmt = (TCommentOnSqlStmt)sqlparser.sqlstatements.get(0);
+        assertTrue(commentOnSqlStmt.getDbObjectType() == EDbObjectType.column);
+        assertTrue(commentOnSqlStmt.getObjectName().toString().equalsIgnoreCase("sql_policy.policy_id"));
+        assertTrue(commentOnSqlStmt.getObjectName().getTableString().equalsIgnoreCase("sql_policy"));
+        assertTrue(commentOnSqlStmt.getMessage().toString().equalsIgnoreCase("'test'"));
+    }
 }
