@@ -21,12 +21,12 @@ VW_MMA_BAY_QTR_DIM,QTR_STRT_DT,0,1,1,0,0
 * input files directory, the directory includes the input SQL files which has .pln extention.
 * There will be 2 output files generated for each input file, parsed_<timestamp>.dat and  mv_source_<timestamp>.dat,
 these 2 files will be saved under the directory peak_techniques_output/puredata_optimisation/ where the tool is running.
-    ** parsed_<timestamp>.dat
-    ** mv_source_<timestamp>.dat
+    * parsed_<timestamp>.dat
+    * mv_source_<timestamp>.dat
   
 * -log, if specified, then generate a pa.log file including:
-    ** How many pln file was processed, how many was failed.
-    ** If there are failed files, list file name and related sql.
+    * How many pln file was processed, how many was failed.
+    * If there are failed files, list file name and related sql.
 * -debug, which will generate a file with name: debug.log that including all file names that doesn't generate any output.  
 
 ### Related demo
