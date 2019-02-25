@@ -21,8 +21,8 @@ A text file included the generated result will be saved under output files direc
 
 input files directory: The directory includes the input SQL script files.
 
-output files directory: The directory includes the text file with generated result.
+output files directory: The directory includes the text file with the generated result.
 
 
 ### Related demo
-This tool will call the [columnImpact\ColumnImpact.java](../demos/columnImpact) to do further analysis.
+This tool will call the [columnImpact\ColumnImpact.java](../columnImpact) to do further analysis.
