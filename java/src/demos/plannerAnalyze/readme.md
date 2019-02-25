@@ -13,6 +13,7 @@ and found column:
 
 >VW_MMA_BAY_QTR_DIM,QTR_STRT_DT,0,1,1,0,0
 
+This tool is created as requested by one of our customers with many specific requirements.
 
 
 ### Usage
