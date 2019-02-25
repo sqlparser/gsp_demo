@@ -1,4 +1,4 @@
-### Summary
+### Description
 Pull out every column name from the SQL script and shows whether a column 
 appears in the projections(select list), restrictions(where condition), 
 joins (taking into account that the JOIN might be done in the WHERE clause), group, order, etc.
