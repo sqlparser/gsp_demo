@@ -1,4 +1,4 @@
-### Description
+## Description
 Pull out every column name from the SQL script and shows whether a column 
 appears in the projections(select list), restrictions(where condition), 
 joins (taking into account that the JOIN might be done in the WHERE clause), group, order, etc.
@@ -16,7 +16,7 @@ and found column:
 **This tool is created as requested by one of our customers with many specific requirements.**
 
 
-### Usage
+## Usage
 `java -jar PlannerAnalyze.jar <input files directory> [-log] [-debug]`
 
 * input files directory, the directory includes the input SQL files which has .pln extention.
@@ -47,8 +47,8 @@ these 2 files will be saved under the directory `peak_techniques_output/puredata
 
 * -debug, which will generate a file with name: debug.log that including all file names that doesn't generate any output.  
 
-### Related demo
+## Related demo
 This tool will call the [columnImpact\ColumnImpact.java](../columnImpact) to do further analysis.
 
-### Changes
+## Changes
 * [First version(2014-02-14)](https://github.com/sqlparser/wings/issues/255) 

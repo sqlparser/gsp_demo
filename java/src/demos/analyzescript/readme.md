@@ -1,4 +1,4 @@
-### Description
+## Description
 #### analyzeScript
 `analyzeScript.java` decodes the SQL query into SQL identifier, constant, function, 
 clauses and subquery according to the SQL grammar. 
@@ -15,12 +15,12 @@ please check [toXML demo](../visitors).
 SQL statements used in the procedure body from an Oracle PLSQL code. 
 
  
-### Usage
+## Usage
 -  `java analyzeScript sqlfile.sql`
 -  `java analyzePLSQLProcedure`
 
 
-### Related demo
+## Related demo
 * [toXML demo](../visitors).
 
-### Changes
+## Changes
