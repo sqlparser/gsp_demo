@@ -54,7 +54,11 @@ public class ModelBindingManager
 		modelBindingMap.put( gspModel, relationModel );
 
 		TTable table = null;
-		if ( gspModel instanceof Table )
+		if ( gspModel instanceof TTable )
+		{
+			table = ( (TTable) gspModel );
+		}
+		else if ( gspModel instanceof Table )
 		{
 			table = ( (Table) gspModel ).getTableObject( );
 		}
