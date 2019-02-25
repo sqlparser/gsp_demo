@@ -1,3 +1,4 @@
+### Description
 Pull out every column name from the SQL script and shows whether a column 
 appears in the projections(select list), restrictions(where condition), 
 joins (taking into account that the JOIN might be done in the WHERE clause), group, order, etc.
@@ -24,4 +25,4 @@ output files directory: The directory includes the generated result text file.
 
 
 ### Related demo
-This tool will call the columnImpact\ColumnImpact.java to do further analysis.
+This tool will call the [columnImpact\ColumnImpact.java](https://github.com/sqlparser/gsp_demo/tree/master/dotnet/src/demos/columnImpact) to do further analysis.
