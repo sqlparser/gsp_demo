@@ -28,4 +28,4 @@ output files directory: The directory includes the text file with the generated 
 This tool will call the [columnImpact\ColumnImpact.java](../columnImpact) to do further analysis.
 
 ### Changes
-* [First version 2013-11-25](https://github.com/sqlparser/wings/issues/255)
+* [First version(2013-11-25)](https://github.com/sqlparser/wings/issues/255)
