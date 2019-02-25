@@ -8,23 +8,16 @@ This demo only illustrates how to decode some major SQL statements like select/u
 
 If you need to check how to iterate the parse tree node of all SQL statements in a generic way, 
 please check [toXML demo](../visitors).
- 
-### Usage
-`java analyzeScript sqlfile.sql`
-
-### Related demo
-* [toXML demo](../visitors).
-
-### Changes
 
 
-
-### Summary
 `analyzePLSQLProcedure.java` illustrates how to get some basic information such as procedure name, parameters,
 SQL statements used in the procedure body from an Oracle PLSQL code. 
 
+ 
 ### Usage
-`java analyzePLSQLProcedure`
+-  `java analyzeScript sqlfile.sql`
+-  `java analyzePLSQLProcedure`
+
 
 ### Related demo
 * [toXML demo](../visitors).
