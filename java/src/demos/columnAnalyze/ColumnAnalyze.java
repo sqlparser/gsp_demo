@@ -32,7 +32,7 @@ public class ColumnAnalyze
 
 	public ColumnAnalyze( File file )
 	{
-		TGSqlParser sqlparser = new TGSqlParser( EDbVendor.dbvnetezza );
+		TGSqlParser sqlparser = new TGSqlParser( EDbVendor.dbvoracle );
 		sqlparser.sqlfilename = file.getAbsolutePath( );
 		impactSQL( sqlparser );
 	}
