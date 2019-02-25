@@ -1,0 +1,18 @@
+## Summary
+This tool parses T-SQL procedure, then fetch Child SP's called within a parent SP, 
+Tables and columns selected/update/insert in parent SP.
+
+
+| DB of Anayzed Object | Name of Analyzed Object | Object Type | Object Used | Object Type | Usage Type | Columns | 
+| -------------------- | ----------------------- | ----------- | ----------- | ----------- | ---------- | ------- | 
+| EğitimRetail | usp_KoliKabulApprove | SP | sp_xml_preparedocument | SP | Exec |  |	 
+| EğitimRetail | usp_KoliKabulApprove | SP | #tmpKoliDetay | Table  | Read | Barkod, IrsaliyeNo, GonderenDepo, AlanDepo, OkutmaTarihi | 
+| EğitimRetail | usp_KoliKabulApprove | SP | tb_MagazaKoliOkutmaKayitlari | Table | Insert | Magazakod, KoliID, KoliBarkod, OkutulduguZaman, OkutanKullanici, GeriGonderildi | 
+| EğitimRetail | usp_KoliKabulApprove | SP | tb_KabulKoli | Table | Update | Okutuldu, OkutulduguTarih, OkutanKullanici | 
+
+
+## Usage
+
+## Related demo
+
+## Changes
