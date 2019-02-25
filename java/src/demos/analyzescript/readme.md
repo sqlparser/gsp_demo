@@ -14,13 +14,20 @@ please check [toXML demo](../visitors).
 `analyzePLSQLProcedure.java` illustrates how to get some basic information such as procedure name, parameters,
 SQL statements used in the procedure body from an Oracle PLSQL code. 
 
+#### iterateStatement
+`iterateStatement.java` illustrates how to get select list/from clause/where clause/group by/order by clause
+from the select statement.
  
+#### tutorial
+`tutorial.java` is a simple demo illustrates how to get union/minus/except/intersect operator and join condition
+from the select statement.
+
 ## Usage
 -  `java analyzeScript sqlfile.sql`
 -  `java analyzePLSQLProcedure`
-
+-  `java iterateStatement`
+-  `java tutorial`
 
 ## Related demo
 * [toXML demo](../visitors).
 
-## Changes
