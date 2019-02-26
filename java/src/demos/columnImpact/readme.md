@@ -82,7 +82,8 @@ Search b.total_sal
 ## Usage
 `java ColumnImpact scriptfile [/d]/[/s [/xml] [/c]]/[/v] [/o <output file path>] [/t <database type>]`
 
-## Related demo
+## Online live demo
+Please try your own SQL with [this online live demo](http://www.sqlparser.com/livedemo_redirect.php?demo_id=columnImpact?utm_source=github-gsp-demo&utm_medium=text-general)
 
 ## Changes
 -  [2012-01-11, first version](https://github.com/sqlparser/wings/issues/1)
