@@ -28,14 +28,14 @@ The output in JSON format looks like this:
         "unique": "",
         "writeable": ""
     }},
-    {"LOCATION_ID": {
+    {"AFFECTED_QTY": {
         "alias": "",
         "autoIncrement": "",
         "catalogName": "",
         "check": "",
         "columnDisplaySize": "",
-        "comment": "",
-        "defaultValue": "",
+        "comment": "'NUMBER OF COMPONENTS/PARTS THAT HAVE BEEN INSPECTED AND ARE FOUND TO BE AFFECTED BY THE ASSOCIATED DISCREPANCY ITEM.'",
+        "defaultValue": "1",
         "foreignKey": "",
         "isNotNull": "",
         "isNull": "",
@@ -43,10 +43,10 @@ The output in JSON format looks like this:
         "primaryKey": "",
         "readOnly": "",
         "scale": "",
-        "schemaName": "",
-        "tableName": "SFFND_WORK_LOC_DEF",
+        "schemaName": "SFMFG",
+        "tableName": "SFQA_DISC_ITEM",
         "typeCode": "",
-        "typeName": "",
+        "typeName": "NUMBER",
         "unique": "",
         "writeable": ""
     }},
