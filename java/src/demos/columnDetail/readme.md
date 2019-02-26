@@ -34,7 +34,7 @@ The output in JSON format looks like this:
         "catalogName": "",
         "check": "",
         "columnDisplaySize": "",
-        "comment": "'NUMBER OF COMPONENTS/PARTS THAT HAVE BEEN INSPECTED AND ARE FOUND TO BE AFFECTED BY THE ASSOCIATED DISCREPANCY ITEM.'",
+        "comment": "'NUMBER OF COMPONENTS/PARTS THAT HAVE.'",
         "defaultValue": "1",
         "foreignKey": "",
         "isNotNull": "",
@@ -50,11 +50,11 @@ The output in JSON format looks like this:
         "unique": "",
         "writeable": ""
     }},
-...
+	...
 ```
 
 ## Usage
 `java ColumnDetail <path_to_directory_includes_sql_files> [/t <database type>] [/s]`
 
 ## Changes
--  [2016-08-07, first version](https://github.com/sqlparser/wings/issues/342)
+-  [2015-08-07, first version](https://github.com/sqlparser/wings/issues/342)
