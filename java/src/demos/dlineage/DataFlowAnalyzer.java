@@ -302,7 +302,7 @@ public class DataFlowAnalyzer
 					}
 
 					TGSqlParser sqlparser = new TGSqlParser( vendor );
-					sqlparser.sqltext = content.toUpperCase( );
+					sqlparser.sqltext = content;
 					analyzeAndOutputResult( sqlparser, doc, dlineageResult );
 				}
 			}
@@ -321,7 +321,7 @@ public class DataFlowAnalyzer
 				}
 
 				TGSqlParser sqlparser = new TGSqlParser( vendor );
-				sqlparser.sqltext = sqlContent.toUpperCase( );
+				sqlparser.sqltext = sqlContent;
 				analyzeAndOutputResult( sqlparser, doc, dlineageResult );
 			}
 			else if ( sqlContents != null )
@@ -358,7 +358,7 @@ public class DataFlowAnalyzer
 					}
 
 					TGSqlParser sqlparser = new TGSqlParser( vendor );
-					sqlparser.sqltext = content.toUpperCase( );
+					sqlparser.sqltext = content;
 					analyzeAndOutputResult( sqlparser, doc, dlineageResult );
 				}
 			}
@@ -400,7 +400,7 @@ public class DataFlowAnalyzer
 					}
 
 					TGSqlParser sqlparser = new TGSqlParser( vendor );
-					sqlparser.sqltext = content.toUpperCase( );
+					sqlparser.sqltext = content;
 					analyzeAndOutputResult( sqlparser, doc, dlineageResult );
 				}
 			}
@@ -560,8 +560,8 @@ public class DataFlowAnalyzer
 						String targetColumnId = target.getId( );
 						String targetParentId = target.getParent_id( );
 
-						if ( sourceParentId.equals( targetParentId )
-								&& sourceColumnId.equals( targetColumnId ) )
+						if ( sourceParentId.equalsIgnoreCase( targetParentId )
+								&& sourceColumnId.equalsIgnoreCase( targetColumnId ) )
 						{
 							findSourceRaltions( instance,
 									relation.getSources( ),
@@ -606,7 +606,7 @@ public class DataFlowAnalyzer
 			for ( int i = 0; i < instance.getResultsets( ).size( ); i++ )
 			{
 				table resultSet = instance.getResultsets( ).get( i );
-				if ( resultSet.getId( ).equals( targetParent ) )
+				if ( resultSet.getId( ).equalsIgnoreCase( targetParent ) )
 				{
 					return resultSet.isTarget( );
 				}
@@ -622,7 +622,7 @@ public class DataFlowAnalyzer
 			for ( int i = 0; i < instance.getViews( ).size( ); i++ )
 			{
 				table resultSet = instance.getViews( ).get( i );
-				if ( resultSet.getId( ).equals( targetParent ) )
+				if ( resultSet.getId( ).equalsIgnoreCase( targetParent ) )
 				{
 					return true;
 				}
@@ -645,7 +645,7 @@ public class DataFlowAnalyzer
 			{
 				table resultSet = instance.getTables( ).get( i );
 				isTables.put( resultSet.getId( ), true );
-				if ( resultSet.getId( ).equals( targetParent ) )
+				if ( resultSet.getId( ).equalsIgnoreCase( targetParent ) )
 				{
 					return true;
 				}
@@ -2256,9 +2256,9 @@ public class DataFlowAnalyzer
 	{
 		for ( int i = 0; i < starLinkColumns.size( ); i++ )
 		{
-			if ( starLinkColumns.get( i ).toString( ).equals( targetName )
+			if ( starLinkColumns.get( i ).toString( ).equalsIgnoreCase( targetName )
 					|| getColumnName( starLinkColumns.get( i ) )
-							.equals( targetName ) )
+							.equalsIgnoreCase( targetName ) )
 				return i;
 		}
 		return -1;
@@ -2405,7 +2405,7 @@ public class DataFlowAnalyzer
 								.getRelationType( ) == RelationType.dataflow )
 						{
 							if ( !targetName
-									.equals( getColumnName( sourceName ) ) )
+									.equalsIgnoreCase( getColumnName( sourceName ) ) )
 								continue;
 						}
 						relationElement.appendChild( source );
@@ -2432,7 +2432,7 @@ public class DataFlowAnalyzer
 					}
 					if ( relation.getRelationType( ) == RelationType.dataflow )
 					{
-						if ( !targetName.equals( sourceColumn.getName( ) ) )
+						if ( !targetName.equalsIgnoreCase( sourceColumn.getName( ) ) )
 							continue;
 					}
 					relationElement.appendChild( source );
@@ -2459,7 +2459,7 @@ public class DataFlowAnalyzer
 				}
 				if ( relation.getRelationType( ) == RelationType.dataflow )
 				{
-					if ( !targetName.equals( sourceColumn.getName( ) ) )
+					if ( !targetName.equalsIgnoreCase( sourceColumn.getName( ) ) )
 						continue;
 				}
 				relationElement.appendChild( source );
@@ -3704,12 +3704,11 @@ public class DataFlowAnalyzer
 			String functionName = expression.getFunctionCall( )
 					.getFunctionName( )
 					.toString( )
-					.toUpperCase( )
 					.trim( );
-			if ( "NVL".equals( functionName )
-					|| "IF".equals( functionName )
-					|| "IFNULL".equals( functionName )
-					|| "DECODE".equals( functionName ) )
+			if ( "NVL".equalsIgnoreCase( functionName )
+					|| "IF".equalsIgnoreCase( functionName )
+					|| "IFNULL".equalsIgnoreCase( functionName )
+					|| "DECODE".equalsIgnoreCase( functionName ) )
 			{
 				TExpression condition = expression.getFunctionCall( )
 						.getArgs( )
@@ -3912,10 +3911,10 @@ public class DataFlowAnalyzer
 							}
 							else if ( columnName.getTableToken( ) != null
 									&& ( columnName.getTableToken( ).astext
-											.equals( tTable.getName( ) )
+											.equalsIgnoreCase( tTable.getName( ) )
 											|| columnName
 													.getTableToken( ).astext
-															.equals( tTable
+															.equalsIgnoreCase( tTable
 																	.getAliasName( ) ) ) )
 							{
 								table = tTable;
@@ -4039,7 +4038,7 @@ public class DataFlowAnalyzer
 										ResultColumn sourceColumn = selectSetResultSetModel
 												.getColumns( ).get( j );
 
-										if ( sourceColumn.getName( ).equals(
+										if ( sourceColumn.getName( ).equalsIgnoreCase(
 												getColumnName( columnName ) ) )
 										{
 											ResultColumn targetColumn = ModelFactory
@@ -4132,7 +4131,7 @@ public class DataFlowAnalyzer
 										if ( SQLUtil
 												.trimObjectName( getColumnName(
 														columnName ) )
-												.equals( SQLUtil.trimObjectName(
+												.equalsIgnoreCase( SQLUtil.trimObjectName(
 														column.getName( ) ) ) )
 										{
 											if ( !column.equals( modelObject ) )
@@ -4191,7 +4190,7 @@ public class DataFlowAnalyzer
 												ResultColumn column = queryColumns
 														.get( l );
 												if ( getColumnName( columnName )
-														.equals( column
+														.equalsIgnoreCase( column
 																.getName( ) ) )
 												{
 													if ( !column.equals(
@@ -4761,39 +4760,45 @@ public class DataFlowAnalyzer
 	{
 		if ( object == null || object.getGsqlparser( ) == null )
 			return false;
-		EDbVendor vendor = object.getGsqlparser( ).getDbVendor( );
-		if ( vendor == EDbVendor.dbvteradata )
+		try
 		{
-			boolean result = TERADATA_BUILTIN_FUNCTIONS
-					.contains( object.toString( ) );
-			if ( result )
+			EDbVendor vendor = object.getGsqlparser( ).getDbVendor( );
+			if ( vendor == EDbVendor.dbvteradata )
 			{
-				return true;
-			}
-		}
-
-		List<String> versions = functionChecker
-				.getAvailableDbVersions( vendor );
-		if ( versions != null && versions.size( ) > 0 )
-		{
-			for ( int i = 0; i < versions.size( ); i++ )
-			{
-				boolean result = functionChecker.isBuiltInFunction(
-						object.toString( ),
-						object.getGsqlparser( ).getDbVendor( ),
-						versions.get( i ) );
-				if ( !result )
+				boolean result = TERADATA_BUILTIN_FUNCTIONS
+						.contains( object.toString( ) );
+				if ( result )
 				{
-					return false;
+					return true;
 				}
 			}
 
-			boolean result = TERADATA_BUILTIN_FUNCTIONS
-					.contains( object.toString( ) );
-			if ( result )
+			List<String> versions = functionChecker
+					.getAvailableDbVersions( vendor );
+			if ( versions != null && versions.size( ) > 0 )
 			{
-				return true;
+				for ( int i = 0; i < versions.size( ); i++ )
+				{
+					boolean result = functionChecker.isBuiltInFunction(
+							object.toString( ),
+							object.getGsqlparser( ).getDbVendor( ),
+							versions.get( i ) );
+					if ( !result )
+					{
+						return false;
+					}
+				}
+
+				boolean result = TERADATA_BUILTIN_FUNCTIONS
+						.contains( object.toString( ) );
+				if ( result )
+				{
+					return true;
+				}
 			}
+		}
+		catch ( Exception e )
+		{
 		}
 
 		return false;

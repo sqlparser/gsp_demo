@@ -174,7 +174,7 @@ public class SQLUtil
 	{
 		String name = nameString.trim( );
 		List<String> names = new ArrayList<String>( );
-		String[] splits = nameString.toUpperCase( ).split( "\\." );
+		String[] splits = nameString.split( "\\." );
 		if ( ( name.startsWith( "\"" ) && name.endsWith( "\"" ) )
 				|| ( name.startsWith( "[" ) && name.endsWith( "]" ) ) )
 		{

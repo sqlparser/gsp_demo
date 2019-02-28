@@ -70,7 +70,7 @@ public class Dlineage
 		String database = null;
 
 		TGSqlParser parser = new TGSqlParser( vendor );
-		parser.sqltext = content.toUpperCase( );
+		parser.sqltext = content;
 		int ret = parser.parse( );
 		if ( ret == 0 )
 		{
@@ -126,7 +126,7 @@ public class Dlineage
 			String content = sqlContents[i];
 
 			TGSqlParser parser = new TGSqlParser( vendor );
-			parser.sqltext = content.toUpperCase( );
+			parser.sqltext = content;
 			int ret = parser.parse( );
 			if ( ret == 0 )
 			{
@@ -192,7 +192,7 @@ public class Dlineage
 			String content = SQLUtil.getFileContent( child );
 
 			TGSqlParser parser = new TGSqlParser( vendor );
-			parser.sqltext = content.toUpperCase( );
+			parser.sqltext = content;
 			int ret = parser.parse( );
 			if ( ret == 0 )
 			{
@@ -257,7 +257,7 @@ public class Dlineage
 				continue;
 			String content = SQLUtil.getFileContent( child );
 			TGSqlParser parser = new TGSqlParser( vendor );
-			parser.sqltext = content.toUpperCase( );
+			parser.sqltext = content;
 			int ret = parser.parse( );
 			if ( ret == 0 )
 			{

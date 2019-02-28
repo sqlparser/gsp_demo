@@ -100,7 +100,7 @@ public class DlineageRelation
 						{
 							sourceColumn source = target.getColumns( ).get( j );
 
-							if ( "true".equals( source.getOrphan( ) ) )
+							if ( "true".equalsIgnoreCase( source.getOrphan( ) ) )
 								continue;
 
 							if ( source.getClause( ) != null )
@@ -330,7 +330,7 @@ public class DlineageRelation
 						{
 							sourceColumn source = target.getColumns( ).get( j );
 
-							if ( "true".equals( source.getOrphan( ) ) )
+							if ( "true".equalsIgnoreCase( source.getOrphan( ) ) )
 								continue;
 
 							if ( source.getClause( ) != null )
