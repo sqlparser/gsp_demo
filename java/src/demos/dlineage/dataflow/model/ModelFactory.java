@@ -229,6 +229,13 @@ public class ModelFactory
 		ModelBindingManager.addRelation( relation );
 		return relation;
 	}
+	
+	public static JoinRelation createJoinRelation( )
+	{
+		JoinRelation relation = new JoinRelation( );
+		ModelBindingManager.addRelation( relation );
+		return relation;
+	}
 
 	public static View createView( TCreateViewSqlStatement viewStmt )
 	{
