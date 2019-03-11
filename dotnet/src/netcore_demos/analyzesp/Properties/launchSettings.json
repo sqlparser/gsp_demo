@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "analyzesp": {
+      "commandName": "Project",
+      "commandLineArgs": "/f c:\\prg\\tmp\\demo.sql"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\demos\checksyntax\checksyntax.cs" Link="checksyntax.cs" />
+    <Compile Include="..\..\demos\util\common.cs" Link="common.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="gudusoft.gsqlparser">
+      <HintPath>..\..\..\lib\netcore\gudusoft.gsqlparser.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

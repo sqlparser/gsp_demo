@@ -1,0 +1,79 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\test\scriptWriter\testCreateNode.cs" Link="testCreateNode.cs" />
+    <Compile Include="..\..\test\scriptWriter\testGenerator.cs" Link="testGenerator.cs" />
+    <Compile Include="..\..\test\scriptWriter\testModifyExpr.cs" Link="testModifyExpr.cs" />
+    <Compile Include="..\..\test\scriptWriter\testModifySql.cs" Link="testModifySql.cs" />
+    <Compile Include="..\..\test\scriptWriter\testScriptGenerator.cs" Link="testScriptGenerator.cs" />
+    <Compile Include="..\..\test\formatsql\testAlignAliasInSelectList.cs" Link="testAlignAliasInSelectList.cs" />
+    <Compile Include="..\..\test\formatsql\testAlignment.cs" Link="testAlignment.cs" />
+    <Compile Include="..\..\test\formatsql\testBlankLines.cs" Link="testBlankLines.cs" />
+    <Compile Include="..\..\test\formatsql\testCapitalisation.cs" Link="testCapitalisation.cs" />
+    <Compile Include="..\..\test\formatsql\testCaseExpression.cs" Link="testCaseExpression.cs" />
+    <Compile Include="..\..\test\formatsql\testComment.cs" Link="testComment.cs" />
+    <Compile Include="..\..\test\formatsql\testCompactMode.cs" Link="testCompactMode.cs" />
+    <Compile Include="..\..\test\formatsql\testCreateFunctionProcedure.cs" Link="testCreateFunctionProcedure.cs" />
+    <Compile Include="..\..\test\formatsql\testCreateTable.cs" Link="testCreateTable.cs" />
+    <Compile Include="..\..\test\formatsql\testCTE.cs" Link="testCTE.cs" />
+    <Compile Include="..\..\test\formatsql\testDeclare.cs" Link="testDeclare.cs" />
+    <Compile Include="..\..\test\formatsql\testExecute.cs" Link="testExecute.cs" />
+    <Compile Include="..\..\test\formatsql\testFromClause.cs" Link="testFromClause.cs" />
+    <Compile Include="..\..\test\formatsql\testFunctionCall.cs" Link="testFunctionCall.cs" />
+    <Compile Include="..\..\test\formatsql\testGroupByClause.cs" Link="testGroupByClause.cs" />
+    <Compile Include="..\..\test\formatsql\testIndentation.cs" Link="testIndentation.cs" />
+    <Compile Include="..\..\test\formatsql\testInsertList.cs" Link="testInsertList.cs" />
+    <Compile Include="..\..\test\formatsql\testIntoClause.cs" Link="testIntoClause.cs" />
+    <Compile Include="..\..\test\formatsql\testLineNumber.cs" Link="testLineNumber.cs" />
+    <Compile Include="..\..\test\formatsql\testOracleCreateView.cs" Link="testOracleCreateView.cs" />
+    <Compile Include="..\..\test\formatsql\testOrderByClause.cs" Link="testOrderByClause.cs" />
+    <Compile Include="..\..\test\formatsql\testSelectList.cs" Link="testSelectList.cs" />
+    <Compile Include="..\..\test\formatsql\testWhereClause.cs" Link="testWhereClause.cs" />
+    <Compile Include="..\..\test\formatsql\testWhitespace.cs" Link="testWhitespace.cs" />
+    <Compile Include="..\..\test\gettablecolumns\testGetTableColumns.cs" Link="testGetTableColumns.cs" />
+    <Compile Include="..\..\test\gettablecolumns\testTableColumnRename.cs" Link="testTableColumnRename.cs" />
+    <Compile Include="..\..\test\visitors\testXmlVisitor.cs" Link="testXmlVisitor.cs" />
+    <Compile Include="..\..\test\common\UnitTestCommon.cs" Link="UnitTestCommon.cs" />
+    <Compile Include="..\..\test\common\UnitTestDB2.cs" Link="UnitTestDB2.cs" />
+    <Compile Include="..\..\test\common\UnitTestGreenplum.cs" Link="UnitTestGreenplum.cs" />
+    <Compile Include="..\..\test\common\UnitTestHive.cs" Link="UnitTestHive.cs" />
+    <Compile Include="..\..\test\common\UnitTestImpala.cs" Link="UnitTestImpala.cs" />
+    <Compile Include="..\..\test\common\UnitTestInformix.cs" Link="UnitTestInformix.cs" />
+    <Compile Include="..\..\test\common\UnitTestMdx.cs" Link="UnitTestMdx.cs" />
+    <Compile Include="..\..\test\common\UnitTestMySQL.cs" Link="UnitTestMySQL.cs" />
+    <Compile Include="..\..\test\common\UnitTestNetezza.cs" Link="UnitTestNetezza.cs" />
+    <Compile Include="..\..\test\common\UnitTestOracle.cs" Link="UnitTestOracle.cs" />
+    <Compile Include="..\..\test\common\UnitTestPostgreSQL.cs" Link="UnitTestPostgreSQL.cs" />
+    <Compile Include="..\..\test\common\UnitTestRedshift.cs" Link="UnitTestRedshift.cs" />
+    <Compile Include="..\..\test\common\UnitTestScriptWriter.cs" Link="UnitTestScriptWriter.cs" />
+    <Compile Include="..\..\test\common\UnitTestSQLServer.cs" Link="UnitTestSQLServer.cs" />
+    <Compile Include="..\..\test\common\UnitTestSybase.cs" Link="UnitTestSybase.cs" />
+    <Compile Include="..\..\test\common\UnitTestTeradata.cs" Link="UnitTestTeradata.cs" />
+    <Compile Include="..\..\test\common\UTClientDag.cs" Link="UTClientDag.cs" />
+    <Compile Include="..\..\test\common\UTClientNoetix.cs" Link="UTClientNoetix.cs" />
+    <Compile Include="..\..\test\common\UTClientTosska.cs" Link="UTClientTosska.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.6.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="1.2.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="1.2.0" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\gettablecolumns\gettablecolumns.csproj" />
+    <ProjectReference Include="..\tableColumnRename\tableColumnRename.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="gudusoft.gsqlparser">
+      <HintPath>..\..\..\lib\netcore\gudusoft.gsqlparser.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\demos\gettablecolumns\columnsInResultColumn.cs" Link="columnsInResultColumn.cs" />
+    <Compile Include="..\..\demos\gettablecolumns\columnTableStmt.cs" Link="columnTableStmt.cs" />
+    <Compile Include="..\..\demos\gettablecolumns\joinRelationAnalyze.cs" Link="joinRelationAnalyze.cs" />
+    <Compile Include="..\..\demos\gettablecolumns\sample.cs" Link="sample.cs" />
+    <Compile Include="..\..\demos\gettablecolumns\whatClause.cs" Link="whatClause.cs" />
+    <Compile Include="..\..\demos\lib\columnInClause.cs" Link="columnInClause.cs" />
+    <Compile Include="..\..\demos\lib\TGetTableColumn.cs" Link="TGetTableColumn.cs" />
+    <Compile Include="..\..\demos\lib\xmlVisitor.cs" Link="xmlVisitor.cs" />
+    <Compile Include="..\..\demos\util\Arrays.cs" Link="Arrays.cs" />
+    <Compile Include="..\..\demos\util\common.cs" Link="common.cs" />
+    <Compile Include="..\..\demos\util\LinkedHashMap.cs" Link="LinkedHashMap.cs" />
+    <Compile Include="..\..\demos\util\LinkedHashSet.cs" Link="LinkedHashSet.cs" />
+    <Compile Include="..\..\demos\util\StringUtil.cs" Link="StringUtil.cs" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Reference Include="gudusoft.gsqlparser">
+      <HintPath>..\..\..\lib\netcore\gudusoft.gsqlparser.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\demos\joinRelationAnalyze\joinRelationAnalyze.cs" Link="joinRelationAnalyze.cs" />
+    <Compile Include="..\..\demos\util\Arrays.cs" Link="Arrays.cs" />
+    <Compile Include="..\..\demos\util\common.cs" Link="common.cs" />
+    <Compile Include="..\..\demos\util\LinkedHashMap.cs" Link="LinkedHashMap.cs" />
+    <Compile Include="..\..\demos\util\LinkedHashSet.cs" Link="LinkedHashSet.cs" />
+    <Compile Include="..\..\demos\util\StringUtil.cs" Link="StringUtil.cs" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Reference Include="gudusoft.gsqlparser">
+      <HintPath>..\..\..\lib\netcore\gudusoft.gsqlparser.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  
+</Project>

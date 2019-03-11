@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\demos\analyzesp\analyzesp.cs" Link="analyzesp.cs" />
+    <Compile Include="..\..\demos\util\common.cs" Link="common.cs" />
+    <Compile Include="..\..\demos\util\LinkedHashMap.cs" Link="LinkedHashMap.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="gudusoft.gsqlparser">
+      <HintPath>..\..\..\lib\netcore\gudusoft.gsqlparser.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
