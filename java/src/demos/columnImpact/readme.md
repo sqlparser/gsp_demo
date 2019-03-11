@@ -24,7 +24,7 @@ Employees depends on: scott.emp(total count of record influences the result valu
 Salary depends on: scott.emp.sal, scott.emp.deptno
 ```
 
-Run this tool with default option, a more detailed result will be generated:
+Run this tool with default option(/d option is enabled), a more detailed result will be generated:
 ```
 Search Department <<column_1>>
 --> a.deptno
@@ -76,7 +76,6 @@ Search b.total_sal
   --> table scott.emp
   --> emp.sal
 ```
-
 
 
 ## Usage
