@@ -1,9 +1,67 @@
 
 package demos.dlineage;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Stack;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import demos.dlineage.dataflow.listener.DataFlowHandleListener;
+import demos.dlineage.dataflow.model.AbstractRelation;
+import demos.dlineage.dataflow.model.DataFlowRelation;
+import demos.dlineage.dataflow.model.ImpactRelation;
+import demos.dlineage.dataflow.model.JoinRelation;
+import demos.dlineage.dataflow.model.JoinRelation.JoinClauseType;
+import demos.dlineage.dataflow.model.ModelBindingManager;
+import demos.dlineage.dataflow.model.ModelFactory;
+import demos.dlineage.dataflow.model.QueryTable;
+import demos.dlineage.dataflow.model.QueryTableRelationElement;
+import demos.dlineage.dataflow.model.RecordSetRelation;
+import demos.dlineage.dataflow.model.Relation;
+import demos.dlineage.dataflow.model.RelationElement;
+import demos.dlineage.dataflow.model.RelationType;
+import demos.dlineage.dataflow.model.ResultColumn;
+import demos.dlineage.dataflow.model.ResultColumnRelationElement;
+import demos.dlineage.dataflow.model.ResultSet;
+import demos.dlineage.dataflow.model.SelectResultSet;
+import demos.dlineage.dataflow.model.SelectSetResultSet;
+import demos.dlineage.dataflow.model.Table;
+import demos.dlineage.dataflow.model.TableColumn;
+import demos.dlineage.dataflow.model.TableColumnRelationElement;
+import demos.dlineage.dataflow.model.TableRelationElement;
+import demos.dlineage.dataflow.model.View;
+import demos.dlineage.dataflow.model.ViewColumn;
+import demos.dlineage.dataflow.model.ViewColumnRelationElement;
+import demos.dlineage.dataflow.model.xml.dataflow;
+import demos.dlineage.dataflow.model.xml.relation;
+import demos.dlineage.dataflow.model.xml.sourceColumn;
+import demos.dlineage.dataflow.model.xml.table;
+import demos.dlineage.dataflow.model.xml.targetColumn;
+import demos.dlineage.util.Pair;
+import demos.dlineage.util.SQLUtil;
+import demos.dlineage.util.XML2Model;
+import demos.dlineage.util.XMLUtil;
 import gudusoft.gsqlparser.EComparisonType;
 import gudusoft.gsqlparser.EDbVendor;
 import gudusoft.gsqlparser.EExpressionType;
+import gudusoft.gsqlparser.EJoinType;
 import gudusoft.gsqlparser.ESetOperatorType;
 import gudusoft.gsqlparser.TCustomSqlStatement;
 import gudusoft.gsqlparser.TGSqlParser;
@@ -43,62 +101,6 @@ import gudusoft.gsqlparser.stmt.TStoredProcedureSqlStatement;
 import gudusoft.gsqlparser.stmt.TUpdateSqlStatement;
 import gudusoft.gsqlparser.util.functionChecker;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Stack;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
-import demos.dlineage.dataflow.listener.DataFlowHandleListener;
-import demos.dlineage.dataflow.model.AbstractRelation;
-import demos.dlineage.dataflow.model.DataFlowRelation;
-import demos.dlineage.dataflow.model.ImpactRelation;
-import demos.dlineage.dataflow.model.ModelBindingManager;
-import demos.dlineage.dataflow.model.ModelFactory;
-import demos.dlineage.dataflow.model.QueryTable;
-import demos.dlineage.dataflow.model.QueryTableRelationElement;
-import demos.dlineage.dataflow.model.RecordSetRelation;
-import demos.dlineage.dataflow.model.Relation;
-import demos.dlineage.dataflow.model.RelationElement;
-import demos.dlineage.dataflow.model.RelationType;
-import demos.dlineage.dataflow.model.ResultColumn;
-import demos.dlineage.dataflow.model.ResultColumnRelationElement;
-import demos.dlineage.dataflow.model.ResultSet;
-import demos.dlineage.dataflow.model.SelectResultSet;
-import demos.dlineage.dataflow.model.SelectSetResultSet;
-import demos.dlineage.dataflow.model.Table;
-import demos.dlineage.dataflow.model.TableColumn;
-import demos.dlineage.dataflow.model.TableColumnRelationElement;
-import demos.dlineage.dataflow.model.TableRelationElement;
-import demos.dlineage.dataflow.model.View;
-import demos.dlineage.dataflow.model.ViewColumn;
-import demos.dlineage.dataflow.model.ViewColumnRelationElement;
-import demos.dlineage.dataflow.model.xml.dataflow;
-import demos.dlineage.dataflow.model.xml.relation;
-import demos.dlineage.dataflow.model.xml.sourceColumn;
-import demos.dlineage.dataflow.model.xml.table;
-import demos.dlineage.dataflow.model.xml.targetColumn;
-import demos.dlineage.util.Pair;
-import demos.dlineage.util.SQLUtil;
-import demos.dlineage.util.XML2Model;
-import demos.dlineage.util.XMLUtil;
-
 public class DataFlowAnalyzer
 {
 
@@ -134,6 +136,7 @@ public class DataFlowAnalyzer
 	private DataFlowHandleListener handleListener;
 	private boolean simpleOutput;
 	private boolean textFormat = false;
+	private boolean showJoin = false;
 
 	public DataFlowAnalyzer( String sqlContent, EDbVendor dbVendor,
 			boolean simpleOutput )
@@ -165,6 +168,16 @@ public class DataFlowAnalyzer
 		this.sqlFile = sqlFile;
 		this.vendor = dbVendor;
 		this.simpleOutput = simpleOutput;
+	}
+
+	public boolean isShowJoin( )
+	{
+		return showJoin;
+	}
+
+	public void setShowJoin( boolean showJoin )
+	{
+		this.showJoin = showJoin;
 	}
 
 	public void setHandleListener( DataFlowHandleListener listener )
@@ -302,7 +315,7 @@ public class DataFlowAnalyzer
 					}
 
 					TGSqlParser sqlparser = new TGSqlParser( vendor );
-					sqlparser.sqltext = content.toUpperCase( );
+					sqlparser.sqltext = content;
 					analyzeAndOutputResult( sqlparser, doc, dlineageResult );
 				}
 			}
@@ -321,7 +334,7 @@ public class DataFlowAnalyzer
 				}
 
 				TGSqlParser sqlparser = new TGSqlParser( vendor );
-				sqlparser.sqltext = sqlContent.toUpperCase( );
+				sqlparser.sqltext = sqlContent;
 				analyzeAndOutputResult( sqlparser, doc, dlineageResult );
 			}
 			else if ( sqlContents != null )
@@ -358,7 +371,7 @@ public class DataFlowAnalyzer
 					}
 
 					TGSqlParser sqlparser = new TGSqlParser( vendor );
-					sqlparser.sqltext = content.toUpperCase( );
+					sqlparser.sqltext = content;
 					analyzeAndOutputResult( sqlparser, doc, dlineageResult );
 				}
 			}
@@ -400,7 +413,7 @@ public class DataFlowAnalyzer
 					}
 
 					TGSqlParser sqlparser = new TGSqlParser( vendor );
-					sqlparser.sqltext = content.toUpperCase( );
+					sqlparser.sqltext = content;
 					analyzeAndOutputResult( sqlparser, doc, dlineageResult );
 				}
 			}
@@ -560,8 +573,9 @@ public class DataFlowAnalyzer
 						String targetColumnId = target.getId( );
 						String targetParentId = target.getParent_id( );
 
-						if ( sourceParentId.equals( targetParentId )
-								&& sourceColumnId.equals( targetColumnId ) )
+						if ( sourceParentId.equalsIgnoreCase( targetParentId )
+								&& sourceColumnId
+										.equalsIgnoreCase( targetColumnId ) )
 						{
 							findSourceRaltions( instance,
 									relation.getSources( ),
@@ -606,7 +620,7 @@ public class DataFlowAnalyzer
 			for ( int i = 0; i < instance.getResultsets( ).size( ); i++ )
 			{
 				table resultSet = instance.getResultsets( ).get( i );
-				if ( resultSet.getId( ).equals( targetParent ) )
+				if ( resultSet.getId( ).equalsIgnoreCase( targetParent ) )
 				{
 					return resultSet.isTarget( );
 				}
@@ -622,7 +636,7 @@ public class DataFlowAnalyzer
 			for ( int i = 0; i < instance.getViews( ).size( ); i++ )
 			{
 				table resultSet = instance.getViews( ).get( i );
-				if ( resultSet.getId( ).equals( targetParent ) )
+				if ( resultSet.getId( ).equalsIgnoreCase( targetParent ) )
 				{
 					return true;
 				}
@@ -645,7 +659,7 @@ public class DataFlowAnalyzer
 			{
 				table resultSet = instance.getTables( ).get( i );
 				isTables.put( resultSet.getId( ), true );
-				if ( resultSet.getId( ).equals( targetParent ) )
+				if ( resultSet.getId( ).equalsIgnoreCase( targetParent ) )
 				{
 					return true;
 				}
@@ -1146,7 +1160,9 @@ public class DataFlowAnalyzer
 
 			if ( stmt.getCondition( ) != null )
 			{
-				analyzeFilterCondtion( stmt.getCondition( ) );
+				analyzeFilterCondtion( stmt.getCondition( ),
+						null,
+						JoinClauseType.on );
 			}
 		}
 	}
@@ -1571,7 +1587,9 @@ public class DataFlowAnalyzer
 						TJoinItem joinItem = join.getJoinItems( )
 								.getJoinItem( j );
 						TExpression expr = joinItem.getOnCondition( );
-						analyzeFilterCondtion( expr );
+						analyzeFilterCondtion( expr,
+								joinItem.getJoinType( ),
+								JoinClauseType.on );
 					}
 				}
 			}
@@ -1580,7 +1598,9 @@ public class DataFlowAnalyzer
 		if ( stmt.getWhereClause( ) != null
 				&& stmt.getWhereClause( ).getCondition( ) != null )
 		{
-			analyzeFilterCondtion( stmt.getWhereClause( ).getCondition( ) );
+			analyzeFilterCondtion( stmt.getWhereClause( ).getCondition( ),
+					null,
+					JoinClauseType.where );
 		}
 	}
 
@@ -1882,6 +1902,10 @@ public class DataFlowAnalyzer
 					dlineageResult,
 					relations,
 					ImpactRelation.class );
+			appendRelation( doc,
+					dlineageResult,
+					relations,
+					JoinRelation.class );
 		}
 	}
 
@@ -1938,6 +1962,16 @@ public class DataFlowAnalyzer
 					relation.getRelationType( ).name( ) );
 			relationElement.setAttribute( "id",
 					String.valueOf( relation.getId( ) ) );
+			if ( relation instanceof JoinRelation )
+			{
+				relationElement.setAttribute( "condition",
+						( (JoinRelation) relation ).getJoinCondition( ) );
+				relationElement.setAttribute( "joinType",
+						( (JoinRelation) relation ).getJoinType( ).name( ) );
+				relationElement.setAttribute( "clause",
+						( (JoinRelation) relation ).getJoinClauseType( )
+								.name( ) );
+			}
 
 			String targetName = null;
 			List<TObjectName> targetObjectNames = null;
@@ -2256,9 +2290,11 @@ public class DataFlowAnalyzer
 	{
 		for ( int i = 0; i < starLinkColumns.size( ); i++ )
 		{
-			if ( starLinkColumns.get( i ).toString( ).equals( targetName )
+			if ( starLinkColumns.get( i )
+					.toString( )
+					.equalsIgnoreCase( targetName )
 					|| getColumnName( starLinkColumns.get( i ) )
-							.equals( targetName ) )
+							.equalsIgnoreCase( targetName ) )
 				return i;
 		}
 		return -1;
@@ -2404,8 +2440,8 @@ public class DataFlowAnalyzer
 						if ( relation
 								.getRelationType( ) == RelationType.dataflow )
 						{
-							if ( !targetName
-									.equals( getColumnName( sourceName ) ) )
+							if ( !targetName.equalsIgnoreCase(
+									getColumnName( sourceName ) ) )
 								continue;
 						}
 						relationElement.appendChild( source );
@@ -2432,7 +2468,8 @@ public class DataFlowAnalyzer
 					}
 					if ( relation.getRelationType( ) == RelationType.dataflow )
 					{
-						if ( !targetName.equals( sourceColumn.getName( ) ) )
+						if ( !targetName
+								.equalsIgnoreCase( sourceColumn.getName( ) ) )
 							continue;
 					}
 					relationElement.appendChild( source );
@@ -2459,7 +2496,8 @@ public class DataFlowAnalyzer
 				}
 				if ( relation.getRelationType( ) == RelationType.dataflow )
 				{
-					if ( !targetName.equals( sourceColumn.getName( ) ) )
+					if ( !targetName
+							.equalsIgnoreCase( sourceColumn.getName( ) ) )
 						continue;
 				}
 				relationElement.appendChild( source );
@@ -3527,7 +3565,11 @@ public class DataFlowAnalyzer
 									.getJoinItem( j );
 							TExpression expr = joinItem.getOnCondition( );
 							if ( expr != null )
-								analyzeFilterCondtion( expr );
+							{
+								analyzeFilterCondtion( expr,
+										joinItem.getJoinType( ),
+										JoinClauseType.on );
+							}
 						}
 					}
 				}
@@ -3538,7 +3580,7 @@ public class DataFlowAnalyzer
 				TExpression expr = stmt.getWhereClause( ).getCondition( );
 				if ( expr != null )
 				{
-					analyzeFilterCondtion( expr );
+					analyzeFilterCondtion( expr, null, JoinClauseType.where );
 				}
 			}
 
@@ -3704,12 +3746,11 @@ public class DataFlowAnalyzer
 			String functionName = expression.getFunctionCall( )
 					.getFunctionName( )
 					.toString( )
-					.toUpperCase( )
 					.trim( );
-			if ( "NVL".equals( functionName )
-					|| "IF".equals( functionName )
-					|| "IFNULL".equals( functionName )
-					|| "DECODE".equals( functionName ) )
+			if ( "NVL".equalsIgnoreCase( functionName )
+					|| "IF".equalsIgnoreCase( functionName )
+					|| "IFNULL".equalsIgnoreCase( functionName )
+					|| "DECODE".equalsIgnoreCase( functionName ) )
 			{
 				TExpression condition = expression.getFunctionCall( )
 						.getArgs( )
@@ -3912,11 +3953,12 @@ public class DataFlowAnalyzer
 							}
 							else if ( columnName.getTableToken( ) != null
 									&& ( columnName.getTableToken( ).astext
-											.equals( tTable.getName( ) )
+											.equalsIgnoreCase(
+													tTable.getName( ) )
 											|| columnName
 													.getTableToken( ).astext
-															.equals( tTable
-																	.getAliasName( ) ) ) )
+															.equalsIgnoreCase(
+																	tTable.getAliasName( ) ) ) )
 							{
 								table = tTable;
 								break;
@@ -4039,8 +4081,10 @@ public class DataFlowAnalyzer
 										ResultColumn sourceColumn = selectSetResultSetModel
 												.getColumns( ).get( j );
 
-										if ( sourceColumn.getName( ).equals(
-												getColumnName( columnName ) ) )
+										if ( sourceColumn.getName( )
+												.equalsIgnoreCase(
+														getColumnName(
+																columnName ) ) )
 										{
 											ResultColumn targetColumn = ModelFactory
 													.createSelectSetResultColumn(
@@ -4132,8 +4176,9 @@ public class DataFlowAnalyzer
 										if ( SQLUtil
 												.trimObjectName( getColumnName(
 														columnName ) )
-												.equals( SQLUtil.trimObjectName(
-														column.getName( ) ) ) )
+												.equalsIgnoreCase( SQLUtil
+														.trimObjectName( column
+																.getName( ) ) ) )
 										{
 											if ( !column.equals( modelObject ) )
 											{
@@ -4191,8 +4236,8 @@ public class DataFlowAnalyzer
 												ResultColumn column = queryColumns
 														.get( l );
 												if ( getColumnName( columnName )
-														.equals( column
-																.getName( ) ) )
+														.equalsIgnoreCase(
+																column.getName( ) ) )
 												{
 													if ( !column.equals(
 															modelObject ) )
@@ -4301,7 +4346,8 @@ public class DataFlowAnalyzer
 		}
 	}
 
-	private void analyzeFilterCondtion( TExpression expr )
+	private void analyzeFilterCondtion( TExpression expr, EJoinType joinType,
+			JoinClauseType joinClauseType )
 	{
 		if ( expr == null )
 		{
@@ -4312,6 +4358,7 @@ public class DataFlowAnalyzer
 
 		columnsInExpr visitor = new columnsInExpr( );
 		expr.inOrderTraverse( visitor );
+
 		List<TObjectName> objectNames = visitor.getObjectNames( );
 
 		TResultColumnList columns = stmt.getResultColumnList( );
@@ -4342,6 +4389,7 @@ public class DataFlowAnalyzer
 							(ResultColumn) ModelBindingManager
 									.getModel( column ) ) );
 				}
+
 				for ( int j = 0; j < objectNames.size( ); j++ )
 				{
 					TObjectName columnName = objectNames.get( j );
@@ -4380,6 +4428,12 @@ public class DataFlowAnalyzer
 					}
 				}
 			}
+		}
+
+		if ( isShowJoin( ) )
+		{
+			joinInExpr joinVisitor = new joinInExpr( joinType, joinClauseType );
+			expr.inOrderTraverse( joinVisitor );
 		}
 	}
 
@@ -4534,6 +4588,175 @@ public class DataFlowAnalyzer
 		}
 	}
 
+	class joinInExpr implements IExpressionVisitor
+	{
+
+		private EJoinType joinType;
+		private JoinClauseType joinClauseType;
+
+		public joinInExpr( EJoinType joinType, JoinClauseType joinClauseType )
+		{
+			this.joinType = joinType;
+			this.joinClauseType = joinClauseType;
+		}
+
+		boolean is_compare_condition( EExpressionType t )
+		{
+			return ( ( t == EExpressionType.simple_comparison_t )
+					|| ( t == EExpressionType.group_comparison_t )
+					|| ( t == EExpressionType.in_t )
+					|| ( t == EExpressionType.pattern_matching_t )
+					|| ( t == EExpressionType.left_join_t )
+					|| ( t == EExpressionType.right_join_t ) );
+		}
+
+		@Override
+		public boolean exprVisit( TParseTreeNode pNode, boolean isLeafNode )
+		{
+			TExpression expr = (TExpression) pNode;
+			if ( is_compare_condition( expr.getExpressionType( ) ) )
+			{
+				TExpression leftExpr = expr.getLeftOperand( );
+				columnsInExpr leftVisitor = new columnsInExpr( );
+				leftExpr.inOrderTraverse( leftVisitor );
+				List<TObjectName> leftObjectNames = leftVisitor
+						.getObjectNames( );
+
+				TExpression rightExpr = expr.getRightOperand( );
+				columnsInExpr rightVisitor = new columnsInExpr( );
+				rightExpr.inOrderTraverse( rightVisitor );
+				List<TObjectName> rightObjectNames = rightVisitor
+						.getObjectNames( );
+
+				if ( !leftObjectNames.isEmpty( )
+						&& !rightObjectNames.isEmpty( ) )
+				{
+					TCustomSqlStatement stmt = stmtStack.peek( );
+
+					for ( int i = 0; i < leftObjectNames.size( ); i++ )
+					{
+						TObjectName leftObjectName = leftObjectNames.get( i );
+						TTable leftTable = ModelBindingManager.getTable( stmt,
+								leftObjectName );
+						if ( leftTable != null )
+						{
+							for ( int j = 0; j < rightObjectNames.size( ); j++ )
+							{
+								JoinRelation joinRelation = ModelFactory
+										.createJoinRelation( );
+								if ( joinType != null )
+								{
+									joinRelation.setJoinType( joinType );
+								}
+								else
+								{
+									if ( expr.getLeftOperand( )
+											.isOracleOuterJoin( ) )
+									{
+										joinRelation
+												.setJoinType( EJoinType.right );
+									}
+									else if ( expr.getRightOperand( )
+											.isOracleOuterJoin( ) )
+									{
+										joinRelation
+												.setJoinType( EJoinType.left );
+									}
+									else if ( expr
+											.getExpressionType( ) == EExpressionType.left_join_t )
+									{
+										joinRelation
+												.setJoinType( EJoinType.left );
+									}
+									else if ( expr
+											.getExpressionType( ) == EExpressionType.right_join_t )
+									{
+										joinRelation
+												.setJoinType( EJoinType.right );
+									}
+									else
+									{
+										joinRelation
+												.setJoinType( EJoinType.cross );
+									}
+								}
+
+								joinRelation
+										.setJoinClauseType( joinClauseType );
+								joinRelation
+										.setJoinCondition( expr.toScript( ) );
+
+								if ( ModelBindingManager.getModel(
+										leftTable ) instanceof Table )
+								{
+									Table tableModel = (Table) ModelBindingManager
+											.getModel( leftTable );
+									if ( tableModel != null )
+									{
+										TableColumn columnModel = ModelFactory
+												.createTableColumn( tableModel,
+														leftObjectName );
+										joinRelation.addSource(
+												new TableColumnRelationElement(
+														columnModel ) );
+									}
+								}
+								else if ( ModelBindingManager.getModel(
+										leftTable ) instanceof QueryTable )
+								{
+									ResultColumn resultColumn = (ResultColumn) ModelBindingManager
+											.getModel( leftObjectName
+													.getSourceColumn( ) );
+									if ( resultColumn != null )
+									{
+										joinRelation.addSource(
+												new ResultColumnRelationElement(
+														resultColumn ) );
+									}
+								}
+
+								TObjectName rightObjectName = rightObjectNames
+										.get( j );
+								TTable rightTable = ModelBindingManager
+										.getTable( stmt, rightObjectName );
+
+								if ( ModelBindingManager.getModel(
+										rightTable ) instanceof Table )
+								{
+									Table tableModel = (Table) ModelBindingManager
+											.getModel( rightTable );
+									if ( tableModel != null )
+									{
+										TableColumn columnModel = ModelFactory
+												.createTableColumn( tableModel,
+														rightObjectName );
+										joinRelation.setTarget(
+												new TableColumnRelationElement(
+														columnModel ) );
+									}
+								}
+								else if ( ModelBindingManager.getModel(
+										rightTable ) instanceof QueryTable )
+								{
+									ResultColumn resultColumn = (ResultColumn) ModelBindingManager
+											.getModel( rightObjectName
+													.getSourceColumn( ) );
+									if ( resultColumn != null )
+									{
+										joinRelation.setTarget(
+												new ResultColumnRelationElement(
+														resultColumn ) );
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			return true;
+		}
+	}
+
 	public static void main( String[] args )
 	{
 		if ( args.length < 1 )
@@ -4544,6 +4767,7 @@ public class DataFlowAnalyzer
 					"/f: Option, specify the sql file path to analyze dataflow relation." );
 			System.out.println(
 					"/d: Option, specify the sql directory path to analyze dataflow relation." );
+			System.out.println( "/j: Option, analyze the join relation." );
 			System.out.println(
 					"/s: Option, simple output, ignore the intermediate results." );
 			System.out.println(
@@ -4668,6 +4892,7 @@ public class DataFlowAnalyzer
 		}
 
 		boolean simple = argList.indexOf( "/s" ) != -1;
+		boolean showJoin = argList.indexOf( "/j" ) != -1;
 		boolean textFormat = false;
 		if ( simple )
 		{
@@ -4677,6 +4902,9 @@ public class DataFlowAnalyzer
 		DataFlowAnalyzer dlineage = new DataFlowAnalyzer( sqlFiles,
 				vendor,
 				simple );
+
+		dlineage.setShowJoin( showJoin );
+
 		if ( simple )
 		{
 			dlineage.setTextFormat( textFormat );
@@ -4761,39 +4989,45 @@ public class DataFlowAnalyzer
 	{
 		if ( object == null || object.getGsqlparser( ) == null )
 			return false;
-		EDbVendor vendor = object.getGsqlparser( ).getDbVendor( );
-		if ( vendor == EDbVendor.dbvteradata )
+		try
 		{
-			boolean result = TERADATA_BUILTIN_FUNCTIONS
-					.contains( object.toString( ) );
-			if ( result )
+			EDbVendor vendor = object.getGsqlparser( ).getDbVendor( );
+			if ( vendor == EDbVendor.dbvteradata )
 			{
-				return true;
-			}
-		}
-
-		List<String> versions = functionChecker
-				.getAvailableDbVersions( vendor );
-		if ( versions != null && versions.size( ) > 0 )
-		{
-			for ( int i = 0; i < versions.size( ); i++ )
-			{
-				boolean result = functionChecker.isBuiltInFunction(
-						object.toString( ),
-						object.getGsqlparser( ).getDbVendor( ),
-						versions.get( i ) );
-				if ( !result )
+				boolean result = TERADATA_BUILTIN_FUNCTIONS
+						.contains( object.toString( ) );
+				if ( result )
 				{
-					return false;
+					return true;
 				}
 			}
 
-			boolean result = TERADATA_BUILTIN_FUNCTIONS
-					.contains( object.toString( ) );
-			if ( result )
+			List<String> versions = functionChecker
+					.getAvailableDbVersions( vendor );
+			if ( versions != null && versions.size( ) > 0 )
 			{
-				return true;
+				for ( int i = 0; i < versions.size( ); i++ )
+				{
+					boolean result = functionChecker.isBuiltInFunction(
+							object.toString( ),
+							object.getGsqlparser( ).getDbVendor( ),
+							versions.get( i ) );
+					if ( !result )
+					{
+						return false;
+					}
+				}
+
+				boolean result = TERADATA_BUILTIN_FUNCTIONS
+						.contains( object.toString( ) );
+				if ( result )
+				{
+					return true;
+				}
 			}
+		}
+		catch ( Exception e )
+		{
 		}
 
 		return false;

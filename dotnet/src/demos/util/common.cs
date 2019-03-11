@@ -71,6 +71,10 @@ namespace gudusoft.gsqlparser.demos.util
                 {
                     dbVendor = EDbVendor.dbvredshift;
                 }
+                else if (args[index + 1].Equals("mdx", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    dbVendor = EDbVendor.dbvmdx;
+                }
             }
 
             return dbVendor;

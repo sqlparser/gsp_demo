@@ -662,20 +662,27 @@ public class ColumnImpact {
 				tableName = removeQuote(tableName.substring(tableName
 						.lastIndexOf(".") + 1));
 			}
-			if (!column.tableNames.contains(tableName)) {
-				column.tableNames.add(tableName);
-				if (!column.tableFullNames.contains(tableName))
-					column.tableFullNames.add(tableName);
+			if ( tableName != null ){
+				if (!column.tableNames.contains(tableName)) {
+					column.tableNames.add(tableName);
+					if (!column.tableFullNames.contains(tableName))
+						column.tableFullNames.add(tableName);
+				}
 			}
 		} else {
 			TTableList tables = stmt.tables;
 			for (int i = 0; i < tables.size(); i++) {
 				TTable lztable = tables.getTable(i);
 				Table table = TLzTaleToTable(lztable);
-				if (!column.tableNames.contains(table.tableName)) {
-					column.tableNames.add(table.tableName);
-					if (!column.tableFullNames.contains(lztable.getFullName()))
-						column.tableFullNames.add(lztable.getFullName());
+				if ( table.tableName != null )
+				{
+					if ( !column.tableNames.contains( table.tableName ) )
+					{
+						column.tableNames.add( table.tableName );
+						if ( !column.tableFullNames
+								.contains( lztable.getFullName( ) ) )
+							column.tableFullNames.add( lztable.getFullName( ) );
+					}
 				}
 			}
 		}
@@ -2127,12 +2134,15 @@ public class ColumnImpact {
 				for (int i = 0; i < tables.size(); i++) {
 					TTable lztable = tables.getTable(i);
 					Table table = TLzTaleToTable(lztable);
-					if (!nullColumn.tableNames.contains(table.tableName)) {
-						nullColumn.tableNames.add(table.tableName);
-						if (!nullColumn.tableFullNames.contains(lztable
-								.getFullName()))
-							nullColumn.tableFullNames
-									.add(lztable.getFullName());
+					if ( table.tableName != null ){
+						if (!nullColumn.tableNames.contains(table.tableName)) 
+						{
+							nullColumn.tableNames.add(table.tableName);
+							if (!nullColumn.tableFullNames.contains(lztable
+									.getFullName()))
+								nullColumn.tableFullNames
+										.add(lztable.getFullName());
+						}
 					}
 				}
 				columns.add(nullColumn);

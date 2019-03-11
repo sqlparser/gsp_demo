@@ -5464,16 +5464,10 @@ public class xmlVisitor extends TParseTreeVisitor
 			e_select.appendChild( e_cube_clause );
 			elementStack.push( e_cube_clause );
 
-			if ( node.getCube( ) != null )
-			{
-				Element e_cube_name = xmldoc.createElement( "cube_name" );
-				e_cube_clause.appendChild( e_cube_name );
-				e_cube_name.setTextContent( node.getCube( ).toString( ) );
-			}
-			else if ( node.getSubQuery( ) != null )
-			{
-				node.getSubQuery( ).accept( this );
-			}
+			Element e_cube_name = xmldoc.createElement( "cube_name" );
+			e_cube_clause.appendChild( e_cube_name );
+			e_cube_name.setTextContent( node.getCube( ).toString( ) );
+				
 			elementStack.pop( );
 		}
 

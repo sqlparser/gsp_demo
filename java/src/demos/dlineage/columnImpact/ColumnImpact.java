@@ -884,8 +884,7 @@ public class ColumnImpact
 		this.tableColumns = tableColumns;
 		MetaDB metaDB = new MetaDB( tableColumns, strict );
 		sqlparser = new TGSqlParser( dbVendor );
-		sqlparser.sqltext = removeParenthesis( SQLUtil.getFileContent( fileNode.getAttribute( "name" ) )
-				.toUpperCase( ) );
+		sqlparser.sqltext = removeParenthesis( SQLUtil.getFileContent( fileNode.getAttribute( "name" ) ) );
 		// sqlparser.setMetaDatabase( metaDB );
 		this.metaDB = metaDB;
 		this.fileNode = fileNode;
@@ -902,7 +901,7 @@ public class ColumnImpact
 		sqlparser = new TGSqlParser( dbVendor );
 		if ( sqlText == null )
 			sqlText = "";
-		sqlparser.sqltext = removeParenthesis( sqlText.toUpperCase( ) );
+		sqlparser.sqltext = removeParenthesis( sqlText );
 		// sqlparser.setMetaDatabase( metaDB );
 		this.metaDB = metaDB;
 	}
@@ -1132,7 +1131,7 @@ public class ColumnImpact
 						if ( cteColumnNames.getObjectName( j )
 								.getColumnNameOnly( )
 								.toString( )
-								.equals( column.columnName ) )
+								.equalsIgnoreCase( column.columnName ) )
 						{
 							TObjectName name = cteColumnNames.getObjectName( j );
 							TCustomSqlStatement cteStmt = lztable.getCTE( )
@@ -1159,7 +1158,7 @@ public class ColumnImpact
 					if ( columnNames.getObjectName( j )
 							.getColumnNameOnly( )
 							.toString( )
-							.equals( column.columnName ) )
+							.equalsIgnoreCase( column.columnName ) )
 					{
 						column.tableNames.add( table.tableName );
 						column.tableFullNames.add( lztable.getFullName( ) );
@@ -1263,7 +1262,7 @@ public class ColumnImpact
 		{
 			if ( SQLUtil.trimObjectName( columnNames.getObjectName( j )
 					.getColumnNameOnly( )
-					.toString( ) ).equals( column.columnName ) )
+					.toString( ) ).equalsIgnoreCase( column.columnName ) )
 			{
 				TObjectName name = columnNames.getObjectName( j );
 
@@ -1504,7 +1503,7 @@ public class ColumnImpact
 						if ( cteColumnNames.getObjectName( j )
 								.getColumnNameOnly( )
 								.toString( )
-								.equals( column.columnName ) )
+								.equalsIgnoreCase( column.columnName ) )
 						{
 							TObjectName name = cteColumnNames.getObjectName( j );
 							TCustomSqlStatement cteStmt = lztable.getCTE( )
@@ -1533,7 +1532,7 @@ public class ColumnImpact
 						if ( columnNames.getObjectName( j )
 								.getColumnNameOnly( )
 								.toString( )
-								.equals( column.columnName ) )
+								.equalsIgnoreCase( column.columnName ) )
 						{
 							column.tableNames.add( table.tableName );
 							column.tableFullNames.add( lztable.getFullName( ) );
@@ -1552,7 +1551,7 @@ public class ColumnImpact
 							.getResultColumn( i );
 					if ( column1.getAliasClause( ) != null
 							&& column1.getColumnAlias( )
-									.equals( objectName.getColumnNameOnly( ) ) )
+									.equalsIgnoreCase( objectName.getColumnNameOnly( ) ) )
 					{
 						List<TColumn> columns = exprToColumn( column1.getExpr( ),
 								stmt,
@@ -1934,7 +1933,7 @@ public class ColumnImpact
 	{
 		boolean ret = false;
 
-		if ( Dlineage.TABLE_CONSTANT.equals( tableName )
+		if ( Dlineage.TABLE_CONSTANT.equalsIgnoreCase( tableName )
 				&& currentSource != null )
 		{
 			dependMap.get( currentSource ).add( new TResultEntry( column,
@@ -2816,7 +2815,6 @@ public class ColumnImpact
 						TGSqlParser parser = new TGSqlParser( vendor );
 						parser.sqltext = select.toString( )
 								.trim( )
-								.toUpperCase( )
 								+ ";";
 						int retValue = parser.parse( );
 						if ( retValue == 0 )

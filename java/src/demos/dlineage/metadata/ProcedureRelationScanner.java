@@ -318,7 +318,7 @@ public class ProcedureRelationScanner
 		{
 			buffer.append( procedureMetaData.getSchemaDisplayName( ) );
 		}
-		return buffer.toString( ).toUpperCase( );
+		return buffer.toString( );
 	}
 
 	private String getOwnerString( TObjectName objectName )
@@ -336,6 +336,6 @@ public class ProcedureRelationScanner
 		{
 			buffer.append( objectName.getSchemaString( ) );
 		}
-		return buffer.toString( ).toUpperCase( );
+		return buffer.toString( );
 	}
 }

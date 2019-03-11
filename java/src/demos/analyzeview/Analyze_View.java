@@ -1,6 +1,19 @@
 
 package demos.analyzeview;
 
+import java.awt.Point;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import gudusoft.gsqlparser.EDbVendor;
 import gudusoft.gsqlparser.EExpressionType;
 import gudusoft.gsqlparser.EFunctionType;
@@ -26,19 +39,6 @@ import gudusoft.gsqlparser.nodes.TWhenClauseItemList;
 import gudusoft.gsqlparser.stmt.TCreateViewSqlStatement;
 import gudusoft.gsqlparser.stmt.TInsertSqlStatement;
 import gudusoft.gsqlparser.stmt.TSelectSqlStatement;
-
-import java.awt.Point;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 public class Analyze_View
 {
@@ -490,7 +490,7 @@ public class Analyze_View
 		{
 			result.append( inTables.get( i ).getFullName( ) )
 					.append( " | " )
-					.append( inTables.get( i ).getAliasClause( ).toString( ) )
+					.append( toString(inTables.get( i ).getAliasClause( )) )
 					.append( " | " )
 					.append( "#INPUT" )
 					.append( i )
@@ -542,12 +542,12 @@ public class Analyze_View
 
 		for ( int i = 0; i < outTables.size( ); i++ )
 		{
-			outTables.get( i ).setString( "#OUTPUT" + i );
+			outTables.get( i ).fastSetString( "#OUTPUT" + i );
 		}
 
 		for ( int i = 0; i < inTables.size( ); i++ )
 		{
-			inTables.get( i ).setString( "#INPUT" + i );
+			inTables.get( i ).fastSetString( "#INPUT" + i );
 		}
 
 		for ( int k = 0; k < sqlparser.sqlstatements.size( ); k++ )
@@ -555,6 +555,11 @@ public class Analyze_View
 			result.append( sqlparser.sqlstatements.get( k ).toString( ) )
 					.append( "\r\n" );
 		}
+	}
+
+	private Object toString( Object obj )
+	{
+		return obj == null ? "" : obj.toString( );
 	}
 
 	private void impactSqlFromStatement( TCustomSqlStatement select )

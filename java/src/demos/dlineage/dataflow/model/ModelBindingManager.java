@@ -74,7 +74,7 @@ public class ModelBindingManager
 				TTable item = tables.getTable(j);
 				if ( item != null && item.getAliasName( ) != null )
 				{
-					tableAliasMap.put( item.getAliasName( ), item );
+					tableAliasMap.put( item.getAliasName( ).toLowerCase( ), item );
 				}
 
 				if ( item != null )
@@ -83,10 +83,14 @@ public class ModelBindingManager
 				}
 			}
 		}
+		else if ( relationModel instanceof QueryTable )
+		{
+			table = ( (QueryTable) relationModel ).getTableObject( );
+		}
 
 		if ( table != null && table.getAliasName( ) != null )
 		{
-			tableAliasMap.put( table.getAliasName( ), table );
+			tableAliasMap.put( table.getAliasName( ).toLowerCase( ), table );
 		}
 
 		if ( table != null )
@@ -342,7 +346,7 @@ public class ModelBindingManager
 		if ( column.getTableString( ) != null
 				&& column.getTableString( ).trim( ).length( ) > 0 )
 		{
-			TTable table = tableAliasMap.get( column.getTableString( ) );
+			TTable table = tableAliasMap.get( column.getTableString( ).toLowerCase( ) );
 
 			if ( table != null && table.getSubquery( ) != stmt )
 				return table;

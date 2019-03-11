@@ -16,6 +16,15 @@ public class relation implements Cloneable
 	@Attribute(required = false)
 	private String type;
 
+	@Attribute(required = false)
+	private String clause;
+
+	@Attribute(required = false)
+	private String condition;
+
+	@Attribute(required = false)
+	private String joinType;
+
 	@Element(name = "target", required = false)
 	private targetColumn target;
 
@@ -60,6 +69,36 @@ public class relation implements Cloneable
 	public void setSources( List<sourceColumn> sources )
 	{
 		this.sources = sources;
+	}
+
+	public String getClause( )
+	{
+		return clause;
+	}
+
+	public void setClause( String clause )
+	{
+		this.clause = clause;
+	}
+
+	public String getCondition( )
+	{
+		return condition;
+	}
+
+	public void setCondition( String condition )
+	{
+		this.condition = condition;
+	}
+
+	public String getJoinType( )
+	{
+		return joinType;
+	}
+
+	public void setJoinType( String joinType )
+	{
+		this.joinType = joinType;
 	}
 
 	public boolean isDataFlow( )

@@ -13,8 +13,8 @@ namespace gudusoft.gsqlparser.demos.lib
     using gudusoft.gsqlparser.stmt;
     using gudusoft.gsqlparser.stmt.mssql;
     using gudusoft.gsqlparser.stmt.oracle;
-
-
+    using gudusoft.gsqlparser.stmt.mdx;
+    using gudusoft.gsqlparser.nodes.mdx;
 
     public class xmlVisitor : TParseTreeVisitor
     {
@@ -393,7 +393,7 @@ namespace gudusoft.gsqlparser.demos.lib
                 elementStack.Push(e_select_list);
                 for (int i = 0; i < node.ResultColumnList.Count; i++)
                 {
-                    node.ResultColumnList.getElement(i).accept(this);
+                    node.ResultColumnList.getResultColumn(i).accept(this);
                 }
                 elementStack.Pop();
             }
@@ -4826,6 +4826,559 @@ namespace gudusoft.gsqlparser.demos.lib
                 stmt.Args.accept(this);
             }
             elementStack.Pop();
+
+        }
+
+        public override void preVisit(TMdxSelect node)
+        {
+            e_parent = (XElement)elementStack.Peek();
+            XElement e_select = new XElement(defaultNamespace + "mdx_select");
+            e_parent.Add(e_select);
+            elementStack.Push(e_select);
+
+            if (node.Withs != null)
+            {
+                for (int i = 0; i < node.Withs.Count; i++)
+                {
+                    node.Withs[i].accept(this);
+                }
+            }
+
+            if (node.Axes != null)
+            {
+                for (int i = 0; i < node.Axes.Count; i++)
+                {
+                    TMdxAxisNode mdxAxis = node.Axes[i];
+                    mdxAxis.accept(this);
+                }
+            }
+
+            if (node.Cube != null)
+            {
+                XElement e_cube_clause = new XElement(defaultNamespace + "cube_clause");
+                e_select.Add(e_cube_clause);
+                elementStack.Push(e_cube_clause);
+
+                XElement e_cube_name = new XElement(defaultNamespace + "cube_name");
+                e_cube_clause.Add(e_cube_name);
+                e_cube_name.Value = node.Cube.Segments[0].ToString();
+               
+                elementStack.Pop();
+            }
+
+            if (node.Where != null)
+            {
+                node.Where.accept(this);
+            }
+
+            elementStack.Pop();
+        }
+
+        public override void preVisit(TMdxWithNode node)
+        {
+            XElement e_with_clause = new XElement(defaultNamespace + "with_clause");
+            e_parent = (XElement)elementStack.Peek();
+            e_parent.Add(e_with_clause);
+            elementStack.Push(e_with_clause);
+
+            if (node is TMdxWithMemberNode)
+            {
+                preVisit((TMdxWithMemberNode)node);
+            }
+            else if (node is TMdxWithSetNode)
+            {
+                preVisit((TMdxWithSetNode)node);
+            }
+
+            elementStack.Pop();
+        }
+
+        private void preVisit(TMdxWithMemberNode node)
+        {
+            XElement e_mdx_with_member = new XElement(defaultNamespace + "mdx_with_member");
+            e_parent = (XElement)elementStack.Peek();
+            e_parent.Add(e_mdx_with_member);
+            elementStack.Push(e_mdx_with_member);
+
+            if (node.NameNode != null)
+            {
+                XElement e_member_name = new XElement(defaultNamespace + "member_name");
+                e_mdx_with_member.Add(e_member_name);
+                e_member_name.Value = node.NameNode.ToString();
+            }
+
+            if (node.ExprNode != null)
+            {
+                XElement e_value_expr = new XElement(defaultNamespace + "value_expr");
+                e_mdx_with_member.Add(e_value_expr);
+                elementStack.Push(e_value_expr);
+                handleMdxExpr(node.ExprNode);
+                elementStack.Pop();
+            }
+
+            elementStack.Pop();
+        }
+
+        private void preVisit(TMdxWithSetNode node)
+        {
+            XElement e_mdx_set_member = new XElement(defaultNamespace + "mdx_with_set");
+            e_parent = (XElement)elementStack.Peek();
+            e_parent.Add(e_mdx_set_member);
+            elementStack.Push(e_mdx_set_member);
+
+            if (node.NameNode != null)
+            {
+                XElement e_set_name = new XElement(defaultNamespace + "set_name");
+                e_mdx_set_member.Add(e_set_name);
+                e_set_name.Value = (node.NameNode.ToString());
+            }
+
+            if (node.ExprNode != null)
+            {
+                XElement e_value_expr = new XElement(defaultNamespace + "value_expr");
+                e_mdx_set_member.Add(e_value_expr);
+                elementStack.Push(e_value_expr);
+                handleMdxExpr(node.ExprNode);
+                elementStack.Pop();
+            }
+
+            elementStack.Pop();
+        }
+
+        public override void preVisit(TMdxWhereNode node)
+        {
+            XElement e_where_clause = new XElement(defaultNamespace + "where_clause");
+            e_parent = (XElement)elementStack.Peek();
+            e_parent.Add(e_where_clause);
+            elementStack.Push(e_where_clause);
+
+            XElement e_expr = new XElement(defaultNamespace + "expr");
+            e_where_clause.Add(e_expr);
+            elementStack.Push(e_expr);
+
+            if (node.Filter != null)
+            {
+                handleMdxExpr(node.Filter);
+            }
+
+            elementStack.Pop();
+            elementStack.Pop();
+        }
+
+        public override void preVisit(TMdxAxisNode node)
+        {
+            XElement e_axis_clause = new XElement(defaultNamespace + "axis_clause");
+            e_parent = (XElement)elementStack.Peek();
+            e_parent.Add(e_axis_clause);
+            elementStack.Push(e_axis_clause);
+
+            XElement e_expr = new XElement(defaultNamespace + "expr");
+            e_axis_clause.Add(e_expr);
+            elementStack.Push(e_expr);
+
+            if (node.ExpNode != null)
+            {
+                handleMdxExpr(node.ExpNode);
+            }
+
+            elementStack.Pop();
+
+            if (node.Name_OR_Number != null)
+            {
+                XElement e_on_axis = new XElement(defaultNamespace + "on_axis");
+                e_axis_clause.Add(e_on_axis);
+                elementStack.Push(e_on_axis);
+
+                XElement e_string_value = new XElement(defaultNamespace + "string_value");
+                e_string_value.Value = node.Name_OR_Number.ToString();
+                e_on_axis.Add(e_string_value);
+                elementStack.Pop();
+            }
+
+            elementStack.Pop();
+        }
+
+        public override void preVisit(TMdxFunctionNode node)
+        {
+            e_parent = (XElement)elementStack.Peek();
+
+            XElement e_mdx_function = new XElement(defaultNamespace + "mdx_function");
+            e_parent.Add(e_mdx_function);
+            elementStack.Push(e_mdx_function);
+
+            XElement e_function_name = new XElement(defaultNamespace + "function_name");
+            e_mdx_function.Add(e_function_name);
+            elementStack.Push(e_function_name);
+
+            XElement e_segment = new XElement(defaultNamespace + "segment");
+            e_function_name.Add(e_segment);
+            elementStack.Push(e_segment);
+            preVisit(node.FunctionSegment);
+            elementStack.Pop();
+
+            elementStack.Pop();
+
+            if (node.Arguments.Count > 0)
+            {
+                XElement e_function_args = new XElement(defaultNamespace + "function_args");
+                e_mdx_function.Add(e_function_args);
+                elementStack.Push(e_function_args);
+
+                for (int i = 0; i < node.Arguments.Count; i++)
+                {
+                    if (node.ExpSyntax.Equals(EMdxExpSyntax.Method) && i == 0)
+                    {
+                        continue;
+                    }
+                    TMdxExpNode XElement = node.Arguments[i];
+                    XElement e_mdx_expr = new XElement(defaultNamespace + "mdx_expr");
+                    e_function_args.Add(e_mdx_expr);
+                    elementStack.Push(e_mdx_expr);
+                    handleMdxExpr(XElement);
+                    elementStack.Pop();
+                }
+
+                elementStack.Pop();
+            }
+
+            if (node.ExpSyntax.Equals(EMdxExpSyntax.Method))
+            {
+                TMdxExpNode XElement = node.Arguments[0];
+                XElement e_mdx_expr = new XElement(defaultNamespace + "object_expr");
+                e_mdx_function.Add(e_mdx_expr);
+                elementStack.Push(e_mdx_expr);
+                handleMdxExpr(XElement);
+                elementStack.Pop();
+            }
+
+            e_mdx_function.Add(new XAttribute("expr_syntax", Enum.GetName(typeof(EMdxExpSyntax), node.ExpSyntax)));
+
+            elementStack.Pop();
+        }
+
+        private void handleMdxExpr(TMdxExpNode element)
+        {
+            if (element is TMdxUnaryOpNode)
+            {
+                ((TMdxUnaryOpNode)element).accept(this);
+            }
+            else if (element is TMdxBinOpNode)
+            {
+                ((TMdxBinOpNode)element).accept(this);
+            }
+            else
+            {
+                e_parent = (XElement)elementStack.Peek();
+                XElement e_mdx_value_primary_expr = new XElement(defaultNamespace + "mdx_value_primary_expr");
+                e_parent.Add(e_mdx_value_primary_expr);
+                elementStack.Push(e_mdx_value_primary_expr);
+                element.accept(this);
+                elementStack.Pop();
+            }
+        }
+
+        public override void preVisit(TMdxPropertyNode node)
+        {
+            e_parent = (XElement)elementStack.Peek();
+
+            XElement e_mdx_function = new XElement(defaultNamespace + "mdx_property");
+            e_parent.Add(e_mdx_function);
+            elementStack.Push(e_mdx_function);
+
+            XElement e_function_name = new XElement(defaultNamespace + "function_name");
+            e_function_name.Value = node.FunctionName;
+            e_mdx_function.Add(e_function_name);
+
+            if (node.Arguments.Count > 0)
+            {
+                XElement e_function_args = new XElement(defaultNamespace + "function_args");
+                e_mdx_function.Add(e_function_args);
+                elementStack.Push(e_function_args);
+
+                for (int i = 0; i < node.Arguments.Count ; i++)
+                {
+                    TMdxExpNode XElement = node.Arguments[i];
+                    XElement e_mdx_expr = new XElement(defaultNamespace + "mdx_expr");
+                    e_function_args.Add(e_mdx_expr);
+                    elementStack.Push(e_mdx_expr);
+                    handleMdxExpr(XElement);
+                    elementStack.Pop();
+                }
+
+                elementStack.Pop();
+            }
+
+            e_mdx_function.Add(new XAttribute("expr_syntax", Enum.GetName(typeof(EMdxExpSyntax), node.ExpSyntax)));
+
+            elementStack.Pop();
+        }
+
+        public override void preVisit(TMdxSetNode node)
+        {
+            e_parent = (XElement)elementStack.Peek();
+
+            XElement e_mdx_set = new XElement(defaultNamespace + "mdx_set");
+            e_parent.Add(e_mdx_set);
+            elementStack.Push(e_mdx_set);
+
+            XElement e_mdx_exprs = new XElement(defaultNamespace + "mdx_exprs");
+            e_mdx_set.Add(e_mdx_exprs);
+            elementStack.Push(e_mdx_exprs);
+
+            for (int i = 0; i < node.TupleList.Count; i++)
+            {
+                TMdxExpNode element = node.TupleList[i];
+                XElement e_mdx_expr = new XElement(defaultNamespace + "mdx_expr");
+                e_mdx_exprs.Add(e_mdx_expr);
+                elementStack.Push(e_mdx_expr);
+                handleMdxExpr(element);
+                elementStack.Pop();
+            }
+
+            elementStack.Pop();
+            elementStack.Pop();
+        }
+
+        public override void preVisit(TMdxTupleNode node)
+        {
+            e_parent = (XElement)elementStack.Peek();
+
+            XElement e_mdx_tuple = new XElement(defaultNamespace + "mdx_tuple");
+            e_parent.Add(e_mdx_tuple);
+            elementStack.Push(e_mdx_tuple);
+
+            XElement e_mdx_exprs = new XElement(defaultNamespace + "mdx_members");
+            e_mdx_tuple.Add(e_mdx_exprs);
+            elementStack.Push(e_mdx_exprs);
+
+            for (int i = 0; i < node.ExprList.Count; i++)
+            {
+                TMdxExpNode element = node.ExprList[i];
+                XElement e_mdx_expr = new XElement(defaultNamespace + "mdx_expr");
+                e_mdx_exprs.Add(e_mdx_expr);
+                elementStack.Push(e_mdx_expr);
+                handleMdxExpr(element);
+                elementStack.Pop();
+            }
+
+            elementStack.Pop();
+            elementStack.Pop();
+        }
+
+        public override void preVisit(TMdxBinOpNode node)
+        {
+            e_parent = (XElement)elementStack.Peek();
+
+            XElement e_mdx_binary_expr = new XElement(defaultNamespace + "mdx_binary_expr");
+            e_parent.Add(e_mdx_binary_expr);
+            elementStack.Push(e_mdx_binary_expr);
+
+            XElement e_left_expr = new XElement(defaultNamespace + "left_expr");
+            e_mdx_binary_expr.Add(e_left_expr);
+            elementStack.Push(e_left_expr);
+            handleMdxExpr(node.LeftExprNode);
+            elementStack.Pop();
+
+            XElement e_right_expr = new XElement(defaultNamespace + "right_expr");
+            e_mdx_binary_expr.Add(e_right_expr);
+            elementStack.Push(e_right_expr);
+            handleMdxExpr(node.RightExprNode);
+            elementStack.Pop();
+
+            e_mdx_binary_expr.Add(new XAttribute("operator", node.Operator.ToString()));
+
+            elementStack.Pop();
+        }
+
+        public override void preVisit(TMdxUnaryOpNode node)
+        {
+            e_parent = (XElement)elementStack.Peek();
+
+            XElement e_mdx_unary_expr = new XElement(defaultNamespace + "mdx_unary_expr");
+            e_parent.Add(e_mdx_unary_expr);
+            elementStack.Push(e_mdx_unary_expr);
+
+            XElement e_expr = new XElement(defaultNamespace + "expr");
+            e_mdx_unary_expr.Add(e_expr);
+            elementStack.Push(e_expr);
+            handleMdxExpr(node.ExpNode);
+            elementStack.Pop();
+
+            e_mdx_unary_expr.Add(new XAttribute("operator", node.Operator.ToString()));
+
+            elementStack.Pop();
+        }
+
+        public override void preVisit(TMdxCaseNode node)
+        {
+            e_parent = (XElement)elementStack.Peek();
+
+            XElement e_mdx_case = new XElement(defaultNamespace + "mdx_case");
+            e_parent.Add(e_mdx_case);
+            elementStack.Push(e_mdx_case);
+
+            if (node.Condition != null)
+            {
+                XElement e_condition_expr = new XElement(defaultNamespace + "condition_expr");
+                e_mdx_case.Add(e_condition_expr);
+                elementStack.Push(e_condition_expr);
+                handleMdxExpr(node.Condition);
+                elementStack.Pop();
+            }
+
+            if (node.WhenList != null)
+            {
+                XElement e_when_then_list = new XElement(defaultNamespace + "when_then_list");
+                e_mdx_case.Add(e_when_then_list);
+                elementStack.Push(e_when_then_list);
+                for (int i = 0; i < node.WhenList.Count; i++)
+                {
+                    TMdxWhenNode whenNode = (TMdxWhenNode)node.WhenList[i];
+                    whenNode.accept(this);
+                }
+                elementStack.Pop();
+            }
+
+            if (node.ElseExpr != null)
+            {
+                XElement e_else_value = new XElement(defaultNamespace + "else_value");
+                e_mdx_case.Add(e_else_value);
+                elementStack.Push(e_else_value);
+                handleMdxExpr(node.ElseExpr);
+                elementStack.Pop();
+            }
+
+            elementStack.Pop();
+        }
+
+        public override void preVisit(TMdxWhenNode node)
+        {
+            XElement e_mdx_when_then = new XElement(defaultNamespace + "mdx_when_then");
+            e_parent = (XElement)elementStack.Peek();
+            e_parent.Add(e_mdx_when_then);
+            elementStack.Push(e_mdx_when_then);
+
+            if (node.WhenExpr != null)
+            {
+                XElement e_when_expr = new XElement(defaultNamespace + "when_expr");
+                e_mdx_when_then.Add(e_when_expr);
+                elementStack.Push(e_when_expr);
+                handleMdxExpr(node.WhenExpr);
+                elementStack.Pop();
+            }
+
+            if (node.ThenExpr != null)
+            {
+                XElement e_then_value = new XElement(defaultNamespace + "then_value");
+                e_mdx_when_then.Add(e_then_value);
+                elementStack.Push(e_then_value);
+                handleMdxExpr(node.WhenExpr);
+                elementStack.Pop();
+            }
+
+            elementStack.Pop();
+        }
+
+        public override void preVisit(TMdxIdentifierNode node)
+        {
+            e_parent = (XElement)elementStack.Peek();
+
+            XElement e_mdx_identifier = new XElement(defaultNamespace + "mdx_identifier");
+            e_parent.Add(e_mdx_identifier);
+            elementStack.Push(e_mdx_identifier);
+
+            for (int i = 0; i < node.Segments.Count; i++)
+            {
+                XElement e_segment = new XElement(defaultNamespace + "segment");
+                e_mdx_identifier.Add(e_segment);
+                elementStack.Push(e_segment);
+
+                IMdxIdentifierSegment segment = node.Segments[i];
+                preVisit(segment);
+
+                elementStack.Pop();
+            }
+            elementStack.Pop();
+        }
+
+        public override void preVisit(TMdxStringConstNode node)
+        {
+            e_parent = (XElement)elementStack.Peek();
+
+            XElement e_mdx_constant = new XElement(defaultNamespace + "mdx_constant");
+            e_parent.Add(e_mdx_constant);
+            elementStack.Push(e_mdx_constant);
+
+            XElement e_string_value = new XElement(defaultNamespace + "string_value");
+            e_string_value.Value = node.ToString();
+            e_mdx_constant.Add(e_string_value);
+
+            e_mdx_constant.Add(new XAttribute("kind", "String"));
+
+            elementStack.Pop();
+        }
+
+        public override void preVisit(TMdxIntegerConstNode node)
+        {
+            e_parent = (XElement)elementStack.Peek();
+
+            XElement e_mdx_constant = new XElement(defaultNamespace + "mdx_constant");
+            e_parent.Add(e_mdx_constant);
+            elementStack.Push(e_mdx_constant);
+
+            XElement e_string_value = new XElement(defaultNamespace + "string_value");
+            e_string_value.Value = node.ToString();
+            e_mdx_constant.Add(e_string_value);
+
+            e_mdx_constant.Add(new XAttribute("kind", "Integer"));
+
+            elementStack.Pop();
+        }
+
+        public override void preVisit(TMdxFloatConstNode node)
+        {
+            e_parent = (XElement)elementStack.Peek();
+
+            XElement e_mdx_constant = new XElement(defaultNamespace + "mdx_constant");
+            e_parent.Add(e_mdx_constant);
+            elementStack.Push(e_mdx_constant);
+
+            XElement e_string_value = new XElement(defaultNamespace + "string_value");
+            e_string_value.Value = node.ToString();
+            e_mdx_constant.Add(e_string_value);
+
+            e_mdx_constant.Add(new XAttribute("kind", "Float"));
+
+            elementStack.Pop();
+        }
+
+        private void preVisit(IMdxIdentifierSegment segment)
+        {
+            e_parent = (XElement)elementStack.Peek();
+
+            if (segment.Name != null)
+            {
+                XElement e_name_segment = new XElement(defaultNamespace + "name_segment");
+                e_parent.Add(e_name_segment);
+                e_name_segment.Add(new XAttribute("value", segment.Name));
+                if (segment.Quoting != null)
+                {
+                    e_name_segment.Add(new XAttribute("quoting", Enum.GetName(typeof(EMdxQuoting), segment.Quoting)));
+                }
+            }
+
+            if (segment.KeyParts != null)
+            {
+                XElement e_key_segment = new XElement(defaultNamespace + "key_segment");
+                e_parent.Add(e_key_segment);
+                elementStack.Push(e_key_segment);
+
+                for (int j = 0; j < segment.KeyParts.Count; j++)
+                {
+                    preVisit((IMdxIdentifierSegment)segment.KeyParts[j]);
+                }
+                elementStack.Pop();
+            }
 
         }
 
