@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="DlineageDemo" default="clean" basedir=".">
+	<property name="dlineage.src" value="../../java/src" />
+	<property name="dlineage.lib" value="../../java/lib" />
+	<property name="dlineage.external_lib" value="../../java/external_lib" />
+	<property name="demo.src" value="${basedir}/src" />
+	<property name="demo.lib" value="${basedir}/lib" />
+	<property name="build.dir" value="${basedir}/build" />
+	<property name="build.src" value="${build.dir}/src" />
+	<property name="build.bin" value="${build.dir}/bin" />
+	<property name="build.dest" value="${build.dir}/dest" />
+	<property name="jar" value="DlineageDemo.jar" />
+	<property name="obf.jar" value="Obfuscation.jar" />
+	<property name="dist.dir" value="${basedir}/../dist" />
+	<property name="renamelog" value="${build.dir}/renamelog.xml" />
+	
+	<property name="gsp.version" value="1.9.8.0" />
+	<property name="build.version" value="2.3.4" />
+	
+	<path id="compile.classpath">
+		<fileset dir="${demo.lib}">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${dlineage.lib}">
+			<include name="gsp.jar" />
+		</fileset>
+		<fileset dir="${dlineage.external_lib}">
+			<include name="simple-xml-2.6.2.jar" />
+		</fileset>
+	</path>
+
+	<target name="clean" depends="yguard">
+		<delete dir="${build.dir}" />
+	</target>
+
+	<target name="init">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${build.src}" />
+		<mkdir dir="${build.bin}" />
+		<mkdir dir="${build.dest}" />
+		<copy todir="${build.src}">
+			<fileset dir="${demo.src}">
+				<include name="**/*.java" />
+			</fileset>
+			<fileset dir="${dlineage.src}">
+				<include name="demos/dlineage/**/*.java" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="compile" depends="init">
+		<javac srcdir="${build.src}" destdir="${build.bin}" source="1.5" target="1.5">
+			<classpath refid="compile.classpath" />
+		</javac>
+		<copy todir="${build.bin}">
+			<fileset dir="${demo.src}">
+				<include name="demo/layout/module/resource/*.*" />
+				<include name="demo/view/dlineage/resource/*.*" />
+				<include name="demo/view/resource/*.*" />
+			</fileset>
+		</copy>
+		<propertyfile file="${build.bin}/demo/view/dlineage/resource/version.properties">
+			<entry key="build.version" value="${build.version}" />
+			<entry key="build.date" type="date" value="now" pattern="yyyy.MM.dd" />
+			<entry key="gsp.version" value="${gsp.version}" />
+		</propertyfile>
+	</target>
+
+	<target name="build" depends="compile">
+		<jar jarfile="${build.dest}/${jar}" basedir="${build.bin}">
+			<zipfileset src="${demo.lib}/jsyntaxpane-0.9.5-b29.jar" />
+			<zipfileset src="${demo.lib}/y.jar" />
+			<zipfileset src="${dlineage.lib}/gsp.jar" />
+			<zipfileset src="${dlineage.external_lib}/simple-xml-2.6.2.jar" />
+			<manifest>
+				<attribute name="Main-Class" value="demo.view.dlineage.DlineageDemo" />
+			</manifest>
+		</jar>
+	</target>
+
+	<target depends="build" name="yguard">
+		<taskdef name="yguard" classname="com.yworks.yguard.YGuardTask" classpath="${demo.lib}/yguard.jar" />
+		<yguard>
+			<inoutpair in="${build.dest}/${jar}" out="${build.dest}/${obf.jar}" />
+
+			<externalclasses>
+				<pathelement location="${demo.lib}/xmlpull-xpp3-1.1.4c.jar" />
+			</externalclasses>
+
+			<rename mainclass="demo.view.dlineage.DlineageDemo" logfile="${renamelog}">
+				<property name="error-checking" value="pedantic" />
+				<keep>
+					<class classes="private" methods="private" fields="private">
+						<patternset>
+							<include name="org.**.*" />
+							<include name="jsyntaxpane.*" />
+							<include name="jsyntaxpane.**.*" />
+							<include name="demo.**.*" />
+							<include name="demos.**.*" />
+							<include name="gudusoft.**.*" />
+							<exclude name="gudusoft.gsqlparser.stmt.**.*" />
+							<exclude name="gudusoft.gsqlparser.stmt.*" />
+							<exclude name="gudusoft.gsqlparser.nodes.**.*" />
+							<exclude name="gudusoft.gsqlparser.nodes.*" />
+							<exclude name="gudusoft.gsqlparser.parser.**.*" />
+							<exclude name="gudusoft.gsqlparser.parser.*" />
+						</patternset>
+					</class>
+				</keep>
+			</rename>
+		</yguard>
+
+		<copy tofile="${dist.dir}/${jar}" overwrite="true">
+			<fileset dir="${build.dest}">
+				<include name="${obf.jar}" />
+			</fileset>
+		</copy>
+	</target>
+</project>

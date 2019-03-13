@@ -1,0 +1,17 @@
+		<node id="{procedureId}">
+          <data key="d5">
+            <y:ShapeNode>
+              <y:Geometry height="30" width="280" y="0"/>
+              <y:Fill color="{contentColor}" transparent="false"/>
+              <y:BorderStyle color="#000000" type="dashed" width="1"/>
+              <y:NodeLabel alignment="left" autoSizePolicy="node_width" borderDistance="0" bottomInset="2" fontFamily="Dialog" fontSize="14" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="22" leftInset="10" modelName="custom" rightInset="0" textColor="#000000" topInset="2" visible="true" width="280">{procedureLabel}<y:LabelModel>
+                  <y:SmartNodeLabelModel distance="0"/>
+                </y:LabelModel>
+                <y:ModelParameter>
+                  <y:SmartNodeLabelModelParameter labelRatioX="0" labelRatioY="0" nodeRatioX="0" nodeRatioY="0" offsetX="0" offsetY="0" upX="0" upY="-1"/>
+                </y:ModelParameter>
+              </y:NodeLabel>
+              <y:Shape type="roundrectangle"/>
+            </y:ShapeNode>
+          </data>
+        </node>

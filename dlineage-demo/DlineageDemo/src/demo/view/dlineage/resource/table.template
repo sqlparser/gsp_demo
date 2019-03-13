@@ -1,0 +1,28 @@
+<node id="{tableId}" yfiles.foldertype="group">
+      <data key="d5">
+        <y:ProxyAutoBoundsNode>
+          <y:Realizers active="0">
+            <y:GroupNode>
+              <y:Geometry/>
+              <y:Fill color="#FFFFFF" transparent="false"/>
+              <y:BorderStyle color="#000000" type="line" width="1.0"/>
+              <y:NodeLabel alignment="center" configuration="demo.view.dlineage.table.label.name" autoSizePolicy="node_width" 
+                   backgroundColor="{labelColor}" borderDistance="0.0" 
+                   fontFamily="Segoe UI Symbol" fontSize="12" fontStyle="plain" hasLineColor="false" height="18" 
+                   horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" 
+                   lineColor="#000000" verticalTextPosition="bottom" visible="true" width="160" x="0" 
+                   y="0">{tableLabel}</y:NodeLabel>
+              <y:Shape type="roundrectangle"/>
+              <y:Insets bottom="4" bottomF="4.0" left="1" leftF="1.0" right="1" rightF="1.0" top="4" topF="4.0"/>
+              <y:BorderInsets bottom="0" bottomF="0.0" left="0" leftF="0.0" right="0" rightF="0.0" top="0" topF="0.0"/>
+			  <y:StyleProperties>
+            		<y:Property class="java.lang.Boolean" name="y.view.ShadowNodePainter.SHADOW_PAINTING" value="false"/>
+          	  </y:StyleProperties>
+            </y:GroupNode>
+          </y:Realizers>
+        </y:ProxyAutoBoundsNode>
+      </data>
+      <graph edgedefault="directed" id="graph_{tableId}">
+        {columns}
+      </graph>
+    </node>
