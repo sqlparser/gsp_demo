@@ -1000,53 +1000,83 @@ public class ColumnImpact {
 				}
 				break;
 			case subquery:
-				for (int i = 0; i < column.tableNames.size(); i++) {
-					String name = column.tableNames.get(i);
-					TSelectSqlStatement selectStat = (TSelectSqlStatement) lzTable
-							.getSubquery();
-
-					if (selectStat == subquery)
-						continue;
-
-					if (name == null) {
-						ret = findColumnInSubQuery(selectStat,
-								column.columnName, level, column.location);
-						break;
+					if ( column.tableNames.isEmpty( ) )
+					{
+						ret = findColumnInSubQuery( lzTable.getSubquery( ),
+								column.columnName,
+								level,
+								column.location );
 					}
+					else
+					{
+						for ( int i = 0; i < column.tableNames.size( ); i++ )
+						{
+							String name = column.tableNames.get( i );
+							TSelectSqlStatement selectStat = (TSelectSqlStatement) lzTable
+									.getSubquery( );
 
-					if (lzTable.getAliasClause() != null
-							&& getTableAliasName(lzTable)
-									.equalsIgnoreCase(name)) {
-						ret = findColumnInSubQuery(selectStat,
-								column.columnName, level, column.location);
-						break;
-					}
+							if ( selectStat == subquery )
+								continue;
 
-					boolean flag = false;
-					for (int j = 0; j < selectStat.tables.size(); j++) {
-						if (selectStat.tables.getTable(j).getAliasClause() != null) {
-							if (getTableAliasName(selectStat.tables.getTable(j))
-									.equalsIgnoreCase(name)) {
-								ret = findColumnInSubQuery(selectStat,
-										column.columnName, level,
-										column.location);
-								flag = true;
+							if ( name == null )
+							{
+								ret = findColumnInSubQuery( selectStat,
+										column.columnName,
+										level,
+										column.location );
 								break;
 							}
-						} else {
-							if (selectStat.tables.getTable(j).getTableName()
-									.toString().equalsIgnoreCase(name)) {
-								ret = findColumnInSubQuery(selectStat,
-										column.columnName, level,
-										column.location);
-								flag = true;
+
+							if ( lzTable.getAliasClause( ) != null
+									&& getTableAliasName( lzTable )
+											.equalsIgnoreCase( name ) )
+							{
+								ret = findColumnInSubQuery( selectStat,
+										column.columnName,
+										level,
+										column.location );
 								break;
 							}
+
+							boolean flag = false;
+							for ( int j = 0; j < selectStat.tables
+									.size( ); j++ )
+							{
+								if ( selectStat.tables.getTable( j )
+										.getAliasClause( ) != null )
+								{
+									if ( getTableAliasName(
+											selectStat.tables.getTable( j ) )
+													.equalsIgnoreCase( name ) )
+									{
+										ret = findColumnInSubQuery( selectStat,
+												column.columnName,
+												level,
+												column.location );
+										flag = true;
+										break;
+									}
+								}
+								else
+								{
+									if ( selectStat.tables.getTable( j )
+											.getTableName( )
+											.toString( )
+											.equalsIgnoreCase( name ) )
+									{
+										ret = findColumnInSubQuery( selectStat,
+												column.columnName,
+												level,
+												column.location );
+										flag = true;
+										break;
+									}
+								}
+							}
+							if ( flag )
+								break;
 						}
 					}
-					if (flag)
-						break;
-				}
 				break;
 			default:
 				break;
@@ -1073,40 +1103,71 @@ public class ColumnImpact {
 		return removeQuote(lzTable.getName());
 	}
 
-	private boolean findColumnInTables(TColumn column,
+	private boolean findColumnInTables( TColumn column,
 			TCustomSqlStatement select, int level, String columnName,
-			Point originLocation) {
+			Point originLocation )
+	{
 		boolean ret = false;
-		for (String tableName : column.tableNames) {
-			if (columnName != null && filter != null) {
-				int dotIndex = tableName.lastIndexOf(".");
-				String tableOwner = null;
-				String tableRealName = null;
-				if (dotIndex >= 0) {
-					tableOwner = tableName.substring(0, dotIndex);
-					tableRealName = tableName.replace(tableOwner + ".", "");
-				} else {
-					tableRealName = tableName;
-				}
-				if (filter.checkColumn(null, null, tableOwner, tableRealName,
-						columnName)) {
-					column.columnName = columnName;
-					if (originLocation != null)
-						column.location = originLocation;
-					// column.orignColumn = "*";
-					ret |= findColumnInTables(column, tableName, select, level);
-				}
-				else if ( column.tableNames.size( ) == 1 )
+		if ( column.tableNames.isEmpty( ) )
+		{
+			ret = findColumnInTables( column,
+					null, select, level );
+		}
+		else
+		{
+			for ( String tableName : column.tableNames )
+			{
+				if ( columnName != null && filter != null )
 				{
-					if(columnName!=null)
+					int dotIndex = tableName.lastIndexOf( "." );
+					String tableOwner = null;
+					String tableRealName = null;
+					if ( dotIndex >= 0 )
+					{
+						tableOwner = tableName.substring( 0, dotIndex );
+						tableRealName = tableName.replace( tableOwner + ".",
+								"" );
+					}
+					else
+					{
+						tableRealName = tableName;
+					}
+					if ( filter.checkColumn( null,
+							null,
+							tableOwner,
+							tableRealName,
+							columnName ) )
+					{
 						column.columnName = columnName;
-					ret |= findColumnInTables( column, tableName, select, level );
-				} else
-					ret |= false;
-			} else{
-				if(columnName!=null)
-					column.columnName = columnName;
-				ret |= findColumnInTables(column, tableName, select, level );
+						if ( originLocation != null )
+							column.location = originLocation;
+						// column.orignColumn = "*";
+						ret |= findColumnInTables( column,
+								tableName,
+								select,
+								level );
+					}
+					else if ( column.tableNames.size( ) == 1 )
+					{
+						if ( columnName != null )
+							column.columnName = columnName;
+						ret |= findColumnInTables( column,
+								tableName,
+								select,
+								level );
+					}
+					else
+						ret |= false;
+				}
+				else
+				{
+					if ( columnName != null )
+						column.columnName = columnName;
+					ret |= findColumnInTables( column,
+							tableName,
+							select,
+							level );
+				}
 			}
 		}
 		return ret;
