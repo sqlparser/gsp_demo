@@ -29,4 +29,4 @@ the output is
 
 
 ## See also
-[joinRelationAnalyze](../joinRelationAnalyze)
+* [joinRelationAnalyze](../joinRelationAnalyze)
