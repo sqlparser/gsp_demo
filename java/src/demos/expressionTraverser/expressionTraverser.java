@@ -17,9 +17,9 @@ public class expressionTraverser  {
     public static void main(String args[])
      {
          //
-         // oracleWhereCondition();
+          oracleWhereCondition();
          // sqlServerSelectList();
-         functionArg();
+        // functionArg();
      }
 
     static void functionArg(){
@@ -46,7 +46,9 @@ public class expressionTraverser  {
     static void oracleWhereCondition(){
         TGSqlParser sqlparser = new TGSqlParser(EDbVendor.dbvoracle);
 
-        sqlparser.sqltext = "select col1, col2,sum(col3) from table1, table2 where col4 > col5 and col6= 1000 or c1 = 1 and not sal";
+        //sqlparser.sqltext = "select col1, col2,sum(col3) from table1, table2 where col4 > col5 and col6= 1000 or c1 = 1 and not sal";
+        sqlparser.sqltext = "SELECT * FROM Customers\n" +
+                "WHERE Country='Germany' AND City='Berlin';";
 
         int ret = sqlparser.parse();
         if (ret == 0){
