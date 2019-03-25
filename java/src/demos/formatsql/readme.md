@@ -29,6 +29,6 @@ WHERE  ID = (SELECT sales_person
 `java formatsql sqlfile.sql`
 
 ## Format options
-  - [selectColumnlistStyle](https://github.com/sqlparser/sql-pretty-printer/wiki/Select-list#stacked-select-list), default value: TAlignStyle.AsStacked; 
+  - [selectColumnlistStyle](https://github.com/sqlparser/sql-pretty-printer/wiki/Select-list#stacked-select-list){:target="_blank"}, default value: TAlignStyle.AsStacked; 
 
 
