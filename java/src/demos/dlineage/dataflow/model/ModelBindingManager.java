@@ -15,6 +15,7 @@ import gudusoft.gsqlparser.nodes.TResultColumnList;
 import gudusoft.gsqlparser.nodes.TTable;
 import gudusoft.gsqlparser.nodes.TTableList;
 import gudusoft.gsqlparser.stmt.TCreateViewSqlStatement;
+import gudusoft.gsqlparser.stmt.TCursorDeclStmt;
 import gudusoft.gsqlparser.stmt.TSelectSqlStatement;
 import gudusoft.gsqlparser.stmt.TUpdateSqlStatement;
 
@@ -44,6 +45,7 @@ public class ModelBindingManager
 	private static final Map createModelQuickBindingMap = new HashMap( );
 	private static final Map mergeModelBindingMap = new LinkedHashMap( );
 	private static final Map updateModelBindingMap = new LinkedHashMap( );
+	private static final Map cursorModelBindingMap = new LinkedHashMap( );
 	private static final List<Relation> relationHolder = new CopyOnWriteArrayList<Relation>( );
 
 	private static final Map<String, TTable> tableAliasMap = new HashMap( );
@@ -68,13 +70,14 @@ public class ModelBindingManager
 		}
 		else if ( gspModel instanceof TCTE )
 		{
-			TTableList tables = ((TCTE) gspModel).getSubquery().tables;
-			for (int j = 0; j < tables.size(); j++) 
+			TTableList tables = ( (TCTE) gspModel ).getSubquery( ).tables;
+			for ( int j = 0; j < tables.size( ); j++ )
 			{
-				TTable item = tables.getTable(j);
+				TTable item = tables.getTable( j );
 				if ( item != null && item.getAliasName( ) != null )
 				{
-					tableAliasMap.put( item.getAliasName( ).toLowerCase( ), item );
+					tableAliasMap.put( item.getAliasName( ).toLowerCase( ),
+							item );
 				}
 
 				if ( item != null )
@@ -148,6 +151,10 @@ public class ModelBindingManager
 		if ( result == null )
 		{
 			result = viewModelBindingMap.get( gspModel );
+		}
+		if ( result == null )
+		{
+			result = cursorModelBindingMap.get( gspModel );
 		}
 		return result;
 	}
@@ -346,7 +353,8 @@ public class ModelBindingManager
 		if ( column.getTableString( ) != null
 				&& column.getTableString( ).trim( ).length( ) > 0 )
 		{
-			TTable table = tableAliasMap.get( column.getTableString( ).toLowerCase( ) );
+			TTable table = tableAliasMap.get( column.getTableString( )
+					.toLowerCase( ) );
 
 			if ( table != null && table.getSubquery( ) != stmt )
 				return table;
@@ -609,9 +617,23 @@ public class ModelBindingManager
 		mergeModelBindingMap.clear( );
 		updateModelBindingMap.clear( );
 		createModelBindingMap.clear( );
+		createModelBindingMap.clear( );
 		createModelQuickBindingMap.clear( );
 		tableSet.clear( );
 		tableAliasMap.clear( );
+	}
+
+	public static void bindCursorModel( TCursorDeclStmt stmt,
+			CursorResultSet resultSet )
+	{
+		createModelBindingMap.put( stmt.getCursorName( ).toScript( ), resultSet );
+	}
+
+	public static void bindCursorIndex( TObjectName indexName,
+			TObjectName cursorName )
+	{
+		bindModel( indexName.toScript( ),
+				modelBindingMap.get( ( (CursorResultSet) createModelBindingMap.get( cursorName.toScript( ) ) ).getResultColumnObject( ) ) );
 	}
 
 }

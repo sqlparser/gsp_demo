@@ -8,6 +8,7 @@ import gudusoft.gsqlparser.nodes.TParseTreeNode;
 import gudusoft.gsqlparser.nodes.TResultColumn;
 import gudusoft.gsqlparser.nodes.TTable;
 import gudusoft.gsqlparser.stmt.TCreateViewSqlStatement;
+import gudusoft.gsqlparser.stmt.TCursorDeclStmt;
 import gudusoft.gsqlparser.stmt.TSelectSqlStatement;
 
 public class ModelFactory
@@ -309,6 +310,17 @@ public class ModelFactory
 		ResultColumn column = new ResultColumn( resultSet, starColumnPair );
 		ModelBindingManager.bindModel( starColumnPair, column );
 		return column;
+	}
+
+	public static CursorResultSet createCursorResultSet( TCursorDeclStmt stmt )
+	{
+		if ( ModelBindingManager.getModel( stmt ) instanceof SelectSetResultSet )
+		{
+			return (CursorResultSet) ModelBindingManager.getModel( stmt );
+		}
+		CursorResultSet resultSet = new CursorResultSet( stmt );
+		ModelBindingManager.bindModel( stmt, resultSet );
+		return resultSet;
 	}
 
 }
