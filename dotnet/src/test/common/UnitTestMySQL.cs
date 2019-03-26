@@ -446,6 +446,27 @@ namespace gudusoft.gsqlparser.test
         }
 
         [TestMethod]
+        public void TestColumnCollation2()
+        {
+
+            TGSqlParser sqlparser = new TGSqlParser(EDbVendor.dbvmysql);
+
+            sqlparser.sqltext = @"
+                                    CREATE TABLE `test`
+                                    (
+                                    `varchar(45)` enum('t','f') COLLATE latin1_german1_ci NOT NULL
+                                    )";
+            Assert.IsTrue(sqlparser.parse() == 0);
+
+            TCreateTableSqlStatement createTable =
+                (TCreateTableSqlStatement)sqlparser.sqlstatements.get(0);
+            TColumnDefinition cd = createTable.ColumnList.getColumn(0);
+            Console.WriteLine(cd.Datatype.CollationName);
+            Assert.IsTrue(string.Equals(cd.Datatype.CollationName,
+                                        "latin1_german1_ci", StringComparison.CurrentCultureIgnoreCase));
+        }
+
+        [TestMethod]
         public void testColumnStorage()
         {
 
