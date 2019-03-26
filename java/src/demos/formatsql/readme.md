@@ -35,40 +35,50 @@ WHERE  ID = (SELECT sales_person
   - [alignAliasInSelectList](https://github.com/sqlparser/sql-pretty-printer/wiki/Alignments), default value:  true
   - [treatDistinctAsVirtualColumn], default value: false
   - [selectFromclauseStyle](https://github.com/sqlparser/sql-pretty-printer/wiki/From-clause) default value: TAlignStyle.AsStacked;
-  - selectFromclauseComma = TLinefeedsCommaOption.LfAfterComma;
-  - fromClauseInNewLine = false;
-  - selectFromclauseJoinOnInNewline = true;
-  - alignJoinWithFromKeyword = false;
-  - andOrUnderWhere = false;
-  - insertColumnlistStyle = TAlignStyle.AsStacked;
-  - insertValuelistStyle = TAlignStyle.AsStacked;
-  - beStyleCreatetableLeftBEOnNewline = false;
-  - beStyleCreatetableRightBEOnNewline = false
-  - createtableListitemInNewLine = false;
-  - createtableFieldlistAlignOption = TAlignOption.AloLeft;
-  - defaultCommaOption = TLinefeedsCommaOption.LfAfterComma;
-  - defaultAligntype = TAlignStyle.AsStacked;
-  - indentLen = 2;
-  - useTab = false;
-  - tabSize = 2;
-  - beStyleFunctionBodyIndent = 2;
-  - beStyleBlockLeftBEOnNewline = true;
-  - beStyleBlockLeftBEIndentSize = 2;
-  - beStyleBlockRightBEIndentSize = 2;
-  - beStyleBlockIndentSize = 2;
-  - beStyleIfElseSingleStmtIndentSize = 2;
+  - [selectFromclauseComma](https://github.com/sqlparser/sql-pretty-printer/wiki/From-clause), default value: TLinefeedsCommaOption.LfAfterComma;
+  - [fromClauseInNewLine](https://github.com/sqlparser/sql-pretty-printer/wiki/From-clause), default value: false;
+  - [selectFromclauseJoinOnInNewline](https://github.com/sqlparser/sql-pretty-printer/wiki/From-clause-(join)), default value: true;
+  - alignJoinWithFromKeyword, default value: false;
+  - [andOrUnderWhere](https://github.com/sqlparser/sql-pretty-printer/wiki/Where-clause), default value: false;
   
-  - caseWhenThenInSameLine = false;
-  - indentCaseFromSwitch = 2;
-  - indentCaseThen = 0;
+  // Insert statement
+  - [insertColumnlistStyle](https://github.com/sqlparser/sql-pretty-printer/wiki/Insert-statement), default value: TAlignStyle.AsStacked;
+  - [insertValuelistStyle](https://github.com/sqlparser/sql-pretty-printer/wiki/Insert-statement), default value: TAlignStyle.AsStacked;
+  
+  // create table
+  - [beStyleCreatetableLeftBEOnNewline](https://github.com/sqlparser/sql-pretty-printer/wiki/Create-table-statement), default value: false;
+  - [beStyleCreatetableRightBEOnNewline](https://github.com/sqlparser/sql-pretty-printer/wiki/Create-table-statement), default value: false
+  - [createtableListitemInNewLine](https://github.com/sqlparser/sql-pretty-printer/wiki/Create-table-statement), default value: false;
+  - [createtableFieldlistAlignOption](https://github.com/sqlparser/sql-pretty-printer/wiki/Create-table-statement), default value: TAlignOption.AloLeft;
+  
+  // default options
+  - [defaultCommaOption](https://github.com/sqlparser/sql-pretty-printer/wiki/SQL-list-style), default value: TLinefeedsCommaOption.LfAfterComma;
+  - [defaultAligntype](https://github.com/sqlparser/sql-pretty-printer/wiki/SQL-list-style), default value: TAlignStyle.AsStacked;
+  
+  // Indent
+  - [indentLen](https://github.com/sqlparser/sql-pretty-printer/wiki/Indentation-general-indentation-size), default value: 2;
+  - [useTab](https://github.com/sqlparser/sql-pretty-printer/wiki/Indentation-general-indentation-size), default value: false;
+  - [tabSize](https://github.com/sqlparser/sql-pretty-printer/wiki/Indentation-general-indentation-size), default value: 2;
+  - [beStyleFunctionBodyIndent](https://github.com/sqlparser/sql-pretty-printer/wiki/SQL-block-indentation), default value: 2;
+  - [beStyleBlockLeftBEOnNewline](https://github.com/sqlparser/sql-pretty-printer/wiki/SQL-block-indentation), default value: true;
+  - [beStyleBlockLeftBEIndentSize](https://github.com/sqlparser/sql-pretty-printer/wiki/SQL-block-indentation), default value: 2;
+  - [beStyleBlockRightBEIndentSize](https://github.com/sqlparser/sql-pretty-printer/wiki/SQL-block-indentation), default value: 2;
+  - [beStyleBlockIndentSize](https://github.com/sqlparser/sql-pretty-printer/wiki/SQL-block-indentation), default value: 2;
+  - [beStyleIfElseSingleStmtIndentSize](https://github.com/sqlparser/sql-pretty-printer/wiki/Indentation-if-statement), default value: 2;
+  
+  // case when
+  - [caseWhenThenInSameLine](https://github.com/sqlparser/sql-pretty-printer/wiki/Case-expression), default value: false;
+  - [indentCaseFromSwitch](https://github.com/sqlparser/sql-pretty-printer/wiki/Case-expression), default value: 2;
+  - [indentCaseThen](https://github.com/sqlparser/sql-pretty-printer/wiki/Case-expression), default value: 0;
   
 	// keyword align option
   - selectKeywordsAlignOption = TAlignOption.AloLeft;
-  - caseKeywords = TCaseOption.CoUppercase;
-  - caseIdentifier = TCaseOption.CoNoChange;
-  - caseQuotedIdentifier = TCaseOption.CoNoChange;
-  - caseFuncname = TCaseOption.CoInitCap;
-  - caseDatatype = TCaseOption.CoUppercase;
+  
+  - [caseKeywords](https://github.com/sqlparser/sql-pretty-printer/wiki/SQL-capitalization-keywords), default value: TCaseOption.CoUppercase;
+  - [caseIdentifier](https://github.com/sqlparser/sql-pretty-printer/wiki/SQL-capitalization-identifier), default value: TCaseOption.CoNoChange;
+  - [caseQuotedIdentifier](https://github.com/sqlparser/sql-pretty-printer/wiki/SQL-capitalization-identifier), default value: TCaseOption.CoNoChange;
+  - [caseFuncname](https://github.com/sqlparser/sql-pretty-printer/wiki/SQL-capitalization-function), default value: TCaseOption.CoInitCap;
+  - [caseDatatype](https://github.com/sqlparser/sql-pretty-printer/wiki/SQL-capitalization-datatype), default value: TCaseOption.CoUppercase;
 
 	// WSPadding
   - wsPaddingOperatorArithmetic = true;
