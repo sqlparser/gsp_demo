@@ -83,11 +83,11 @@ Salary depends on: scott.emp.sal, scott.emp.deptno
 ```
 
   - /xml option is valid only used together with /s option.
-  - /c option is valid only used together with /s option, only list source code in the select list.
+  - /c option is valid only used together with /s option, list source column in the select list only.
 	```
-	    Department depends on: scott.emp.deptno
-        Employees depends on: scott.emp
-        Salary depends on: scott.emp.sal
+	Department depends on: scott.emp.deptno
+    Employees depends on: scott.emp
+    Salary depends on: scott.emp.sal
 	```
 
 
