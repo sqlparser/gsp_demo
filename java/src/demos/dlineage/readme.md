@@ -24,13 +24,13 @@ SELECT a.deptno "Department",
     FROM scott.emp) b
 ```
 
-Find the impact of the change of column: scott.emp.deptno by using "/fo <table column>" option
+Find the impact of the change of column: scott.emp.deptno by using "/fo &lt;table column>" option
 ```
 scott.emp.deptno
 --->v1."Department"
 ```
 
-Find the source of v1.Department by using "/b <view column>" option
+Find the source of v1.Department by using "/b &lt;view column>" option
 ```
 v1."Department"
 --->scott.emp.deptno
