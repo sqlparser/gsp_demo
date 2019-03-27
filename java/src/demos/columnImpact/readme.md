@@ -74,14 +74,14 @@ Search b.total_sal
 ## Usage
 `java ColumnImpact scriptfile [/d] [/s [/xml] [/c]] [/v] [/o <output file path>] [/t <database type>]`
 
-### /s, only list the final result, omit all the intermediate process. /xml option is valid only used together with /s option.
+#### /s, only list the final result, omit all the intermediate process. /xml option is valid only used together with /s option.
 ```
 Department depends on: scott.emp.deptno
 Employees depends on: scott.emp(total count of record influences the result value), scott.emp.deptno(because it is in group by clause)
 Salary depends on: scott.emp.sal, scott.emp.deptno
 ```
 
-### /v, this option works only when the input SQL is create view statement. 
+#### /v, this option works only when the input SQL is create view statement. 
 
 ## Online live demo
 Please try your own SQL with [this online live demo](http://www.sqlparser.com/livedemo_redirect.php?demo_id=columnImpact&utm_source=github-gsp-demo&utm_medium=text-general)
