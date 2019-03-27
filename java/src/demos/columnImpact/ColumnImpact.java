@@ -371,7 +371,7 @@ public class ColumnImpact {
 	public static void main(String[] args) {
 		if (args.length == 0) {
 			System.out
-					.println("Usage: java ColumnImpact scriptfile [/d]/[/s [/xml] [/c]]/[/v] [/o <output file path>] [/t <database type>]");
+					.println("Usage: java ColumnImpact scriptfile [/d]|[/s [/xml] [/c]]|[/v] [/o <output file path>] [/t <database type>]");
 			System.out
 					.println("/s: Option, display the analysis result simply.");
 			System.out

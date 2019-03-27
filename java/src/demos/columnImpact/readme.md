@@ -72,14 +72,22 @@ Search b.total_sal
 
 
 ## Usage
-`java ColumnImpact scriptfile [/d] [/s [/xml] [/c]] [/v] [/o <output file path>] [/t <database type>]`
+`java ColumnImpact scriptfile [/d]|[/s [/xml] [/c]]|[/v] [/o <output file path>] [/t <database type>]`
 
-#### /s, only list the final result, omit all the intermediate process. /xml option is valid only used together with /s option.
+#### /s, only list the final result, omit all the intermediate process. 
 ```
 Department depends on: scott.emp.deptno
 Employees depends on: scott.emp(total count of record influences the result value), scott.emp.deptno(because it is in group by clause)
 Salary depends on: scott.emp.sal, scott.emp.deptno
 ```
+    - /xml option is valid only used together with /s option.
+	- /c option is valid only used together with /s option, only list source code in the select list.
+	```
+	    Department depends on: scott.emp.deptno
+        Employees depends on: scott.emp
+        Salary depends on: scott.emp.sal
+	```
+
 
 #### /v, this option works only when the input SQL is create view statement. 
 
