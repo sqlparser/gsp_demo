@@ -77,9 +77,11 @@ Search b.total_sal
 #### /s, only list the final result, omit all the intermediate process. 
 ```
 Department depends on: scott.emp.deptno
-Employees depends on: scott.emp(total count of record influences the result value), scott.emp.deptno(because it is in group by clause)
+Employees depends on: scott.emp(total count of record influences the result value), 
+                      scott.emp.deptno(because it is in group by clause)
 Salary depends on: scott.emp.sal, scott.emp.deptno
 ```
+
     - /xml option is valid only used together with /s option.
 	- /c option is valid only used together with /s option, only list source code in the select list.
 	```
