@@ -81,32 +81,31 @@ WHERE  ID = (SELECT sales_person
   - [caseDatatype](https://github.com/sqlparser/sql-pretty-printer/wiki/SQL-capitalization-datatype), default value: TCaseOption.CoUppercase;
 
 	// WSPadding
-  - wsPaddingOperatorArithmetic = true;
-  - wsPaddingParenthesesInFunction = false;
-  - wsPaddingParenthesesInExpression = true;
-  - wsPaddingParenthesesOfSubQuery = false;
-  - wsPaddingParenthesesInFunctionCall = false;
-  - wsPaddingParenthesesOfTypename = false;
+  - [wsPaddingOperatorArithmetic](https://github.com/sqlparser/sql-pretty-printer/wiki/Space-around-operator-of-arithmetic-expression), default value: true;
+  - [wsPaddingParenthesesInFunction](https://github.com/sqlparser/sql-pretty-printer/wiki/Space-inside-parenthesis-of-parameter-definition-of-create-function-procedure), default value: false;
+  - [wsPaddingParenthesesInExpression](https://github.com/sqlparser/sql-pretty-printer/wiki/Space-inside-parenthesis-of-expression), default value: true;
+  - [wsPaddingParenthesesOfSubQuery](https://github.com/sqlparser/sql-pretty-printer/wiki/Space-inside-parenthesis-of-subquery), default value: false;
+  - [wsPaddingParenthesesInFunctionCall](https://github.com/sqlparser/sql-pretty-printer/wiki/Space-inside-parenthesis-of-function-call), default value: false;
+  - [wsPaddingParenthesesOfTypename](https://github.com/sqlparser/sql-pretty-printer/wiki/Space-inside-parenthesis-of-type-name-specification-of-create-table-statement), default value: false;
 
 	// CTE
-  - cteNewlineBeforeAs = true;
-  - linebreakAfterDeclare = false;
+  - [cteNewlineBeforeAs](https://github.com/sqlparser/sql-pretty-printer/wiki/Common-table-expression), default value: true;
+  - [linebreakAfterDeclare](https://github.com/sqlparser/sql-pretty-printer/wiki/Common-table-expression), default value: false;
 
   // create function
-  - parametersStyle = TAlignStyle.AsStacked;
-
-  - parametersComma = TLinefeedsCommaOption.LfAfterComma;
-  - beStyleFunctionLeftBEOnNewline = false;
-  - beStyleFunctionLeftBEIndentSize = 0;
-  - beStyleFunctionRightBEOnNewline = true;
-  - beStyleFunctionRightBEIndentSize = 0;
-  - beStyleFunctionFirstParamInNewline = false;
-  - linebreakBeforeParamInExec = true;
+  - [parametersStyle](https://github.com/sqlparser/sql-pretty-printer/wiki/SQL-Parameters), default value: TAlignStyle.AsStacked;
+  - [parametersComma](https://github.com/sqlparser/sql-pretty-printer/wiki/SQL-Parameters), default value: TLinefeedsCommaOption.LfAfterComma;
+  - [beStyleFunctionLeftBEOnNewline](https://github.com/sqlparser/sql-pretty-printer/wiki/SQL-Parameters), default value: false;
+  - [beStyleFunctionLeftBEIndentSize](https://github.com/sqlparser/sql-pretty-printer/wiki/SQL-Parameters), default value: 0;
+  - [beStyleFunctionRightBEOnNewline](https://github.com/sqlparser/sql-pretty-printer/wiki/SQL-Parameters), default value: true;
+  - [beStyleFunctionRightBEIndentSize](https://github.com/sqlparser/sql-pretty-printer/wiki/SQL-Parameters), default value: 0;
+  - [beStyleFunctionFirstParamInNewline](https://github.com/sqlparser/sql-pretty-printer/wiki/SQL-Parameters), default value: false;
+  - [linebreakBeforeParamInExec](https://github.com/sqlparser/sql-pretty-printer/wiki/SQL-Parameters), default value: true;
 
 	// the empty lines
-  - emptyLines = TEmptyLinesOption.EloMergeIntoOne;
-  - insertBlankLineInBatchSqls = false;
-  - noEmptyLinesBetweenMultiSetStmts = false;
+  - [emptyLines](https://github.com/sqlparser/sql-pretty-printer/wiki/Blank-lines(vertical-spacing)-in-multiple-SQLs), default value: TEmptyLinesOption.EloMergeIntoOne;
+  - [insertBlankLineInBatchSqls](https://github.com/sqlparser/sql-pretty-printer/wiki/Blank-lines(vertical-spacing)-in-multiple-SQLs), default value: false;
+  - [noEmptyLinesBetweenMultiSetStmts](https://github.com/sqlparser/sql-pretty-printer/wiki/Blank-lines(vertical-spacing)-in-multiple-SQLs), default value: false;
 
 	// line number
   - linenumberEnabled = false;
@@ -114,12 +113,11 @@ WHERE  ID = (SELECT sales_person
   - linenumberLeftMargin = 0;
   - linenumberRightMargin = 2;
 
-  - functionCallParametersStyle = TAlignStyle.AsWrapped;
-  - functionCallParametersComma = TLinefeedsCommaOption.LfAfterComma;
+  - [functionCallParametersStyle](https://github.com/sqlparser/sql-pretty-printer/wiki/SQL-function), default value: TAlignStyle.AsWrapped;
+  - [functionCallParametersComma](https://github.com/sqlparser/sql-pretty-printer/wiki/SQL-function), default value: TLinefeedsCommaOption.LfAfterComma;
+  
   - removeComment = false;
 
 	// used for compact mode
   - compactMode = TCompactMode.CpmNone;
   - lineWidth = 99;
-	
-
