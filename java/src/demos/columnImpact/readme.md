@@ -17,14 +17,7 @@ SELECT a.deptno "Department",
     FROM scott.emp) b
 ```
 
-Run this tool with /s option, the result is:
-```
-Department depends on: scott.emp.deptno
-Employees depends on: scott.emp(total count of record influences the result value), scott.emp.deptno(because it is in group by clause)
-Salary depends on: scott.emp.sal, scott.emp.deptno
-```
-
-Run this tool with default option(/d option is enabled), a more detailed result will be generated:
+Run this tool with default option(/d option is enabled), the full path of dependency will be generated:
 ```
 Search Department <<column_1>>
 --> a.deptno
@@ -79,7 +72,16 @@ Search b.total_sal
 
 
 ## Usage
-`java ColumnImpact scriptfile [/d]/[/s [/xml] [/c]]/[/v] [/o <output file path>] [/t <database type>]`
+`java ColumnImpact scriptfile [/d] [/s [/xml] [/c]] [/v] [/o <output file path>] [/t <database type>]`
+
+### /s, only list the final result, omit all the intermediate process. /xml option is valid only used together with /s option.
+```
+Department depends on: scott.emp.deptno
+Employees depends on: scott.emp(total count of record influences the result value), scott.emp.deptno(because it is in group by clause)
+Salary depends on: scott.emp.sal, scott.emp.deptno
+```
+
+### /v, this option works only when the input SQL is create view statement. 
 
 ## Online live demo
 Please try your own SQL with [this online live demo](http://www.sqlparser.com/livedemo_redirect.php?demo_id=columnImpact&utm_source=github-gsp-demo&utm_medium=text-general)
