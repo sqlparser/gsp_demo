@@ -15,7 +15,7 @@
 	<property name="renamelog" value="${build.dir}/renamelog.xml" />
 	
 	<property name="gsp.version" value="1.9.8.0" />
-	<property name="build.version" value="2.3.4" />
+	<property name="build.version" value="2.3.5" />
 	
 	<path id="compile.classpath">
 		<fileset dir="${demo.lib}">
