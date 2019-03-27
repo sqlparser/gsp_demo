@@ -4,6 +4,8 @@ the column-level dataflow (lineage), even if the sources are in a subquery.
 
 This would be very useful to provide impact analysis feature to ETL mappings in data warehouses and marts.
 
+This tool only process SELECT and create view statement.
+
 Let's take this simple SQL for example:
 ```sql
 SELECT a.deptno "Department", 
@@ -95,6 +97,10 @@ Salary depends on: scott.emp.sal, scott.emp.deptno
 
 ## Online live demo
 Please try your own SQL with [this online live demo](http://www.sqlparser.com/livedemo_redirect.php?demo_id=columnImpact&utm_source=github-gsp-demo&utm_medium=text-general)
+
+## Related projects
+If you need to handle more complicated SQL and get all dataflow information of table and columns,
+please check this demo [Dataflow Analyzer](../dlineage).
 
 ## Changes
 -  [2012-01-11, first version](https://github.com/sqlparser/wings/issues/1)
