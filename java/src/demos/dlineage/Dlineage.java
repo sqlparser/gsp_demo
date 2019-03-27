@@ -588,7 +588,6 @@ public class Dlineage
 			System.out.println( "Usage: java Dlineage [/f <path_to_sql_file>] [/d <path_to_directory_includes_sql_files>] [/t <database type>] [/fo <table column>] [/b <view column>] [/ddl] [/s] [/log]" );
 			System.out.println( "/f: Option, specify the sql file path to analyze dlineage." );
 			System.out.println( "/d: Option, specify the sql directory path to analyze dlineage." );
-			System.out.println( "/d: Option, forward analyze the specified table column." );
 			System.out.println( "/t: Option, set the database type. Support oracle, mysql, mssql, db2, netezza, teradata, informix, sybase, postgresql, hive, greenplum and redshift, the default type is oracle" );
 			System.out.println( "/fo: Option, forward analyze the specified table column." );
 			System.out.println( "/b: Option, backward analyze the specified view column." );
