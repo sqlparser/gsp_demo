@@ -7,7 +7,6 @@
 - [database schema](https://db.apache.org/torque/torque-4.0/documentation/orm-reference/defining-the-schema.html)
 
 ## Dlineage
-### description 
 Collecting the data lineage model which includes the relationships between all 
 source and target table columns.
 With this data lineage model, we can look into the impact of changing the content or meaning of some data column
@@ -85,7 +84,6 @@ v1."Department"
   - [first version, 2015-8](https://github.com/sqlparser/wings/issues/341)
   
 ## DlineageRelation
-### description 
 DlineageRelation generates the same result as Dlineage but add schema definition collected in the SQL script to the result as well.
 
 ```
