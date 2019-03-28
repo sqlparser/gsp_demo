@@ -81,10 +81,39 @@ v1."Department"
 			</table>
 		</database>
 		
-
-## DlineageRelation
-
-### description 
-### Usage
-### Related
+### Links
   - [first version, 2015-8](https://github.com/sqlparser/wings/issues/341)
+  
+## DlineageRelation
+### description 
+DlineageRelation generates the same result as Dlineage but add schema definition collected in the SQL script to the result as well.
+
+```
+<dlineageRelation>
+  <table name="scott.emp">
+    <column name="SAL"/>
+    <column name="deptno"/>
+    <column name="*"/>
+  </table>
+  <table isView="true" name="RESULT SET COLUMNS">
+    <column name="&quot;Salary&quot;"/>
+    <column name="&quot;Department&quot;"/>
+    <column name="&quot;Employees&quot;"/>
+  </table>
+  <relation>
+    <source column="deptno" coordinate="5,9" table="scott.emp"/>
+    <target column="&quot;Department&quot;" coordinate="1,17" table="RESULT SET COLUMNS"/>
+  </relation>
+  <relation>
+    <source column="*" coordinate="5,23;8,15" table="scott.emp"/>
+    <target column="&quot;Employees&quot;" coordinate="2,32" table="RESULT SET COLUMNS"/>
+  </relation>
+  <relation>
+    <source column="SAL" coordinate="5,39;8,35" table="scott.emp"/>
+    <target column="&quot;Salary&quot;" coordinate="3,30" table="RESULT SET COLUMNS"/>
+  </relation>
+</dlineageRelation>
+```
+
+### Usage
+`java DlineageRelation [/f <path_to_sql_file>] [/d <path_to_directory_includes_sql_files>] [/t <database type>] [/o <output file path>]`
