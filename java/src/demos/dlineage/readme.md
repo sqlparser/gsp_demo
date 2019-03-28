@@ -63,10 +63,9 @@ v1."Department"
 	
 - [/ddl]
 		
-	Generates the schema DDL script including all the database objects involved in the input SQL.
+	Generates the DDL script including all the database objects involved in the input SQL.
 	the generated schema file comply to [database-4-0.xsd](https://db.apache.org/torque/torque-4.0/documentation/orm-reference/database-4-0.xsd)
-		
-		```
+	
 		<?xml version="1.0"?>
 		<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database.dtd">
 		<database name="unknown">
@@ -81,7 +80,7 @@ v1."Department"
 				<column name="&quot;Employees&quot;"/>
 			</table>
 		</database>
-		```
+		
 
 ## DlineageRelation
 
