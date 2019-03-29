@@ -16,7 +16,7 @@ CRUD: update, Table:Customers
 		CustomerID
 
 Summary
-Customers				0(s)				0(c)				0(d)				0(i)				1(u)
+Customers	0(s)	0(c)	0(d)	0(i)	1(u)
 ```
 
 
