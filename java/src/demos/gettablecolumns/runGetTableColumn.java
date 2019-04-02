@@ -231,12 +231,12 @@ public class runGetTableColumn
 	private static void displayInitInformation( )
 	{
 		System.out.println( "Usage: java runGetTableColumn [/f <path_to_sql_file>] [/t <database type>] [/<show option>]" );
-		System.out.println( "/f: specify the sql file path to analyze dlineage." );
+		System.out.println( "/f: specify the sql file path to analyze." );
 		System.out.println( "/t: option, set the database type. Support oracle, mysql, mssql, db2, netezza, teradata, informix, sybase, postgresql, hive, greenplum and redshift, the default type is oracle" );
 		System.out.println( "/showSummary: default show option, display the summary information." );
 		System.out.println( "/showDetail: show option, display the detail information." );
 		System.out.println( "/showTreeStructure: show option, display the information as a tree structure." );
-		System.out.println( "/showBySQLClause: show option, display the information by sql clause type." );
-		System.out.println( "/showJoin: show option, display the table join information." );
+		System.out.println( "/showBySQLClause: show option, display the information group by sql clause type." );
+		System.out.println( "/showJoin: show option, display the join table and column." );
 	}
 }
