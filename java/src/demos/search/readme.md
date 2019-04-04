@@ -5,7 +5,7 @@ The file name will be printed out if it include the specified parse tree node na
 Please check [toXML demo](./visitors) to find out more information on how to use the visitor pattern introduced in this library.
 
 ## Usage
-`java searchClause class_name directory`
+`java searchClause parse_tree_node_name directory`
 
 
 Content in the test.sql:
