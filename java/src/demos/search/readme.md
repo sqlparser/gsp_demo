@@ -1,8 +1,8 @@
 ## Description
-Search sql files that include the specified parse tree node name in a directory recursively, 
-The name of all sql files that include the specified parse tree node name will be printed.
+Search the specified parse tree node name in sql files under the directory recursively . 
+The file name will be printed out if it include the specified parse tree node name. 
 
-Please check [toXML demo](./visitors) to find out how to use the visitor pattern introduced in this library.
+Please check [toXML demo](./visitors) to find out more information on how to use the visitor pattern introduced in this library.
 
 ## Usage
 `java searchClause class_name directory`
