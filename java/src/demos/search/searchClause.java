@@ -2,19 +2,19 @@ package demos.search;
 
 import gudusoft.gsqlparser.TGSqlParser;
 import gudusoft.gsqlparser.EDbVendor;
-import gudusoft.gsqlparser.nodes.TParseTreeVisitor;
-import gudusoft.gsqlparser.nodes.THierarchical;
+import gudusoft.gsqlparser.nodes.*;
+import gudusoft.gsqlparser.stmt.TSelectSqlStatement;
 
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
 
 /**
- * search sql files that include specified class name in a directory recursively..
+ * search sql files that include specified class name in a directory recursively.
  * Usage:
  * searchClause class_name directory
  *
- * You need to modify searchVisitor to add support to search other clause, it support THierarchical only. 
+ * You need to modify searchVisitor to add support to search other clause, it support THierarchical,TTable,TFunctionCall only.
 */
 public class searchClause {
 
@@ -28,21 +28,22 @@ public class searchClause {
             return;
         }
 
-        String class_name = args[0];
+        String parseTreeNodeName = args[0];
         String dir = args[1];
         int ret;
 
-        TGSqlParser sqlparser = new TGSqlParser(EDbVendor.dbvoracle);
+        TGSqlParser sqlparser = new TGSqlParser(EDbVendor.dbvmssql);
         SqlFileList sqlfiles = new SqlFileList(dir);
-        for(int k=0;k < sqlfiles.sqlfiles.size()-1;k++){
+        System.out.println("Found files:"+sqlfiles.sqlfiles.size());
+        for(int k=0;k < sqlfiles.sqlfiles.size();k++){
             sqlparser.sqlfilename = sqlfiles.sqlfiles.get(k).toString();
             ret = sqlparser.parse();
             if (ret == 0){
                 for(int i=0;i<sqlparser.sqlstatements.size();i++){
-                searchVisitor sv = new searchVisitor(class_name);
-                sqlparser.sqlstatements.get(i).accept(sv);
+                searchVisitor sv = new searchVisitor(parseTreeNodeName);
+                sqlparser.sqlstatements.get(i).acceptChildren(sv);
                 if (sv.isFound()) {
-                    System.out.println(sqlparser.sqlfilename);
+                    System.out.println("Find "+parseTreeNodeName+" in "+sqlparser.sqlfilename);
                     break;
                 }
                 }
@@ -55,22 +56,48 @@ public class searchClause {
 
 class searchVisitor extends TParseTreeVisitor {
     private boolean found = false;
-    private String class_name = null;
+    private String parseTreeNodeName = null;
 
     public boolean isFound() {
         return found;
     }
 
     public searchVisitor(String c){
-        this.class_name = c;
+        this.parseTreeNodeName = c;
 
     }
     
     public void preVisit(THierarchical node){
-        if (node.getClass().getSimpleName().compareToIgnoreCase(this.class_name) == 0){
+
+        if (node.getClass().getSimpleName().compareToIgnoreCase(this.parseTreeNodeName) == 0){
             found = true;
         }
     }
+
+    public void preVisit(TSelectSqlStatement node)
+    {
+        //do something
+       // System.out.println(node.getClass().getSimpleName());
+    }
+
+    public void preVisit(TTable node)
+    {
+        //do something
+        //System.out.println(node.getClass().getSimpleName());
+        if (node.getClass().getSimpleName().compareToIgnoreCase(this.parseTreeNodeName) == 0){
+            found = true;
+        }
+    }
+
+    public void preVisit(TFunctionCall node)
+    {
+        //do something
+       // System.out.println(node.getClass().getSimpleName());
+        if (node.getClass().getSimpleName().compareToIgnoreCase(this.parseTreeNodeName) == 0){
+            found = true;
+        }
+    }
+
 }
 
 class SqlFileList {
