@@ -1,5 +1,5 @@
 ## Description
-Iterates the SQL expression using the built-in visitor in pre-order/in-order/post-order.
+Iterates the SQL expression using the built-in visitor in pre-order/in-order/post-order to extract column used in the expression.
 
 
 
