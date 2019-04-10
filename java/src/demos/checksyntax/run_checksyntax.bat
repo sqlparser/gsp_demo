@@ -2,20 +2,20 @@ echo off
 
 REM # This script/batch file run the gsp demo. 
 REM # You need to set the JAVA_HOME environment variable in 
-REM # the bin/setenv.bat file 
+REM # the setenv/setenv.bat file 
 REM # before running this script/batch file
 
 REM # Change directory to gsp Demo Home directory
 cd ..\..\..
 
 REM # Run the setenv to set the environment variables.
-call bin\setenv.bat
+call setenv\setenv.bat
 
    
     if NOT EXIST %JAVA_CMD% (
     echo. 
     echo ***************************
-    echo JAVA_HOME is not set in the bin\setenv.bat
+    echo JAVA_HOME is not set in the setenv\setenv.bat
     echo Please set the JAVA_HOME. 
     echo eg. JAVA_HOME=C:\Program Files\Java\jdk1.7.0_80
     echo ***************************
