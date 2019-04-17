@@ -38,7 +38,15 @@ public class antiSQLInjection  {
 
     public static void main(String args[])
      {
-
+		if ( args.length == 0 )
+		{
+			System.out.println( "Usage: java antiSQLInjection [/f scriptfile] [/t <database type>]" );
+			System.out.println( "/f: Option, specify the sql file path to analyze anti SQL injection." );
+			System.out.println( "/t: Option, set the database type, the default type is mysql" );
+			// Console.Read();
+			return;
+		}
+		
          File sqlFile = null;
          List<String> argList = Arrays.asList(args);
 
@@ -52,6 +60,12 @@ public class antiSQLInjection  {
                  return;
              }
          }
+         
+		if ( sqlFile == null )
+		{
+			System.out.println( "Please specify a sql file path to analyze anti SQL injection." );
+			return;
+		}
 
          EDbVendor dbvendor = EDbVendor.dbvmysql;
 

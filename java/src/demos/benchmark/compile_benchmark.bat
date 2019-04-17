@@ -22,18 +22,22 @@ call setenv\setenv.bat
     echo eg. JAVA_HOME=C:\Program Files\Java\jdk1.7.0_80
     echo ***************************
     echo.
-    cd src\demos\checksyntax
+    cd src\demos\benchmark
     pause
     goto END
     )
 
+	if NOT exist %targetdir% (
+	    md %targetdir%
+	)
+
 REM # Compile the gsp demo
-%JAVAC_CMD% -d %targetdir% -classpath %CLASSPATH% src\demos\checksyntax\checksyntax.java
+%JAVAC_CMD% -d %targetdir% -classpath %CLASSPATH% src\demos\benchmark\benchmark.java
 
 echo Completed.
 
 REM # Change directory to the original directory
-cd src\demos\checksyntax
+cd src\demos\benchmark
 
 pause
 

@@ -20,16 +20,16 @@ call setenv\setenv.bat
     echo eg. JAVA_HOME=C:\Program Files\Java\jdk1.7.0_80
     echo ***************************
     echo.
-    cd src\demos\checksyntax
+    cd src\demos\modifysql
     pause
     goto END
     )
 
 REM # Run the gsp demo
-%JAVA_CMD% -cp %CLASSPATH% demos.checksyntax.checksyntax %1 %2 %3 %4 %5 %6 %7 %8 %9
+%JAVA_CMD% -cp %CLASSPATH% demos.modifysql.replaceTablename  %1 %2 %3 %4 %5 %6 %7 %8 %9
 
 REM # Change back to the original directory
-cd src\demos\checksyntax
+cd src\demos\modifysql
 
 pause
 
