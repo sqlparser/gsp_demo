@@ -27,7 +27,7 @@ namespace gudusoft.gsqlparser.test
         public void TestSQLServerFiles()
         {
             TGSqlParser parser = new TGSqlParser(EDbVendor.dbvmssql);
-            String[] allfiles = System.IO.Directory.GetFiles(UnitTestCommon.BASE_SQL_DIR + @"MSSQL\", "*.sql", System.IO.SearchOption.AllDirectories);
+            String[] allfiles = System.IO.Directory.GetFiles(UnitTestCommon.BASE_SQL_DIR() + @"MSSQL\", "*.sql", System.IO.SearchOption.AllDirectories);
             int cnt = 0;
             foreach (var file in allfiles)
             {
@@ -41,7 +41,7 @@ namespace gudusoft.gsqlparser.test
         public void TestSQLServerFiles2()
         {
             TGSqlParser parser = new TGSqlParser(EDbVendor.dbvmssql);
-            String[] allfiles = System.IO.Directory.GetFiles(UnitTestCommon.BASE_SQL_DIR + @"new_dotnet\MSSQL\", "*.sql", System.IO.SearchOption.AllDirectories);
+            String[] allfiles = System.IO.Directory.GetFiles(UnitTestCommon.BASE_SQL_DIR() + @"new_dotnet\MSSQL\", "*.sql", System.IO.SearchOption.AllDirectories);
             int cnt = 0;
             List<string> excludeFiles = new List<string> {
                 "676_try_parse.sql","value_in_qualified_name.sql","719.sql"

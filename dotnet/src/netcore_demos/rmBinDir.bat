@@ -1,0 +1,28 @@
+echo off
+
+@RD /S /Q "analyzesp\bin"
+@RD /S /Q "analyzesp\obj"
+@RD /S /Q "analyzesp\Properties"
+@RD /S /Q "checksyntax\bin"
+@RD /S /Q "checksyntax\obj"
+@RD /S /Q "checksyntax\Properties"
+@RD /S /Q "gettablecolumns\bin"
+@RD /S /Q "gettablecolumns\obj"
+@RD /S /Q "gettablecolumns\Properties"
+@RD /S /Q "joinRelationAnalyze\bin"
+@RD /S /Q "joinRelationAnalyze\obj"
+@RD /S /Q "joinRelationAnalyze\Properties"
+@RD /S /Q "loadKeywords\bin"
+@RD /S /Q "loadKeywords\obj"
+@RD /S /Q "loadKeywords\Properties"
+@RD /S /Q "tableColumnRename\bin"
+@RD /S /Q "tableColumnRename\obj"
+@RD /S /Q "tableColumnRename\Properties"
+@RD /S /Q "unitTests\bin"
+@RD /S /Q "unitTests\obj"
+@RD /S /Q "unitTests\Properties"
+@RD /S /Q "listGSPInfo\bin"
+@RD /S /Q "listGSPInfo\obj"
+@RD /S /Q "listGSPInfo\Properties"
+
+
