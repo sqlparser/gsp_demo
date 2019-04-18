@@ -9,10 +9,6 @@ import org.simpleframework.xml.Root;
 @Root(name = "dlineage")
 public class dataflow
 {
-
-	@ElementList(entry = "relation", inline = true, required = false)
-	private List<relation> relations;
-
 	@ElementList(entry = "table", inline = true, required = false)
 	private List<table> tables;
 
@@ -21,6 +17,9 @@ public class dataflow
 
 	@ElementList(entry = "resultset", inline = true, required = false)
 	private List<table> resultsets;
+	
+	@ElementList(entry = "relation", inline = true, required = false)
+	private List<relation> relations;
 
 	public List<relation> getRelations( )
 	{

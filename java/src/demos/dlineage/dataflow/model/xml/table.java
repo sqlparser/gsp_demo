@@ -10,24 +10,23 @@ import demos.dlineage.util.Pair;
 
 public class table
 {
-
-	@Attribute(required = false)
-	private String name;
-
 	@Attribute(required = false)
 	private String id;
+	
+	@Attribute(required = false)
+	private String name;
+	
+	@Attribute(required = false)
+	private String alias;
 
 	@Attribute(required = false)
 	private String type;
 
 	@Attribute(required = false)
-	private String coordinate;
-
-	@Attribute(required = false)
-	private String alias;
-
-	@Attribute(required = false)
 	private String isTarget;
+
+	@Attribute(required = false)
+	private String coordinate;
 
 	@ElementList(entry = "column", inline = true, required = false)
 	private List<column> columns;

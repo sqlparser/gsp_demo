@@ -9,13 +9,13 @@ public class targetColumn
 {
 
 	@Attribute(required = false)
-	private String coordinate;
+	private String id;
 
 	@Attribute(required = false)
 	private String column;
 
 	@Attribute(required = false)
-	private String id;
+	private String function;
 
 	@Attribute(required = false)
 	private String parent_id;
@@ -24,7 +24,7 @@ public class targetColumn
 	private String parent_name;
 
 	@Attribute(required = false)
-	private String function;
+	private String coordinate;
 
 	public String getCoordinate( )
 	{

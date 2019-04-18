@@ -9,13 +9,19 @@ public class sourceColumn
 {
 
 	@Attribute(required = false)
-	private String coordinate;
+	private String id;
 
 	@Attribute(required = false)
 	private String column;
 
 	@Attribute(required = false)
-	private String id;
+	private String value;
+
+	@Attribute(required = false)
+	private String source_id;
+
+	@Attribute(required = false)
+	private String source_name;
 
 	@Attribute(required = false)
 	private String parent_id;
@@ -24,13 +30,7 @@ public class sourceColumn
 	private String parent_name;
 
 	@Attribute(required = false)
-	private String value;
-
-	@Attribute(required = false)
-	private String source_name;
-
-	@Attribute(required = false)
-	private String source_id;
+	private String coordinate;
 
 	public String getCoordinate( )
 	{

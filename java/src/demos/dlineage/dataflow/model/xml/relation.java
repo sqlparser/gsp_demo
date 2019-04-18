@@ -20,9 +20,6 @@ public class relation implements Cloneable
 	private String clause;
 
 	@Attribute(required = false)
-	private String condition;
-
-	@Attribute(required = false)
 	private String joinType;
 
 	@Element(name = "target", required = false)
@@ -30,6 +27,9 @@ public class relation implements Cloneable
 
 	@ElementList(entry = "source", inline = true, required = false)
 	private List<sourceColumn> sources;
+
+	@Attribute(required = false)
+	private String condition;
 
 	public String getId( )
 	{

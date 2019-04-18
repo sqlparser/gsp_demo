@@ -7,12 +7,11 @@ import demos.dlineage.util.Pair;
 
 public class column
 {
-
-	@Attribute(required = false)
-	private String name;
-
 	@Attribute(required = false)
 	private String id;
+	
+	@Attribute(required = false)
+	private String name;
 
 	@Attribute(required = false)
 	private String coordinate;
