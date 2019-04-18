@@ -31,7 +31,7 @@ public class table
 
 	@ElementList(entry = "column", inline = true, required = false)
 	private List<column> columns;
-	
+
 	@Attribute(required = false)
 	private String parent;
 
@@ -110,14 +110,19 @@ public class table
 		return type != null && !isView( ) && !isTable( );
 	}
 
-	public Pair<Integer, Integer> getStartPos( )
+	public int getOccurrencesNumber( )
 	{
-		return PositionUtil.getStartPos( coordinate );
+		return PositionUtil.getOccurrencesNumber( coordinate );
 	}
 
-	public Pair<Integer, Integer> getEndPos( )
+	public Pair<Integer, Integer> getStartPos( int index )
 	{
-		return PositionUtil.getEndPos( coordinate );
+		return PositionUtil.getStartPos( coordinate, index );
+	}
+
+	public Pair<Integer, Integer> getEndPos( int index )
+	{
+		return PositionUtil.getEndPos( coordinate, index );
 	}
 
 	public boolean isTarget( )
@@ -125,14 +130,14 @@ public class table
 		return "true".equals( isTarget );
 	}
 
-	public String getParent() 
+	public String getParent( )
 	{
 		return parent;
 	}
 
-	public void setParent(String parent) 
+	public void setParent( String parent )
 	{
 		this.parent = parent;
 	}
-	
+
 }
