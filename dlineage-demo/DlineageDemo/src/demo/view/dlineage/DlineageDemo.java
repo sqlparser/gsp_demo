@@ -205,11 +205,14 @@ import demos.dlineage.util.SQLUtil;
  */
 public class DlineageDemo extends DemoBase
 {
-	static{
-		Logger rootLogger = LogManager.getLogManager().getLogger("");
-		rootLogger.setLevel(Level.SEVERE);
-		for (Handler h : rootLogger.getHandlers()) {
-		    h.setLevel(Level.SEVERE);
+
+	static
+	{
+		Logger rootLogger = LogManager.getLogManager( ).getLogger( "" );
+		rootLogger.setLevel( Level.SEVERE );
+		for ( Handler h : rootLogger.getHandlers( ) )
+		{
+			h.setLevel( Level.SEVERE );
 		}
 	}
 	/**
@@ -511,42 +514,96 @@ public class DlineageDemo extends DemoBase
 		if ( selection instanceof List )
 		{
 			List<column> columns = (List<column>) selection;
-			for ( int i = 0; i < columns.size( ); i++ )
+			for ( int j = 0; j < columns.size( ); j++ )
 			{
-				column selectedColumn = columns.get( i );
+				column selectedColumn = columns.get( j );
 
 				Element root = sqlEditor.getDocument( )
 						.getDefaultRootElement( );
-				if ( selectedColumn.getStartPos( ) == null
-						|| selectedColumn.getEndPos( ) == null )
+				if ( selectedColumn.getOccurrencesNumber( ) == 0 )
 					return;
+				for ( int i = 0; i < selectedColumn
+						.getOccurrencesNumber( ); i++ )
+				{
+					int startOfLineOffset = root
+							.getElement(
+									selectedColumn.getStartPos( i ).first - 1 )
+							.getStartOffset( );
+
+					int endOfLineOffset = root
+							.getElement(
+									selectedColumn.getEndPos( i ).first - 1 )
+							.getStartOffset( );
+
+					javax.swing.text.DefaultHighlighter.DefaultHighlightPainter highlightPainter = new javax.swing.text.DefaultHighlighter.DefaultHighlightPainter(
+							Color.decode( "#99CCFF" ) );
+					try
+					{
+						sqlEditor.getHighlighter( )
+								.addHighlight(
+										startOfLineOffset
+												+ selectedColumn
+														.getStartPos( i ).second
+												- 1,
+										endOfLineOffset
+												+ selectedColumn
+														.getEndPos( i ).second
+												- 1,
+										highlightPainter );
+
+						if ( i == 0 && !isScrolled )
+						{
+							isScrolled = true;
+							Rectangle viewRect = sqlEditor
+									.modelToView( startOfLineOffset
+											+ selectedColumn
+													.getStartPos( i ).second
+											- 1 );
+							sqlEditor.scrollRectToVisible( viewRect );
+						}
+					}
+					catch ( BadLocationException e )
+					{
+						e.printStackTrace( );
+					}
+				}
+			}
+		}
+		else if ( selection instanceof column )
+		{
+			column selectedColumn = (column) selection;
+
+			Element root = sqlEditor.getDocument( ).getDefaultRootElement( );
+			if ( selectedColumn.getOccurrencesNumber( ) == 0 )
+				return;
+			for ( int i = 0; i < selectedColumn.getOccurrencesNumber( ); i++ )
+			{
 				int startOfLineOffset = root
-						.getElement( selectedColumn.getStartPos( ).first - 1 )
+						.getElement( selectedColumn.getStartPos( i ).first - 1 )
 						.getStartOffset( );
 
 				int endOfLineOffset = root
-						.getElement( selectedColumn.getEndPos( ).first - 1 )
+						.getElement( selectedColumn.getEndPos( i ).first - 1 )
 						.getStartOffset( );
 
 				javax.swing.text.DefaultHighlighter.DefaultHighlightPainter highlightPainter = new javax.swing.text.DefaultHighlighter.DefaultHighlightPainter(
 						Color.decode( "#99CCFF" ) );
 				try
 				{
-					sqlEditor.getHighlighter( ).addHighlight(
-							startOfLineOffset
-									+ selectedColumn.getStartPos( ).second
-									- 1,
+					sqlEditor.getHighlighter( ).addHighlight( startOfLineOffset
+							+ selectedColumn.getStartPos( i ).second
+							- 1,
 							endOfLineOffset
-									+ selectedColumn.getEndPos( ).second
+									+ selectedColumn.getEndPos( i ).second
 									- 1,
 							highlightPainter );
 
-					if ( i == 0 && !isScrolled )
+					if ( !isScrolled )
 					{
 						isScrolled = true;
 						Rectangle viewRect = sqlEditor
 								.modelToView( startOfLineOffset
-										+ selectedColumn.getStartPos( ).second
+										+ selectedColumn.getStartPos( i ).second
 										- 1 );
 						sqlEditor.scrollRectToVisible( viewRect );
 					}
@@ -557,88 +614,48 @@ public class DlineageDemo extends DemoBase
 				}
 			}
 		}
-		else if ( selection instanceof column )
-		{
-			column selectedColumn = (column) selection;
-
-			Element root = sqlEditor.getDocument( ).getDefaultRootElement( );
-			if ( selectedColumn.getStartPos( ) == null
-					|| selectedColumn.getEndPos( ) == null )
-				return;
-			int startOfLineOffset = root
-					.getElement( selectedColumn.getStartPos( ).first - 1 )
-					.getStartOffset( );
-
-			int endOfLineOffset = root
-					.getElement( selectedColumn.getEndPos( ).first - 1 )
-					.getStartOffset( );
-
-			javax.swing.text.DefaultHighlighter.DefaultHighlightPainter highlightPainter = new javax.swing.text.DefaultHighlighter.DefaultHighlightPainter(
-					Color.decode( "#99CCFF" ) );
-			try
-			{
-				sqlEditor.getHighlighter( ).addHighlight(
-						startOfLineOffset
-								+ selectedColumn.getStartPos( ).second
-								- 1,
-						endOfLineOffset
-								+ selectedColumn.getEndPos( ).second
-								- 1,
-						highlightPainter );
-
-				if ( !isScrolled )
-				{
-					isScrolled = true;
-					Rectangle viewRect = sqlEditor
-							.modelToView( startOfLineOffset
-									+ selectedColumn.getStartPos( ).second
-									- 1 );
-					sqlEditor.scrollRectToVisible( viewRect );
-				}
-			}
-			catch ( BadLocationException e )
-			{
-				e.printStackTrace( );
-			}
-		}
 		else if ( selection instanceof table )
 		{
 			table selectedTable = (table) selection;
 			Element root = sqlEditor.getDocument( ).getDefaultRootElement( );
-			if ( selectedTable.getStartPos( ) == null
-					|| selectedTable.getEndPos( ) == null )
+			if ( selectedTable.getOccurrencesNumber( ) == 0 )
 				return;
-			int startOfLineOffset = root
-					.getElement( selectedTable.getStartPos( ).first - 1 )
-					.getStartOffset( );
-
-			int endOfLineOffset = root
-					.getElement( selectedTable.getEndPos( ).first - 1 )
-					.getStartOffset( );
-
-			javax.swing.text.DefaultHighlighter.DefaultHighlightPainter highlightPainter = new javax.swing.text.DefaultHighlighter.DefaultHighlightPainter(
-					Color.decode( "#99CCFF" ) );
-			try
+			for ( int i = 0; i < selectedTable.getOccurrencesNumber( ); i++ )
 			{
-				sqlEditor.getHighlighter( ).addHighlight(
-						startOfLineOffset
-								+ selectedTable.getStartPos( ).second
-								- 1,
-						endOfLineOffset + selectedTable.getEndPos( ).second - 1,
-						highlightPainter );
-				if ( !isScrolled )
+				int startOfLineOffset = root
+						.getElement( selectedTable.getStartPos( i ).first - 1 )
+						.getStartOffset( );
+
+				int endOfLineOffset = root
+						.getElement( selectedTable.getEndPos( i ).first - 1 )
+						.getStartOffset( );
+
+				javax.swing.text.DefaultHighlighter.DefaultHighlightPainter highlightPainter = new javax.swing.text.DefaultHighlighter.DefaultHighlightPainter(
+						Color.decode( "#99CCFF" ) );
+				try
 				{
-					isScrolled = true;
-					Rectangle viewRect = sqlEditor
-							.modelToView( startOfLineOffset
-									+ selectedTable.getStartPos( ).second
-									- 1 );
-					sqlEditor.scrollRectToVisible( viewRect );
+					sqlEditor.getHighlighter( ).addHighlight(
+							startOfLineOffset
+									+ selectedTable.getStartPos( i ).second
+									- 1,
+							endOfLineOffset
+									+ selectedTable.getEndPos( i ).second
+									- 1,
+							highlightPainter );
+					if ( !isScrolled )
+					{
+						isScrolled = true;
+						Rectangle viewRect = sqlEditor
+								.modelToView( startOfLineOffset
+										+ selectedTable.getStartPos( i ).second
+										- 1 );
+						sqlEditor.scrollRectToVisible( viewRect );
+					}
 				}
-			}
-			catch ( BadLocationException e )
-			{
-				e.printStackTrace( );
+				catch ( BadLocationException e )
+				{
+					e.printStackTrace( );
+				}
 			}
 		}
 	}
@@ -894,7 +911,7 @@ public class DlineageDemo extends DemoBase
 		showImpactItem.setSelected( false );
 		preferencesMenu.add( showImpactItem )
 				.addActionListener( preferencesListener );
-		
+
 		showJoinItem = new JRadioButtonMenuItem( "Show Join Relation" );
 		showJoinItem.setSelected( false );
 		preferencesMenu.add( showJoinItem )
@@ -1702,7 +1719,7 @@ public class DlineageDemo extends DemoBase
 				dlineage.setHandleListener( adapter );
 
 				final StringBuffer errorMessage = new StringBuffer( );
-	
+
 				dataflow = dlineage.generateDataFlow( errorMessage );
 
 				if ( adapter.isCanceled( ) )
