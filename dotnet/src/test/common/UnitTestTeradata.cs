@@ -75,7 +75,7 @@ namespace gudusoft.gsqlparser.test
         [TestMethod]
         public void TestTeradataFiles()
         {
-            String[] allfiles = System.IO.Directory.GetFiles(UnitTestCommon.BASE_SQL_DIR + @"teradata\verified\", "*.sql", System.IO.SearchOption.AllDirectories);
+            String[] allfiles = System.IO.Directory.GetFiles(UnitTestCommon.BASE_SQL_DIR() + @"teradata\verified\", "*.sql", System.IO.SearchOption.AllDirectories);
             int cnt = 0;
             foreach (var file in allfiles)
             {
@@ -88,7 +88,7 @@ namespace gudusoft.gsqlparser.test
         [TestMethod]
         public void TestTeradataFiles2()
         {
-            String[] allfiles = System.IO.Directory.GetFiles(UnitTestCommon.BASE_SQL_DIR + @"new_dotnet\teradata\", "*.sql", System.IO.SearchOption.AllDirectories);
+            String[] allfiles = System.IO.Directory.GetFiles(UnitTestCommon.BASE_SQL_DIR() + @"new_dotnet\teradata\", "*.sql", System.IO.SearchOption.AllDirectories);
             int cnt = 0;
             foreach (var file in allfiles)
             {

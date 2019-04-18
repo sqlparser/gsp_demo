@@ -9,10 +9,28 @@
     <Compile Include="..\..\demos\tableColumnRename\tableColumnRename.cs" Link="tableColumnRename.cs" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="gudusoft.gsqlparser">
-      <HintPath>..\..\..\lib\netcore\gudusoft.gsqlparser.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+
+  
+  <Choose>
+    <When Condition=" '$(pkgSource)'=='local' ">
+	  <ItemGroup>
+		<Reference Include="gudusoft.gsqlparser">
+		  <HintPath>..\..\..\lib\netcore\gudusoft.gsqlparser.dll</HintPath>
+		</Reference>
+	  </ItemGroup>
+    </When>
+    <When Condition=" '$(pkgSource)'=='nuget' ">
+		<ItemGroup>
+			<PackageReference Include="gudusoft.gsqlparser"/>
+		</ItemGroup>
+    </When>
+    <Otherwise>
+	  <ItemGroup>
+		<Reference Include="gudusoft.gsqlparser">
+		  <HintPath>..\..\..\lib\netcore\gudusoft.gsqlparser.dll</HintPath>
+		</Reference>
+	  </ItemGroup>
+    </Otherwise>
+  </Choose>
   
 </Project>

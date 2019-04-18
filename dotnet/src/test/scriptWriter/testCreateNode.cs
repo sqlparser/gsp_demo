@@ -817,7 +817,7 @@ namespace gudusoft.gsqlparser.test.scriptWriter
         //}
 
 
-        [TestMethod]
+       
         internal virtual string formatSql(string inputQuery, EDbVendor dbVendor)
         {
             string Result = inputQuery;

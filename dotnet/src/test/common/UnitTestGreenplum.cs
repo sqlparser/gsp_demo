@@ -77,7 +77,7 @@ namespace gudusoft.gsqlparser.test
         [TestMethod]
         public void TestGreenplumFiles()
         {
-            String[] allfiles = System.IO.Directory.GetFiles(UnitTestCommon.BASE_SQL_DIR + @"greenplum\", "*.sql", System.IO.SearchOption.AllDirectories);
+            String[] allfiles = System.IO.Directory.GetFiles(UnitTestCommon.BASE_SQL_DIR() + @"greenplum\", "*.sql", System.IO.SearchOption.AllDirectories);
             int cnt = 0;
             foreach (var file in allfiles)
             {

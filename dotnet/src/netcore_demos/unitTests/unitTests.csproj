@@ -70,10 +70,34 @@
     <ProjectReference Include="..\tableColumnRename\tableColumnRename.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="gudusoft.gsqlparser">
-      <HintPath>..\..\..\lib\netcore\gudusoft.gsqlparser.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+  
+  <Choose>
+    <When Condition=" '$(pkgSource)'=='local' ">
+	  <ItemGroup>
+		<Reference Include="gudusoft.gsqlparser">
+		  <HintPath>..\..\..\lib\netcore\gudusoft.gsqlparser.dll</HintPath>
+		</Reference>
+	  </ItemGroup>
+    </When>
+    <When Condition=" '$(pkgSource)'=='nuget' ">
+		<ItemGroup>
+			<PackageReference Include="gudusoft.gsqlparser"/>
+		</ItemGroup>
+    </When>
+    <When Condition=" '$(pkgSource)'=='localRelease' ">
+	  <ItemGroup>
+		<Reference Include="gudusoft.gsqlparser">
+		  <HintPath>c:\prg\gsp_dotnet\gudusoft\netcore\bin\Release\netcoreapp2.0\gudusoft.gsqlparser.dll</HintPath>
+		</Reference>
+	  </ItemGroup>
+    </When>
+    <Otherwise>
+	  <ItemGroup>
+		<Reference Include="gudusoft.gsqlparser">
+		  <HintPath>..\..\..\lib\netcore\gudusoft.gsqlparser.dll</HintPath>
+		</Reference>
+	  </ItemGroup>
+    </Otherwise>
+  </Choose>
 
 </Project>

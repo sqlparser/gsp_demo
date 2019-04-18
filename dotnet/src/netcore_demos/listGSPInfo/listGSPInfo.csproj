@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\demos\listGSPInfo\Program.cs" Link="Program.cs" />
+    <Compile Include="..\..\demos\util\common.cs" Link="common.cs" />
+  </ItemGroup>
+
+  
+  <Choose>
+    <When Condition=" '$(pkgSource)'=='local' ">
+	  <ItemGroup>
+		<Reference Include="gudusoft.gsqlparser">
+		  <HintPath>..\..\..\lib\netcore\gudusoft.gsqlparser.dll</HintPath>
+		</Reference>
+	  </ItemGroup>
+    </When>
+    <When Condition=" '$(pkgSource)'=='nuget' ">
+		<ItemGroup>
+			<PackageReference Include="gudusoft.gsqlparser"/>
+		</ItemGroup>
+    </When>
+    <When Condition=" '$(pkgSource)'=='localRelease' ">
+	  <ItemGroup>
+		<Reference Include="gudusoft.gsqlparser">
+		  <HintPath>c:\prg\gsp_dotnet\gudusoft\netcore\bin\Release\netcoreapp2.0\gudusoft.gsqlparser.dll</HintPath>
+		</Reference>
+	  </ItemGroup>
+    </When>
+    <Otherwise>
+	  <ItemGroup>
+		<Reference Include="gudusoft.gsqlparser">
+		  <HintPath>..\..\..\lib\netcore\gudusoft.gsqlparser.dll</HintPath>
+		</Reference>
+	  </ItemGroup>
+    </Otherwise>
+  </Choose>
+    
+
+</Project>
