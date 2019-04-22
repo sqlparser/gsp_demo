@@ -228,6 +228,7 @@ public class DlineageDemo extends DemoBase
 	private Map<String, String> tooltipMap = new HashMap<String, String>( );
 	private JCheckBoxMenuItem showLinkOnlyItem;
 	private JRadioButtonMenuItem showImpactItem;
+	private JRadioButtonMenuItem showRecordSetItem;
 	private JRadioButtonMenuItem showDataflowItem;
 	private JRadioButtonMenuItem showJoinItem;
 	private JCheckBoxMenuItem simpleOutputItem;
@@ -866,6 +867,15 @@ public class DlineageDemo extends DemoBase
 					showDataflowItem.setSelected( false );
 					showJoinItem.setSelected( false );
 					showImpactItem.setSelected( true );
+					showRecordSetItem.setSelected( false );
+				}
+				if ( e.getSource( ) == showRecordSetItem )
+				{
+					showRelationType = RelationType.dataflow_recordset;
+					showDataflowItem.setSelected( false );
+					showJoinItem.setSelected( false );
+					showImpactItem.setSelected( false );
+					showRecordSetItem.setSelected( true );
 				}
 				if ( e.getSource( ) == showDataflowItem )
 				{
@@ -873,6 +883,7 @@ public class DlineageDemo extends DemoBase
 					showImpactItem.setSelected( false );
 					showJoinItem.setSelected( false );
 					showDataflowItem.setSelected( true );
+					showRecordSetItem.setSelected( false );
 				}
 				if ( e.getSource( ) == showJoinItem )
 				{
@@ -880,6 +891,7 @@ public class DlineageDemo extends DemoBase
 					showImpactItem.setSelected( false );
 					showDataflowItem.setSelected( false );
 					showJoinItem.setSelected( true );
+					showRecordSetItem.setSelected( false );
 				}
 				if ( e.getSource( ) == simpleOutputItem )
 				{
@@ -907,6 +919,11 @@ public class DlineageDemo extends DemoBase
 		preferencesMenu.add( showDataflowItem )
 				.addActionListener( preferencesListener );
 
+		showRecordSetItem = new JRadioButtonMenuItem( "Show Dataflow Recordset Relation" );
+		showRecordSetItem.setSelected( false );
+		preferencesMenu.add( showRecordSetItem )
+				.addActionListener( preferencesListener );
+		
 		showImpactItem = new JRadioButtonMenuItem( "Show Impact Relation" );
 		showImpactItem.setSelected( false );
 		preferencesMenu.add( showImpactItem )
@@ -1696,19 +1713,19 @@ public class DlineageDemo extends DemoBase
 				{
 					dlineage = new DataFlowAnalyzer( (File) selections,
 							vendor,
-							simpleOutput );
+							(simpleOutput && showRelationType == RelationType.dataflow) );
 				}
 				else if ( selections instanceof File[] )
 				{
 					dlineage = new DataFlowAnalyzer( (File[]) selections,
 							vendor,
-							simpleOutput );
+							(simpleOutput && showRelationType == RelationType.dataflow) );
 				}
 				else if ( selections instanceof String )
 				{
 					dlineage = new DataFlowAnalyzer( (String) selections,
 							vendor,
-							simpleOutput );
+							(simpleOutput && showRelationType == RelationType.dataflow) );
 				}
 				else
 				{

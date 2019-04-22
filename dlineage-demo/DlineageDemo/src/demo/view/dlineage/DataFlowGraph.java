@@ -379,7 +379,7 @@ public class DataFlowGraph
 								+ currentTable.getId( )
 								+ "_index_"
 								+ k;
-						if ( currentTable.isTable( )
+						if ( (currentTable.isTable( ) || currentTable.isView( ))
 								&& !linkColumnSet
 										.contains( "\"" + columnId + "\"" ) )
 							continue;
@@ -425,7 +425,7 @@ public class DataFlowGraph
 								columnParentId );
 
 						columnId = "column_" + columnId;
-						if ( !currentTable.isTable( )
+						if ( !(currentTable.isTable( ) || currentTable.isView( ))
 								&& !linkColumnSet
 										.contains( "\"" + columnId + "\"" ) )
 							continue;
