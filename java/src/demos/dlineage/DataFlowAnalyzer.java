@@ -365,6 +365,11 @@ public class DataFlowAnalyzer
 							source.setParent_id(
 									tableIdMap.get( source.getParent_id( ) ) );
 						}
+						if ( tableIdMap.containsKey( source.getSource_id( ) ) )
+						{
+							source.setSource_id(
+									tableIdMap.get( source.getSource_id( ) ) );
+						}
 					}
 				}
 			}
