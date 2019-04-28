@@ -44,7 +44,7 @@ public class testAlignment extends TestCase {
                 "                                               FROM job_history jh\n" +
                 "                                              WHERE jh.employee_id = e.employee_id\n" +
                 "                                           GROUP BY employee_id\n" +
-                "                                           HAVING  Count(*) >= 4));"));
+                "                                             HAVING Count(*) >= 4));"));
 //        assertTrue(result.trim().equalsIgnoreCase("DELETE FROM job_history jh\n" +
 //                "      WHERE employee_id = (SELECT employee_id\n" +
 //                "                             FROM employee e\n" +
