@@ -32,6 +32,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import demos.dlineage.util.Pair;
+
 @SuppressWarnings({
 		"unchecked", "rawtypes"
 })
@@ -86,7 +88,13 @@ public class ModelBindingManager
 				}
 			}
 		}
-		else if ( relationModel instanceof QueryTable )
+		else if ( gspModel instanceof Pair
+				&& ( (Pair) gspModel ).first instanceof Table )
+		{
+			table = ( (Table) ( (Pair) gspModel ).first ).getTableObject( );
+		}
+		
+		if ( table == null && relationModel instanceof QueryTable )
 		{
 			table = ( (QueryTable) relationModel ).getTableObject( );
 		}
@@ -119,8 +127,8 @@ public class ModelBindingManager
 			if ( table.getSubquery( ) != null
 					&& table.getSubquery( ).getResultColumnList( ) != null )
 			{
-				return modelBindingMap.get( table.getSubquery( )
-						.getResultColumnList( ) );
+				return modelBindingMap
+						.get( table.getSubquery( ).getResultColumnList( ) );
 			}
 		}
 		if ( gspModel instanceof TSelectSqlStatement )
@@ -212,7 +220,8 @@ public class ModelBindingManager
 			// return (Table) createModelBindingMap.get( node );
 			// }
 			// }
-			return (Table) createModelQuickBindingMap.get( table.getFullName( ) );
+			return (Table) createModelQuickBindingMap
+					.get( table.getFullName( ) );
 		}
 		return null;
 	}
@@ -259,16 +268,19 @@ public class ModelBindingManager
 
 		if ( table.getCTE( ) != null )
 		{
-			ResultSet resultSet = (ResultSet) ModelBindingManager.getModel( table.getCTE( ) );
+			ResultSet resultSet = (ResultSet) ModelBindingManager
+					.getModel( table.getCTE( ) );
 			if ( resultSet != null )
 			{
 				List<ResultColumn> columnList = resultSet.getColumns( );
 				for ( int i = 0; i < columnList.size( ); i++ )
 				{
 					ResultColumn resultColumn = columnList.get( i );
-					if ( resultColumn.getColumnObject( ) instanceof TResultColumn )
+					if ( resultColumn
+							.getColumnObject( ) instanceof TResultColumn )
 					{
-						TResultColumn columnObject = ( (TResultColumn) resultColumn.getColumnObject( ) );
+						TResultColumn columnObject = ( (TResultColumn) resultColumn
+								.getColumnObject( ) );
 						TAliasClause alias = columnObject.getAliasClause( );
 						if ( alias != null && alias.getAliasName( ) != null )
 						{
@@ -286,25 +298,30 @@ public class ModelBindingManager
 							}
 						}
 					}
-					else if ( resultColumn.getColumnObject( ) instanceof TObjectName )
+					else if ( resultColumn
+							.getColumnObject( ) instanceof TObjectName )
 					{
-						columns.add( (TObjectName) resultColumn.getColumnObject( ) );
+						columns.add(
+								(TObjectName) resultColumn.getColumnObject( ) );
 					}
 				}
 			}
 		}
 		else if ( list.size( ) == 0 && table.getSubquery( ) != null )
 		{
-			ResultSet resultSet = (ResultSet) ModelBindingManager.getModel( table.getSubquery( ) );
+			ResultSet resultSet = (ResultSet) ModelBindingManager
+					.getModel( table.getSubquery( ) );
 			if ( resultSet != null )
 			{
 				List<ResultColumn> columnList = resultSet.getColumns( );
 				for ( int i = 0; i < columnList.size( ); i++ )
 				{
 					ResultColumn resultColumn = columnList.get( i );
-					if ( resultColumn.getColumnObject( ) instanceof TResultColumn )
+					if ( resultColumn
+							.getColumnObject( ) instanceof TResultColumn )
 					{
-						TResultColumn columnObject = ( (TResultColumn) resultColumn.getColumnObject( ) );
+						TResultColumn columnObject = ( (TResultColumn) resultColumn
+								.getColumnObject( ) );
 						TAliasClause alias = columnObject.getAliasClause( );
 						if ( alias != null && alias.getAliasName( ) != null )
 						{
@@ -322,9 +339,11 @@ public class ModelBindingManager
 							}
 						}
 					}
-					else if ( resultColumn.getColumnObject( ) instanceof TObjectName )
+					else if ( resultColumn
+							.getColumnObject( ) instanceof TObjectName )
 					{
-						columns.add( (TObjectName) resultColumn.getColumnObject( ) );
+						columns.add(
+								(TObjectName) resultColumn.getColumnObject( ) );
 					}
 				}
 			}
@@ -348,13 +367,14 @@ public class ModelBindingManager
 		return columns.toArray( new TObjectName[0] );
 	}
 
-	public static TTable getTable( TCustomSqlStatement stmt, TObjectName column )
+	public static TTable getTable( TCustomSqlStatement stmt,
+			TObjectName column )
 	{
 		if ( column.getTableString( ) != null
 				&& column.getTableString( ).trim( ).length( ) > 0 )
 		{
-			TTable table = tableAliasMap.get( column.getTableString( )
-					.toLowerCase( ) );
+			TTable table = tableAliasMap
+					.get( column.getTableString( ).toLowerCase( ) );
 
 			if ( table != null && table.getSubquery( ) != stmt )
 				return table;
@@ -626,14 +646,17 @@ public class ModelBindingManager
 	public static void bindCursorModel( TCursorDeclStmt stmt,
 			CursorResultSet resultSet )
 	{
-		createModelBindingMap.put( stmt.getCursorName( ).toScript( ), resultSet );
+		createModelBindingMap.put( stmt.getCursorName( ).toScript( ),
+				resultSet );
 	}
 
 	public static void bindCursorIndex( TObjectName indexName,
 			TObjectName cursorName )
 	{
 		bindModel( indexName.toScript( ),
-				modelBindingMap.get( ( (CursorResultSet) createModelBindingMap.get( cursorName.toScript( ) ) ).getResultColumnObject( ) ) );
+				modelBindingMap.get( ( (CursorResultSet) createModelBindingMap
+						.get( cursorName.toScript( ) ) )
+								.getResultColumnObject( ) ) );
 	}
 
 }

@@ -7,12 +7,11 @@ import demos.dlineage.util.Pair;
 
 public class column
 {
-
-	@Attribute(required = false)
-	private String name;
-
 	@Attribute(required = false)
 	private String id;
+	
+	@Attribute(required = false)
+	private String name;
 
 	@Attribute(required = false)
 	private String coordinate;
@@ -22,14 +21,19 @@ public class column
 		return coordinate;
 	}
 
-	public Pair<Integer, Integer> getStartPos( )
+	public int getOccurrencesNumber( )
 	{
-		return PositionUtil.getStartPos( coordinate );
+		return PositionUtil.getOccurrencesNumber( coordinate );
 	}
 
-	public Pair<Integer, Integer> getEndPos( )
+	public Pair<Integer, Integer> getStartPos( int index )
 	{
-		return PositionUtil.getEndPos( coordinate );
+		return PositionUtil.getStartPos( coordinate, index );
+	}
+
+	public Pair<Integer, Integer> getEndPos( int index )
+	{
+		return PositionUtil.getEndPos( coordinate, index );
 	}
 
 	public void setCoordinate( String coordinate )

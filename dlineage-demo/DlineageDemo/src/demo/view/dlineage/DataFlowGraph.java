@@ -60,13 +60,22 @@ public class DataFlowGraph
 
 		boolean containGroup = false;
 
-		String columnContent = SQLUtil.getInputStreamContent( getClass( ).getResourceAsStream( "/demo/view/dlineage/resource/column.template" ),
+		String columnContent = SQLUtil.getInputStreamContent(
+				getClass( ).getResourceAsStream(
+						"/demo/view/dlineage/resource/column.template" ),
 				false );
-		String tableContent = SQLUtil.getInputStreamContent( getClass( ).getResourceAsStream( "/demo/view/dlineage/resource/table.template" ),
+		String tableContent = SQLUtil.getInputStreamContent(
+				getClass( ).getResourceAsStream(
+						"/demo/view/dlineage/resource/table.template" ),
 				false );
-		String linkContent = SQLUtil.getInputStreamContent( getClass( ).getResourceAsStream( "/demo/view/dlineage/resource/link.template" ),
-				false );
-		String graphContent = SQLUtil.getInputStreamContent( getClass( ).getResourceAsStream( "/demo/view/dlineage/resource/graph.template" ),
+		String linkContent = SQLUtil
+				.getInputStreamContent(
+						getClass( ).getResourceAsStream(
+								"/demo/view/dlineage/resource/link.template" ),
+						false );
+		String graphContent = SQLUtil.getInputStreamContent(
+				getClass( ).getResourceAsStream(
+						"/demo/view/dlineage/resource/graph.template" ),
 				false );
 
 		StringBuffer tableFullBuffer = new StringBuffer( );
@@ -94,7 +103,7 @@ public class DataFlowGraph
 
 			StringBuffer columnBuffer = new StringBuffer( );
 
-			if ( currentTable.isTable( ) )
+			if ( currentTable.isTable( ) || currentTable.isView( ) )
 			{
 				Map<String, List<column>> columnMap = new LinkedHashMap<String, List<column>>( );
 				tableColumns.put( currentTable.getId( ), columnMap );
@@ -115,8 +124,8 @@ public class DataFlowGraph
 					columns.add( column );
 				}
 
-				Iterator<Entry<String, List<column>>> iterator = columnMap.entrySet( )
-						.iterator( );
+				Iterator<Entry<String, List<column>>> iterator = columnMap
+						.entrySet( ).iterator( );
 				for ( int k = 0; k < columnMap.size( ); k++ )
 				{
 					Entry<String, List<column>> entry = iterator.next( );
@@ -197,8 +206,7 @@ public class DataFlowGraph
 				if ( tooltipMap != null )
 				{
 					tooltipMap.put( shortLabel.replace( "\r\n", "\n" )
-							.replace( "\n", " " ),
-							tableLabel );
+							.replace( "\n", " " ), tableLabel );
 				}
 				tableLabel = shortLabel;
 
@@ -242,7 +250,10 @@ public class DataFlowGraph
 							&& relation.getType( )
 									.equals( RelationType.dataflow.name( ) ) )
 					{
-						if ( !traceJoin( relation, relations, tableColumns, 0 ) )
+						if ( !traceJoin( relation,
+								relations,
+								tableColumns,
+								0 ) )
 						{
 							continue;
 						}
@@ -288,7 +299,8 @@ public class DataFlowGraph
 						content = content.replace( "{targetId}", targetId );
 
 						if ( columnSet.contains( "\"" + sourceId + "\"" )
-								&& columnSet.contains( "\"" + targetId + "\"" ) )
+								&& columnSet
+										.contains( "\"" + targetId + "\"" ) )
 						{
 							String temp = content;
 							if ( !links.contains( temp ) )
@@ -337,10 +349,11 @@ public class DataFlowGraph
 					continue;
 				nodes.add( currentTable );
 				StringBuffer columnBuffer = new StringBuffer( );
-				if ( currentTable.isTable( ) )
+				if ( currentTable.isTable( ) || currentTable.isView( ) )
 				{
 					Map<String, List<column>> columnMap = new LinkedHashMap<String, List<column>>( );
-					for ( int k = 0; k < currentTable.getColumns( ).size( ); k++ )
+					for ( int k = 0; k < currentTable.getColumns( )
+							.size( ); k++ )
 					{
 						column column = currentTable.getColumns( ).get( k );
 						String columnLabel = column.getName( );
@@ -357,8 +370,8 @@ public class DataFlowGraph
 						columns.add( column );
 					}
 
-					Iterator<Entry<String, List<column>>> iterator = columnMap.entrySet( )
-							.iterator( );
+					Iterator<Entry<String, List<column>>> iterator = columnMap
+							.entrySet( ).iterator( );
 					for ( int k = 0; k < columnMap.size( ); k++ )
 					{
 						Entry<String, List<column>> entry = iterator.next( );
@@ -366,10 +379,9 @@ public class DataFlowGraph
 								+ currentTable.getId( )
 								+ "_index_"
 								+ k;
-						if ( currentTable.isTable( )
-								&& !linkColumnSet.contains( "\""
-										+ columnId
-										+ "\"" ) )
+						if ( (currentTable.isTable( ) || currentTable.isView( ))
+								&& !linkColumnSet
+										.contains( "\"" + columnId + "\"" ) )
 							continue;
 
 						nodes.add( entry.getValue( ) );
@@ -381,11 +393,13 @@ public class DataFlowGraph
 						String columnLabel = entry.getKey( );
 						if ( columnLabel.length( ) > 25 )
 						{
-							String shortLabel = getShortLabel( columnLabel, 25 );
+							String shortLabel = getShortLabel( columnLabel,
+									25 );
 							if ( tooltipMap != null )
 							{
-								tooltipMap.put( shortLabel.replace( "\r\n",
-										"\n" ).replace( "\n", " " ),
+								tooltipMap.put(
+										shortLabel.replace( "\r\n", "\n" )
+												.replace( "\n", " " ),
 										columnLabel );
 							}
 							columnLabel = shortLabel;
@@ -399,7 +413,8 @@ public class DataFlowGraph
 				}
 				else
 				{
-					for ( int k = 0; k < currentTable.getColumns( ).size( ); k++ )
+					for ( int k = 0; k < currentTable.getColumns( )
+							.size( ); k++ )
 					{
 						column column = currentTable.getColumns( ).get( k );
 
@@ -410,10 +425,9 @@ public class DataFlowGraph
 								columnParentId );
 
 						columnId = "column_" + columnId;
-						if ( !currentTable.isTable( )
-								&& !linkColumnSet.contains( "\""
-										+ columnId
-										+ "\"" ) )
+						if ( !(currentTable.isTable( ) || currentTable.isView( ))
+								&& !linkColumnSet
+										.contains( "\"" + columnId + "\"" ) )
 							continue;
 
 						nodes.add( column );
@@ -425,11 +439,13 @@ public class DataFlowGraph
 						String columnLabel = column.getName( );
 						if ( columnLabel.length( ) > 25 )
 						{
-							String shortLabel = getShortLabel( columnLabel, 25 );
+							String shortLabel = getShortLabel( columnLabel,
+									25 );
 							if ( tooltipMap != null )
 							{
-								tooltipMap.put( shortLabel.replace( "\r\n",
-										"\n" ).replace( "\n", " " ),
+								tooltipMap.put(
+										shortLabel.replace( "\r\n", "\n" )
+												.replace( "\n", " " ),
 										columnLabel );
 							}
 							columnLabel = shortLabel;
@@ -466,7 +482,8 @@ public class DataFlowGraph
 
 				content = content.replace( "{tableLabel}",
 						StringEscapeUtils.escapeXml( tableLabel ) );
-				content = content.replace( "{columns}", columnBuffer.toString( ) );
+				content = content.replace( "{columns}",
+						columnBuffer.toString( ) );
 				if ( currentTable.isView( ) )
 				{
 					content = content.replace( "{contentColor}", "#ff99cc" );
@@ -495,7 +512,8 @@ public class DataFlowGraph
 					tableFullBuffer.toString( ) );
 		}
 
-		graphContent = graphContent.replace( "{links}", linkBuffer.toString( ) );
+		graphContent = graphContent.replace( "{links}",
+				linkBuffer.toString( ) );
 		return new Pair<String, Boolean>( graphContent, containGroup );
 	}
 
@@ -523,7 +541,8 @@ public class DataFlowGraph
 					tempParentId );
 			if ( tempColumnId.equals( targetColumnId ) )
 			{
-				if ( tempRelation.getType( ).equals( RelationType.join.name( ) ) )
+				if ( tempRelation.getType( )
+						.equals( RelationType.join.name( ) ) )
 				{
 					return true;
 				}
@@ -600,7 +619,8 @@ public class DataFlowGraph
 	private String getShortLabel( String label, int length )
 	{
 		int index = length / 2 - 1;
-		return ( label.substring( 0, index - 1 ) + "..." + label.substring( label.length( )
-				- ( index + 1 ) ) );
+		return ( label.substring( 0, index - 1 )
+				+ "..."
+				+ label.substring( label.length( ) - ( index + 1 ) ) );
 	}
 }
