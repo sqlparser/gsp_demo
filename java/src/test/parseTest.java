@@ -137,6 +137,7 @@ void parsefiles(EDbVendor db,String dir)  {
 
     public  void testOpenedge(){
         parsefiles(EDbVendor.dbvopenedge,test.gspCommon.BASE_SQL_DIR+"openedge");
+        parsefiles(EDbVendor.dbvopenedge,test.gspCommon.BASE_SQL_DIR+"java/openedge");
     }
 
     public  void testCouchbase(){
