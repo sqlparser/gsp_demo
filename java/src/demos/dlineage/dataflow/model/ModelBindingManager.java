@@ -72,7 +72,7 @@ public class ModelBindingManager
 		}
 		else if ( gspModel instanceof TCTE )
 		{
-			TTableList tables = ( (TCTE) gspModel ).getSubquery( ).tables;
+			TTableList tables = ( (TCTE) gspModel ).getPreparableStmt( ).tables;
 			for ( int j = 0; j < tables.size( ); j++ )
 			{
 				TTable item = tables.getTable( j );
