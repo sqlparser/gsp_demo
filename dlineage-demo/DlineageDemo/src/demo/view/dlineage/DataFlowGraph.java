@@ -111,6 +111,10 @@ public class DataFlowGraph
 				{
 					column column = currentTable.getColumns( ).get( k );
 					String columnLabel = column.getName( );
+					if ( !SQLUtil.isQuoted( columnLabel ) )
+					{
+						columnLabel = columnLabel.toLowerCase( );
+					}
 					List<column> columns;
 					if ( !columnMap.containsKey( columnLabel ) )
 					{
@@ -357,6 +361,10 @@ public class DataFlowGraph
 					{
 						column column = currentTable.getColumns( ).get( k );
 						String columnLabel = column.getName( );
+						if ( !SQLUtil.isQuoted( columnLabel ) )
+						{
+							columnLabel = columnLabel.toLowerCase( );
+						}
 						List<column> columns;
 						if ( !columnMap.containsKey( columnLabel ) )
 						{
@@ -379,7 +387,8 @@ public class DataFlowGraph
 								+ currentTable.getId( )
 								+ "_index_"
 								+ k;
-						if ( (currentTable.isTable( ) || currentTable.isView( ))
+						if ( ( currentTable.isTable( )
+								|| currentTable.isView( ) )
 								&& !linkColumnSet
 										.contains( "\"" + columnId + "\"" ) )
 							continue;
@@ -425,7 +434,8 @@ public class DataFlowGraph
 								columnParentId );
 
 						columnId = "column_" + columnId;
-						if ( !(currentTable.isTable( ) || currentTable.isView( ))
+						if ( !( currentTable.isTable( )
+								|| currentTable.isView( ) )
 								&& !linkColumnSet
 										.contains( "\"" + columnId + "\"" ) )
 							continue;
@@ -561,29 +571,32 @@ public class DataFlowGraph
 			}
 
 			List<sourceColumn> sources = tempRelation.getSources( );
-			for ( int j = 0; j < sources.size( ); j++ )
+			if ( sources != null )
 			{
-				tempColumnId = sources.get( j ).getId( );
-				tempParentId = sources.get( j ).getParent_id( );
-				tempColumnId = convertColumnId( tableColumns,
-						tempColumnId,
-						tempParentId );
-				if ( tempColumnId.equals( targetColumnId ) )
+				for ( int j = 0; j < sources.size( ); j++ )
 				{
-					if ( tempRelation.getType( )
-							.equals( RelationType.join.name( ) ) )
+					tempColumnId = sources.get( j ).getId( );
+					tempParentId = sources.get( j ).getParent_id( );
+					tempColumnId = convertColumnId( tableColumns,
+							tempColumnId,
+							tempParentId );
+					if ( tempColumnId.equals( targetColumnId ) )
 					{
-						return true;
-					}
-					else if ( tempRelation.getType( )
-							.equals( RelationType.dataflow.name( ) ) )
-					{
-						if ( traceJoin( tempRelation,
-								relations,
-								tableColumns,
-								0 ) )
+						if ( tempRelation.getType( )
+								.equals( RelationType.join.name( ) ) )
 						{
 							return true;
+						}
+						else if ( tempRelation.getType( )
+								.equals( RelationType.dataflow.name( ) ) )
+						{
+							if ( traceJoin( tempRelation,
+									relations,
+									tableColumns,
+									0 ) )
+							{
+								return true;
+							}
 						}
 					}
 				}

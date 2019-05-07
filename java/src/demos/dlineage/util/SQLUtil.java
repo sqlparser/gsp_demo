@@ -140,6 +140,11 @@ public class SQLUtil
 		return getFileContent( file );
 	}
 
+	public static boolean isQuoted( String name )
+	{
+		return !name.equals( trimObjectName( name ) );
+	}
+	
 	public static String trimObjectName( String string )
 	{
 		if ( string == null )
