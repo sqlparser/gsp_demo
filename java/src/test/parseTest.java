@@ -147,4 +147,9 @@ void parsefiles(EDbVendor db,String dir)  {
     public  void testSnowflake(){
         parsefiles(EDbVendor.dbvsnowflake,test.gspCommon.BASE_SQL_DIR+"snowflake");
     }
+
+    public  void testBigquery(){
+        parsefiles(EDbVendor.dbvbigquery,test.gspCommon.BASE_SQL_DIR+"bigquery");
+    }
+
 }

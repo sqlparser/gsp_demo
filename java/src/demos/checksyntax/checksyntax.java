@@ -132,6 +132,11 @@ public class checksyntax {
             {
                 vendor = EDbVendor.dbvredshift;
             }
+            else if ( args[index + 1].equalsIgnoreCase( "bigquery" ) )
+            {
+                vendor = EDbVendor.dbvbigquery;
+            }
+			
         }
 
 
