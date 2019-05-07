@@ -252,38 +252,49 @@ public class ModelFactory
 	public static ViewColumn createViewColumn( View viewModel,
 			TObjectName column, int index )
 	{
-		if ( ModelBindingManager.getViewModel( column ) instanceof ViewColumn )
+		Pair<View, TObjectName> bindingModel = new Pair<View, TObjectName>(
+				viewModel, column );
+		if ( ModelBindingManager.getViewModel( bindingModel ) instanceof ViewColumn )
 		{
-			return (ViewColumn) ModelBindingManager.getViewModel( column );
+			return (ViewColumn) ModelBindingManager.getViewModel( bindingModel );
 		}
 		ViewColumn columnModel = new ViewColumn( viewModel, column, index );
-		ModelBindingManager.bindViewModel( column, columnModel );
+		ModelBindingManager.bindViewModel( bindingModel, columnModel );
 		return columnModel;
 	}
 
 	public static TableColumn createInsertTableColumn( Table tableModel,
 			TObjectName column )
 	{
-		if ( ModelBindingManager.getInsertModel( column ) instanceof TableColumn )
+		Pair<Table, TObjectName> bindingModel = new Pair<Table, TObjectName>(
+				tableModel, column );
+		if ( ModelBindingManager
+				.getInsertModel( bindingModel ) instanceof TableColumn )
 		{
-			return (TableColumn) ModelBindingManager.getInsertModel( column );
+			return (TableColumn) ModelBindingManager
+					.getInsertModel( bindingModel );
 		}
 		TableColumn columnModel = new TableColumn( tableModel, column );
-		ModelBindingManager.bindInsertModel( column, columnModel );
+		ModelBindingManager.bindInsertModel( bindingModel, columnModel );
 		return columnModel;
 	}
 
 	public static TableColumn createInsertTableColumn( Table tableModel,
 			TConstant column, int columnIndex )
 	{
-		if ( ModelBindingManager.getInsertModel( column ) instanceof TableColumn )
+		Pair<Table, TConstant> bindingModel = new Pair<Table, TConstant>(
+				tableModel, column );
+
+		if ( ModelBindingManager
+				.getInsertModel( bindingModel ) instanceof TableColumn )
 		{
-			return (TableColumn) ModelBindingManager.getInsertModel( column );
+			return (TableColumn) ModelBindingManager
+					.getInsertModel( bindingModel );
 		}
 		TableColumn columnModel = new TableColumn( tableModel,
 				column,
 				columnIndex );
-		ModelBindingManager.bindInsertModel( column, columnModel );
+		ModelBindingManager.bindInsertModel( bindingModel, columnModel );
 		return columnModel;
 	}
 
