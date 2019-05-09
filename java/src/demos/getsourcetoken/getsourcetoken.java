@@ -54,28 +54,12 @@ public class getsourcetoken {
      sqlparser.sqlfilename  = args[0];
 
 
-    int ret = sqlparser.parse();
-    if (ret == 0){
-        // get source tokens of whole script
+    sqlparser.tokenizeSqltext();
 
-        for(int i=0;i<sqlparser.sourcetokenlist.size();i++){
-            TSourceToken st =  sqlparser.sourcetokenlist.get(i);
-            System.out.println("token code:"+st.tokencode+" ,token type: "+st.tokentype.toString()+" ,text:"+st.toString());
-        }
-
-
-       // get source token of each statement
-
-        for(int i=0; i<sqlparser.sqlstatements.size();i++){
-            TCustomSqlStatement stmt = sqlparser.sqlstatements.get(i);
-            System.out.println(stmt.sqlstatementtype.toString());
-            for(int j=0;j<stmt.sourcetokenlist.size();j++){
-                TSourceToken st =  stmt.sourcetokenlist.get(j);
-                System.out.println("token code:"+st.tokencode+" ,token type: "+st.tokentype.toString()+" ,text:"+st.toString());
-            }
-        }
-    }else{
-        System.out.println(sqlparser.getErrormessage());
+    // get source tokens of whole script
+    for(int i=0;i<sqlparser.sourcetokenlist.size();i++) {
+        TSourceToken st = sqlparser.sourcetokenlist.get(i);
+        System.out.println("token code:" + st.tokencode + " ,token type: " + st.tokentype.toString() + " ,text:" + st.toString());
     }
 
     System.out.println("Time Escaped: "+ (System.currentTimeMillis() - t) );
