@@ -36,9 +36,11 @@ import gudusoft.gsqlparser.nodes.TResultColumnList;
 import gudusoft.gsqlparser.nodes.TTable;
 import gudusoft.gsqlparser.nodes.TTableList;
 import gudusoft.gsqlparser.nodes.TTrimArgument;
+import gudusoft.gsqlparser.nodes.TViewAliasClause;
 import gudusoft.gsqlparser.nodes.TViewAliasItemList;
 import gudusoft.gsqlparser.nodes.TWhenClauseItem;
 import gudusoft.gsqlparser.nodes.TWhenClauseItemList;
+import gudusoft.gsqlparser.stmt.TCreateMaterializedSqlStatement;
 import gudusoft.gsqlparser.stmt.TCreateTableSqlStatement;
 import gudusoft.gsqlparser.stmt.TCreateViewSqlStatement;
 import gudusoft.gsqlparser.stmt.TCursorDeclStmt;
@@ -948,10 +950,18 @@ public class DataFlowAnalyzer
 		{
 			analyzeSelectStmt( (TSelectSqlStatement) stmt );
 		}
+		else if ( stmt instanceof TCreateMaterializedSqlStatement )
+		{
+			stmtStack.push( stmt );
+			TCreateMaterializedSqlStatement view = (TCreateMaterializedSqlStatement)stmt;
+			analyzeCreateViewStmt( view, view.getSubquery( ), view.getViewAliasClause( ), view.getViewName( ));
+			stmtStack.pop( );
+		}
 		else if ( stmt instanceof TCreateViewSqlStatement )
 		{
 			stmtStack.push( stmt );
-			analyzeCreateViewStmt( (TCreateViewSqlStatement) stmt );
+			TCreateViewSqlStatement view = (TCreateViewSqlStatement)stmt;
+			analyzeCreateViewStmt( view, view.getSubquery( ), view.getViewAliasClause( ), view.getViewName( ));
 			stmtStack.pop( );
 		}
 		else if ( stmt instanceof TInsertSqlStatement )
@@ -2346,21 +2356,18 @@ public class DataFlowAnalyzer
 		}
 	}
 
-	private void analyzeCreateViewStmt( TCreateViewSqlStatement stmt )
+	private void analyzeCreateViewStmt( TCustomSqlStatement stmt, TSelectSqlStatement subquery,  TViewAliasClause viewAlias, TObjectName viewName )
 	{
-		if ( stmt.getSubquery( ) != null )
+		if ( subquery != null )
 		{
-			analyzeSelectStmt( stmt.getSubquery( ) );
+			analyzeSelectStmt( subquery );
 		}
-
-		if ( stmt.getViewAliasClause( ) != null
-				&& stmt.getViewAliasClause( ).getViewAliasItemList( ) != null )
+	
+		if ( viewAlias != null && viewAlias.getViewAliasItemList( ) != null )
 		{
-			TViewAliasItemList viewItems = stmt.getViewAliasClause( )
-					.getViewAliasItemList( );
-			View viewModel = ModelFactory.createView( stmt );
-			ResultSet resultSetModel = (ResultSet) ModelBindingManager
-					.getModel( stmt.getSubquery( ) );
+			TViewAliasItemList viewItems = viewAlias.getViewAliasItemList( );
+			View viewModel = ModelFactory.createView( stmt, viewName );
+			ResultSet resultSetModel = (ResultSet) ModelBindingManager.getModel( subquery );
 			for ( int i = 0; i < viewItems.size( ); i++ )
 			{
 				TObjectName alias = viewItems.getViewAliasItem( i ).getAlias( );
@@ -2426,12 +2433,11 @@ public class DataFlowAnalyzer
 		}
 		else
 		{
-			View viewModel = ModelFactory.createView( stmt );
-			if ( stmt.getSubquery( ) != null
-					&& stmt.getSubquery( ).getResultColumnList( ) != null )
+			View viewModel = ModelFactory.createView( stmt, viewName );
+			if ( subquery != null && subquery.getResultColumnList( ) != null )
 			{
 				SelectResultSet resultSetModel = (SelectResultSet) ModelBindingManager
-						.getModel( stmt.getSubquery( ).getResultColumnList( ) );
+						.getModel( subquery.getResultColumnList( ) );
 				for ( int i = 0; i < resultSetModel.getColumns( ).size( ); i++ )
 				{
 					ResultColumn resultColumn = resultSetModel.getColumns( )
@@ -2531,10 +2537,9 @@ public class DataFlowAnalyzer
 					}
 				}
 			}
-			else if ( stmt.getSubquery( ) != null )
+			else if ( subquery != null )
 			{
-				SelectSetResultSet resultSetModel = (SelectSetResultSet) ModelBindingManager
-						.getModel( stmt.getSubquery( ) );
+				SelectSetResultSet resultSetModel = (SelectSetResultSet) ModelBindingManager.getModel( subquery );
 				for ( int i = 0; i < resultSetModel.getColumns( ).size( ); i++ )
 				{
 					ResultColumn resultColumn = resultSetModel.getColumns( )
@@ -3713,7 +3718,7 @@ public class DataFlowAnalyzer
 
 	private void appendViews( Document doc, Element dlineageResult )
 	{
-		List<TCreateViewSqlStatement> views = ModelBindingManager.getViews( );
+		List<TCustomSqlStatement> views = ModelBindingManager.getViews( );
 		for ( int i = 0; i < views.size( ); i++ )
 		{
 			View viewModel = (View) ModelBindingManager
