@@ -107,19 +107,19 @@ public class ResultColumn
 		{
 			if ( resultColumnObject.getExpr( ).getExpressionType( ) == EExpressionType.simple_constant_t )
 			{
-				if ( resultSet instanceof SelectResultSet )
-				{
-					this.name = "DUMMY"
-							+ getIndexOf( ( (SelectResultSet) resultSet ).getResultColumnObject( ),
-									resultColumnObject );
-				}
-				else if ( resultSet instanceof SelectSetResultSet )
-				{
-					this.name = "DUMMY"
-							+ getIndexOf( ( (SelectSetResultSet) resultSet ).getResultColumnObject( ),
-									resultColumnObject );
-				}
-				else
+//				if ( resultSet instanceof SelectResultSet )
+//				{
+//					this.name = "DUMMY"
+//							+ getIndexOf( ( (SelectResultSet) resultSet ).getResultColumnObject( ),
+//									resultColumnObject );
+//				}
+//				else if ( resultSet instanceof SelectSetResultSet )
+//				{
+//					this.name = "DUMMY"
+//							+ getIndexOf( ( (SelectSetResultSet) resultSet ).getResultColumnObject( ),
+//									resultColumnObject );
+//				}
+//				else
 					this.name = resultColumnObject.toString( );
 
 			}
@@ -204,16 +204,16 @@ public class ResultColumn
 				endToken.columnNo + endToken.astext.length( ) );
 	}
 
-	private int getIndexOf( TResultColumnList resultColumnList,
-			TResultColumn resultColumnObject )
-	{
-		for ( int i = 0; i < resultColumnList.size( ); i++ )
-		{
-			if ( resultColumnList.getResultColumn( i ) == resultColumnObject )
-				return i;
-		}
-		return -1;
-	}
+//	private int getIndexOf( TResultColumnList resultColumnList,
+//			TResultColumn resultColumnObject )
+//	{
+//		for ( int i = 0; i < resultColumnList.size( ); i++ )
+//		{
+//			if ( resultColumnList.getResultColumn( i ) == resultColumnObject )
+//				return i;
+//		}
+//		return -1;
+//	}
 
 	public ResultSet getResultSet( )
 	{

@@ -2198,7 +2198,7 @@ public class DataFlowAnalyzer
 								.getColumns( ).get( j );
 						ResultColumn targetColumn = ModelFactory
 								.createSelectSetResultColumn( queryTable,
-										sourceColumn );
+										sourceColumn, j );
 						DataFlowRelation selectSetRalation = ModelFactory
 								.createDataFlowRelation( );
 						selectSetRalation
@@ -3985,7 +3985,7 @@ public class DataFlowAnalyzer
 									.getColumns( ).get( j );
 							ResultColumn targetColumn = ModelFactory
 									.createSelectSetResultColumn( queryTable,
-											sourceColumn );
+											sourceColumn, j );
 							DataFlowRelation selectSetRalation = ModelFactory
 									.createDataFlowRelation( );
 							selectSetRalation
@@ -4003,6 +4003,14 @@ public class DataFlowAnalyzer
 				{
 					QueryTable queryTable = ModelFactory
 							.createQueryTable( table );
+					TObjectNameList cteColumns = table.getCTE( ).getColumnList( );
+					if ( cteColumns != null )
+					{
+						for ( int j = 0; j < cteColumns.size( ); j++ )
+						{
+							ModelFactory.createResultColumn( queryTable, cteColumns.getObjectName( j ) );
+						}
+					}
 					TSelectSqlStatement subquery = table.getCTE( )
 							.getSubquery( );
 					if ( subquery != null )
@@ -4019,9 +4027,16 @@ public class DataFlowAnalyzer
 							{
 								ResultColumn sourceColumn = selectSetResultSetModel
 										.getColumns( ).get( j );
-								ResultColumn targetColumn = ModelFactory
-										.createSelectSetResultColumn(
-												queryTable, sourceColumn );
+								ResultColumn targetColumn = null;
+								if ( cteColumns != null )
+								{
+									targetColumn = queryTable.getColumns( ).get( j );
+								}
+								else
+								{
+									targetColumn = ModelFactory.createSelectSetResultColumn(
+											queryTable, sourceColumn, j );
+								}
 								DataFlowRelation selectSetRalation = ModelFactory
 										.createDataFlowRelation( );
 								selectSetRalation.setTarget(
@@ -4041,9 +4056,18 @@ public class DataFlowAnalyzer
 							{
 								ResultColumn sourceColumn = resultSetModel
 										.getColumns( ).get( j );
-								ResultColumn targetColumn = ModelFactory
-										.createSelectSetResultColumn(
-												queryTable, sourceColumn );
+								ResultColumn targetColumn = null;
+								if ( cteColumns != null )
+								{
+									targetColumn = queryTable.getColumns( )
+											.get( j );
+								}
+								else
+								{
+									targetColumn = ModelFactory
+											.createSelectSetResultColumn(
+													queryTable, sourceColumn, j );
+								}
 								DataFlowRelation selectSetRalation = ModelFactory
 										.createDataFlowRelation( );
 								selectSetRalation.setTarget(
@@ -4337,21 +4361,7 @@ public class DataFlowAnalyzer
 				for ( int i = 0; i < stmt.getJoins( ).size( ); i++ )
 				{
 					TJoin join = stmt.getJoins( ).getJoin( i );
-					if ( join.getJoinItems( ) != null )
-					{
-						for ( int j = 0; j < join.getJoinItems( ).size( ); j++ )
-						{
-							TJoinItem joinItem = join.getJoinItems( )
-									.getJoinItem( j );
-							TExpression expr = joinItem.getOnCondition( );
-							if ( expr != null )
-							{
-								analyzeFilterCondtion( expr,
-										joinItem.getJoinType( ),
-										JoinClauseType.on );
-							}
-						}
-					}
+					analyzeJoin( join );
 				}
 			}
 
@@ -4383,6 +4393,30 @@ public class DataFlowAnalyzer
 			}
 
 			stmtStack.pop( );
+		}
+	}
+
+	private void analyzeJoin( TJoin join )
+	{
+		if ( join.getJoinItems( ) != null )
+		{
+			for ( int j = 0; j < join.getJoinItems( ).size( ); j++ )
+			{
+				TJoinItem joinItem = join.getJoinItems( )
+						.getJoinItem( j );
+				TExpression expr = joinItem.getOnCondition( );
+				if ( expr != null )
+				{
+					analyzeFilterCondtion( expr,
+							joinItem.getJoinType( ),
+							JoinClauseType.on );
+				}
+			}
+		}
+		
+		if ( join.getJoin( ) != null )
+		{
+			analyzeJoin( join.getJoin( ) );
 		}
 	}
 
@@ -4430,7 +4464,7 @@ public class DataFlowAnalyzer
 			{
 				TResultColumn column = columnList.getResultColumn( i );
 				ResultColumn resultColumn = ModelFactory
-						.createSelectSetResultColumn( resultSet, column );
+						.createSelectSetResultColumn( resultSet, column, i );
 
 				if ( resultColumn.getColumnObject( ) instanceof TResultColumn )
 				{
@@ -4834,12 +4868,15 @@ public class DataFlowAnalyzer
 					{
 						QueryTable queryTable = (QueryTable) ModelBindingManager
 								.getModel( table );
+						
+						TObjectNameList cteColumns = null;
 						TSelectSqlStatement subquery = null;
 						if ( queryTable.getTableObject( ).getCTE( ) != null )
 						{
 							subquery = queryTable.getTableObject( )
 									.getCTE( )
 									.getSubquery( );
+							cteColumns = queryTable.getTableObject( ).getCTE( ).getColumnList( );
 						}
 						else
 						{
@@ -4847,6 +4884,14 @@ public class DataFlowAnalyzer
 									.getSubquery( );
 						}
 
+						if ( cteColumns != null )
+						{
+							for ( int j = 0; j < cteColumns.size( ); j++ )
+							{
+								ModelFactory.createResultColumn( queryTable, cteColumns.getObjectName( j ) );
+							}
+						}
+						
 						if ( subquery != null
 								&& subquery
 										.getSetOperatorType( ) != ESetOperatorType.none )
@@ -4863,10 +4908,19 @@ public class DataFlowAnalyzer
 										ResultColumn sourceColumn = selectSetResultSetModel
 												.getColumns( ).get( j );
 
-										ResultColumn targetColumn = ModelFactory
-												.createSelectSetResultColumn(
-														queryTable,
-														sourceColumn );
+										ResultColumn targetColumn = null;
+										if ( cteColumns != null )
+										{
+											targetColumn = queryTable
+													.getColumns( ).get( j );
+										}
+										else
+										{
+											targetColumn = ModelFactory
+													.createSelectSetResultColumn(
+															queryTable,
+															sourceColumn, j );
+										}
 										relation.addSource(
 												new ResultColumnRelationElement(
 														targetColumn ) );
@@ -4888,10 +4942,19 @@ public class DataFlowAnalyzer
 														getColumnName(
 																columnName ) ) )
 										{
-											ResultColumn targetColumn = ModelFactory
+											ResultColumn targetColumn = null;
+											if ( cteColumns != null )
+											{
+												targetColumn = queryTable
+														.getColumns( ).get( j );
+											}
+											else
+											{
+												targetColumn = ModelFactory
 													.createSelectSetResultColumn(
 															queryTable,
-															sourceColumn );
+															sourceColumn, j );
+											}
 											relation.addSource(
 													new ResultColumnRelationElement(
 															targetColumn ) );
@@ -4908,12 +4971,22 @@ public class DataFlowAnalyzer
 											.getColumns( ).size( )
 											&& columnIndex != -1 )
 									{
-										ResultColumn targetColumn = ModelFactory
-												.createSelectSetResultColumn(
-														queryTable,
-														selectSetResultSetModel
-																.getColumns( )
-																.get( columnIndex ) );
+										ResultColumn targetColumn = null;
+										if ( cteColumns != null )
+										{
+											targetColumn = queryTable
+													.getColumns( )
+													.get( columnIndex );
+										}
+										else
+										{
+											targetColumn = ModelFactory
+													.createSelectSetResultColumn(
+															queryTable,
+															selectSetResultSetModel
+																	.getColumns( )
+																	.get( columnIndex ), columnIndex );
+										}
 										relation.addSource(
 												new ResultColumnRelationElement(
 														targetColumn ) );

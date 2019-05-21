@@ -711,6 +711,10 @@ public class DlineageDemo extends DemoBase
 			@Override
 			public void actionPerformed( ActionEvent e )
 			{
+				if ( "BigQuery".equals( e.getActionCommand( ) ) )
+				{
+					vendor = EDbVendor.dbvbigquery;
+				}
 				if ( "Oracle".equals( e.getActionCommand( ) ) )
 				{
 					vendor = EDbVendor.dbvoracle;
@@ -800,6 +804,8 @@ public class DlineageDemo extends DemoBase
 			}
 		};
 
+		vendorMenu.add( new JCheckBoxMenuItem( "BigQuery" ) )
+				.addActionListener( listener );
 		vendorMenu.add( new JCheckBoxMenuItem( "Couchbase" ) )
 				.addActionListener( listener );
 		vendorMenu.add( new JCheckBoxMenuItem( "DB2" ) )
