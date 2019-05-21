@@ -4898,7 +4898,68 @@ public class DataFlowAnalyzer
 						{
 							SelectSetResultSet selectSetResultSetModel = (SelectSetResultSet) ModelBindingManager
 									.getModel( subquery );
-							if ( selectSetResultSetModel != null )
+							
+							if ( cteColumns != null )
+							{
+								if ( getColumnName( columnName ).equals( "*" ) )
+								{
+									for ( int j = 0; j < cteColumns
+											.size( ); j++ )
+									{
+										ResultColumn targetColumn = queryTable
+												.getColumns( ).get( j );
+
+										relation.addSource(
+												new ResultColumnRelationElement(
+														targetColumn ) );
+									}
+									break;
+								}
+								else
+								{
+									boolean flag = false;
+
+									for ( int j = 0; j < cteColumns
+											.size( ); j++ )
+									{
+										TObjectName sourceColumn = cteColumns
+												.getObjectName( j );
+
+										if ( getColumnName( sourceColumn )
+												.equalsIgnoreCase(
+														getColumnName(
+																columnName ) ) )
+										{
+											ResultColumn targetColumn = queryTable
+													.getColumns( ).get( j );
+
+											relation.addSource(
+													new ResultColumnRelationElement(
+															targetColumn ) );
+											flag = true;
+											break;
+										}
+									}
+
+									if ( flag )
+									{
+										break;
+									}
+									else if ( columnIndex < selectSetResultSetModel
+											.getColumns( ).size( )
+											&& columnIndex != -1 )
+									{
+										ResultColumn targetColumn = queryTable
+												.getColumns( )
+												.get( columnIndex );
+										relation.addSource(
+												new ResultColumnRelationElement(
+														targetColumn ) );
+										break;
+									}
+								}
+							}
+							else if ( selectSetResultSetModel != null )
 							{
 								if ( getColumnName( columnName ).equals( "*" ) )
 								{
@@ -4908,19 +4969,12 @@ public class DataFlowAnalyzer
 										ResultColumn sourceColumn = selectSetResultSetModel
 												.getColumns( ).get( j );
 
-										ResultColumn targetColumn = null;
-										if ( cteColumns != null )
-										{
-											targetColumn = queryTable
-													.getColumns( ).get( j );
-										}
-										else
-										{
-											targetColumn = ModelFactory
-													.createSelectSetResultColumn(
-															queryTable,
-															sourceColumn, j );
-										}
+										ResultColumn targetColumn = ModelFactory
+												.createSelectSetResultColumn(
+														queryTable,
+														sourceColumn,
+														j );
+
 										relation.addSource(
 												new ResultColumnRelationElement(
 														targetColumn ) );
@@ -4942,19 +4996,12 @@ public class DataFlowAnalyzer
 														getColumnName(
 																columnName ) ) )
 										{
-											ResultColumn targetColumn = null;
-											if ( cteColumns != null )
-											{
-												targetColumn = queryTable
-														.getColumns( ).get( j );
-											}
-											else
-											{
-												targetColumn = ModelFactory
+											ResultColumn targetColumn = ModelFactory
 													.createSelectSetResultColumn(
 															queryTable,
-															sourceColumn, j );
-											}
+															sourceColumn,
+															j );
+
 											relation.addSource(
 													new ResultColumnRelationElement(
 															targetColumn ) );
@@ -4971,22 +5018,14 @@ public class DataFlowAnalyzer
 											.getColumns( ).size( )
 											&& columnIndex != -1 )
 									{
-										ResultColumn targetColumn = null;
-										if ( cteColumns != null )
-										{
-											targetColumn = queryTable
-													.getColumns( )
-													.get( columnIndex );
-										}
-										else
-										{
-											targetColumn = ModelFactory
-													.createSelectSetResultColumn(
-															queryTable,
-															selectSetResultSetModel
-																	.getColumns( )
-																	.get( columnIndex ), columnIndex );
-										}
+										ResultColumn targetColumn = ModelFactory
+												.createSelectSetResultColumn(
+														queryTable,
+														selectSetResultSetModel
+																.getColumns( )
+																.get( columnIndex ),
+														columnIndex );
+
 										relation.addSource(
 												new ResultColumnRelationElement(
 														targetColumn ) );

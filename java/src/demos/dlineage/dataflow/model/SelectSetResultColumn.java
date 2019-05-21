@@ -25,7 +25,7 @@ public class SelectSetResultColumn extends ResultColumn
 		{
 			if ( resultSet instanceof SelectResultSet )
 			{
-				this.name = "UNNAME"
+				this.name = "UNNAMED"
 						+ getIndexOf(
 								( (SelectResultSet) resultSet )
 										.getResultColumnObject( ),
@@ -33,7 +33,7 @@ public class SelectSetResultColumn extends ResultColumn
 			}
 			else if ( resultSet instanceof SelectSetResultSet )
 			{
-				this.name = "UNNAME"
+				this.name = "UNNAMED"
 						+ getIndexOf(
 								( (SelectSetResultSet) resultSet )
 										.getResultColumnObject( ),

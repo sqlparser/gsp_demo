@@ -99,7 +99,7 @@ public class ModelBindingManager
 			table = ( (QueryTable) relationModel ).getTableObject( );
 		}
 
-		if ( table != null && table.getAliasName( ) != null )
+		if ( table != null && table.getAliasClause( ) != null )
 		{
 			tableAliasMap.put( table.getAliasName( ).toLowerCase( ), table );
 		}
