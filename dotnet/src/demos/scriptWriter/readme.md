@@ -1,2 +1,2 @@
 Please check code here for the scriptWriter demo:
-../test/scriptWriter
+[scriptWriter](../test/scriptWriter)
