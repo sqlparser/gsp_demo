@@ -51,23 +51,23 @@ public class ModelFactory
 	}
 
 	public static ResultColumn createSelectSetResultColumn(
-			ResultSet resultSet, ResultColumn resultColumn )
+			ResultSet resultSet, ResultColumn resultColumn, int index )
 	{
 		if ( ModelBindingManager.getModel( resultColumn ) instanceof ResultColumn )
 		{
 			return (ResultColumn) ModelBindingManager.getModel( resultColumn );
 		}
 		ResultColumn column = new SelectSetResultColumn( resultSet,
-				resultColumn );
+				resultColumn, index );
 		ModelBindingManager.bindModel( resultColumn, column );
 		return column;
 	}
 
 	public static ResultColumn createSelectSetResultColumn(
-			ResultSet resultSet, TResultColumn resultColumn )
+			ResultSet resultSet, TResultColumn resultColumn, int index )
 	{
 		SelectSetResultColumn column = new SelectSetResultColumn( resultSet,
-				resultColumn );
+				resultColumn, index );
 		return column;
 	}
 

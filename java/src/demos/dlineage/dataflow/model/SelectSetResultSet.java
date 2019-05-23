@@ -36,4 +36,9 @@ public class SelectSetResultSet extends ResultSet
 		return selectObject.getResultColumnList( );
 	}
 
+	
+	public TSelectSqlStatement getSelectObject( )
+	{
+		return selectObject;
+	}
 }
