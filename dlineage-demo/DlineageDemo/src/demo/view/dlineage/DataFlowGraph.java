@@ -338,9 +338,8 @@ public class DataFlowGraph
 			}
 		}
 
-		String linkString = linkBuffer.toString( );
 
-		if ( showLinkOnly && linkString.trim( ).length( ) > 0 )
+		if ( showLinkOnly )
 		{
 			nodes.clear( );
 			StringBuffer tableLinkBuffer = new StringBuffer( );
@@ -541,6 +540,8 @@ public class DataFlowGraph
 		for ( int i = 0; i < relations.size( ); i++ )
 		{
 			relation tempRelation = relations.get( i );
+			if(!tempRelation.getType( ).equals( "join" ) && !tempRelation.getType( ).equals( "dataflow" ))
+				continue;
 			if ( relation == tempRelation )
 				continue;
 
@@ -559,7 +560,7 @@ public class DataFlowGraph
 				else if ( tempRelation.getType( )
 						.equals( RelationType.dataflow.name( ) ) )
 				{
-					if ( level < 10
+					if ( level < 2
 							&& traceJoin( tempRelation,
 									relations,
 									tableColumns,

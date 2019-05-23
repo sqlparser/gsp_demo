@@ -209,7 +209,7 @@ public class DataFlowAnalyzer
 
 		dataflowString = analyzeSqlScript( );
 
-		if ( dataflowString != null )
+		if ( dataflowString != null && !isShowJoin( ) )
 		{
 			dataflowString = mergeTables( dataflowString );
 		}
@@ -5470,8 +5470,7 @@ public class DataFlowAnalyzer
 							.inOrderTraverse( this );
 				}
 			}
-			else if ( lcexpr
-					.getExpressionType( ) == EExpressionType.subquery_t )
+			else if ( lcexpr.getSubQuery( ) != null )
 			{
 				TSelectSqlStatement select = lcexpr.getSubQuery( );
 				analyzeSelectStmt( select );
