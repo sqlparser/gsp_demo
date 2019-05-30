@@ -4,6 +4,7 @@ package demos.dlineage.dataflow.model;
 import demos.dlineage.util.Pair;
 import gudusoft.gsqlparser.nodes.TConstant;
 import gudusoft.gsqlparser.nodes.TObjectName;
+import gudusoft.gsqlparser.nodes.TObjectNameList;
 import gudusoft.gsqlparser.nodes.TParseTreeNode;
 import gudusoft.gsqlparser.nodes.TResultColumn;
 import gudusoft.gsqlparser.nodes.TTable;
@@ -169,6 +170,26 @@ public class ModelFactory
 			tableModel = new QueryTable( table );
 			ModelBindingManager.bindModel( table.getSubquery( )
 					.getResultColumnList( ), tableModel );
+		}
+		else if ( table.getAliasClause( ) != null
+				&& table.getAliasClause( ).getColumns( ) != null )
+		{
+			if ( ModelBindingManager.getModel( table.getAliasClause( )
+					.getColumns( ) ) instanceof QueryTable )
+			{
+				return (QueryTable) ModelBindingManager
+						.getModel( table.getAliasClause( ).getColumns( ) );
+			}
+
+			tableModel = new QueryTable( table );
+			TObjectNameList columns = table.getAliasClause( ).getColumns( );
+			ModelBindingManager.bindModel( columns, tableModel );
+			for ( int i = 0; i < columns.size( ); i++ )
+			{
+				ModelFactory.createResultColumn( tableModel,
+						columns.getObjectName( i ) );
+			}
+			ModelBindingManager.bindModel( table, tableModel );
 		}
 		else
 		{

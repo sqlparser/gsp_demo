@@ -1946,6 +1946,10 @@ public class DlineageDemo extends DemoBase
 															true );
 													ihl.setMinimumLayerDistance(
 															50 );
+													if(showRelationType == RelationType.join){
+														ihl.setMinimumLayerDistance(
+																250 );
+													}
 
 													view.getGraph2D( )
 															.addDataProvider(

@@ -3,6 +3,8 @@ package demo.view.dlineage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -591,10 +593,11 @@ public class DataFlowGraph
 						else if ( tempRelation.getType( )
 								.equals( RelationType.dataflow.name( ) ) )
 						{
-							if ( traceJoin( tempRelation,
-									relations,
-									tableColumns,
-									0 ) )
+							if ( level < 2
+									&& traceJoin( tempRelation,
+											relations,
+											tableColumns,
+											level + 1 ) )
 							{
 								return true;
 							}
