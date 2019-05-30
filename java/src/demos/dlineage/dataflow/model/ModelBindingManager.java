@@ -14,6 +14,7 @@ import gudusoft.gsqlparser.nodes.TResultColumn;
 import gudusoft.gsqlparser.nodes.TResultColumnList;
 import gudusoft.gsqlparser.nodes.TTable;
 import gudusoft.gsqlparser.nodes.TTableList;
+import gudusoft.gsqlparser.stmt.TCreateMaterializedSqlStatement;
 import gudusoft.gsqlparser.stmt.TCreateViewSqlStatement;
 import gudusoft.gsqlparser.stmt.TCursorDeclStmt;
 import gudusoft.gsqlparser.stmt.TSelectSqlStatement;
@@ -477,19 +478,19 @@ public class ModelBindingManager
 		return tables;
 	}
 
-	public static List<TCreateViewSqlStatement> getViews( )
+	public static List<TCustomSqlStatement> getViews( )
 	{
-		List<TCreateViewSqlStatement> views = new ArrayList<TCreateViewSqlStatement>( );
+		List<TCustomSqlStatement> views = new ArrayList<TCustomSqlStatement>( );
 
 		Iterator iter = viewModelBindingMap.keySet( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
 			Object key = iter.next( );
-			if ( !( key instanceof TCreateViewSqlStatement ) )
+			if ( !( key instanceof TCreateViewSqlStatement ) &&  !( key instanceof TCreateMaterializedSqlStatement ) )
 			{
 				continue;
 			}
-			TCreateViewSqlStatement view = (TCreateViewSqlStatement) key;
+			TCustomSqlStatement view = (TCustomSqlStatement) key;
 			views.add( view );
 		}
 		return views;

@@ -1,16 +1,16 @@
 
 package demos.dlineage.dataflow.model;
 
-import demos.dlineage.util.Pair;
+import gudusoft.gsqlparser.TCustomSqlStatement;
 import gudusoft.gsqlparser.nodes.TConstant;
 import gudusoft.gsqlparser.nodes.TObjectName;
 import gudusoft.gsqlparser.nodes.TObjectNameList;
 import gudusoft.gsqlparser.nodes.TParseTreeNode;
 import gudusoft.gsqlparser.nodes.TResultColumn;
 import gudusoft.gsqlparser.nodes.TTable;
-import gudusoft.gsqlparser.stmt.TCreateViewSqlStatement;
 import gudusoft.gsqlparser.stmt.TCursorDeclStmt;
 import gudusoft.gsqlparser.stmt.TSelectSqlStatement;
+import demos.dlineage.util.Pair;
 
 public class ModelFactory
 {
@@ -259,13 +259,13 @@ public class ModelFactory
 		return relation;
 	}
 
-	public static View createView( TCreateViewSqlStatement viewStmt )
+	public static View createView( TCustomSqlStatement viewStmt, TObjectName viewName  )
 	{
 		if ( ModelBindingManager.getViewModel( viewStmt ) instanceof View )
 		{
 			return (View) ModelBindingManager.getViewModel( viewStmt );
 		}
-		View viewModel = new View( viewStmt );
+		View viewModel = new View( viewStmt, viewName );
 		ModelBindingManager.bindViewModel( viewStmt, viewModel );
 		return viewModel;
 	}
