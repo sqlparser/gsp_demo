@@ -8,6 +8,7 @@ import gudusoft.gsqlparser.EJoinType;
 import gudusoft.gsqlparser.ESetOperatorType;
 import gudusoft.gsqlparser.TCustomSqlStatement;
 import gudusoft.gsqlparser.TGSqlParser;
+import gudusoft.gsqlparser.TSourceToken;
 import gudusoft.gsqlparser.nodes.IExpressionVisitor;
 import gudusoft.gsqlparser.nodes.TAliasClause;
 import gudusoft.gsqlparser.nodes.TCTE;
@@ -40,6 +41,8 @@ import gudusoft.gsqlparser.nodes.TViewAliasClause;
 import gudusoft.gsqlparser.nodes.TViewAliasItemList;
 import gudusoft.gsqlparser.nodes.TWhenClauseItem;
 import gudusoft.gsqlparser.nodes.TWhenClauseItemList;
+import gudusoft.gsqlparser.nodes.couchbase.TObjectConstruct;
+import gudusoft.gsqlparser.nodes.couchbase.TPair;
 import gudusoft.gsqlparser.stmt.TCreateMaterializedSqlStatement;
 import gudusoft.gsqlparser.stmt.TCreateTableSqlStatement;
 import gudusoft.gsqlparser.stmt.TCreateViewSqlStatement;
@@ -1313,51 +1316,96 @@ public class DataFlowAnalyzer
 					}
 					if ( clause.getInsertClause( ) != null )
 					{
-						TObjectNameList columns = clause.getInsertClause( )
-								.getColumnList( );
-						TResultColumnList values = clause.getInsertClause( )
-								.getValuelist( );
-						if ( columns == null
-								|| columns.size( ) == 0
-								|| values == null
-								|| values.size( ) == 0 )
-							continue;
-
-						ResultSet resultSet = ModelFactory.createResultSet(
-								clause.getInsertClause( ), true );
-
-						for ( int j = 0; j < columns.size( )
-								&& j < values.size( ); j++ )
+						TExpression insertValue = clause.getInsertClause( )
+								.getInsertValue( );
+						if ( insertValue != null
+								&& insertValue.getExpressionType( ) == EExpressionType.objectConstruct_t )
 						{
-							TObjectName columnObject = columns
-									.getObjectName( j );
-
-							ResultColumn insertColumn = ModelFactory
-									.createMergeResultColumn( resultSet,
+							ResultSet resultSet = ModelFactory.createResultSet( clause.getInsertClause( ),
+									true );
+							TObjectConstruct objectConstruct = insertValue.getObjectConstruct();
+							for ( int z = 0; z < objectConstruct.getPairs( )
+									.size( ); z++ )
+							{
+								TPair pair = objectConstruct.getPairs( )
+										.getElement( z );
+								
+								if ( pair.getKeyName( ).getExpressionType( ) == EExpressionType.simple_constant_t )
+								{
+									TObjectName columnObject = new TObjectName( );
+									TConstant constant = pair.getKeyName( )
+											.getConstantOperand( );
+									TSourceToken newSt = new TSourceToken( constant
+											.getValueToken( )
+											.getTextWithoutQuoted( ) );
+									columnObject.setPartToken( newSt );
+									columnObject.setSourceTable( stmt.getTargetTable( ) );
+									columnObject.setStartToken( constant.getStartToken( ) );
+									columnObject.setEndToken( constant.getEndToken( ) );
+									
+									ResultColumn insertColumn = ModelFactory.createMergeResultColumn( resultSet,
 											columnObject );
 
-							TExpression valueExpression = values
-									.getResultColumn( j ).getExpr( );
-							if ( valueExpression == null )
+									TExpression valueExpression = pair.getKeyValue( );
+									if ( valueExpression == null )
+										continue;
+
+									columnsInExpr visitor = new columnsInExpr( );
+									valueExpression.inOrderTraverse( visitor );
+									List<TObjectName> objectNames = visitor.getObjectNames( );
+									analyzeDataFlowRelation( insertColumn,
+											objectNames );
+
+									TableColumn tableColumn = ModelFactory.createTableColumn( tableModel,
+											columnObject );
+
+									DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
+									relation.setTarget( new TableColumnRelationElement( tableColumn ) );
+									relation.addSource( new ResultColumnRelationElement( insertColumn ) );
+								}
+							}
+						}
+						else
+						{
+							TObjectNameList columns = clause.getInsertClause( )
+									.getColumnList( );
+							TResultColumnList values = clause.getInsertClause( )
+									.getValuelist( );
+							if ( columns == null
+									|| columns.size( ) == 0
+									|| values == null
+									|| values.size( ) == 0 )
 								continue;
 
-							columnsInExpr visitor = new columnsInExpr( );
-							valueExpression.inOrderTraverse( visitor );
-							List<TObjectName> objectNames = visitor
-									.getObjectNames( );
-							analyzeDataFlowRelation( insertColumn,
-									objectNames );
+							ResultSet resultSet = ModelFactory.createResultSet( clause.getInsertClause( ),
+									true );
 
-							TableColumn tableColumn = ModelFactory
-									.createTableColumn( tableModel,
-											columnObject );
+							for ( int j = 0; j < columns.size( )
+									&& j < values.size( ); j++ )
+							{
+								TObjectName columnObject = columns.getObjectName( j );
 
-							DataFlowRelation relation = ModelFactory
-									.createDataFlowRelation( );
-							relation.setTarget( new TableColumnRelationElement(
-									tableColumn ) );
-							relation.addSource( new ResultColumnRelationElement(
-									insertColumn ) );
+								ResultColumn insertColumn = ModelFactory.createMergeResultColumn( resultSet,
+										columnObject );
+
+								TExpression valueExpression = values.getResultColumn( j )
+										.getExpr( );
+								if ( valueExpression == null )
+									continue;
+
+								columnsInExpr visitor = new columnsInExpr( );
+								valueExpression.inOrderTraverse( visitor );
+								List<TObjectName> objectNames = visitor.getObjectNames( );
+								analyzeDataFlowRelation( insertColumn,
+										objectNames );
+
+								TableColumn tableColumn = ModelFactory.createTableColumn( tableModel,
+										columnObject );
+
+								DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
+								relation.setTarget( new TableColumnRelationElement( tableColumn ) );
+								relation.addSource( new ResultColumnRelationElement( insertColumn ) );
+							}
 						}
 					}
 				}
