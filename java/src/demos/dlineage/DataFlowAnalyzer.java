@@ -3626,7 +3626,7 @@ public class DataFlowAnalyzer
 			if ( ( (SelectResultSet) resultSetModel ).getSelectStmt( )
 					.getParentStmt( ) instanceof TUpdateSqlStatement )
 			{
-				return "update-set";
+				return "update-select";
 			}
 		}
 
@@ -3689,7 +3689,7 @@ public class DataFlowAnalyzer
 			}
 			else if ( table.getTableObject( ).getCTE( ) != null )
 			{
-				String name = "RESULT_OF_WITH-"
+				String name = "CTE-"
 						+ table.getTableObject( )
 								.getCTE( )
 								.getTableName( )
@@ -3712,7 +3712,7 @@ public class DataFlowAnalyzer
 			if ( ( (SelectResultSet) resultSetModel ).getSelectStmt( )
 					.getParentStmt( ) instanceof TUpdateSqlStatement )
 			{
-				String name = getResultSetDisplayId( "UPDATE-SET" );
+				String name = getResultSetDisplayId( "UPDATE-SELECT" );
 				ResultSet.DISPLAY_NAME.put( resultSetModel.getId( ), name );
 				return name;
 			}
@@ -5368,9 +5368,16 @@ public class DataFlowAnalyzer
 				else
 				{
 					relation = ModelFactory.createImpactRelation( );
-					relation.setTarget( new ResultColumnRelationElement(
-							(ResultColumn) ModelBindingManager
-									.getModel( column ) ) );
+					if(column.getExpr( ).getExpressionType( ) == EExpressionType.assignment_t){
+						relation.setTarget( new ResultColumnRelationElement(
+								(ResultColumn) ModelBindingManager
+										.getModel( column.getExpr( ).getLeftOperand( ).getObjectOperand( ) ) ) );
+					}
+					else{
+						relation.setTarget( new ResultColumnRelationElement(
+								(ResultColumn) ModelBindingManager
+										.getModel( column ) ) );
+					}
 				}
 
 				for ( int j = 0; j < objectNames.size( ); j++ )
