@@ -16,6 +16,32 @@ namespace gudusoft.gsqlparser.test.scriptWriter
     {
 
         [TestMethod]
+        public virtual void testSQLServerColumnAlias()
+        {
+            TGSqlParser sqlparser = new TGSqlParser(EDbVendor.dbvmssql);
+            sqlparser.sqltext = @"SELECT REFSTR, NAME, VERSION,
+       'Test' = CASE WHEN STARTDATE < CURRENT_TIMESTAMP THEN 'Start in past'
+                ELSE 'Start in the future'
+                END
+        FROM   APPLICATION";
+
+            sqlparser.parse();
+            //  Console.Out.WriteLine(formatSql(EDbVendor.dbvmssql,sqlparser.sqlstatements.get(0).ToScript()));
+            Assert.IsTrue(verifyScript(EDbVendor.dbvmssql, sqlparser.sqlstatements.get(0).ToString(), sqlparser.sqlstatements.get(0).ToScript()));
+        }
+
+        [TestMethod]
+        public virtual void testSQLServerDeclare()
+        {
+            TGSqlParser sqlparser = new TGSqlParser(EDbVendor.dbvmssql);
+            sqlparser.sqltext = @"DECLARE foo CURSOR FOR SELECT * FROM foo";
+
+            sqlparser.parse();
+            //  Console.Out.WriteLine(formatSql(EDbVendor.dbvmssql,sqlparser.sqlstatements.get(0).ToScript()));
+            Assert.IsTrue(verifyScript(EDbVendor.dbvmssql, sqlparser.sqlstatements.get(0).ToString(), sqlparser.sqlstatements.get(0).ToScript()));
+        }
+
+        [TestMethod]
         public virtual void testModifyColumnDefinition()
         {
             TGSqlParser sqlparser = new TGSqlParser(EDbVendor.dbvmysql);
@@ -28,7 +54,8 @@ namespace gudusoft.gsqlparser.test.scriptWriter
 
             sqlparser.parse();
 
-            Console.WriteLine(sqlparser.sqlstatements.get(0).ToScript());
+            //Console.WriteLine(sqlparser.sqlstatements.get(0).ToScript());
+            Assert.IsTrue(verifyScript(EDbVendor.dbvmssql, sqlparser.sqlstatements.get(0).ToString(), sqlparser.sqlstatements.get(0).ToScript()));
 
         }
 

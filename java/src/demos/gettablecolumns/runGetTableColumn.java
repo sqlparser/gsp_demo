@@ -189,6 +189,14 @@ public class runGetTableColumn
 			{
 				vendor = EDbVendor.dbvredshift;
 			}
+			else if ( args[index + 1].equalsIgnoreCase( "bigquery" ) )
+			{
+				vendor = EDbVendor.dbvbigquery;
+			}
+			else if ( args[index + 1].equalsIgnoreCase( "couchbase" ) )
+			{
+				vendor = EDbVendor.dbvcouchbase;
+			}
 		}
 
 		TGetTableColumn getTableColumn = new TGetTableColumn( vendor );
