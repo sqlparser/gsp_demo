@@ -1,8 +1,9 @@
 
 package demos.dlineage.dataflow.model;
 
+import gudusoft.gsqlparser.TCustomSqlStatement;
 import gudusoft.gsqlparser.TSourceToken;
-import gudusoft.gsqlparser.stmt.TCreateViewSqlStatement;
+import gudusoft.gsqlparser.nodes.TObjectName;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +18,9 @@ public class View
 	private Pair<Long, Long> startPosition;
 	private Pair<Long, Long> endPosition;
 	private List<ViewColumn> columns = new ArrayList<ViewColumn>( );
-	private TCreateViewSqlStatement viewObject;
+	private TCustomSqlStatement viewObject;
 
-	public View( TCreateViewSqlStatement view )
+	public View( TCustomSqlStatement view, TObjectName viewName  )
 	{
 		if ( view == null )
 			throw new IllegalArgumentException( "Table arguments can't be null." );
@@ -30,11 +31,11 @@ public class View
 
 		TSourceToken startToken = viewObject.getStartToken( );
 		TSourceToken endToken = viewObject.getEndToken( );
-		if ( viewObject.getViewName( ) != null )
+		if ( viewName != null )
 		{
-			startToken = viewObject.getViewName( ).getStartToken( );
-			endToken = viewObject.getViewName( ).getEndToken( );
-			this.name = viewObject.getViewName( ).toString( );
+			startToken = viewName.getStartToken( );
+			endToken = viewName.getEndToken( );
+			this.name = viewName.toString( );
 		}
 		else
 		{
@@ -89,7 +90,7 @@ public class View
 		}
 	}
 
-	public TCreateViewSqlStatement getViewObject( )
+	public TCustomSqlStatement getViewObject( )
 	{
 		return viewObject;
 	}

@@ -3,6 +3,8 @@ package demo.view.dlineage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -338,9 +340,8 @@ public class DataFlowGraph
 			}
 		}
 
-		String linkString = linkBuffer.toString( );
 
-		if ( showLinkOnly && linkString.trim( ).length( ) > 0 )
+		if ( showLinkOnly )
 		{
 			nodes.clear( );
 			StringBuffer tableLinkBuffer = new StringBuffer( );
@@ -541,6 +542,8 @@ public class DataFlowGraph
 		for ( int i = 0; i < relations.size( ); i++ )
 		{
 			relation tempRelation = relations.get( i );
+			if(!tempRelation.getType( ).equals( "join" ) && !tempRelation.getType( ).equals( "dataflow" ))
+				continue;
 			if ( relation == tempRelation )
 				continue;
 
@@ -559,7 +562,7 @@ public class DataFlowGraph
 				else if ( tempRelation.getType( )
 						.equals( RelationType.dataflow.name( ) ) )
 				{
-					if ( level < 10
+					if ( level < 2
 							&& traceJoin( tempRelation,
 									relations,
 									tableColumns,
@@ -590,10 +593,11 @@ public class DataFlowGraph
 						else if ( tempRelation.getType( )
 								.equals( RelationType.dataflow.name( ) ) )
 						{
-							if ( traceJoin( tempRelation,
-									relations,
-									tableColumns,
-									0 ) )
+							if ( level < 2
+									&& traceJoin( tempRelation,
+											relations,
+											tableColumns,
+											level + 1 ) )
 							{
 								return true;
 							}
