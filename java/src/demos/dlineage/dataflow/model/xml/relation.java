@@ -15,6 +15,9 @@ public class relation implements Cloneable
 
 	@Attribute(required = false)
 	private String type;
+	
+	@Attribute(required = false)
+	private String effectType;
 
 	@Attribute(required = false)
 	private String clause;
@@ -104,6 +107,17 @@ public class relation implements Cloneable
 	public boolean isDataFlow( )
 	{
 		return "dataflow".equals( type );
+	}
+	
+	public String getEffectType( )
+	{
+		return effectType;
+	}
+
+	
+	public void setEffectType( String effectType )
+	{
+		this.effectType = effectType;
 	}
 
 	@Override
