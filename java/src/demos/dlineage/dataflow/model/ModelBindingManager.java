@@ -407,6 +407,47 @@ public class ModelBindingManager
 		}
 		return null;
 	}
+	
+	public static TTable guessTable( TCustomSqlStatement stmt,
+			TObjectName column )
+	{
+		if ( column.getTableString( ) != null
+				&& column.getTableString( ).trim( ).length( ) > 0 )
+		{
+			TTable table = tableAliasMap.get( column.getTableString( )
+					.toLowerCase( ) );
+
+			if ( table != null && table.getSubquery( ) != stmt )
+				return table;
+		}
+
+		Iterator iter = tableSet.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			TTable table = (TTable) iter.next( );
+
+			if ( table.getSubquery( ) == stmt )
+				continue;
+
+			TObjectName[] columns = getTableColumns( table );
+			for ( int i = 0; i < columns.length; i++ )
+			{
+				TObjectName columnName = columns[i];
+				if ( "*".equals( columnName.getColumnNameOnly( ) ) )
+					continue;
+				if ( columnName.toString( )
+						.equalsIgnoreCase( column.toString( ) ) )
+				{
+					if ( columnName.getSourceTable( ) == null
+							|| columnName.getSourceTable( ) == table )
+					{
+						return table;
+					}
+				}
+			}
+		}
+		return null;
+	}
 
 	public static List<TTable> getBaseTables( )
 	{
@@ -659,5 +700,7 @@ public class ModelBindingManager
 						.get( cursorName.toScript( ) ) )
 								.getResultColumnObject( ) ) );
 	}
+
+
 
 }

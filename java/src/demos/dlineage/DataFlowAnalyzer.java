@@ -5116,6 +5116,17 @@ public class DataFlowAnalyzer
 						TObjectName leftObjectName = leftObjectNames.get( i );
 						TTable leftTable = ModelBindingManager.getTable( stmt,
 								leftObjectName );
+						if ( leftTable == null )
+						{
+							leftTable = leftObjectName.getSourceTable( );
+						}
+
+						if ( leftTable == null )
+						{
+							leftTable = ModelBindingManager.guessTable( stmt,
+									leftObjectName );
+						}
+						
 						if ( leftTable != null )
 						{
 							for ( int j = 0; j < rightObjectNames.size( ); j++ )
@@ -5193,6 +5204,13 @@ public class DataFlowAnalyzer
 								{
 									rightTable = rightObjectName.getSourceTable( );
 								}
+								
+								if ( rightTable == null )
+								{
+									rightTable = ModelBindingManager.guessTable( stmt,
+											rightObjectName );
+								}
+								
 
 								if ( ModelBindingManager.getModel( rightTable ) instanceof Table )
 								{
