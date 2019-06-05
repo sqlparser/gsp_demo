@@ -84,7 +84,6 @@ import demos.dlineage.dataflow.listener.DataFlowHandleListener;
 import demos.dlineage.dataflow.model.AbstractRelation;
 import demos.dlineage.dataflow.model.CursorResultSet;
 import demos.dlineage.dataflow.model.DataFlowRelation;
-import demos.dlineage.dataflow.model.EffectType;
 import demos.dlineage.dataflow.model.ImpactRelation;
 import demos.dlineage.dataflow.model.JoinRelation;
 import demos.dlineage.dataflow.model.JoinRelation.JoinClauseType;
@@ -1072,7 +1071,6 @@ public class DataFlowAnalyzer
 							TableColumn tableColumn = ModelFactory.createTableColumn( tableModel,
 									alias.getAliasName( ) );
 							DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
-							relation.setEffectType( EffectType.create_table );
 							relation.setTarget( new TableColumnRelationElement( tableColumn ) );
 							relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 						}
@@ -1089,7 +1087,6 @@ public class DataFlowAnalyzer
 							}
 
 							DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
-							relation.setEffectType( EffectType.create_table );
 							relation.setTarget( new TableColumnRelationElement( tableColumn ) );
 							relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 						}
@@ -1106,7 +1103,6 @@ public class DataFlowAnalyzer
 						TableColumn tableColumn = ModelFactory.createTableColumn( tableModel,
 								(TObjectName) resultColumn.getColumnObject( ) );
 						DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
-						relation.setEffectType( EffectType.create_table );
 						relation.setTarget( new TableColumnRelationElement( tableColumn ) );
 						relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 					}
@@ -1126,11 +1122,10 @@ public class DataFlowAnalyzer
 						TAliasClause alias = columnObject.getAliasClause( );
 						if ( alias != null && alias.getAliasName( ) != null )
 						{
-							TableColumn tableColumn = ModelFactory.createTableColumn( tableModel,
+							TableColumn viewColumn = ModelFactory.createTableColumn( tableModel,
 									alias.getAliasName( ) );
 							DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
-							relation.setEffectType( EffectType.create_table );
-							relation.setTarget( new TableColumnRelationElement( tableColumn ) );
+							relation.setTarget( new TableColumnRelationElement( viewColumn ) );
 							relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 						}
 						else if ( columnObject.getFieldAttr( ) != null )
@@ -1146,7 +1141,6 @@ public class DataFlowAnalyzer
 							}
 
 							DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
-							relation.setEffectType( EffectType.create_table );
 							relation.setTarget( new TableColumnRelationElement( tableColumn ) );
 							relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 						}
@@ -1160,11 +1154,10 @@ public class DataFlowAnalyzer
 					}
 					else if ( resultColumn.getColumnObject( ) instanceof TObjectName )
 					{
-						TableColumn tableColumn = ModelFactory.createTableColumn( tableModel,
+						TableColumn viewColumn = ModelFactory.createTableColumn( tableModel,
 								(TObjectName) resultColumn.getColumnObject( ) );
 						DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
-						relation.setEffectType( EffectType.create_table );
-						relation.setTarget( new TableColumnRelationElement( tableColumn ) );
+						relation.setTarget( new TableColumnRelationElement( viewColumn ) );
 						relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 					}
 				}
@@ -1250,14 +1243,12 @@ public class DataFlowAnalyzer
 								valueExpression.inOrderTraverse( visitor );
 								List<TObjectName> objectNames = visitor.getObjectNames( );
 								analyzeDataFlowRelation( updateColumn,
-										objectNames,
-										EffectType.merge_update );
+										objectNames );
 
 								TableColumn tableColumn = ModelFactory.createTableColumn( tableModel,
 										columnObject );
 
 								DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
-								relation.setEffectType( EffectType.merge_update );
 								relation.setTarget( new TableColumnRelationElement( tableColumn ) );
 								relation.addSource( new ResultColumnRelationElement( updateColumn ) );
 							}
@@ -1302,14 +1293,12 @@ public class DataFlowAnalyzer
 									valueExpression.inOrderTraverse( visitor );
 									List<TObjectName> objectNames = visitor.getObjectNames( );
 									analyzeDataFlowRelation( insertColumn,
-											objectNames,
-											EffectType.merge_insert );
+											objectNames );
 
 									TableColumn tableColumn = ModelFactory.createTableColumn( tableModel,
 											columnObject );
 
 									DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
-									relation.setEffectType( EffectType.merge_insert );
 									relation.setTarget( new TableColumnRelationElement( tableColumn ) );
 									relation.addSource( new ResultColumnRelationElement( insertColumn ) );
 								}
@@ -1347,14 +1336,12 @@ public class DataFlowAnalyzer
 								valueExpression.inOrderTraverse( visitor );
 								List<TObjectName> objectNames = visitor.getObjectNames( );
 								analyzeDataFlowRelation( insertColumn,
-										objectNames,
-										EffectType.merge_insert );
+										objectNames );
 
 								TableColumn tableColumn = ModelFactory.createTableColumn( tableModel,
 										columnObject );
 
 								DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
-								relation.setEffectType( EffectType.merge_insert );
 								relation.setTarget( new TableColumnRelationElement( tableColumn ) );
 								relation.addSource( new ResultColumnRelationElement( insertColumn ) );
 							}
@@ -1368,8 +1355,7 @@ public class DataFlowAnalyzer
 			{
 				analyzeFilterCondtion( stmt.getCondition( ),
 						null,
-						JoinClauseType.on,
-						EffectType.merge );
+						JoinClauseType.on );
 			}
 		}
 	}
@@ -1604,7 +1590,6 @@ public class DataFlowAnalyzer
 								}
 							}
 							DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
-							relation.setEffectType( EffectType.insert );
 							relation.setTarget( new TableColumnRelationElement( tableColumn ) );
 							relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 						}
@@ -1681,7 +1666,6 @@ public class DataFlowAnalyzer
 							}
 
 							DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
-							relation.setEffectType( EffectType.insert );
 							relation.setTarget( new TableColumnRelationElement( tableColumn ) );
 							relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 						}
@@ -1751,7 +1735,6 @@ public class DataFlowAnalyzer
 								}
 
 								DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
-								relation.setEffectType( EffectType.insert );
 								relation.setTarget( new TableColumnRelationElement( tableColumn ) );
 								relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 
@@ -1866,7 +1849,6 @@ public class DataFlowAnalyzer
 								}
 
 								DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
-								relation.setEffectType( EffectType.insert );
 								relation.setTarget( new TableColumnRelationElement( tableColumn ) );
 								relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 							}
@@ -1880,7 +1862,6 @@ public class DataFlowAnalyzer
 													.getConstantOperand( ),
 											i );
 									DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
-									relation.setEffectType( EffectType.insert );
 									relation.setTarget( new TableColumnRelationElement( tableColumn ) );
 									relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 								}
@@ -1918,7 +1899,6 @@ public class DataFlowAnalyzer
 								}
 
 								DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
-								relation.setEffectType( EffectType.insert );
 								relation.setTarget( new TableColumnRelationElement( tableColumn ) );
 								relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 							}
@@ -1942,7 +1922,6 @@ public class DataFlowAnalyzer
 								}
 
 								DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
-								relation.setEffectType( EffectType.insert );
 								relation.setTarget( new TableColumnRelationElement( tableColumn ) );
 								relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 							}
@@ -1956,7 +1935,6 @@ public class DataFlowAnalyzer
 													.getConstantOperand( ),
 											i );
 									DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
-									relation.setEffectType( EffectType.insert );
 									relation.setTarget( new TableColumnRelationElement( tableColumn ) );
 									relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 								}
@@ -2029,7 +2007,6 @@ public class DataFlowAnalyzer
 								if ( sourceColumn != null )
 								{
 									DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
-									relation.setEffectType( EffectType.insert );
 									relation.setTarget( new TableColumnRelationElement( tableColumn ) );
 									relation.addSource( new ResultColumnRelationElement( sourceColumn ) );
 								}
@@ -2093,7 +2070,6 @@ public class DataFlowAnalyzer
 
 				TableColumn column = tableColumns.get( i );
 				ImpactRelation relation = ModelFactory.createImpactRelation( );
-				relation.setEffectType( EffectType.insert );
 				relation.setTarget( new TableColumnRelationElement( column ) );
 
 				for ( int j = 0; j < objectNames.size( ); j++ )
@@ -2155,7 +2131,6 @@ public class DataFlowAnalyzer
 								sourceColumn,
 								j );
 						DataFlowRelation selectSetRalation = ModelFactory.createDataFlowRelation( );
-						selectSetRalation.setEffectType( EffectType.select );
 						selectSetRalation.setTarget( new ResultColumnRelationElement( targetColumn ) );
 						selectSetRalation.addSource( new ResultColumnRelationElement( sourceColumn ) );
 					}
@@ -2201,7 +2176,6 @@ public class DataFlowAnalyzer
 						TableColumn tableColumn = ModelFactory.createTableColumn( tableModel,
 								column );
 						DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
-						relation.setEffectType( EffectType.update );
 						relation.setTarget( new TableColumnRelationElement( tableColumn ) );
 						relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 
@@ -2225,7 +2199,6 @@ public class DataFlowAnalyzer
 					TableColumn tableColumn = ModelFactory.createTableColumn( tableModel,
 							column );
 					DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
-					relation.setEffectType( EffectType.update );
 					relation.setTarget( new TableColumnRelationElement( tableColumn ) );
 					relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 				}
@@ -2245,15 +2218,12 @@ public class DataFlowAnalyzer
 							.inOrderTraverse( visitor );
 
 					List<TObjectName> objectNames = visitor.getObjectNames( );
-					analyzeDataFlowRelation( updateColumn,
-							objectNames,
-							EffectType.update );
+					analyzeDataFlowRelation( updateColumn, objectNames );
 
 					TableColumn tableColumn = ModelFactory.createTableColumn( tableModel,
 							columnObject );
 
 					DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
-					relation.setEffectType( EffectType.update );
 					relation.setTarget( new TableColumnRelationElement( tableColumn ) );
 					relation.addSource( new ResultColumnRelationElement( updateColumn ) );
 				}
@@ -2274,8 +2244,7 @@ public class DataFlowAnalyzer
 						TExpression expr = joinItem.getOnCondition( );
 						analyzeFilterCondtion( expr,
 								joinItem.getJoinType( ),
-								JoinClauseType.on,
-								EffectType.update );
+								JoinClauseType.on );
 					}
 				}
 			}
@@ -2286,8 +2255,7 @@ public class DataFlowAnalyzer
 		{
 			analyzeFilterCondtion( stmt.getWhereClause( ).getCondition( ),
 					null,
-					JoinClauseType.where,
-					EffectType.update );
+					JoinClauseType.where );
 		}
 	}
 
@@ -2324,7 +2292,6 @@ public class DataFlowAnalyzer
 							alias,
 							i );
 					DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
-					relation.setEffectType( EffectType.create_view );
 					relation.setTarget( new ViewColumnRelationElement( viewColumn ) );
 					relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 				}
@@ -2334,7 +2301,6 @@ public class DataFlowAnalyzer
 							(TObjectName) resultColumn.getColumnObject( ),
 							i );
 					DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
-					relation.setEffectType( EffectType.create_view );
 					relation.setTarget( new ViewColumnRelationElement( viewColumn ) );
 					relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 				}
@@ -2350,7 +2316,6 @@ public class DataFlowAnalyzer
 						viewColumn.bindStarLinkColumns( column.getStarLinkColumns( ) );
 					}
 					DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
-					relation.setEffectType( EffectType.create_view );
 					relation.setTarget( new ViewColumnRelationElement( viewColumn ) );
 					relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 				}
@@ -2377,7 +2342,6 @@ public class DataFlowAnalyzer
 									alias.getAliasName( ),
 									i );
 							DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
-							relation.setEffectType( EffectType.create_view );
 							relation.setTarget( new ViewColumnRelationElement( viewColumn ) );
 							relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 						}
@@ -2393,7 +2357,6 @@ public class DataFlowAnalyzer
 								viewColumn.bindStarLinkColumns( column.getStarLinkColumns( ) );
 							}
 							DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
-							relation.setEffectType( EffectType.create_view );
 							relation.setTarget( new ViewColumnRelationElement( viewColumn ) );
 							relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 						}
@@ -2406,7 +2369,6 @@ public class DataFlowAnalyzer
 											.getObjectOperand( ),
 									i );
 							DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
-							relation.setEffectType( EffectType.create_view );
 							relation.setTarget( new ViewColumnRelationElement( viewColumn ) );
 							relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 						}
@@ -2419,7 +2381,6 @@ public class DataFlowAnalyzer
 									viewColumnName,
 									i );
 							DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
-							relation.setEffectType( EffectType.create_view );
 							relation.setTarget( new ViewColumnRelationElement( viewColumn ) );
 							relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 						}
@@ -2430,7 +2391,6 @@ public class DataFlowAnalyzer
 								(TObjectName) resultColumn.getColumnObject( ),
 								i );
 						DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
-						relation.setEffectType( EffectType.create_view );
 						relation.setTarget( new ViewColumnRelationElement( viewColumn ) );
 						relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 					}
@@ -2455,7 +2415,6 @@ public class DataFlowAnalyzer
 									alias.getAliasName( ),
 									i );
 							DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
-							relation.setEffectType( EffectType.create_view );
 							relation.setTarget( new ViewColumnRelationElement( viewColumn ) );
 							relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 						}
@@ -2471,7 +2430,6 @@ public class DataFlowAnalyzer
 								viewColumn.bindStarLinkColumns( column.getStarLinkColumns( ) );
 							}
 							DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
-							relation.setEffectType( EffectType.create_view );
 							relation.setTarget( new ViewColumnRelationElement( viewColumn ) );
 							relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 						}
@@ -2484,7 +2442,6 @@ public class DataFlowAnalyzer
 											.getObjectOperand( ),
 									i );
 							DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
-							relation.setEffectType( EffectType.create_view );
 							relation.setTarget( new ViewColumnRelationElement( viewColumn ) );
 							relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 						}
@@ -2497,7 +2454,6 @@ public class DataFlowAnalyzer
 									viewColumnName,
 									i );
 							DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
-							relation.setEffectType( EffectType.create_view );
 							relation.setTarget( new ViewColumnRelationElement( viewColumn ) );
 							relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 						}
@@ -2508,7 +2464,6 @@ public class DataFlowAnalyzer
 								(TObjectName) resultColumn.getColumnObject( ),
 								i );
 						DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
-						relation.setEffectType( EffectType.create_view );
 						relation.setTarget( new ViewColumnRelationElement( viewColumn ) );
 						relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 					}
@@ -2557,98 +2512,82 @@ public class DataFlowAnalyzer
 		for ( int i = 0; i < relations.length; i++ )
 		{
 			AbstractRelation relation = (AbstractRelation) relations[i];
+
+			if ( relation.getTarget( ) == null )
+			{
+				System.err.println( "Can't get the target of relation which id is "
+						+ relation.getId( ) );
+				continue;
+			}
+
+			if ( relation.getSources( ) == null )
+			{
+				System.err.println( "Can't get the source of relation which id is "
+						+ relation.getId( ) );
+				continue;
+			}
+
+			Object targetElement = relation.getTarget( ).getElement( );
+			if ( targetElement instanceof ResultColumn )
+			{
+				ResultColumn targetColumn = (ResultColumn) targetElement;
+				if ( !targetColumn.getStarLinkColumns( ).isEmpty( ) )
+				{
+					for ( int j = 0; j < targetColumn.getStarLinkColumns( )
+							.size( ); j++ )
+					{
+						appendStarRelation( doc, dlineageResult, relation, j );
+					}
+					continue;
+				}
+			}
+			else if ( targetElement instanceof ViewColumn )
+			{
+				ViewColumn targetColumn = (ViewColumn) targetElement;
+				if ( !targetColumn.getStarLinkColumns( ).isEmpty( ) )
+				{
+					for ( int j = 0; j < targetColumn.getStarLinkColumns( )
+							.size( ); j++ )
+					{
+						appendStarRelation( doc, dlineageResult, relation, j );
+					}
+					continue;
+				}
+			}
+			else if ( targetElement instanceof TableColumn )
+			{
+				TableColumn targetColumn = (TableColumn) targetElement;
+				if ( !targetColumn.getStarLinkColumns( ).isEmpty( ) )
+				{
+					for ( int j = 0; j < targetColumn.getStarLinkColumns( )
+							.size( ); j++ )
+					{
+						appendStarRelation( doc, dlineageResult, relation, j );
+					}
+					continue;
+				}
+			}
+
+			Element relationElement = doc.createElement( "relation" );
+			relationElement.setAttribute( "type", relation.getRelationType( )
+					.name( ) );
+			relationElement.setAttribute( "id",
+					String.valueOf( relation.getId( ) ) );
+			if ( relation instanceof JoinRelation )
+			{
+				relationElement.setAttribute( "condition",
+						( (JoinRelation) relation ).getJoinCondition( ) );
+				relationElement.setAttribute( "joinType",
+						( (JoinRelation) relation ).getJoinType( ).name( ) );
+				relationElement.setAttribute( "clause",
+						( (JoinRelation) relation ).getJoinClauseType( ).name( ) );
+			}
+
+			String targetName = null;
+			List<TObjectName> targetObjectNames = null;
+
 			if ( relation.getClass( ) == clazz )
 			{
-				if ( relation.getTarget( ) == null )
-				{
-					System.err.println( "Can't get the target of relation which id is "
-							+ relation.getId( ) );
-					continue;
-				}
-
-				if ( relation.getSources( ) == null )
-				{
-					System.err.println( "Can't get the source of relation which id is "
-							+ relation.getId( ) );
-					continue;
-				}
-
-				Object targetElement = relation.getTarget( ).getElement( );
-				if ( targetElement instanceof ResultColumn )
-				{
-					ResultColumn targetColumn = (ResultColumn) targetElement;
-					if ( !targetColumn.getStarLinkColumns( ).isEmpty( ) )
-					{
-						for ( int j = 0; j < targetColumn.getStarLinkColumns( )
-								.size( ); j++ )
-						{
-							appendStarRelation( doc,
-									dlineageResult,
-									relation,
-									j );
-						}
-						continue;
-					}
-				}
-				else if ( targetElement instanceof ViewColumn )
-				{
-					ViewColumn targetColumn = (ViewColumn) targetElement;
-					if ( !targetColumn.getStarLinkColumns( ).isEmpty( ) )
-					{
-						for ( int j = 0; j < targetColumn.getStarLinkColumns( )
-								.size( ); j++ )
-						{
-							appendStarRelation( doc,
-									dlineageResult,
-									relation,
-									j );
-						}
-						continue;
-					}
-				}
-				else if ( targetElement instanceof TableColumn )
-				{
-					TableColumn targetColumn = (TableColumn) targetElement;
-					if ( !targetColumn.getStarLinkColumns( ).isEmpty( ) )
-					{
-						for ( int j = 0; j < targetColumn.getStarLinkColumns( )
-								.size( ); j++ )
-						{
-							appendStarRelation( doc,
-									dlineageResult,
-									relation,
-									j );
-						}
-						continue;
-					}
-				}
-
-				Element relationElement = doc.createElement( "relation" );
-				relationElement.setAttribute( "type",
-						relation.getRelationType( ).name( ) );
-
-				if ( relation.getEffectType( ) != null )
-				{
-					relationElement.setAttribute( "effectType",
-							relation.getEffectType( ).name( ) );
-				}
-
-				relationElement.setAttribute( "id",
-						String.valueOf( relation.getId( ) ) );
-				if ( relation instanceof JoinRelation )
-				{
-					relationElement.setAttribute( "condition",
-							( (JoinRelation) relation ).getJoinCondition( ) );
-					relationElement.setAttribute( "joinType",
-							( (JoinRelation) relation ).getJoinType( ).name( ) );
-					relationElement.setAttribute( "clause",
-							( (JoinRelation) relation ).getJoinClauseType( )
-									.name( ) );
-				}
-
-				String targetName = null;
-				List<TObjectName> targetObjectNames = null;
-
 				if ( targetElement instanceof ResultColumn )
 				{
 					ResultColumn targetColumn = (ResultColumn) targetElement;
@@ -2941,12 +2880,6 @@ public class DataFlowAnalyzer
 				+ "_"
 				+ index );
 
-		if ( relation.getEffectType( ) != null )
-		{
-			relationElement.setAttribute( "effectType",
-					relation.getEffectType( ).name( ) );
-		}
-
 		String targetName = "";
 
 		if ( targetElement instanceof ResultColumn )
@@ -3077,8 +3010,7 @@ public class DataFlowAnalyzer
 						}
 						if ( relation.getRelationType( ) == RelationType.dataflow )
 						{
-							if ( !targetName.equalsIgnoreCase( getColumnName( sourceName ) )
-									&& !"*".equals( getColumnName( sourceName ) ) )
+							if ( !targetName.equalsIgnoreCase( getColumnName( sourceName ) ) )
 								continue;
 						}
 						relationElement.appendChild( source );
@@ -3105,8 +3037,7 @@ public class DataFlowAnalyzer
 					}
 					if ( relation.getRelationType( ) == RelationType.dataflow )
 					{
-						if ( !targetName.equalsIgnoreCase( sourceColumn.getName( ) )
-								&& !"*".equals( sourceColumn.getName( ) ) )
+						if ( !targetName.equalsIgnoreCase( sourceColumn.getName( ) ) )
 							continue;
 					}
 					relationElement.appendChild( source );
@@ -3133,8 +3064,7 @@ public class DataFlowAnalyzer
 				}
 				if ( relation.getRelationType( ) == RelationType.dataflow )
 				{
-					if ( !targetName.equalsIgnoreCase( sourceColumn.getName( ) )
-							&& !"*".equals( sourceColumn.getName( ) ) )
+					if ( !targetName.equalsIgnoreCase( sourceColumn.getName( ) ) )
 						continue;
 				}
 				relationElement.appendChild( source );
@@ -3164,11 +3094,6 @@ public class DataFlowAnalyzer
 			Element relationElement = doc.createElement( "relation" );
 			relationElement.setAttribute( "type", relation.getRelationType( )
 					.name( ) );
-			if ( relation.getEffectType( ) != null )
-			{
-				relationElement.setAttribute( "effectType",
-						relation.getEffectType( ).name( ) );
-			}
 			relationElement.setAttribute( "id",
 					String.valueOf( relation.getId( ) ) );
 
@@ -3746,7 +3671,6 @@ public class DataFlowAnalyzer
 			for ( int i = 0; i < columns.size( ); i++ )
 			{
 				DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
-				relation.setEffectType( EffectType.select );
 				relation.setTarget( new ResultColumnRelationElement( columns.get( i ) ) );
 
 				if ( stmt.getLeftStmt( ).getResultColumnList( ) != null )
@@ -3821,7 +3745,6 @@ public class DataFlowAnalyzer
 									sourceColumn,
 									j );
 							DataFlowRelation selectSetRalation = ModelFactory.createDataFlowRelation( );
-							selectSetRalation.setEffectType( EffectType.select );
 							selectSetRalation.setTarget( new ResultColumnRelationElement( targetColumn ) );
 							selectSetRalation.addSource( new ResultColumnRelationElement( sourceColumn ) );
 						}
@@ -3868,7 +3791,6 @@ public class DataFlowAnalyzer
 											j );
 								}
 								DataFlowRelation selectSetRalation = ModelFactory.createDataFlowRelation( );
-								selectSetRalation.setEffectType( EffectType.select );
 								selectSetRalation.setTarget( new ResultColumnRelationElement( targetColumn ) );
 								selectSetRalation.addSource( new ResultColumnRelationElement( sourceColumn ) );
 							}
@@ -3894,7 +3816,6 @@ public class DataFlowAnalyzer
 											j );
 								}
 								DataFlowRelation selectSetRalation = ModelFactory.createDataFlowRelation( );
-								selectSetRalation.setEffectType( EffectType.select );
 								selectSetRalation.setTarget( new ResultColumnRelationElement( targetColumn ) );
 								selectSetRalation.addSource( new ResultColumnRelationElement( sourceColumn ) );
 							}
@@ -3970,8 +3891,7 @@ public class DataFlowAnalyzer
 
 								List<TObjectName> objectNames = visitor.getObjectNames( );
 								analyzeDataFlowRelation( resultColumn,
-										objectNames,
-										EffectType.select );
+										objectNames );
 							}
 							else
 							{
@@ -4015,7 +3935,7 @@ public class DataFlowAnalyzer
 										}
 									}
 								}
-								analyzeResultColumn( column, EffectType.select );
+								analyzeResultColumn( column );
 							}
 						}
 					}
@@ -4069,7 +3989,7 @@ public class DataFlowAnalyzer
 									}
 								}
 							}
-							analyzeResultColumn( column, EffectType.select );
+							analyzeResultColumn( column );
 						}
 					}
 				}
@@ -4135,7 +4055,7 @@ public class DataFlowAnalyzer
 							}
 						}
 
-						analyzeResultColumn( column, EffectType.select );
+						analyzeResultColumn( column );
 					}
 				}
 			}
@@ -4145,7 +4065,7 @@ public class DataFlowAnalyzer
 				for ( int i = 0; i < stmt.getJoins( ).size( ); i++ )
 				{
 					TJoin join = stmt.getJoins( ).getJoin( i );
-					analyzeJoin( join, EffectType.select );
+					analyzeJoin( join );
 				}
 			}
 
@@ -4154,10 +4074,7 @@ public class DataFlowAnalyzer
 				TExpression expr = stmt.getWhereClause( ).getCondition( );
 				if ( expr != null )
 				{
-					analyzeFilterCondtion( expr,
-							null,
-							JoinClauseType.where,
-							EffectType.select );
+					analyzeFilterCondtion( expr, null, JoinClauseType.where );
 				}
 			}
 
@@ -4169,13 +4086,13 @@ public class DataFlowAnalyzer
 				{
 					TGroupByItem groupBy = groupByList.getGroupByItem( i );
 					TExpression expr = groupBy.getExpr( );
-					analyzeAggregate( expr, EffectType.select );
+					analyzeAggregate( expr );
 				}
 
 				if ( stmt.getGroupByClause( ).getHavingClause( ) != null )
 				{
 					analyzeAggregate( stmt.getGroupByClause( )
-							.getHavingClause( ), EffectType.select );
+							.getHavingClause( ) );
 				}
 			}
 
@@ -4183,7 +4100,7 @@ public class DataFlowAnalyzer
 		}
 	}
 
-	private void analyzeJoin( TJoin join, EffectType effectType )
+	private void analyzeJoin( TJoin join )
 	{
 		if ( join.getJoinItems( ) != null )
 		{
@@ -4195,15 +4112,14 @@ public class DataFlowAnalyzer
 				{
 					analyzeFilterCondtion( expr,
 							joinItem.getJoinType( ),
-							JoinClauseType.on,
-							effectType );
+							JoinClauseType.on );
 				}
 			}
 		}
 
 		if ( join.getJoin( ) != null )
 		{
-			analyzeJoin( join.getJoin( ), effectType );
+			analyzeJoin( join.getJoin( ) );
 		}
 	}
 
@@ -4301,8 +4217,7 @@ public class DataFlowAnalyzer
 		}
 	}
 
-	private void analyzeResultColumn( TResultColumn column,
-			EffectType effectType )
+	private void analyzeResultColumn( TResultColumn column )
 	{
 		TExpression expression = column.getExpr( );
 		columnsInExpr visitor = new columnsInExpr( );
@@ -4311,13 +4226,12 @@ public class DataFlowAnalyzer
 
 		List<TFunctionCall> functions = visitor.getFunctions( );
 
-		analyzeDataFlowRelation( column, objectNames, effectType );
-		analyzeRecordSetRelation( column, functions, effectType );
-		analyzeResultColumnImpact( column, effectType );
+		analyzeDataFlowRelation( column, objectNames );
+		analyzeRecordSetRelation( column, functions );
+		analyzeResultColumnImpact( column );
 	}
 
-	private void analyzeResultColumnImpact( TResultColumn column,
-			EffectType effectType )
+	private void analyzeResultColumnImpact( TResultColumn column )
 	{
 		TExpression expression = column.getExpr( );
 		EExpressionType type = expression.getExpressionType( );
@@ -4354,17 +4268,16 @@ public class DataFlowAnalyzer
 				objectNames.addAll( visitor.getObjectNames( ) );
 			}
 		}
-		analyzeImpactRelation( column, objectNames, effectType );
+		analyzeImpactRelation( column, objectNames );
 	}
 
 	private void analyzeImpactRelation( TResultColumn column,
-			List<TObjectName> objectNames, EffectType effectType )
+			List<TObjectName> objectNames )
 	{
 		if ( objectNames == null || objectNames.size( ) == 0 )
 			return;
 
 		ImpactRelation relation = ModelFactory.createImpactRelation( );
-		relation.setEffectType( effectType );
 
 		relation.setTarget( new ResultColumnRelationElement( (ResultColumn) ModelBindingManager.getModel( column ) ) );
 
@@ -4400,13 +4313,12 @@ public class DataFlowAnalyzer
 	}
 
 	private void analyzeRecordSetRelation( TResultColumn column,
-			List<TFunctionCall> functions, EffectType effectType )
+			List<TFunctionCall> functions )
 	{
 		if ( functions == null || functions.size( ) == 0 )
 			return;
 
 		RecordSetRelation relation = ModelFactory.createRecordSetRelation( );
-		relation.setEffectType( effectType );
 		relation.setTarget( new ResultColumnRelationElement( (ResultColumn) ModelBindingManager.getModel( column ) ) );
 
 		for ( int i = 0; i < functions.size( ); i++ )
@@ -4436,14 +4348,14 @@ public class DataFlowAnalyzer
 	}
 
 	private void analyzeDataFlowRelation( TParseTreeNode gspObject,
-			List<TObjectName> objectNames, EffectType effectType )
+			List<TObjectName> objectNames )
 	{
 		Object columnObject = ModelBindingManager.getModel( gspObject );
-		analyzeDataFlowRelation( columnObject, objectNames, effectType );
+		analyzeDataFlowRelation( columnObject, objectNames );
 	}
 
 	private void analyzeDataFlowRelation( Object modelObject,
-			List<TObjectName> objectNames, EffectType effectType )
+			List<TObjectName> objectNames )
 	{
 		if ( objectNames == null || objectNames.size( ) == 0 )
 			return;
@@ -4451,7 +4363,6 @@ public class DataFlowAnalyzer
 		boolean isStar = false;
 
 		DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
-		relation.setEffectType( effectType );
 
 		int columnIndex = -1;
 
@@ -4867,7 +4778,7 @@ public class DataFlowAnalyzer
 		}
 	}
 
-	private void analyzeAggregate( TExpression expr, EffectType effectType )
+	private void analyzeAggregate( TExpression expr )
 	{
 		if ( expr == null )
 		{
@@ -4888,7 +4799,6 @@ public class DataFlowAnalyzer
 			if ( isAggregateFunction( column.getExpr( ).getFunctionCall( ) ) )
 			{
 				relation = ModelFactory.createRecordSetRelation( );
-				relation.setEffectType( effectType );
 				relation.setTarget( new ResultColumnRelationElement( (ResultColumn) ModelBindingManager.getModel( column ) ) );
 				( (RecordSetRelation) relation ).setAggregateFunction( column.getExpr( )
 						.getFunctionCall( )
@@ -4898,7 +4808,6 @@ public class DataFlowAnalyzer
 			else
 			{
 				relation = ModelFactory.createImpactRelation( );
-				relation.setEffectType( effectType );
 				relation.setTarget( new ResultColumnRelationElement( (ResultColumn) ModelBindingManager.getModel( column ) ) );
 			}
 
@@ -4933,7 +4842,7 @@ public class DataFlowAnalyzer
 	}
 
 	private void analyzeFilterCondtion( TExpression expr, EJoinType joinType,
-			JoinClauseType joinClauseType, EffectType effectType )
+			JoinClauseType joinClauseType )
 	{
 		if ( expr == null )
 		{
@@ -4958,7 +4867,6 @@ public class DataFlowAnalyzer
 				if ( isAggregateFunction( column.getExpr( ).getFunctionCall( ) ) )
 				{
 					relation = ModelFactory.createRecordSetRelation( );
-					relation.setEffectType( effectType );
 					relation.setTarget( new ResultColumnRelationElement( (ResultColumn) ModelBindingManager.getModel( column ) ) );
 					( (RecordSetRelation) relation ).setAggregateFunction( column.getExpr( )
 							.getFunctionCall( )
@@ -4968,7 +4876,6 @@ public class DataFlowAnalyzer
 				else
 				{
 					relation = ModelFactory.createImpactRelation( );
-					relation.setEffectType( effectType );
 					if ( column.getExpr( ).getExpressionType( ) == EExpressionType.assignment_t )
 					{
 						relation.setTarget( new ResultColumnRelationElement( (ResultColumn) ModelBindingManager.getModel( column.getExpr( )
@@ -5014,9 +4921,7 @@ public class DataFlowAnalyzer
 
 		if ( isShowJoin( ) )
 		{
-			joinInExpr joinVisitor = new joinInExpr( joinType,
-					joinClauseType,
-					effectType );
+			joinInExpr joinVisitor = new joinInExpr( joinType, joinClauseType );
 			expr.inOrderTraverse( joinVisitor );
 		}
 	}
@@ -5170,14 +5075,11 @@ public class DataFlowAnalyzer
 
 		private EJoinType joinType;
 		private JoinClauseType joinClauseType;
-		private EffectType effectType;
 
-		public joinInExpr( EJoinType joinType, JoinClauseType joinClauseType,
-				EffectType effectType )
+		public joinInExpr( EJoinType joinType, JoinClauseType joinClauseType )
 		{
 			this.joinType = joinType;
 			this.joinClauseType = joinClauseType;
-			this.effectType = effectType;
 		}
 
 		boolean is_compare_condition( EExpressionType t )
@@ -5219,7 +5121,6 @@ public class DataFlowAnalyzer
 							for ( int j = 0; j < rightObjectNames.size( ); j++ )
 							{
 								JoinRelation joinRelation = ModelFactory.createJoinRelation( );
-								joinRelation.setEffectType( effectType );
 								if ( joinType != null )
 								{
 									joinRelation.setJoinType( joinType );
