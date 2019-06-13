@@ -53,13 +53,14 @@ for further processing in your own program.
 ## Type of the column relationships in JSON snippet
 
 * **fdd**,  the value of target column is come from source column, such as: t = s + 2
-	You may check `effectType` to see how the target column is changed.
-		- `effectType = select`, the source data is from select.
-		- `effectType = insert`, the source data is from insert.
-		- `effectType = update`, the source data is from update.
-		- `effectType = merge_update`, the source data is merge update.
-		- `effectType = merege_insert`, the source data is from merege insert.
-		- `effectType = create_view`, the source data is from create view.
+
+		You may check `effectType` to see how the target column is changed.
+			- `effectType = select`, the source data is from select.
+			- `effectType = insert`, the source data is from insert.
+			- `effectType = update`, the source data is from update.
+			- `effectType = merge_update`, the source data is merge update.
+			- `effectType = merege_insert`, the source data is from merege insert.
+			- `effectType = create_view`, the source data is from create view.
 		
 * **fddi**, the value of the target column is not derived from the source column directly, but it is effected by the source column.
 		However, it's difficult to determine this kind of relation, take this syntax for example: t=fx(s).
