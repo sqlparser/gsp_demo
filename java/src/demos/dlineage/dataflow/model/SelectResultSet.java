@@ -4,25 +4,21 @@ package demos.dlineage.dataflow.model;
 import gudusoft.gsqlparser.nodes.TResultColumnList;
 import gudusoft.gsqlparser.stmt.TSelectSqlStatement;
 
-public class SelectResultSet extends ResultSet
-{
+public class SelectResultSet extends ResultSet {
 
-	private TSelectSqlStatement selectObject;
+    private TSelectSqlStatement selectObject;
 
-	public SelectResultSet( TSelectSqlStatement select, boolean isTarget )
-	{
-		super( select.getResultColumnList( ), isTarget );
-		this.selectObject = select;
-	}
+    public SelectResultSet(TSelectSqlStatement select, boolean isTarget) {
+        super(select.getResultColumnList(), isTarget);
+        this.selectObject = select;
+    }
 
-	public TResultColumnList getResultColumnObject( )
-	{
-		return selectObject.getResultColumnList( );
-	}
+    public TResultColumnList getResultColumnObject() {
+        return selectObject.getResultColumnList();
+    }
 
-	public TSelectSqlStatement getSelectStmt( )
-	{
-		return selectObject;
-	}
+    public TSelectSqlStatement getSelectStmt() {
+        return selectObject;
+    }
 
 }

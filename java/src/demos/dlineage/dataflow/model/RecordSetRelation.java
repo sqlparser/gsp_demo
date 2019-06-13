@@ -1,25 +1,21 @@
 
 package demos.dlineage.dataflow.model;
 
-public class RecordSetRelation extends AbstractRelation
-{
+public class RecordSetRelation extends AbstractRelation {
 
-	private String aggregateFunction;
+    private String aggregateFunction;
 
-	public String getAggregateFunction( )
-	{
-		return aggregateFunction;
-	}
+    public String getAggregateFunction() {
+        return aggregateFunction;
+    }
 
-	public void setAggregateFunction( String aggregateFunction )
-	{
-		this.aggregateFunction = aggregateFunction;
-	}
+    public void setAggregateFunction(String aggregateFunction) {
+        this.aggregateFunction = aggregateFunction;
+    }
 
-	@Override
-	public RelationType getRelationType( )
-	{
-		return RelationType.dataflow_recordset;
-	}
+    @Override
+    public RelationType getRelationType() {
+        return RelationType.fdr;
+    }
 
 }

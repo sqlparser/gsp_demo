@@ -1,12 +1,10 @@
 
 package demos.dlineage.dataflow.model;
 
-public class ImpactRelation extends AbstractRelation
-{
+public class ImpactRelation extends AbstractRelation {
 
-	@Override
-	public RelationType getRelationType( )
-	{
-		return RelationType.impact;
-	}
+    @Override
+    public RelationType getRelationType() {
+        return RelationType.frd;
+    }
 }

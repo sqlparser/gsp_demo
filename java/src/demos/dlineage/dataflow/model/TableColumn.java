@@ -1,121 +1,105 @@
 
 package demos.dlineage.dataflow.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import demos.dlineage.util.Pair;
 import gudusoft.gsqlparser.TSourceToken;
 import gudusoft.gsqlparser.nodes.TConstant;
 import gudusoft.gsqlparser.nodes.TObjectName;
-import demos.dlineage.util.Pair;
 
-public class TableColumn
-{
+import java.util.ArrayList;
+import java.util.List;
 
-	public static int TABLE_COLUMN_ID = 0;
+public class TableColumn {
 
-	private Table table;
 
-	private int id;
-	private String name;
+    private Table table;
 
-	private Pair<Long, Long> startPosition;
-	private Pair<Long, Long> endPosition;
+    private int id;
+    private String name;
 
-	private TObjectName columnObject;
-	private List<TObjectName> starLinkColumns = new ArrayList<TObjectName>( );
+    private Pair<Long, Long> startPosition;
+    private Pair<Long, Long> endPosition;
 
-	public TableColumn( Table table, TObjectName columnObject )
-	{
-		if ( table == null || columnObject == null )
-			throw new IllegalArgumentException( "TableColumn arguments can't be null." );
+    private TObjectName columnObject;
+    private List<TObjectName> starLinkColumns = new ArrayList<TObjectName>();
 
-		id = ++TABLE_COLUMN_ID;
+    public TableColumn(Table table, TObjectName columnObject) {
+        if (table == null || columnObject == null)
+            throw new IllegalArgumentException("TableColumn arguments can't be null.");
 
-		this.columnObject = columnObject;
+        id = ++ModelBindingManager.get().TABLE_COLUMN_ID;
 
-		TSourceToken startToken = columnObject.getStartToken( );
-		TSourceToken endToken = columnObject.getEndToken( );
-		this.startPosition = new Pair<Long, Long>( startToken.lineNo,
-				startToken.columnNo );
-		this.endPosition = new Pair<Long, Long>( endToken.lineNo,
-				endToken.columnNo + endToken.astext.length( ) );
+        this.columnObject = columnObject;
 
-		if ( columnObject.getColumnNameOnly( ) != null
-				&& !"".equals( columnObject.getColumnNameOnly( ) ) )
-		{
-			this.name = columnObject.getColumnNameOnly( );
-		}
-		else
-		{
-			this.name = columnObject.toString( );
-		}
+        TSourceToken startToken = columnObject.getStartToken();
+        TSourceToken endToken = columnObject.getEndToken();
+        this.startPosition = new Pair<Long, Long>(startToken.lineNo,
+                startToken.columnNo);
+        this.endPosition = new Pair<Long, Long>(endToken.lineNo,
+                endToken.columnNo + endToken.astext.length());
 
-		this.table = table;
-		table.addColumn( this );
-	}
+        if (columnObject.getColumnNameOnly() != null
+                && !"".equals(columnObject.getColumnNameOnly())) {
+            this.name = columnObject.getColumnNameOnly();
+        } else {
+            this.name = columnObject.toString();
+        }
 
-	public TableColumn( Table table, TConstant columnObject, int columnIndex )
-	{
-		if ( table == null || columnObject == null )
-			throw new IllegalArgumentException( "TableColumn arguments can't be null." );
+        this.table = table;
+        table.addColumn(this);
+    }
 
-		id = ++TABLE_COLUMN_ID;
+    public TableColumn(Table table, TConstant columnObject, int columnIndex) {
+        if (table == null || columnObject == null)
+            throw new IllegalArgumentException("TableColumn arguments can't be null.");
 
-		TSourceToken startToken = columnObject.getStartToken( );
-		TSourceToken endToken = columnObject.getEndToken( );
-		this.startPosition = new Pair<Long, Long>( startToken.lineNo,
-				startToken.columnNo );
-		this.endPosition = new Pair<Long, Long>( endToken.lineNo,
-				endToken.columnNo + endToken.astext.length( ) );
+        id = ++ModelBindingManager.get().TABLE_COLUMN_ID;
 
-		this.name = "DUMMY" + columnIndex;
+        TSourceToken startToken = columnObject.getStartToken();
+        TSourceToken endToken = columnObject.getEndToken();
+        this.startPosition = new Pair<Long, Long>(startToken.lineNo,
+                startToken.columnNo);
+        this.endPosition = new Pair<Long, Long>(endToken.lineNo,
+                endToken.columnNo + endToken.astext.length());
 
-		this.table = table;
-		table.addColumn( this );
-	}
+        this.name = "DUMMY" + columnIndex;
 
-	public Table getTable( )
-	{
-		return table;
-	}
+        this.table = table;
+        table.addColumn(this);
+    }
 
-	public int getId( )
-	{
-		return id;
-	}
+    public Table getTable() {
+        return table;
+    }
 
-	public String getName( )
-	{
-		return name;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public Pair<Long, Long> getStartPosition( )
-	{
-		return startPosition;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public Pair<Long, Long> getEndPosition( )
-	{
-		return endPosition;
-	}
+    public Pair<Long, Long> getStartPosition() {
+        return startPosition;
+    }
 
-	public TObjectName getColumnObject( )
-	{
-		return columnObject;
-	}
+    public Pair<Long, Long> getEndPosition() {
+        return endPosition;
+    }
 
-	public void bindStarLinkColumns( List<TObjectName> starLinkColumns )
-	{
-		if ( starLinkColumns != null && !starLinkColumns.isEmpty( ) )
-		{
-			this.starLinkColumns = starLinkColumns;
-		}
-	}
+    public TObjectName getColumnObject() {
+        return columnObject;
+    }
 
-	public List<TObjectName> getStarLinkColumns( )
-	{
-		return starLinkColumns;
-	}
+    public void bindStarLinkColumns(List<TObjectName> starLinkColumns) {
+        if (starLinkColumns != null && !starLinkColumns.isEmpty()) {
+            this.starLinkColumns = starLinkColumns;
+        }
+    }
+
+    public List<TObjectName> getStarLinkColumns() {
+        return starLinkColumns;
+    }
 
 }

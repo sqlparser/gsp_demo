@@ -6,16 +6,20 @@ import java.util.Arrays;
 
 
 public final class Objects {
-    private Objects() {}
+    private Objects() {
+    }
+
     /**
      * Returns true if two possibly-null objects are equal.
      */
     public static boolean equal(Object a, Object b) {
         return a == b || (a != null && a.equals(b));
     }
+
     public static int hashCode(Object o) {
         return (o == null) ? 0 : o.hashCode();
     }
+
     /**
      * Returns a string reporting the value of each declared field, via reflection.
      * Static and transient fields are automatically skipped. Produces output like
