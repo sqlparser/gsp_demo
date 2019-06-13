@@ -121,22 +121,21 @@ import demos.dlineage.util.XMLUtil;
 public class DataFlowAnalyzer
 {
 
-	private static final List<String> TERADATA_BUILTIN_FUNCTIONS = Arrays
-			.asList( new String[]{
-					"ACCOUNT",
-					"CURRENT_DATE",
-					"CURRENT_ROLE",
-					"CURRENT_TIME",
-					"CURRENT_TIMESTAMP",
-					"CURRENT_USER",
-					"DATABASE",
-					"DATE",
-					"PROFILE",
-					"ROLE",
-					"SESSION",
-					"TIME",
-					"USER",
-					"SYSDATE",
+	private static final List<String> TERADATA_BUILTIN_FUNCTIONS = Arrays.asList( new String[]{
+			"ACCOUNT",
+			"CURRENT_DATE",
+			"CURRENT_ROLE",
+			"CURRENT_TIME",
+			"CURRENT_TIMESTAMP",
+			"CURRENT_USER",
+			"DATABASE",
+			"DATE",
+			"PROFILE",
+			"ROLE",
+			"SESSION",
+			"TIME",
+			"USER",
+			"SYSDATE",
 	} );
 
 	private Stack<TCustomSqlStatement> stmtStack = new Stack<TCustomSqlStatement>( );
@@ -221,8 +220,8 @@ public class DataFlowAnalyzer
 
 		if ( handleListener != null )
 		{
-			handleListener.endOutputDataFlowXML(
-					dataflowString == null ? 0 : dataflowString.length( ) );
+			handleListener.endOutputDataFlowXML( dataflowString == null ? 0
+					: dataflowString.length( ) );
 			handleListener.endAnalyze( );
 		}
 
@@ -317,8 +316,9 @@ public class DataFlowAnalyzer
 					if ( !SQLUtil.isEmpty( table.getAlias( ) )
 							&& !SQLUtil.isEmpty( item.getAlias( ) ) )
 					{
-						table.setAlias(
-								table.getAlias( ) + "," + item.getAlias( ) );
+						table.setAlias( table.getAlias( )
+								+ ","
+								+ item.getAlias( ) );
 					}
 					else if ( !SQLUtil.isEmpty( item.getAlias( ) ) )
 					{
@@ -361,8 +361,7 @@ public class DataFlowAnalyzer
 				if ( target != null
 						&& tableIdMap.containsKey( target.getParent_id( ) ) )
 				{
-					target.setParent_id(
-							tableIdMap.get( target.getParent_id( ) ) );
+					target.setParent_id( tableIdMap.get( target.getParent_id( ) ) );
 				}
 
 				List<sourceColumn> sources = relation.getSources( );
@@ -372,13 +371,11 @@ public class DataFlowAnalyzer
 					{
 						if ( tableIdMap.containsKey( source.getParent_id( ) ) )
 						{
-							source.setParent_id(
-									tableIdMap.get( source.getParent_id( ) ) );
+							source.setParent_id( tableIdMap.get( source.getParent_id( ) ) );
 						}
 						if ( tableIdMap.containsKey( source.getSource_id( ) ) )
 						{
-							source.setSource_id(
-									tableIdMap.get( source.getSource_id( ) ) );
+							source.setSource_id( tableIdMap.get( source.getSource_id( ) ) );
 						}
 					}
 				}
@@ -395,8 +392,7 @@ public class DataFlowAnalyzer
 		}
 		else if ( dataflowString != null )
 		{
-			dataflowResult = XML2Model.loadXML( dataflow.class,
-					dataflowString );
+			dataflowResult = XML2Model.loadXML( dataflow.class, dataflowString );
 			return dataflowResult;
 		}
 		return null;
@@ -466,14 +462,12 @@ public class DataFlowAnalyzer
 
 				for ( int i = 0; i < children.length; i++ )
 				{
-					if ( handleListener != null
-							&& handleListener.isCanceled( ) )
+					if ( handleListener != null && handleListener.isCanceled( ) )
 					{
 						break;
 					}
 
-					String content = SQLUtil
-							.getFileContent( children[i].getAbsolutePath( ) );
+					String content = SQLUtil.getFileContent( children[i].getAbsolutePath( ) );
 					if ( handleListener != null )
 					{
 						handleListener.startParse( children[i],
@@ -524,8 +518,7 @@ public class DataFlowAnalyzer
 
 				for ( int i = 0; i < sqlContents.length; i++ )
 				{
-					if ( handleListener != null
-							&& handleListener.isCanceled( ) )
+					if ( handleListener != null && handleListener.isCanceled( ) )
 					{
 						break;
 					}
@@ -563,14 +556,12 @@ public class DataFlowAnalyzer
 				File[] children = sqlFiles;
 				for ( int i = 0; i < children.length; i++ )
 				{
-					if ( handleListener != null
-							&& handleListener.isCanceled( ) )
+					if ( handleListener != null && handleListener.isCanceled( ) )
 					{
 						break;
 					}
 
-					String content = SQLUtil
-							.getFileContent( children[i].getAbsolutePath( ) );
+					String content = SQLUtil.getFileContent( children[i].getAbsolutePath( ) );
 
 					if ( handleListener != null )
 					{
@@ -643,8 +634,7 @@ public class DataFlowAnalyzer
 						sourceColumn sourceColumn = sources.get( j );
 						String columnName = sourceColumn.getColumn( );
 						if ( sourceColumn.getParent_name( ) != null
-								&& sourceColumn.getParent_name( )
-										.length( ) > 0 )
+								&& sourceColumn.getParent_name( ).length( ) > 0 )
 						{
 							columnName = sourceColumn.getParent_name( )
 									+ "."
@@ -690,8 +680,7 @@ public class DataFlowAnalyzer
 							relationSources );
 					if ( relationSources.size( ) > 0 )
 					{
-						relation simpleRelation = (relation) relationElem
-								.clone( );
+						relation simpleRelation = (relation) relationElem.clone( );
 						simpleRelation.setSources( relationSources );
 						simpleRelations.add( simpleRelation );
 					}
@@ -741,8 +730,7 @@ public class DataFlowAnalyzer
 						String targetParentId = target.getParent_id( );
 
 						if ( sourceParentId.equalsIgnoreCase( targetParentId )
-								&& sourceColumnId
-										.equalsIgnoreCase( targetColumnId ) )
+								&& sourceColumnId.equalsIgnoreCase( targetColumnId ) )
 						{
 							findSourceRaltions( instance,
 									relation.getSources( ),
@@ -883,8 +871,7 @@ public class DataFlowAnalyzer
 
 			if ( handleListener != null )
 			{
-				handleListener.startAnalyzeDataFlow(
-						sqlparser.sqlstatements.size( ) );
+				handleListener.startAnalyzeDataFlow( sqlparser.sqlstatements.size( ) );
 			}
 
 			for ( int i = 0; i < sqlparser.sqlstatements.size( ); i++ )
@@ -956,15 +943,21 @@ public class DataFlowAnalyzer
 		else if ( stmt instanceof TCreateMaterializedSqlStatement )
 		{
 			stmtStack.push( stmt );
-			TCreateMaterializedSqlStatement view = (TCreateMaterializedSqlStatement)stmt;
-			analyzeCreateViewStmt( view, view.getSubquery( ), view.getViewAliasClause( ), view.getViewName( ));
+			TCreateMaterializedSqlStatement view = (TCreateMaterializedSqlStatement) stmt;
+			analyzeCreateViewStmt( view,
+					view.getSubquery( ),
+					view.getViewAliasClause( ),
+					view.getViewName( ) );
 			stmtStack.pop( );
 		}
 		else if ( stmt instanceof TCreateViewSqlStatement )
 		{
 			stmtStack.push( stmt );
-			TCreateViewSqlStatement view = (TCreateViewSqlStatement)stmt;
-			analyzeCreateViewStmt( view, view.getSubquery( ), view.getViewAliasClause( ), view.getViewName( ));
+			TCreateViewSqlStatement view = (TCreateViewSqlStatement) stmt;
+			analyzeCreateViewStmt( view,
+					view.getSubquery( ),
+					view.getViewAliasClause( ),
+					view.getViewName( ) );
 			stmtStack.pop( );
 		}
 		else if ( stmt instanceof TInsertSqlStatement )
@@ -1062,152 +1055,110 @@ public class DataFlowAnalyzer
 			if ( stmt.getSubQuery( ) != null
 					&& stmt.getSubQuery( ).getResultColumnList( ) != null )
 			{
-				SelectResultSet resultSetModel = (SelectResultSet) ModelBindingManager
-						.getModel( stmt.getSubQuery( ).getResultColumnList( ) );
+				SelectResultSet resultSetModel = (SelectResultSet) ModelBindingManager.getModel( stmt.getSubQuery( )
+						.getResultColumnList( ) );
 				for ( int i = 0; i < resultSetModel.getColumns( ).size( ); i++ )
 				{
 					ResultColumn resultColumn = resultSetModel.getColumns( )
 							.get( i );
-					if ( resultColumn
-							.getColumnObject( ) instanceof TResultColumn )
+					if ( resultColumn.getColumnObject( ) instanceof TResultColumn )
 					{
-						TResultColumn columnObject = (TResultColumn) resultColumn
-								.getColumnObject( );
+						TResultColumn columnObject = (TResultColumn) resultColumn.getColumnObject( );
 
 						TAliasClause alias = columnObject.getAliasClause( );
 						if ( alias != null && alias.getAliasName( ) != null )
 						{
-							TableColumn tableColumn = ModelFactory
-									.createTableColumn( tableModel,
-											alias.getAliasName( ) );
-							DataFlowRelation relation = ModelFactory
-									.createDataFlowRelation( );
-							relation.setTarget( new TableColumnRelationElement(
-									tableColumn ) );
-							relation.addSource( new ResultColumnRelationElement(
-									resultColumn ) );
+							TableColumn tableColumn = ModelFactory.createTableColumn( tableModel,
+									alias.getAliasName( ) );
+							DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
+							relation.setTarget( new TableColumnRelationElement( tableColumn ) );
+							relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 						}
 						else if ( columnObject.getFieldAttr( ) != null )
 						{
-							TableColumn tableColumn = ModelFactory
-									.createTableColumn( tableModel,
-											columnObject.getFieldAttr( ) );
+							TableColumn tableColumn = ModelFactory.createTableColumn( tableModel,
+									columnObject.getFieldAttr( ) );
 
-							ResultColumn column = (ResultColumn) ModelBindingManager
-									.getModel(
-											resultColumn.getColumnObject( ) );
+							ResultColumn column = (ResultColumn) ModelBindingManager.getModel( resultColumn.getColumnObject( ) );
 							if ( column != null
-									&& !column.getStarLinkColumns( )
-											.isEmpty( ) )
+									&& !column.getStarLinkColumns( ).isEmpty( ) )
 							{
-								tableColumn.bindStarLinkColumns(
-										column.getStarLinkColumns( ) );
+								tableColumn.bindStarLinkColumns( column.getStarLinkColumns( ) );
 							}
 
-							DataFlowRelation relation = ModelFactory
-									.createDataFlowRelation( );
-							relation.setTarget( new TableColumnRelationElement(
-									tableColumn ) );
-							relation.addSource( new ResultColumnRelationElement(
-									resultColumn ) );
+							DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
+							relation.setTarget( new TableColumnRelationElement( tableColumn ) );
+							relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 						}
 						else
 						{
 							System.err.println( );
-							System.err.println(
-									"Can't handle table column, the create table statement is" );
+							System.err.println( "Can't handle table column, the create table statement is" );
 							System.err.println( stmt.toString( ) );
 							continue;
 						}
 					}
-					else if ( resultColumn
-							.getColumnObject( ) instanceof TObjectName )
+					else if ( resultColumn.getColumnObject( ) instanceof TObjectName )
 					{
-						TableColumn tableColumn = ModelFactory
-								.createTableColumn( tableModel,
-										(TObjectName) resultColumn
-												.getColumnObject( ) );
-						DataFlowRelation relation = ModelFactory
-								.createDataFlowRelation( );
-						relation.setTarget(
-								new TableColumnRelationElement( tableColumn ) );
-						relation.addSource( new ResultColumnRelationElement(
-								resultColumn ) );
+						TableColumn tableColumn = ModelFactory.createTableColumn( tableModel,
+								(TObjectName) resultColumn.getColumnObject( ) );
+						DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
+						relation.setTarget( new TableColumnRelationElement( tableColumn ) );
+						relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 					}
 				}
 			}
 			else if ( stmt.getSubQuery( ) != null )
 			{
-				SelectSetResultSet resultSetModel = (SelectSetResultSet) ModelBindingManager
-						.getModel( stmt.getSubQuery( ) );
+				SelectSetResultSet resultSetModel = (SelectSetResultSet) ModelBindingManager.getModel( stmt.getSubQuery( ) );
 				for ( int i = 0; i < resultSetModel.getColumns( ).size( ); i++ )
 				{
 					ResultColumn resultColumn = resultSetModel.getColumns( )
 							.get( i );
-					if ( resultColumn
-							.getColumnObject( ) instanceof TResultColumn )
+					if ( resultColumn.getColumnObject( ) instanceof TResultColumn )
 					{
-						TResultColumn columnObject = (TResultColumn) resultColumn
-								.getColumnObject( );
+						TResultColumn columnObject = (TResultColumn) resultColumn.getColumnObject( );
 
 						TAliasClause alias = columnObject.getAliasClause( );
 						if ( alias != null && alias.getAliasName( ) != null )
 						{
-							TableColumn viewColumn = ModelFactory
-									.createTableColumn( tableModel,
-											alias.getAliasName( ) );
-							DataFlowRelation relation = ModelFactory
-									.createDataFlowRelation( );
-							relation.setTarget( new TableColumnRelationElement(
-									viewColumn ) );
-							relation.addSource( new ResultColumnRelationElement(
-									resultColumn ) );
+							TableColumn viewColumn = ModelFactory.createTableColumn( tableModel,
+									alias.getAliasName( ) );
+							DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
+							relation.setTarget( new TableColumnRelationElement( viewColumn ) );
+							relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 						}
 						else if ( columnObject.getFieldAttr( ) != null )
 						{
-							TableColumn tableColumn = ModelFactory
-									.createTableColumn( tableModel,
-											columnObject.getFieldAttr( ) );
+							TableColumn tableColumn = ModelFactory.createTableColumn( tableModel,
+									columnObject.getFieldAttr( ) );
 
-							ResultColumn column = (ResultColumn) ModelBindingManager
-									.getModel(
-											resultColumn.getColumnObject( ) );
+							ResultColumn column = (ResultColumn) ModelBindingManager.getModel( resultColumn.getColumnObject( ) );
 							if ( column != null
-									&& !column.getStarLinkColumns( )
-											.isEmpty( ) )
+									&& !column.getStarLinkColumns( ).isEmpty( ) )
 							{
-								tableColumn.bindStarLinkColumns(
-										column.getStarLinkColumns( ) );
+								tableColumn.bindStarLinkColumns( column.getStarLinkColumns( ) );
 							}
 
-							DataFlowRelation relation = ModelFactory
-									.createDataFlowRelation( );
-							relation.setTarget( new TableColumnRelationElement(
-									tableColumn ) );
-							relation.addSource( new ResultColumnRelationElement(
-									resultColumn ) );
+							DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
+							relation.setTarget( new TableColumnRelationElement( tableColumn ) );
+							relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 						}
 						else
 						{
 							System.err.println( );
-							System.err.println(
-									"Can't handle table column, the create table statement is" );
+							System.err.println( "Can't handle table column, the create table statement is" );
 							System.err.println( stmt.toString( ) );
 							continue;
 						}
 					}
-					else if ( resultColumn
-							.getColumnObject( ) instanceof TObjectName )
+					else if ( resultColumn.getColumnObject( ) instanceof TObjectName )
 					{
-						TableColumn viewColumn = ModelFactory.createTableColumn(
-								tableModel,
+						TableColumn viewColumn = ModelFactory.createTableColumn( tableModel,
 								(TObjectName) resultColumn.getColumnObject( ) );
-						DataFlowRelation relation = ModelFactory
-								.createDataFlowRelation( );
-						relation.setTarget(
-								new TableColumnRelationElement( viewColumn ) );
-						relation.addSource( new ResultColumnRelationElement(
-								resultColumn ) );
+						DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
+						relation.setTarget( new TableColumnRelationElement( viewColumn ) );
+						relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 					}
 				}
 			}
@@ -1215,8 +1166,7 @@ public class DataFlowAnalyzer
 		else
 		{
 			System.err.println( );
-			System.err.println(
-					"Can't get target table. CreateTableSqlStatement is " );
+			System.err.println( "Can't get target table. CreateTableSqlStatement is " );
 			System.err.println( stmt.toString( ) );
 		}
 	}
@@ -1230,8 +1180,8 @@ public class DataFlowAnalyzer
 
 		if ( stmt instanceof TStoredProcedureSqlStatement )
 		{
-			return ( (TStoredProcedureSqlStatement) stmt )
-					.getStoredProcedureName( ).toString( );
+			return ( (TStoredProcedureSqlStatement) stmt ).getStoredProcedureName( )
+					.toString( );
 		}
 
 		return getProcedureParentName( stmt );
@@ -1267,50 +1217,40 @@ public class DataFlowAnalyzer
 						if ( columns == null || columns.size( ) == 0 )
 							continue;
 
-						ResultSet resultSet = ModelFactory.createResultSet(
-								clause.getUpdateClause( ), true );
+						ResultSet resultSet = ModelFactory.createResultSet( clause.getUpdateClause( ),
+								true );
 
 						for ( int j = 0; j < columns.size( ); j++ )
 						{
-							TResultColumn resultColumn = columns
-									.getResultColumn( j );
+							TResultColumn resultColumn = columns.getResultColumn( j );
 							if ( resultColumn.getExpr( )
 									.getLeftOperand( )
 									.getExpressionType( ) == EExpressionType.simple_object_name_t )
 							{
-								TObjectName columnObject = resultColumn
-										.getExpr( )
+								TObjectName columnObject = resultColumn.getExpr( )
 										.getLeftOperand( )
 										.getObjectOperand( );
 
-								ResultColumn updateColumn = ModelFactory
-										.createMergeResultColumn( resultSet,
-												columnObject );
+								ResultColumn updateColumn = ModelFactory.createMergeResultColumn( resultSet,
+										columnObject );
 
-								TExpression valueExpression = resultColumn
-										.getExpr( ).getRightOperand( );
+								TExpression valueExpression = resultColumn.getExpr( )
+										.getRightOperand( );
 								if ( valueExpression == null )
 									continue;
 
 								columnsInExpr visitor = new columnsInExpr( );
 								valueExpression.inOrderTraverse( visitor );
-								List<TObjectName> objectNames = visitor
-										.getObjectNames( );
+								List<TObjectName> objectNames = visitor.getObjectNames( );
 								analyzeDataFlowRelation( updateColumn,
 										objectNames );
 
-								TableColumn tableColumn = ModelFactory
-										.createTableColumn( tableModel,
-												columnObject );
+								TableColumn tableColumn = ModelFactory.createTableColumn( tableModel,
+										columnObject );
 
-								DataFlowRelation relation = ModelFactory
-										.createDataFlowRelation( );
-								relation.setTarget(
-										new TableColumnRelationElement(
-												tableColumn ) );
-								relation.addSource(
-										new ResultColumnRelationElement(
-												updateColumn ) );
+								DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
+								relation.setTarget( new TableColumnRelationElement( tableColumn ) );
+								relation.addSource( new ResultColumnRelationElement( updateColumn ) );
 							}
 						}
 					}
@@ -1323,26 +1263,25 @@ public class DataFlowAnalyzer
 						{
 							ResultSet resultSet = ModelFactory.createResultSet( clause.getInsertClause( ),
 									true );
-							TObjectConstruct objectConstruct = insertValue.getObjectConstruct();
+							TObjectConstruct objectConstruct = insertValue.getObjectConstruct( );
 							for ( int z = 0; z < objectConstruct.getPairs( )
 									.size( ); z++ )
 							{
 								TPair pair = objectConstruct.getPairs( )
 										.getElement( z );
-								
+
 								if ( pair.getKeyName( ).getExpressionType( ) == EExpressionType.simple_constant_t )
 								{
 									TObjectName columnObject = new TObjectName( );
 									TConstant constant = pair.getKeyName( )
 											.getConstantOperand( );
-									TSourceToken newSt = new TSourceToken( constant
-											.getValueToken( )
+									TSourceToken newSt = new TSourceToken( constant.getValueToken( )
 											.getTextWithoutQuoted( ) );
 									columnObject.setPartToken( newSt );
 									columnObject.setSourceTable( stmt.getTargetTable( ) );
 									columnObject.setStartToken( constant.getStartToken( ) );
 									columnObject.setEndToken( constant.getEndToken( ) );
-									
+
 									ResultColumn insertColumn = ModelFactory.createMergeResultColumn( resultSet,
 											columnObject );
 
@@ -1430,8 +1369,8 @@ public class DataFlowAnalyzer
 		{
 			for ( int z = 0; z < value.getColumnList( ).size( ); z++ )
 			{
-				TableColumn tableColumn = ModelFactory.createInsertTableColumn(
-						tableModel, value.getColumnList( ).getObjectName( z ) );
+				TableColumn tableColumn = ModelFactory.createInsertTableColumn( tableModel,
+						value.getColumnList( ).getObjectName( z ) );
 				tableColumns.add( tableColumn );
 				keyMap.add( tableColumn.getColumnObject( ) );
 			}
@@ -1441,17 +1380,14 @@ public class DataFlowAnalyzer
 		{
 			for ( int z = 0; z < value.getTargetList( ).size( ); z++ )
 			{
-				TMultiTarget target = value.getTargetList( )
-						.getMultiTarget( z );
+				TMultiTarget target = value.getTargetList( ).getMultiTarget( z );
 				TResultColumnList columns = target.getColumnList( );
 				for ( int i = 0; i < columns.size( ); i++ )
 				{
 					if ( value.getColumnList( ) == null )
 					{
-						TableColumn tableColumn = ModelFactory
-								.createInsertTableColumn( tableModel,
-										columns.getResultColumn( i )
-												.getFieldAttr( ) );
+						TableColumn tableColumn = ModelFactory.createInsertTableColumn( tableModel,
+								columns.getResultColumn( i ).getFieldAttr( ) );
 						tableColumns.add( tableColumn );
 					}
 					valueMap.add( columns.getResultColumn( i ) );
@@ -1475,7 +1411,7 @@ public class DataFlowAnalyzer
 		}
 		return null;
 	}
-	
+
 	private ResultColumn matchResultColumn( List<ResultColumn> resultColumns,
 			TObjectName columnName )
 	{
@@ -1483,12 +1419,12 @@ public class DataFlowAnalyzer
 		{
 			ResultColumn column = resultColumns.get( i );
 			if ( column.getAlias( ) != null
-					&& column.getAlias( ).equalsIgnoreCase(
-							columnName.getColumnNameOnly( ) ) )
+					&& column.getAlias( )
+							.equalsIgnoreCase( columnName.getColumnNameOnly( ) ) )
 				return column;
 			if ( column.getName( ) != null
-					&& column.getName( ).equalsIgnoreCase(
-							columnName.getColumnNameOnly( ) ) )
+					&& column.getName( )
+							.equalsIgnoreCase( columnName.getColumnNameOnly( ) ) )
 				return column;
 		}
 		return null;
@@ -1512,8 +1448,7 @@ public class DataFlowAnalyzer
 				{
 					expressions.add( condition.getCondition( ) );
 				}
-				for ( int j = 0; j < condition.getInsertIntoValues( )
-						.size( ); j++ )
+				for ( int j = 0; j < condition.getInsertIntoValues( ).size( ); j++ )
 				{
 					TInsertIntoValue value = condition.getInsertIntoValues( )
 							.getElement( j );
@@ -1526,13 +1461,14 @@ public class DataFlowAnalyzer
 					insertTableKeyMap.put( tableModel, keyMap );
 					insertTableValueMap.put( tableModel, valueMap );
 
-					List<TableColumn> tableColumns = bindInsertTableColumn(
-							tableModel, value, keyMap, valueMap );
+					List<TableColumn> tableColumns = bindInsertTableColumn( tableModel,
+							value,
+							keyMap,
+							valueMap );
 					if ( tableColumnMap.get( table.getName( ) ) == null
 							&& !tableColumns.isEmpty( ) )
 					{
-						tableColumnMap.put( tableModel.getName( ),
-								tableColumns );
+						tableColumnMap.put( tableModel.getName( ), tableColumns );
 					}
 				}
 			}
@@ -1553,8 +1489,10 @@ public class DataFlowAnalyzer
 				insertTableKeyMap.put( tableModel, keyMap );
 				insertTableValueMap.put( tableModel, valueMap );
 
-				List<TableColumn> tableColumns = bindInsertTableColumn(
-						tableModel, value, keyMap, valueMap );
+				List<TableColumn> tableColumns = bindInsertTableColumn( tableModel,
+						value,
+						keyMap,
+						valueMap );
 				if ( tableColumnMap.get( table.getName( ) ) == null
 						&& !tableColumns.isEmpty( ) )
 				{
@@ -1567,8 +1505,8 @@ public class DataFlowAnalyzer
 			TTable table = stmt.getTargetTable( );
 			if ( table == null )
 			{
-				System.err.println(
-						"Can't handle insert statement: " + stmt.toString( ) );
+				System.err.println( "Can't handle insert statement: "
+						+ stmt.toString( ) );
 				return;
 			}
 			Table tableModel = ModelFactory.createTable( table );
@@ -1588,11 +1526,9 @@ public class DataFlowAnalyzer
 		while ( tableIter.hasNext( ) )
 		{
 			Table tableModel = tableIter.next( );
-			List<TableColumn> tableColumns = tableColumnMap
-					.get( tableModel.getName( ) );
+			List<TableColumn> tableColumns = tableColumnMap.get( tableModel.getName( ) );
 			List<TObjectName> keyMap = insertTableKeyMap.get( tableModel );
-			List<TResultColumn> valueMap = insertTableValueMap
-					.get( tableModel );
+			List<TResultColumn> valueMap = insertTableValueMap.get( tableModel );
 			boolean initColumn = tableColumns != null;
 
 			if ( stmt.getSubQuery( ) != null )
@@ -1606,14 +1542,12 @@ public class DataFlowAnalyzer
 
 					if ( stmt.getSubQuery( ).getResultColumnList( ) == null )
 					{
-						resultSetModel = (ResultSet) ModelBindingManager
-								.getModel( stmt.getSubQuery( ) );
+						resultSetModel = (ResultSet) ModelBindingManager.getModel( stmt.getSubQuery( ) );
 					}
 					else
 					{
-						resultSetModel = (ResultSet) ModelBindingManager
-								.getModel( stmt.getSubQuery( )
-										.getResultColumnList( ) );
+						resultSetModel = (ResultSet) ModelBindingManager.getModel( stmt.getSubQuery( )
+								.getResultColumnList( ) );
 					}
 					if ( resultSetModel == null )
 					{
@@ -1643,54 +1577,44 @@ public class DataFlowAnalyzer
 							TableColumn tableColumn;
 							if ( !initColumn )
 							{
-								tableColumn = ModelFactory.createTableColumn(
-										tableModel, column );
+								tableColumn = ModelFactory.createTableColumn( tableModel,
+										column );
 
 							}
 							else
 							{
-								tableColumn = matchColumn( tableColumns,
-										column );
+								tableColumn = matchColumn( tableColumns, column );
 								if ( tableColumn != null )
 								{
 									continue;
 								}
 							}
-							DataFlowRelation relation = ModelFactory
-									.createDataFlowRelation( );
-							relation.setTarget( new TableColumnRelationElement(
-									tableColumn ) );
-							relation.addSource( new ResultColumnRelationElement(
-									resultColumn ) );
+							DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
+							relation.setTarget( new TableColumnRelationElement( tableColumn ) );
+							relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 						}
 					}
 				}
 				else if ( stmt.getSubQuery( ).getResultColumnList( ) != null )
 				{
-					SelectResultSet resultSetModel = (SelectResultSet) ModelBindingManager
-							.getModel( stmt.getSubQuery( )
-									.getResultColumnList( ) );
-					for ( int i = 0; i < resultSetModel.getColumns( )
-							.size( ); i++ )
+					SelectResultSet resultSetModel = (SelectResultSet) ModelBindingManager.getModel( stmt.getSubQuery( )
+							.getResultColumnList( ) );
+					for ( int i = 0; i < resultSetModel.getColumns( ).size( ); i++ )
 					{
 						ResultColumn resultColumn = resultSetModel.getColumns( )
 								.get( i );
-						if ( resultColumn
-								.getColumnObject( ) instanceof TObjectName )
+						if ( resultColumn.getColumnObject( ) instanceof TObjectName )
 						{
 							TableColumn tableColumn;
 							if ( !initColumn )
 							{
-								tableColumn = ModelFactory
-										.createInsertTableColumn( tableModel,
-												(TObjectName) resultColumn
-														.getColumnObject( ) );
+								tableColumn = ModelFactory.createInsertTableColumn( tableModel,
+										(TObjectName) resultColumn.getColumnObject( ) );
 
 							}
 							else
 							{
-								TObjectName matchedColumnName = (TObjectName) resultColumn
-										.getColumnObject( );
+								TObjectName matchedColumnName = (TObjectName) resultColumn.getColumnObject( );
 								tableColumn = matchColumn( tableColumns,
 										matchedColumnName );
 								if ( tableColumn == null )
@@ -1704,17 +1628,13 @@ public class DataFlowAnalyzer
 											if ( !isEmptyCollection( keyMap )
 													&& index < keyMap.size( ) )
 											{
-												tableColumn = matchColumn(
-														tableColumns,
+												tableColumn = matchColumn( tableColumns,
 														keyMap.get( index ) );
 											}
-											else if ( isEmptyCollection(
-													keyMap )
-													&& index < tableColumns
-															.size( ) )
+											else if ( isEmptyCollection( keyMap )
+													&& index < tableColumns.size( ) )
 											{
-												tableColumn = tableColumns
-														.get( index );
+												tableColumn = tableColumns.get( index );
 											}
 											else
 											{
@@ -1745,32 +1665,24 @@ public class DataFlowAnalyzer
 								}
 							}
 
-							DataFlowRelation relation = ModelFactory
-									.createDataFlowRelation( );
-							relation.setTarget( new TableColumnRelationElement(
-									tableColumn ) );
-							relation.addSource( new ResultColumnRelationElement(
-									resultColumn ) );
+							DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
+							relation.setTarget( new TableColumnRelationElement( tableColumn ) );
+							relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 						}
 						else
 						{
-							TAliasClause alias = ( (TResultColumn) resultColumn
-									.getColumnObject( ) ).getAliasClause( );
-							if ( alias != null
-									&& alias.getAliasName( ) != null )
+							TAliasClause alias = ( (TResultColumn) resultColumn.getColumnObject( ) ).getAliasClause( );
+							if ( alias != null && alias.getAliasName( ) != null )
 							{
 								TableColumn tableColumn;
 								if ( !initColumn )
 								{
-									tableColumn = ModelFactory
-											.createInsertTableColumn(
-													tableModel,
-													alias.getAliasName( ) );
+									tableColumn = ModelFactory.createInsertTableColumn( tableModel,
+											alias.getAliasName( ) );
 								}
 								else
 								{
-									TObjectName matchedColumnName = alias
-											.getAliasName( );
+									TObjectName matchedColumnName = alias.getAliasName( );
 									tableColumn = matchColumn( tableColumns,
 											matchedColumnName );
 									if ( tableColumn == null )
@@ -1781,23 +1693,16 @@ public class DataFlowAnalyzer
 													matchedColumnName );
 											if ( index != -1 )
 											{
-												if ( !isEmptyCollection(
-														keyMap )
-														&& index < keyMap
-																.size( ) )
+												if ( !isEmptyCollection( keyMap )
+														&& index < keyMap.size( ) )
 												{
-													tableColumn = matchColumn(
-															tableColumns,
-															keyMap.get(
-																	index ) );
+													tableColumn = matchColumn( tableColumns,
+															keyMap.get( index ) );
 												}
-												else if ( isEmptyCollection(
-														keyMap )
-														&& index < tableColumns
-																.size( ) )
+												else if ( isEmptyCollection( keyMap )
+														&& index < tableColumns.size( ) )
 												{
-													tableColumn = tableColumns
-															.get( index );
+													tableColumn = tableColumns.get( index );
 												}
 												else
 												{
@@ -1812,8 +1717,7 @@ public class DataFlowAnalyzer
 										else if ( !isEmptyCollection( keyMap )
 												&& i < keyMap.size( ) )
 										{
-											tableColumn = matchColumn(
-													tableColumns,
+											tableColumn = matchColumn( tableColumns,
 													keyMap.get( i ) );
 										}
 										else if ( isEmptyCollection( keyMap )
@@ -1830,29 +1734,20 @@ public class DataFlowAnalyzer
 
 								}
 
-								DataFlowRelation relation = ModelFactory
-										.createDataFlowRelation( );
-								relation.setTarget(
-										new TableColumnRelationElement(
-												tableColumn ) );
-								relation.addSource(
-										new ResultColumnRelationElement(
-												resultColumn ) );
+								DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
+								relation.setTarget( new TableColumnRelationElement( tableColumn ) );
+								relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 
 							}
-							else if ( ( (TResultColumn) resultColumn
-									.getColumnObject( ) )
-											.getFieldAttr( ) != null )
+							else if ( ( (TResultColumn) resultColumn.getColumnObject( ) ).getFieldAttr( ) != null )
 							{
-								TObjectName fieldAttr = ( (TResultColumn) resultColumn
-										.getColumnObject( ) ).getFieldAttr( );
+								TObjectName fieldAttr = ( (TResultColumn) resultColumn.getColumnObject( ) ).getFieldAttr( );
 
 								TableColumn tableColumn;
 								if ( !initColumn )
 								{
-									tableColumn = ModelFactory
-											.createInsertTableColumn(
-													tableModel, fieldAttr );
+									tableColumn = ModelFactory.createInsertTableColumn( tableModel,
+											fieldAttr );
 								}
 								else
 								{
@@ -1867,23 +1762,16 @@ public class DataFlowAnalyzer
 													matchedColumnName );
 											if ( index != -1 )
 											{
-												if ( !isEmptyCollection(
-														keyMap )
-														&& index < keyMap
-																.size( ) )
+												if ( !isEmptyCollection( keyMap )
+														&& index < keyMap.size( ) )
 												{
-													tableColumn = matchColumn(
-															tableColumns,
-															keyMap.get(
-																	index ) );
+													tableColumn = matchColumn( tableColumns,
+															keyMap.get( index ) );
 												}
-												else if ( isEmptyCollection(
-														keyMap )
-														&& index < tableColumns
-																.size( ) )
+												else if ( isEmptyCollection( keyMap )
+														&& index < tableColumns.size( ) )
 												{
-													tableColumn = tableColumns
-															.get( index );
+													tableColumn = tableColumns.get( index );
 												}
 												else
 												{
@@ -1898,8 +1786,7 @@ public class DataFlowAnalyzer
 										else if ( !isEmptyCollection( keyMap )
 												&& i < keyMap.size( ) )
 										{
-											tableColumn = matchColumn(
-													tableColumns,
+											tableColumn = matchColumn( tableColumns,
 													keyMap.get( i ) );
 										}
 										else if ( isEmptyCollection( keyMap )
@@ -1915,52 +1802,40 @@ public class DataFlowAnalyzer
 									}
 								}
 
-								if ( !"*".equals( getColumnName(
-										tableColumn.getColumnObject( ) ) )
-										&& "*".equals(
-												getColumnName( fieldAttr ) ) )
+								if ( !"*".equals( getColumnName( tableColumn.getColumnObject( ) ) )
+										&& "*".equals( getColumnName( fieldAttr ) ) )
 								{
 									TObjectName columnObject = fieldAttr;
-									TTable sourceTable = columnObject
-											.getSourceTable( );
+									TTable sourceTable = columnObject.getSourceTable( );
 									if ( columnObject.getTableToken( ) != null
 											&& sourceTable != null )
 									{
-										TObjectName[] columns = ModelBindingManager
-												.getTableColumns( sourceTable );
+										TObjectName[] columns = ModelBindingManager.getTableColumns( sourceTable );
 										for ( int j = 0; j < columns.length; j++ )
 										{
 											TObjectName columnName = columns[j];
-											if ( "*".equals( getColumnName(
-													columnName ) ) )
+											if ( "*".equals( getColumnName( columnName ) ) )
 											{
 												continue;
 											}
-											resultColumn.bindStarLinkColumn(
-													columnName );
+											resultColumn.bindStarLinkColumn( columnName );
 										}
 									}
 									else
 									{
 										TTableList tables = stmt.getTables( );
-										for ( int k = 0; k < tables
-												.size( ); k++ )
+										for ( int k = 0; k < tables.size( ); k++ )
 										{
-											TTable tableElement = tables
-													.getTable( k );
-											TObjectName[] columns = ModelBindingManager
-													.getTableColumns(
-															tableElement );
+											TTable tableElement = tables.getTable( k );
+											TObjectName[] columns = ModelBindingManager.getTableColumns( tableElement );
 											for ( int j = 0; j < columns.length; j++ )
 											{
 												TObjectName columnName = columns[j];
-												if ( "*".equals( getColumnName(
-														columnName ) ) )
+												if ( "*".equals( getColumnName( columnName ) ) )
 												{
 													continue;
 												}
-												resultColumn.bindStarLinkColumn(
-														columnName );
+												resultColumn.bindStarLinkColumn( columnName );
 											}
 										}
 									}
@@ -1970,42 +1845,25 @@ public class DataFlowAnalyzer
 										&& !resultColumn.getStarLinkColumns( )
 												.isEmpty( ) )
 								{
-									tableColumn
-											.bindStarLinkColumns( resultColumn
-													.getStarLinkColumns( ) );
+									tableColumn.bindStarLinkColumns( resultColumn.getStarLinkColumns( ) );
 								}
 
-								DataFlowRelation relation = ModelFactory
-										.createDataFlowRelation( );
-								relation.setTarget(
-										new TableColumnRelationElement(
-												tableColumn ) );
-								relation.addSource(
-										new ResultColumnRelationElement(
-												resultColumn ) );
+								DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
+								relation.setTarget( new TableColumnRelationElement( tableColumn ) );
+								relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 							}
-							else if ( ( (TResultColumn) resultColumn
-									.getColumnObject( ) ).getExpr( )
-											.getExpressionType( ) == EExpressionType.simple_constant_t )
+							else if ( ( (TResultColumn) resultColumn.getColumnObject( ) ).getExpr( )
+									.getExpressionType( ) == EExpressionType.simple_constant_t )
 							{
 								if ( !initColumn )
 								{
-									TableColumn tableColumn = ModelFactory
-											.createInsertTableColumn(
-													tableModel,
-													( (TResultColumn) resultColumn
-															.getColumnObject( ) )
-																	.getExpr( )
-																	.getConstantOperand( ),
-													i );
-									DataFlowRelation relation = ModelFactory
-											.createDataFlowRelation( );
-									relation.setTarget(
-											new TableColumnRelationElement(
-													tableColumn ) );
-									relation.addSource(
-											new ResultColumnRelationElement(
-													resultColumn ) );
+									TableColumn tableColumn = ModelFactory.createInsertTableColumn( tableModel,
+											( (TResultColumn) resultColumn.getColumnObject( ) ).getExpr( )
+													.getConstantOperand( ),
+											i );
+									DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
+									relation.setTarget( new TableColumnRelationElement( tableColumn ) );
+									relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 								}
 							}
 						}
@@ -2013,27 +1871,22 @@ public class DataFlowAnalyzer
 				}
 				else if ( stmt.getSubQuery( ) != null )
 				{
-					SelectSetResultSet resultSetModel = (SelectSetResultSet) ModelBindingManager
-							.getModel( stmt.getSubQuery( ) );
+					SelectSetResultSet resultSetModel = (SelectSetResultSet) ModelBindingManager.getModel( stmt.getSubQuery( ) );
 					if ( resultSetModel != null )
 					{
 						for ( int i = 0; i < resultSetModel.getColumns( )
 								.size( ); i++ )
 						{
-							ResultColumn resultColumn = resultSetModel
-									.getColumns( ).get( i );
-							TAliasClause alias = ( (TResultColumn) resultColumn
-									.getColumnObject( ) ).getAliasClause( );
-							if ( alias != null
-									&& alias.getAliasName( ) != null )
+							ResultColumn resultColumn = resultSetModel.getColumns( )
+									.get( i );
+							TAliasClause alias = ( (TResultColumn) resultColumn.getColumnObject( ) ).getAliasClause( );
+							if ( alias != null && alias.getAliasName( ) != null )
 							{
 								TableColumn tableColumn;
 								if ( !initColumn )
 								{
-									tableColumn = ModelFactory
-											.createInsertTableColumn(
-													tableModel,
-													alias.getAliasName( ) );
+									tableColumn = ModelFactory.createInsertTableColumn( tableModel,
+											alias.getAliasName( ) );
 								}
 								else
 								{
@@ -2045,27 +1898,18 @@ public class DataFlowAnalyzer
 									}
 								}
 
-								DataFlowRelation relation = ModelFactory
-										.createDataFlowRelation( );
-								relation.setTarget(
-										new TableColumnRelationElement(
-												tableColumn ) );
-								relation.addSource(
-										new ResultColumnRelationElement(
-												resultColumn ) );
+								DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
+								relation.setTarget( new TableColumnRelationElement( tableColumn ) );
+								relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 							}
-							else if ( ( (TResultColumn) resultColumn
-									.getColumnObject( ) )
-											.getFieldAttr( ) != null )
+							else if ( ( (TResultColumn) resultColumn.getColumnObject( ) ).getFieldAttr( ) != null )
 							{
-								TObjectName fieldAttr = ( (TResultColumn) resultColumn
-										.getColumnObject( ) ).getFieldAttr( );
+								TObjectName fieldAttr = ( (TResultColumn) resultColumn.getColumnObject( ) ).getFieldAttr( );
 								TableColumn tableColumn;
 								if ( !initColumn )
 								{
-									tableColumn = ModelFactory
-											.createInsertTableColumn(
-													tableModel, fieldAttr );
+									tableColumn = ModelFactory.createInsertTableColumn( tableModel,
+											fieldAttr );
 								}
 								else
 								{
@@ -2077,37 +1921,22 @@ public class DataFlowAnalyzer
 									}
 								}
 
-								DataFlowRelation relation = ModelFactory
-										.createDataFlowRelation( );
-								relation.setTarget(
-										new TableColumnRelationElement(
-												tableColumn ) );
-								relation.addSource(
-										new ResultColumnRelationElement(
-												resultColumn ) );
+								DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
+								relation.setTarget( new TableColumnRelationElement( tableColumn ) );
+								relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 							}
-							else if ( ( (TResultColumn) resultColumn
-									.getColumnObject( ) ).getExpr( )
-											.getExpressionType( ) == EExpressionType.simple_constant_t )
+							else if ( ( (TResultColumn) resultColumn.getColumnObject( ) ).getExpr( )
+									.getExpressionType( ) == EExpressionType.simple_constant_t )
 							{
 								if ( !initColumn )
 								{
-									TableColumn tableColumn = ModelFactory
-											.createInsertTableColumn(
-													tableModel,
-													( (TResultColumn) resultColumn
-															.getColumnObject( ) )
-																	.getExpr( )
-																	.getConstantOperand( ),
-													i );
-									DataFlowRelation relation = ModelFactory
-											.createDataFlowRelation( );
-									relation.setTarget(
-											new TableColumnRelationElement(
-													tableColumn ) );
-									relation.addSource(
-											new ResultColumnRelationElement(
-													resultColumn ) );
+									TableColumn tableColumn = ModelFactory.createInsertTableColumn( tableModel,
+											( (TResultColumn) resultColumn.getColumnObject( ) ).getExpr( )
+													.getConstantOperand( ),
+											i );
+									DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
+									relation.setTarget( new TableColumnRelationElement( tableColumn ) );
+									relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 								}
 							}
 						}
@@ -2128,8 +1957,8 @@ public class DataFlowAnalyzer
 						TableColumn tableColumn;
 						if ( !initColumn )
 						{
-							tableColumn = ModelFactory.createInsertTableColumn(
-									tableModel, column );
+							tableColumn = ModelFactory.createInsertTableColumn( tableModel,
+									column );
 						}
 						else
 						{
@@ -2145,35 +1974,31 @@ public class DataFlowAnalyzer
 						TExpression valueExpr = columnObject.getExpr( );
 						columnsInExpr visitor = new columnsInExpr( );
 						valueExpr.inOrderTraverse( visitor );
-						List<TObjectName> objectNames = visitor
-								.getObjectNames( );
+						List<TObjectName> objectNames = visitor.getObjectNames( );
 
 						for ( int x = 0; x < objectNames.size( ); x++ )
 						{
 							TObjectName value = objectNames.get( x );
 							if ( value.getObjectString( ) != null )
 							{
-								Object resultSet = ModelBindingManager
-										.getModel( value.getObjectString( ) );
+								Object resultSet = ModelBindingManager.getModel( value.getObjectString( ) );
 								if ( resultSet == null )
 									continue;
 
 								if ( resultSet instanceof CursorResultSet )
 								{
-									resultSet = ModelBindingManager.getModel(
-											( (CursorResultSet) resultSet )
-													.getResultColumnObject( ) );
+									resultSet = ModelBindingManager.getModel( ( (CursorResultSet) resultSet ).getResultColumnObject( ) );
 								}
 								SelectResultSet model = (SelectResultSet) resultSet;
 
 								ResultColumn sourceColumn = null;
-								for ( int y = 0; y < model.getColumns( )
-										.size( ); y++ )
+								for ( int y = 0; y < model.getColumns( ).size( ); y++ )
 								{
 									ResultColumn temp = model.getColumns( )
 											.get( y );
-									if ( temp.getName( ).equalsIgnoreCase(
-											value.getEndToken( ).toString( ) ) )
+									if ( temp.getName( )
+											.equalsIgnoreCase( value.getEndToken( )
+													.toString( ) ) )
 									{
 										sourceColumn = temp;
 										break;
@@ -2181,14 +2006,9 @@ public class DataFlowAnalyzer
 								}
 								if ( sourceColumn != null )
 								{
-									DataFlowRelation relation = ModelFactory
-											.createDataFlowRelation( );
-									relation.setTarget(
-											new TableColumnRelationElement(
-													tableColumn ) );
-									relation.addSource(
-											new ResultColumnRelationElement(
-													sourceColumn ) );
+									DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
+									relation.setTarget( new TableColumnRelationElement( tableColumn ) );
+									relation.addSource( new ResultColumnRelationElement( sourceColumn ) );
 								}
 							}
 						}
@@ -2211,8 +2031,10 @@ public class DataFlowAnalyzer
 	{
 		for ( int i = 0; i < columns.size( ); i++ )
 		{
-			if ( columns.get( i ).toString( ).trim( ).equalsIgnoreCase(
-					objectName.toString( ).trim( ) ) )
+			if ( columns.get( i )
+					.toString( )
+					.trim( )
+					.equalsIgnoreCase( objectName.toString( ).trim( ) ) )
 			{
 				return i;
 			}
@@ -2262,20 +2084,16 @@ public class DataFlowAnalyzer
 						{
 							ResultColumn resultColumn = columns.get( k );
 							if ( resultColumn.getAlias( ) != null
-									&& columnName.toString( ).equalsIgnoreCase(
-											resultColumn.getAlias( ) ) )
+									&& columnName.toString( )
+											.equalsIgnoreCase( resultColumn.getAlias( ) ) )
 							{
-								relation.addSource(
-										new ResultColumnRelationElement(
-												resultColumn ) );
+								relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 							}
 							else if ( resultColumn.getName( ) != null
-									&& columnName.toString( ).equalsIgnoreCase(
-											resultColumn.getName( ) ) )
+									&& columnName.toString( )
+											.equalsIgnoreCase( resultColumn.getName( ) ) )
 							{
-								relation.addSource(
-										new ResultColumnRelationElement(
-												resultColumn ) );
+								relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 							}
 						}
 					}
@@ -2297,32 +2115,24 @@ public class DataFlowAnalyzer
 			TTable tableElement = stmt.tables.getTable( i );
 			if ( tableElement.getSubquery( ) != null )
 			{
-				QueryTable queryTable = ModelFactory
-						.createQueryTable( tableElement );
+				QueryTable queryTable = ModelFactory.createQueryTable( tableElement );
 				TSelectSqlStatement subquery = tableElement.getSubquery( );
 				analyzeSelectStmt( subquery );
 
 				if ( subquery.getSetOperatorType( ) != ESetOperatorType.none )
 				{
-					SelectSetResultSet selectSetResultSetModel = (SelectSetResultSet) ModelBindingManager
-							.getModel( subquery );
+					SelectSetResultSet selectSetResultSetModel = (SelectSetResultSet) ModelBindingManager.getModel( subquery );
 					for ( int j = 0; j < selectSetResultSetModel.getColumns( )
 							.size( ); j++ )
 					{
-						ResultColumn sourceColumn = selectSetResultSetModel
-								.getColumns( ).get( j );
-						ResultColumn targetColumn = ModelFactory
-								.createSelectSetResultColumn( queryTable,
-										sourceColumn,
-										j );
-						DataFlowRelation selectSetRalation = ModelFactory
-								.createDataFlowRelation( );
-						selectSetRalation
-								.setTarget( new ResultColumnRelationElement(
-										targetColumn ) );
-						selectSetRalation
-								.addSource( new ResultColumnRelationElement(
-										sourceColumn ) );
+						ResultColumn sourceColumn = selectSetResultSetModel.getColumns( )
+								.get( j );
+						ResultColumn targetColumn = ModelFactory.createSelectSetResultColumn( queryTable,
+								sourceColumn,
+								j );
+						DataFlowRelation selectSetRalation = ModelFactory.createDataFlowRelation( );
+						selectSetRalation.setTarget( new ResultColumnRelationElement( targetColumn ) );
+						selectSetRalation.addSource( new ResultColumnRelationElement( sourceColumn ) );
 					}
 				}
 			}
@@ -2354,8 +2164,7 @@ public class DataFlowAnalyzer
 					TSelectSqlStatement query = setExpression.getSubQuery( );
 					analyzeSelectStmt( query );
 
-					SelectResultSet resultSetModel = (SelectResultSet) ModelBindingManager
-							.getModel( query.getResultColumnList( ) );
+					SelectResultSet resultSetModel = (SelectResultSet) ModelBindingManager.getModel( query.getResultColumnList( ) );
 
 					TExpressionList columnList = expression.getExprList( );
 					for ( int j = 0; j < columnList.size( ); j++ )
@@ -2364,20 +2173,16 @@ public class DataFlowAnalyzer
 								.getObjectOperand( );
 						ResultColumn resultColumn = resultSetModel.getColumns( )
 								.get( j );
-						TableColumn tableColumn = ModelFactory
-								.createTableColumn( tableModel, column );
-						DataFlowRelation relation = ModelFactory
-								.createDataFlowRelation( );
-						relation.setTarget(
-								new TableColumnRelationElement( tableColumn ) );
-						relation.addSource( new ResultColumnRelationElement(
-								resultColumn ) );
+						TableColumn tableColumn = ModelFactory.createTableColumn( tableModel,
+								column );
+						DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
+						relation.setTarget( new TableColumnRelationElement( tableColumn ) );
+						relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 
 					}
 				}
 			}
-			else if ( expression
-					.getExpressionType( ) == EExpressionType.simple_object_name_t )
+			else if ( expression.getExpressionType( ) == EExpressionType.simple_object_name_t )
 			{
 				TExpression setExpression = field.getExpr( ).getRightOperand( );
 				if ( setExpression != null
@@ -2386,20 +2191,16 @@ public class DataFlowAnalyzer
 					TSelectSqlStatement query = setExpression.getSubQuery( );
 					analyzeSelectStmt( query );
 
-					SelectResultSet resultSetModel = (SelectResultSet) ModelBindingManager
-							.getModel( query.getResultColumnList( ) );
+					SelectResultSet resultSetModel = (SelectResultSet) ModelBindingManager.getModel( query.getResultColumnList( ) );
 
 					TObjectName column = expression.getObjectOperand( );
 					ResultColumn resultColumn = resultSetModel.getColumns( )
 							.get( 0 );
-					TableColumn tableColumn = ModelFactory
-							.createTableColumn( tableModel, column );
-					DataFlowRelation relation = ModelFactory
-							.createDataFlowRelation( );
-					relation.setTarget(
-							new TableColumnRelationElement( tableColumn ) );
-					relation.addSource(
-							new ResultColumnRelationElement( resultColumn ) );
+					TableColumn tableColumn = ModelFactory.createTableColumn( tableModel,
+							column );
+					DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
+					relation.setTarget( new TableColumnRelationElement( tableColumn ) );
+					relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 				}
 				else if ( setExpression != null )
 				{
@@ -2408,9 +2209,8 @@ public class DataFlowAnalyzer
 
 					TObjectName columnObject = expression.getObjectOperand( );
 
-					ResultColumn updateColumn = ModelFactory
-							.createUpdateResultColumn( resultSet,
-									columnObject );
+					ResultColumn updateColumn = ModelFactory.createUpdateResultColumn( resultSet,
+							columnObject );
 
 					columnsInExpr visitor = new columnsInExpr( );
 					field.getExpr( )
@@ -2420,15 +2220,12 @@ public class DataFlowAnalyzer
 					List<TObjectName> objectNames = visitor.getObjectNames( );
 					analyzeDataFlowRelation( updateColumn, objectNames );
 
-					TableColumn tableColumn = ModelFactory
-							.createTableColumn( tableModel, columnObject );
+					TableColumn tableColumn = ModelFactory.createTableColumn( tableModel,
+							columnObject );
 
-					DataFlowRelation relation = ModelFactory
-							.createDataFlowRelation( );
-					relation.setTarget(
-							new TableColumnRelationElement( tableColumn ) );
-					relation.addSource(
-							new ResultColumnRelationElement( updateColumn ) );
+					DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
+					relation.setTarget( new TableColumnRelationElement( tableColumn ) );
+					relation.addSource( new ResultColumnRelationElement( updateColumn ) );
 				}
 			}
 		}
@@ -2462,13 +2259,15 @@ public class DataFlowAnalyzer
 		}
 	}
 
-	private void analyzeCreateViewStmt( TCustomSqlStatement stmt, TSelectSqlStatement subquery,  TViewAliasClause viewAlias, TObjectName viewName )
+	private void analyzeCreateViewStmt( TCustomSqlStatement stmt,
+			TSelectSqlStatement subquery, TViewAliasClause viewAlias,
+			TObjectName viewName )
 	{
 		if ( subquery != null )
 		{
 			analyzeSelectStmt( subquery );
 		}
-	
+
 		if ( viewAlias != null && viewAlias.getViewAliasItemList( ) != null )
 		{
 			TViewAliasItemList viewItems = viewAlias.getViewAliasItemList( );
@@ -2489,51 +2288,36 @@ public class DataFlowAnalyzer
 				}
 				if ( alias != null )
 				{
-					ViewColumn viewColumn = ModelFactory
-							.createViewColumn( viewModel, alias, i );
-					DataFlowRelation relation = ModelFactory
-							.createDataFlowRelation( );
-					relation.setTarget(
-							new ViewColumnRelationElement( viewColumn ) );
-					relation.addSource(
-							new ResultColumnRelationElement( resultColumn ) );
+					ViewColumn viewColumn = ModelFactory.createViewColumn( viewModel,
+							alias,
+							i );
+					DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
+					relation.setTarget( new ViewColumnRelationElement( viewColumn ) );
+					relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 				}
-				else if ( resultColumn
-						.getColumnObject( ) instanceof TObjectName )
+				else if ( resultColumn.getColumnObject( ) instanceof TObjectName )
 				{
-					ViewColumn viewColumn = ModelFactory.createViewColumn(
-							viewModel,
+					ViewColumn viewColumn = ModelFactory.createViewColumn( viewModel,
 							(TObjectName) resultColumn.getColumnObject( ),
 							i );
-					DataFlowRelation relation = ModelFactory
-							.createDataFlowRelation( );
-					relation.setTarget(
-							new ViewColumnRelationElement( viewColumn ) );
-					relation.addSource(
-							new ResultColumnRelationElement( resultColumn ) );
+					DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
+					relation.setTarget( new ViewColumnRelationElement( viewColumn ) );
+					relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 				}
-				else if ( resultColumn
-						.getColumnObject( ) instanceof TResultColumn )
+				else if ( resultColumn.getColumnObject( ) instanceof TResultColumn )
 				{
-					ViewColumn viewColumn = ModelFactory.createViewColumn(
-							viewModel,
-							( (TResultColumn) resultColumn.getColumnObject( ) )
-									.getFieldAttr( ),
+					ViewColumn viewColumn = ModelFactory.createViewColumn( viewModel,
+							( (TResultColumn) resultColumn.getColumnObject( ) ).getFieldAttr( ),
 							i );
-					ResultColumn column = (ResultColumn) ModelBindingManager
-							.getModel( resultColumn.getColumnObject( ) );
+					ResultColumn column = (ResultColumn) ModelBindingManager.getModel( resultColumn.getColumnObject( ) );
 					if ( column != null
 							&& !column.getStarLinkColumns( ).isEmpty( ) )
 					{
-						viewColumn.bindStarLinkColumns(
-								column.getStarLinkColumns( ) );
+						viewColumn.bindStarLinkColumns( column.getStarLinkColumns( ) );
 					}
-					DataFlowRelation relation = ModelFactory
-							.createDataFlowRelation( );
-					relation.setTarget(
-							new ViewColumnRelationElement( viewColumn ) );
-					relation.addSource(
-							new ResultColumnRelationElement( resultColumn ) );
+					DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
+					relation.setTarget( new ViewColumnRelationElement( viewColumn ) );
+					relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 				}
 			}
 		}
@@ -2542,104 +2326,73 @@ public class DataFlowAnalyzer
 			View viewModel = ModelFactory.createView( stmt, viewName );
 			if ( subquery != null && subquery.getResultColumnList( ) != null )
 			{
-				SelectResultSet resultSetModel = (SelectResultSet) ModelBindingManager
-						.getModel( subquery.getResultColumnList( ) );
+				SelectResultSet resultSetModel = (SelectResultSet) ModelBindingManager.getModel( subquery.getResultColumnList( ) );
 				for ( int i = 0; i < resultSetModel.getColumns( ).size( ); i++ )
 				{
 					ResultColumn resultColumn = resultSetModel.getColumns( )
 							.get( i );
-					if ( resultColumn
-							.getColumnObject( ) instanceof TResultColumn )
+					if ( resultColumn.getColumnObject( ) instanceof TResultColumn )
 					{
-						TResultColumn columnObject = ( (TResultColumn) resultColumn
-								.getColumnObject( ) );
+						TResultColumn columnObject = ( (TResultColumn) resultColumn.getColumnObject( ) );
 
-						TAliasClause alias = ( (TResultColumn) resultColumn
-								.getColumnObject( ) ).getAliasClause( );
+						TAliasClause alias = ( (TResultColumn) resultColumn.getColumnObject( ) ).getAliasClause( );
 						if ( alias != null && alias.getAliasName( ) != null )
 						{
-							ViewColumn viewColumn = ModelFactory
-									.createViewColumn( viewModel,
-											alias.getAliasName( ),
-											i );
-							DataFlowRelation relation = ModelFactory
-									.createDataFlowRelation( );
-							relation.setTarget( new ViewColumnRelationElement(
-									viewColumn ) );
-							relation.addSource( new ResultColumnRelationElement(
-									resultColumn ) );
+							ViewColumn viewColumn = ModelFactory.createViewColumn( viewModel,
+									alias.getAliasName( ),
+									i );
+							DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
+							relation.setTarget( new ViewColumnRelationElement( viewColumn ) );
+							relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 						}
 						else if ( columnObject.getFieldAttr( ) != null )
 						{
-							ViewColumn viewColumn = ModelFactory
-									.createViewColumn( viewModel,
-											columnObject.getFieldAttr( ),
-											i );
-							ResultColumn column = (ResultColumn) ModelBindingManager
-									.getModel(
-											resultColumn.getColumnObject( ) );
+							ViewColumn viewColumn = ModelFactory.createViewColumn( viewModel,
+									columnObject.getFieldAttr( ),
+									i );
+							ResultColumn column = (ResultColumn) ModelBindingManager.getModel( resultColumn.getColumnObject( ) );
 							if ( column != null
-									&& !column.getStarLinkColumns( )
-											.isEmpty( ) )
+									&& !column.getStarLinkColumns( ).isEmpty( ) )
 							{
-								viewColumn.bindStarLinkColumns(
-										column.getStarLinkColumns( ) );
+								viewColumn.bindStarLinkColumns( column.getStarLinkColumns( ) );
 							}
-							DataFlowRelation relation = ModelFactory
-									.createDataFlowRelation( );
-							relation.setTarget( new ViewColumnRelationElement(
-									viewColumn ) );
-							relation.addSource( new ResultColumnRelationElement(
-									resultColumn ) );
+							DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
+							relation.setTarget( new ViewColumnRelationElement( viewColumn ) );
+							relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 						}
 						else if ( resultColumn.getAlias( ) != null
-								&& columnObject.getExpr( )
-										.getExpressionType( ) == EExpressionType.sqlserver_proprietary_column_alias_t )
+								&& columnObject.getExpr( ).getExpressionType( ) == EExpressionType.sqlserver_proprietary_column_alias_t )
 						{
-							ViewColumn viewColumn = ModelFactory
-									.createViewColumn( viewModel,
-											columnObject.getExpr( )
-													.getLeftOperand( )
-													.getObjectOperand( ),
-											i );
-							DataFlowRelation relation = ModelFactory
-									.createDataFlowRelation( );
-							relation.setTarget( new ViewColumnRelationElement(
-									viewColumn ) );
-							relation.addSource( new ResultColumnRelationElement(
-									resultColumn ) );
+							ViewColumn viewColumn = ModelFactory.createViewColumn( viewModel,
+									columnObject.getExpr( )
+											.getLeftOperand( )
+											.getObjectOperand( ),
+									i );
+							DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
+							relation.setTarget( new ViewColumnRelationElement( viewColumn ) );
+							relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 						}
 						else
 						{
 							TGSqlParser parser = columnObject.getGsqlparser( );
-							TObjectName viewColumnName = parser.parseObjectName(
-									generateQuotedName( parser,
-											columnObject.toString( ) ) );
-							ViewColumn viewColumn = ModelFactory
-									.createViewColumn( viewModel,
-											viewColumnName,
-											i );
-							DataFlowRelation relation = ModelFactory
-									.createDataFlowRelation( );
-							relation.setTarget( new ViewColumnRelationElement(
-									viewColumn ) );
-							relation.addSource( new ResultColumnRelationElement(
-									resultColumn ) );
+							TObjectName viewColumnName = parser.parseObjectName( generateQuotedName( parser,
+									columnObject.toString( ) ) );
+							ViewColumn viewColumn = ModelFactory.createViewColumn( viewModel,
+									viewColumnName,
+									i );
+							DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
+							relation.setTarget( new ViewColumnRelationElement( viewColumn ) );
+							relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 						}
 					}
-					else if ( resultColumn
-							.getColumnObject( ) instanceof TObjectName )
+					else if ( resultColumn.getColumnObject( ) instanceof TObjectName )
 					{
-						ViewColumn viewColumn = ModelFactory.createViewColumn(
-								viewModel,
+						ViewColumn viewColumn = ModelFactory.createViewColumn( viewModel,
 								(TObjectName) resultColumn.getColumnObject( ),
 								i );
-						DataFlowRelation relation = ModelFactory
-								.createDataFlowRelation( );
-						relation.setTarget(
-								new ViewColumnRelationElement( viewColumn ) );
-						relation.addSource( new ResultColumnRelationElement(
-								resultColumn ) );
+						DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
+						relation.setTarget( new ViewColumnRelationElement( viewColumn ) );
+						relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 					}
 				}
 			}
@@ -2651,97 +2404,68 @@ public class DataFlowAnalyzer
 					ResultColumn resultColumn = resultSetModel.getColumns( )
 							.get( i );
 
-					if ( resultColumn
-							.getColumnObject( ) instanceof TResultColumn )
+					if ( resultColumn.getColumnObject( ) instanceof TResultColumn )
 					{
-						TResultColumn columnObject = ( (TResultColumn) resultColumn
-								.getColumnObject( ) );
+						TResultColumn columnObject = ( (TResultColumn) resultColumn.getColumnObject( ) );
 
 						TAliasClause alias = columnObject.getAliasClause( );
 						if ( alias != null && alias.getAliasName( ) != null )
 						{
-							ViewColumn viewColumn = ModelFactory
-									.createViewColumn( viewModel,
-											alias.getAliasName( ),
-											i );
-							DataFlowRelation relation = ModelFactory
-									.createDataFlowRelation( );
-							relation.setTarget( new ViewColumnRelationElement(
-									viewColumn ) );
-							relation.addSource( new ResultColumnRelationElement(
-									resultColumn ) );
+							ViewColumn viewColumn = ModelFactory.createViewColumn( viewModel,
+									alias.getAliasName( ),
+									i );
+							DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
+							relation.setTarget( new ViewColumnRelationElement( viewColumn ) );
+							relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 						}
 						else if ( columnObject.getFieldAttr( ) != null )
 						{
-							ViewColumn viewColumn = ModelFactory
-									.createViewColumn( viewModel,
-											columnObject.getFieldAttr( ),
-											i );
-							ResultColumn column = (ResultColumn) ModelBindingManager
-									.getModel(
-											resultColumn.getColumnObject( ) );
+							ViewColumn viewColumn = ModelFactory.createViewColumn( viewModel,
+									columnObject.getFieldAttr( ),
+									i );
+							ResultColumn column = (ResultColumn) ModelBindingManager.getModel( resultColumn.getColumnObject( ) );
 							if ( column != null
-									&& !column.getStarLinkColumns( )
-											.isEmpty( ) )
+									&& !column.getStarLinkColumns( ).isEmpty( ) )
 							{
-								viewColumn.bindStarLinkColumns(
-										column.getStarLinkColumns( ) );
+								viewColumn.bindStarLinkColumns( column.getStarLinkColumns( ) );
 							}
-							DataFlowRelation relation = ModelFactory
-									.createDataFlowRelation( );
-							relation.setTarget( new ViewColumnRelationElement(
-									viewColumn ) );
-							relation.addSource( new ResultColumnRelationElement(
-									resultColumn ) );
+							DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
+							relation.setTarget( new ViewColumnRelationElement( viewColumn ) );
+							relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 						}
 						else if ( resultColumn.getAlias( ) != null
-								&& columnObject.getExpr( )
-										.getExpressionType( ) == EExpressionType.sqlserver_proprietary_column_alias_t )
+								&& columnObject.getExpr( ).getExpressionType( ) == EExpressionType.sqlserver_proprietary_column_alias_t )
 						{
-							ViewColumn viewColumn = ModelFactory
-									.createViewColumn( viewModel,
-											columnObject.getExpr( )
-													.getLeftOperand( )
-													.getObjectOperand( ),
-											i );
-							DataFlowRelation relation = ModelFactory
-									.createDataFlowRelation( );
-							relation.setTarget( new ViewColumnRelationElement(
-									viewColumn ) );
-							relation.addSource( new ResultColumnRelationElement(
-									resultColumn ) );
+							ViewColumn viewColumn = ModelFactory.createViewColumn( viewModel,
+									columnObject.getExpr( )
+											.getLeftOperand( )
+											.getObjectOperand( ),
+									i );
+							DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
+							relation.setTarget( new ViewColumnRelationElement( viewColumn ) );
+							relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 						}
 						else
 						{
 							TGSqlParser parser = columnObject.getGsqlparser( );
-							TObjectName viewColumnName = parser.parseObjectName(
-									generateQuotedName( parser,
-											columnObject.toString( ) ) );
-							ViewColumn viewColumn = ModelFactory
-									.createViewColumn( viewModel,
-											viewColumnName,
-											i );
-							DataFlowRelation relation = ModelFactory
-									.createDataFlowRelation( );
-							relation.setTarget( new ViewColumnRelationElement(
-									viewColumn ) );
-							relation.addSource( new ResultColumnRelationElement(
-									resultColumn ) );
+							TObjectName viewColumnName = parser.parseObjectName( generateQuotedName( parser,
+									columnObject.toString( ) ) );
+							ViewColumn viewColumn = ModelFactory.createViewColumn( viewModel,
+									viewColumnName,
+									i );
+							DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
+							relation.setTarget( new ViewColumnRelationElement( viewColumn ) );
+							relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 						}
 					}
-					else if ( resultColumn
-							.getColumnObject( ) instanceof TObjectName )
+					else if ( resultColumn.getColumnObject( ) instanceof TObjectName )
 					{
-						ViewColumn viewColumn = ModelFactory.createViewColumn(
-								viewModel,
+						ViewColumn viewColumn = ModelFactory.createViewColumn( viewModel,
 								(TObjectName) resultColumn.getColumnObject( ),
 								i );
-						DataFlowRelation relation = ModelFactory
-								.createDataFlowRelation( );
-						relation.setTarget(
-								new ViewColumnRelationElement( viewColumn ) );
-						relation.addSource( new ResultColumnRelationElement(
-								resultColumn ) );
+						DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
+						relation.setTarget( new ViewColumnRelationElement( viewColumn ) );
+						relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 					}
 				}
 			}
@@ -2778,10 +2502,7 @@ public class DataFlowAnalyzer
 					dlineageResult,
 					relations,
 					ImpactRelation.class );
-			appendRelation( doc,
-					dlineageResult,
-					relations,
-					JoinRelation.class );
+			appendRelation( doc, dlineageResult, relations, JoinRelation.class );
 		}
 	}
 
@@ -2794,17 +2515,15 @@ public class DataFlowAnalyzer
 
 			if ( relation.getTarget( ) == null )
 			{
-				System.err.println(
-						"Can't get the target of relation which id is "
-								+ relation.getId( ) );
+				System.err.println( "Can't get the target of relation which id is "
+						+ relation.getId( ) );
 				continue;
 			}
 
 			if ( relation.getSources( ) == null )
 			{
-				System.err.println(
-						"Can't get the source of relation which id is "
-								+ relation.getId( ) );
+				System.err.println( "Can't get the source of relation which id is "
+						+ relation.getId( ) );
 				continue;
 			}
 
@@ -2850,8 +2569,8 @@ public class DataFlowAnalyzer
 			}
 
 			Element relationElement = doc.createElement( "relation" );
-			relationElement.setAttribute( "type",
-					relation.getRelationType( ).name( ) );
+			relationElement.setAttribute( "type", relation.getRelationType( )
+					.name( ) );
 			relationElement.setAttribute( "id",
 					String.valueOf( relation.getId( ) ) );
 			if ( relation instanceof JoinRelation )
@@ -2861,8 +2580,7 @@ public class DataFlowAnalyzer
 				relationElement.setAttribute( "joinType",
 						( (JoinRelation) relation ).getJoinType( ).name( ) );
 				relationElement.setAttribute( "clause",
-						( (JoinRelation) relation ).getJoinClauseType( )
-								.name( ) );
+						( (JoinRelation) relation ).getJoinClauseType( ).name( ) );
 			}
 
 			String targetName = null;
@@ -2878,8 +2596,8 @@ public class DataFlowAnalyzer
 							String.valueOf( targetColumn.getId( ) ) );
 					target.setAttribute( "column", targetColumn.getName( ) );
 					target.setAttribute( "parent_id",
-							String.valueOf(
-									targetColumn.getResultSet( ).getId( ) ) );
+							String.valueOf( targetColumn.getResultSet( )
+									.getId( ) ) );
 					target.setAttribute( "parent_name",
 							getResultSetName( targetColumn.getResultSet( ) ) );
 					if ( targetColumn.getStartPosition( ) != null
@@ -2893,17 +2611,14 @@ public class DataFlowAnalyzer
 					if ( relation instanceof RecordSetRelation )
 					{
 						target.setAttribute( "function",
-								( (RecordSetRelation) relation )
-										.getAggregateFunction( ) );
+								( (RecordSetRelation) relation ).getAggregateFunction( ) );
 					}
 					targetName = targetColumn.getName( );
-					if ( ( (ResultColumn) targetColumn )
-							.getColumnObject( ) instanceof TResultColumn )
+					if ( ( (ResultColumn) targetColumn ).getColumnObject( ) instanceof TResultColumn )
 					{
 						columnsInExpr visitor = new columnsInExpr( );
-						( (TResultColumn) ( (ResultColumn) targetColumn )
-								.getColumnObject( ) ).getExpr( )
-										.inOrderTraverse( visitor );
+						( (TResultColumn) ( (ResultColumn) targetColumn ).getColumnObject( ) ).getExpr( )
+								.inOrderTraverse( visitor );
 						targetObjectNames = visitor.getObjectNames( );
 					}
 					relationElement.appendChild( target );
@@ -2916,8 +2631,7 @@ public class DataFlowAnalyzer
 							String.valueOf( targetColumn.getId( ) ) );
 					target.setAttribute( "column", targetColumn.getName( ) );
 					target.setAttribute( "parent_id",
-							String.valueOf(
-									targetColumn.getTable( ).getId( ) ) );
+							String.valueOf( targetColumn.getTable( ).getId( ) ) );
 					target.setAttribute( "parent_name",
 							getTableName( targetColumn.getTable( ) ) );
 					if ( targetColumn.getStartPosition( ) != null
@@ -2931,8 +2645,7 @@ public class DataFlowAnalyzer
 					if ( relation instanceof RecordSetRelation )
 					{
 						target.setAttribute( "function",
-								( (RecordSetRelation) relation )
-										.getAggregateFunction( ) );
+								( (RecordSetRelation) relation ).getAggregateFunction( ) );
 					}
 					targetName = targetColumn.getName( );
 					relationElement.appendChild( target );
@@ -2945,10 +2658,9 @@ public class DataFlowAnalyzer
 							String.valueOf( targetColumn.getId( ) ) );
 					target.setAttribute( "column", targetColumn.getName( ) );
 					target.setAttribute( "parent_id",
-							String.valueOf(
-									targetColumn.getView( ).getId( ) ) );
-					target.setAttribute( "parent_name",
-							targetColumn.getView( ).getName( ) );
+							String.valueOf( targetColumn.getView( ).getId( ) ) );
+					target.setAttribute( "parent_name", targetColumn.getView( )
+							.getName( ) );
 					if ( targetColumn.getStartPosition( ) != null
 							&& targetColumn.getEndPosition( ) != null )
 					{
@@ -2960,8 +2672,7 @@ public class DataFlowAnalyzer
 					if ( relation instanceof RecordSetRelation )
 					{
 						target.setAttribute( "function",
-								( (RecordSetRelation) relation )
-										.getAggregateFunction( ) );
+								( (RecordSetRelation) relation ).getAggregateFunction( ) );
 					}
 					targetName = targetColumn.getName( );
 					relationElement.appendChild( target );
@@ -2993,28 +2704,22 @@ public class DataFlowAnalyzer
 								source.setAttribute( "id",
 										String.valueOf( sourceColumn.getId( ) )
 												+ "_"
-												+ ( (ViewColumn) targetElement )
-														.getColumnIndex( ) );
+												+ ( (ViewColumn) targetElement ).getColumnIndex( ) );
 								source.setAttribute( "column",
-										getColumnName( sourceColumn
-												.getStarLinkColumns( )
-												.get( ( (ViewColumn) targetElement )
-														.getColumnIndex( ) ) ) );
+										getColumnName( sourceColumn.getStarLinkColumns( )
+												.get( ( (ViewColumn) targetElement ).getColumnIndex( ) ) ) );
 								source.setAttribute( "parent_id",
-										String.valueOf( sourceColumn
-												.getResultSet( ).getId( ) ) );
+										String.valueOf( sourceColumn.getResultSet( )
+												.getId( ) ) );
 								source.setAttribute( "parent_name",
-										getResultSetName( sourceColumn
-												.getResultSet( ) ) );
+										getResultSetName( sourceColumn.getResultSet( ) ) );
 								if ( sourceColumn.getStartPosition( ) != null
-										&& sourceColumn
-												.getEndPosition( ) != null )
+										&& sourceColumn.getEndPosition( ) != null )
 								{
 									source.setAttribute( "coordinate",
 											sourceColumn.getStartPosition( )
 													+ ","
-													+ sourceColumn
-															.getEndPosition( ) );
+													+ sourceColumn.getEndPosition( ) );
 								}
 								append = true;
 								relationElement.appendChild( source );
@@ -3023,96 +2728,72 @@ public class DataFlowAnalyzer
 							{
 								if ( isEmptyCollection( targetObjectNames ) )
 								{
-									for ( int k = 0; k < targetObjectNames
-											.size( ); k++ )
+									for ( int k = 0; k < targetObjectNames.size( ); k++ )
 									{
-										int index = getColumnIndex(
-												sourceColumn
-														.getStarLinkColumns( ),
+										int index = getColumnIndex( sourceColumn.getStarLinkColumns( ),
 												targetObjectNames.get( k )
 														.getColumnNameOnly( ) );
 										if ( index != -1 )
 										{
-											source = doc
-													.createElement( "source" );
+											source = doc.createElement( "source" );
 											source.setAttribute( "id",
-													String.valueOf( sourceColumn
-															.getId( ) )
+													String.valueOf( sourceColumn.getId( ) )
 															+ "_"
 															+ index );
 											source.setAttribute( "column",
-													getColumnName( sourceColumn
-															.getStarLinkColumns( )
+													getColumnName( sourceColumn.getStarLinkColumns( )
 															.get( index ) ) );
 											source.setAttribute( "parent_id",
-													String.valueOf( sourceColumn
-															.getResultSet( )
+													String.valueOf( sourceColumn.getResultSet( )
 															.getId( ) ) );
 											source.setAttribute( "parent_name",
-													getResultSetName(
-															sourceColumn
-																	.getResultSet( ) ) );
-											if ( sourceColumn
-													.getStartPosition( ) != null
-													&& sourceColumn
-															.getEndPosition( ) != null )
+													getResultSetName( sourceColumn.getResultSet( ) ) );
+											if ( sourceColumn.getStartPosition( ) != null
+													&& sourceColumn.getEndPosition( ) != null )
 											{
-												source.setAttribute(
-														"coordinate",
-														sourceColumn
-																.getStartPosition( )
+												source.setAttribute( "coordinate",
+														sourceColumn.getStartPosition( )
 																+ ","
-																+ sourceColumn
-																		.getEndPosition( ) );
+																+ sourceColumn.getEndPosition( ) );
 											}
 											append = true;
-											relationElement
-													.appendChild( source );
+											relationElement.appendChild( source );
 										}
 									}
 								}
 								else
 								{
-									int index = getColumnIndex(
-											sourceColumn.getStarLinkColumns( ),
+									int index = getColumnIndex( sourceColumn.getStarLinkColumns( ),
 											targetName );
 									if ( index != -1 )
 									{
 										source.setAttribute( "id",
-												String.valueOf(
-														sourceColumn.getId( ) )
+												String.valueOf( sourceColumn.getId( ) )
 														+ "_"
 														+ index );
 										source.setAttribute( "column",
-												getColumnName( sourceColumn
-														.getStarLinkColumns( )
+												getColumnName( sourceColumn.getStarLinkColumns( )
 														.get( index ) ) );
 									}
 									else
 									{
 										source.setAttribute( "id",
-												String.valueOf( sourceColumn
-														.getId( ) ) );
+												String.valueOf( sourceColumn.getId( ) ) );
 										source.setAttribute( "column",
 												sourceColumn.getName( ) );
 									}
 									source.setAttribute( "parent_id",
-											String.valueOf(
-													sourceColumn.getResultSet( )
-															.getId( ) ) );
+											String.valueOf( sourceColumn.getResultSet( )
+													.getId( ) ) );
 									source.setAttribute( "parent_name",
-											getResultSetName( sourceColumn
-													.getResultSet( ) ) );
-									if ( sourceColumn
-											.getStartPosition( ) != null
-											&& sourceColumn
-													.getEndPosition( ) != null )
+											getResultSetName( sourceColumn.getResultSet( ) ) );
+									if ( sourceColumn.getStartPosition( ) != null
+											&& sourceColumn.getEndPosition( ) != null )
 									{
 										source.setAttribute( "coordinate",
 												sourceColumn.getStartPosition( )
 														+ ","
-														+ sourceColumn
-																.getEndPosition( ) );
+														+ sourceColumn.getEndPosition( ) );
 									}
 									append = true;
 									relationElement.appendChild( source );
@@ -3130,16 +2811,14 @@ public class DataFlowAnalyzer
 									String.valueOf( sourceColumn.getResultSet( )
 											.getId( ) ) );
 							source.setAttribute( "parent_name",
-									getResultSetName(
-											sourceColumn.getResultSet( ) ) );
+									getResultSetName( sourceColumn.getResultSet( ) ) );
 							if ( sourceColumn.getStartPosition( ) != null
 									&& sourceColumn.getEndPosition( ) != null )
 							{
 								source.setAttribute( "coordinate",
 										sourceColumn.getStartPosition( )
 												+ ","
-												+ sourceColumn
-														.getEndPosition( ) );
+												+ sourceColumn.getEndPosition( ) );
 							}
 							append = true;
 							relationElement.appendChild( source );
@@ -3151,11 +2830,10 @@ public class DataFlowAnalyzer
 						Element source = doc.createElement( "source" );
 						source.setAttribute( "id",
 								String.valueOf( sourceColumn.getId( ) ) );
-						source.setAttribute( "column",
-								sourceColumn.getName( ) );
+						source.setAttribute( "column", sourceColumn.getName( ) );
 						source.setAttribute( "parent_id",
-								String.valueOf(
-										sourceColumn.getTable( ).getId( ) ) );
+								String.valueOf( sourceColumn.getTable( )
+										.getId( ) ) );
 						source.setAttribute( "parent_name",
 								getTableName( sourceColumn.getTable( ) ) );
 						if ( sourceColumn.getStartPosition( ) != null
@@ -3184,8 +2862,7 @@ public class DataFlowAnalyzer
 			if ( starLinkColumns.get( i )
 					.toString( )
 					.equalsIgnoreCase( targetName )
-					|| getColumnName( starLinkColumns.get( i ) )
-							.equalsIgnoreCase( targetName ) )
+					|| getColumnName( starLinkColumns.get( i ) ).equalsIgnoreCase( targetName ) )
 				return i;
 		}
 		return -1;
@@ -3197,10 +2874,11 @@ public class DataFlowAnalyzer
 		Object targetElement = relation.getTarget( ).getElement( );
 
 		Element relationElement = doc.createElement( "relation" );
-		relationElement.setAttribute( "type",
-				relation.getRelationType( ).name( ) );
-		relationElement.setAttribute( "id",
-				String.valueOf( relation.getId( ) ) + "_" + index );
+		relationElement.setAttribute( "type", relation.getRelationType( )
+				.name( ) );
+		relationElement.setAttribute( "id", String.valueOf( relation.getId( ) )
+				+ "_"
+				+ index );
 
 		String targetName = "";
 
@@ -3213,8 +2891,9 @@ public class DataFlowAnalyzer
 			targetName = getColumnName( linkTargetColumn );
 
 			Element target = doc.createElement( "target" );
-			target.setAttribute( "id",
-					String.valueOf( targetColumn.getId( ) ) + "_" + index );
+			target.setAttribute( "id", String.valueOf( targetColumn.getId( ) )
+					+ "_"
+					+ index );
 			target.setAttribute( "column", targetName );
 
 			target.setAttribute( "parent_id",
@@ -3240,13 +2919,14 @@ public class DataFlowAnalyzer
 			targetName = getColumnName( linkTargetColumn );
 
 			Element target = doc.createElement( "target" );
-			target.setAttribute( "id",
-					String.valueOf( targetColumn.getId( ) ) + "_" + index );
+			target.setAttribute( "id", String.valueOf( targetColumn.getId( ) )
+					+ "_"
+					+ index );
 			target.setAttribute( "column", targetName );
 			target.setAttribute( "parent_id",
 					String.valueOf( targetColumn.getView( ).getId( ) ) );
-			target.setAttribute( "parent_name",
-					targetColumn.getView( ).getName( ) );
+			target.setAttribute( "parent_name", targetColumn.getView( )
+					.getName( ) );
 			if ( targetColumn.getStartPosition( ) != null
 					&& targetColumn.getEndPosition( ) != null )
 			{
@@ -3266,13 +2946,14 @@ public class DataFlowAnalyzer
 			targetName = getColumnName( linkTargetColumn );
 
 			Element target = doc.createElement( "target" );
-			target.setAttribute( "id",
-					String.valueOf( targetColumn.getId( ) ) + "_" + index );
+			target.setAttribute( "id", String.valueOf( targetColumn.getId( ) )
+					+ "_"
+					+ index );
 			target.setAttribute( "column", targetName );
 			target.setAttribute( "parent_id",
 					String.valueOf( targetColumn.getTable( ).getId( ) ) );
-			target.setAttribute( "parent_name",
-					targetColumn.getTable( ).getName( ) );
+			target.setAttribute( "parent_name", targetColumn.getTable( )
+					.getName( ) );
 			if ( targetColumn.getStartPosition( ) != null
 					&& targetColumn.getEndPosition( ) != null )
 			{
@@ -3305,8 +2986,8 @@ public class DataFlowAnalyzer
 					for ( int k = 0; k < sourceColumn.getStarLinkColumns( )
 							.size( ); k++ )
 					{
-						TObjectName sourceName = sourceColumn
-								.getStarLinkColumns( ).get( k );
+						TObjectName sourceName = sourceColumn.getStarLinkColumns( )
+								.get( k );
 						Element source = doc.createElement( "source" );
 						source.setAttribute( "id",
 								String.valueOf( sourceColumn.getId( ) )
@@ -3318,8 +2999,7 @@ public class DataFlowAnalyzer
 								String.valueOf( sourceColumn.getResultSet( )
 										.getId( ) ) );
 						source.setAttribute( "parent_name",
-								getResultSetName(
-										sourceColumn.getResultSet( ) ) );
+								getResultSetName( sourceColumn.getResultSet( ) ) );
 						if ( sourceColumn.getStartPosition( ) != null
 								&& sourceColumn.getEndPosition( ) != null )
 						{
@@ -3328,11 +3008,9 @@ public class DataFlowAnalyzer
 											+ ","
 											+ sourceColumn.getEndPosition( ) );
 						}
-						if ( relation
-								.getRelationType( ) == RelationType.dataflow )
+						if ( relation.getRelationType( ) == RelationType.dataflow )
 						{
-							if ( !targetName.equalsIgnoreCase(
-									getColumnName( sourceName ) ) )
+							if ( !targetName.equalsIgnoreCase( getColumnName( sourceName ) ) )
 								continue;
 						}
 						relationElement.appendChild( source );
@@ -3345,8 +3023,8 @@ public class DataFlowAnalyzer
 							String.valueOf( sourceColumn.getId( ) ) );
 					source.setAttribute( "column", sourceColumn.getName( ) );
 					source.setAttribute( "parent_id",
-							String.valueOf(
-									sourceColumn.getResultSet( ).getId( ) ) );
+							String.valueOf( sourceColumn.getResultSet( )
+									.getId( ) ) );
 					source.setAttribute( "parent_name",
 							getResultSetName( sourceColumn.getResultSet( ) ) );
 					if ( sourceColumn.getStartPosition( ) != null
@@ -3359,8 +3037,7 @@ public class DataFlowAnalyzer
 					}
 					if ( relation.getRelationType( ) == RelationType.dataflow )
 					{
-						if ( !targetName
-								.equalsIgnoreCase( sourceColumn.getName( ) ) )
+						if ( !targetName.equalsIgnoreCase( sourceColumn.getName( ) ) )
 							continue;
 					}
 					relationElement.appendChild( source );
@@ -3387,8 +3064,7 @@ public class DataFlowAnalyzer
 				}
 				if ( relation.getRelationType( ) == RelationType.dataflow )
 				{
-					if ( !targetName
-							.equalsIgnoreCase( sourceColumn.getName( ) ) )
+					if ( !targetName.equalsIgnoreCase( sourceColumn.getName( ) ) )
 						continue;
 				}
 				relationElement.appendChild( source );
@@ -3416,8 +3092,8 @@ public class DataFlowAnalyzer
 		{
 			AbstractRelation relation = (AbstractRelation) relations[i];
 			Element relationElement = doc.createElement( "relation" );
-			relationElement.setAttribute( "type",
-					relation.getRelationType( ).name( ) );
+			relationElement.setAttribute( "type", relation.getRelationType( )
+					.name( ) );
 			relationElement.setAttribute( "id",
 					String.valueOf( relation.getId( ) ) );
 
@@ -3437,8 +3113,8 @@ public class DataFlowAnalyzer
 					target.setAttribute( "function",
 							recordCountRelation.getAggregateFunction( ) );
 					target.setAttribute( "parent_id",
-							String.valueOf(
-									targetColumn.getResultSet( ).getId( ) ) );
+							String.valueOf( targetColumn.getResultSet( )
+									.getId( ) ) );
 					target.setAttribute( "parent_name",
 							getResultSetName( targetColumn.getResultSet( ) ) );
 					if ( targetColumn.getStartPosition( ) != null
@@ -3461,8 +3137,7 @@ public class DataFlowAnalyzer
 					target.setAttribute( "function",
 							recordCountRelation.getAggregateFunction( ) );
 					target.setAttribute( "parent_id",
-							String.valueOf(
-									targetColumn.getTable( ).getId( ) ) );
+							String.valueOf( targetColumn.getTable( ).getId( ) ) );
 					target.setAttribute( "parent_name",
 							getTableName( targetColumn.getTable( ) ) );
 					if ( targetColumn.getStartPosition( ) != null
@@ -3480,8 +3155,7 @@ public class DataFlowAnalyzer
 					continue;
 				}
 
-				RelationElement<?>[] sourceElements = recordCountRelation
-						.getSources( );
+				RelationElement<?>[] sourceElements = recordCountRelation.getSources( );
 				if ( sourceElements.length == 0 )
 				{
 					continue;
@@ -3539,17 +3213,12 @@ public class DataFlowAnalyzer
 
 	private void appendResultSets( Document doc, Element dlineageResult )
 	{
-		List<TResultColumnList> selectResultSets = ModelBindingManager
-				.getSelectResultSets( );
-		List<TTable> tableWithSelectSetResultSets = ModelBindingManager
-				.getTableWithSelectSetResultSets( );
-		List<TSelectSqlStatement> selectSetResultSets = ModelBindingManager
-				.getSelectSetResultSets( );
+		List<TResultColumnList> selectResultSets = ModelBindingManager.getSelectResultSets( );
+		List<TTable> tableWithSelectSetResultSets = ModelBindingManager.getTableWithSelectSetResultSets( );
+		List<TSelectSqlStatement> selectSetResultSets = ModelBindingManager.getSelectSetResultSets( );
 		List<TCTE> ctes = ModelBindingManager.getCTEs( );
-		List<TParseTreeNode> mergeResultSets = ModelBindingManager
-				.getMergeResultSets( );
-		List<TParseTreeNode> updateResultSets = ModelBindingManager
-				.getUpdateResultSets( );
+		List<TParseTreeNode> mergeResultSets = ModelBindingManager.getMergeResultSets( );
+		List<TParseTreeNode> updateResultSets = ModelBindingManager.getUpdateResultSets( );
 
 		List<TParseTreeNode> resultSets = new ArrayList<TParseTreeNode>( );
 		resultSets.addAll( selectResultSets );
@@ -3561,8 +3230,7 @@ public class DataFlowAnalyzer
 
 		for ( int i = 0; i < resultSets.size( ); i++ )
 		{
-			ResultSet resultSetModel = (ResultSet) ModelBindingManager
-					.getModel( resultSets.get( i ) );
+			ResultSet resultSetModel = (ResultSet) ModelBindingManager.getModel( resultSets.get( i ) );
 			appendResultSet( doc, dlineageResult, resultSetModel );
 		}
 	}
@@ -3612,8 +3280,7 @@ public class DataFlowAnalyzer
 			ResultColumn columnModel = columns.get( j );
 			if ( !columnModel.getStarLinkColumns( ).isEmpty( ) )
 			{
-				for ( int k = 0; k < columnModel.getStarLinkColumns( )
-						.size( ); k++ )
+				for ( int k = 0; k < columnModel.getStarLinkColumns( ).size( ); k++ )
 				{
 					Element columnElement = doc.createElement( "column" );
 					columnElement.setAttribute( "id",
@@ -3664,8 +3331,7 @@ public class DataFlowAnalyzer
 
 		if ( resultSetModel instanceof SelectSetResultSet )
 		{
-			ESetOperatorType type = ( (SelectSetResultSet) resultSetModel )
-					.getSetOperatorType( );
+			ESetOperatorType type = ( (SelectSetResultSet) resultSetModel ).getSetOperatorType( );
 			return "select_" + type.name( );
 		}
 
@@ -3773,10 +3439,9 @@ public class DataFlowAnalyzer
 
 		if ( resultSetModel instanceof SelectSetResultSet )
 		{
-			ESetOperatorType type = ( (SelectSetResultSet) resultSetModel )
-					.getSetOperatorType( );
-			String name = getResultSetDisplayId(
-					"RESULT_OF_" + type.name( ).toUpperCase( ) );
+			ESetOperatorType type = ( (SelectSetResultSet) resultSetModel ).getSetOperatorType( );
+			String name = getResultSetDisplayId( "RESULT_OF_"
+					+ type.name( ).toUpperCase( ) );
 			ResultSet.DISPLAY_NAME.put( resultSetModel.getId( ), name );
 			return name;
 		}
@@ -3827,11 +3492,9 @@ public class DataFlowAnalyzer
 		List<TCustomSqlStatement> views = ModelBindingManager.getViews( );
 		for ( int i = 0; i < views.size( ); i++ )
 		{
-			View viewModel = (View) ModelBindingManager
-					.getViewModel( views.get( i ) );
+			View viewModel = (View) ModelBindingManager.getViewModel( views.get( i ) );
 			Element viewElement = doc.createElement( "view" );
-			viewElement.setAttribute( "id",
-					String.valueOf( viewModel.getId( ) ) );
+			viewElement.setAttribute( "id", String.valueOf( viewModel.getId( ) ) );
 			viewElement.setAttribute( "name", viewModel.getName( ) );
 			viewElement.setAttribute( "type", "view" );
 
@@ -3878,8 +3541,7 @@ public class DataFlowAnalyzer
 					Element columnElement = doc.createElement( "column" );
 					columnElement.setAttribute( "id",
 							String.valueOf( columnModel.getId( ) ) );
-					columnElement.setAttribute( "name",
-							columnModel.getName( ) );
+					columnElement.setAttribute( "name", columnModel.getName( ) );
 					if ( columnModel.getStartPosition( ) != null
 							&& columnModel.getEndPosition( ) != null )
 					{
@@ -3910,14 +3572,12 @@ public class DataFlowAnalyzer
 				tableElement.setAttribute( "type", "table" );
 				if ( tableModel.getParent( ) != null )
 				{
-					tableElement.setAttribute( "parent",
-							tableModel.getParent( ) );
+					tableElement.setAttribute( "parent", tableModel.getParent( ) );
 				}
 				if ( tableModel.getAlias( ) != null
 						&& tableModel.getAlias( ).trim( ).length( ) > 0 )
 				{
-					tableElement.setAttribute( "alias",
-							tableModel.getAlias( ) );
+					tableElement.setAttribute( "alias", tableModel.getAlias( ) );
 				}
 				if ( tableModel.getStartPosition( ) != null
 						&& tableModel.getEndPosition( ) != null )
@@ -3938,23 +3598,21 @@ public class DataFlowAnalyzer
 						for ( int k = 0; k < columnModel.getStarLinkColumns( )
 								.size( ); k++ )
 						{
-							Element columnElement = doc
-									.createElement( "column" );
+							Element columnElement = doc.createElement( "column" );
 							columnElement.setAttribute( "id",
 									String.valueOf( columnModel.getId( ) )
 											+ "_"
 											+ k );
 							columnElement.setAttribute( "name",
-									getColumnName( columnModel
-											.getStarLinkColumns( ).get( k ) ) );
+									getColumnName( columnModel.getStarLinkColumns( )
+											.get( k ) ) );
 							if ( columnModel.getStartPosition( ) != null
 									&& columnModel.getEndPosition( ) != null )
 							{
 								columnElement.setAttribute( "coordinate",
 										columnModel.getStartPosition( )
 												+ ","
-												+ columnModel
-														.getEndPosition( ) );
+												+ columnModel.getEndPosition( ) );
 							}
 							tableElement.appendChild( columnElement );
 						}
@@ -3993,16 +3651,14 @@ public class DataFlowAnalyzer
 			analyzeSelectStmt( stmt.getRightStmt( ) );
 
 			stmtStack.push( stmt );
-			SelectSetResultSet resultSet = ModelFactory
-					.createSelectSetResultSet( stmt );
+			SelectSetResultSet resultSet = ModelFactory.createSelectSetResultSet( stmt );
 
 			if ( resultSet.getColumns( ) == null
 					|| resultSet.getColumns( ).isEmpty( ) )
 			{
 				if ( stmt.getLeftStmt( ).getResultColumnList( ) != null )
 				{
-					createSelectSetResultColumns( resultSet,
-							stmt.getLeftStmt( ) );
+					createSelectSetResultColumns( resultSet, stmt.getLeftStmt( ) );
 				}
 				else if ( stmt.getRightStmt( ).getResultColumnList( ) != null )
 				{
@@ -4014,54 +3670,48 @@ public class DataFlowAnalyzer
 			List<ResultColumn> columns = resultSet.getColumns( );
 			for ( int i = 0; i < columns.size( ); i++ )
 			{
-				DataFlowRelation relation = ModelFactory
-						.createDataFlowRelation( );
-				relation.setTarget(
-						new ResultColumnRelationElement( columns.get( i ) ) );
+				DataFlowRelation relation = ModelFactory.createDataFlowRelation( );
+				relation.setTarget( new ResultColumnRelationElement( columns.get( i ) ) );
 
 				if ( stmt.getLeftStmt( ).getResultColumnList( ) != null )
 				{
-					ResultSet sourceResultSet = (ResultSet) ModelBindingManager
-							.getModel( stmt.getLeftStmt( )
-									.getResultColumnList( ) );
+					ResultSet sourceResultSet = (ResultSet) ModelBindingManager.getModel( stmt.getLeftStmt( )
+							.getResultColumnList( ) );
 					if ( sourceResultSet.getColumns( ).size( ) > i )
 					{
-						relation.addSource( new ResultColumnRelationElement(
-								sourceResultSet.getColumns( ).get( i ) ) );
+						relation.addSource( new ResultColumnRelationElement( sourceResultSet.getColumns( )
+								.get( i ) ) );
 					}
 				}
 				else
 				{
-					ResultSet sourceResultSet = (ResultSet) ModelBindingManager
-							.getModel( stmt.getLeftStmt( ) );
+					ResultSet sourceResultSet = (ResultSet) ModelBindingManager.getModel( stmt.getLeftStmt( ) );
 					if ( sourceResultSet != null
 							&& sourceResultSet.getColumns( ).size( ) > i )
 					{
-						relation.addSource( new ResultColumnRelationElement(
-								sourceResultSet.getColumns( ).get( i ) ) );
+						relation.addSource( new ResultColumnRelationElement( sourceResultSet.getColumns( )
+								.get( i ) ) );
 					}
 				}
 
 				if ( stmt.getRightStmt( ).getResultColumnList( ) != null )
 				{
-					ResultSet sourceResultSet = (ResultSet) ModelBindingManager
-							.getModel( stmt.getRightStmt( )
-									.getResultColumnList( ) );
+					ResultSet sourceResultSet = (ResultSet) ModelBindingManager.getModel( stmt.getRightStmt( )
+							.getResultColumnList( ) );
 					if ( sourceResultSet.getColumns( ).size( ) > i )
 					{
-						relation.addSource( new ResultColumnRelationElement(
-								sourceResultSet.getColumns( ).get( i ) ) );
+						relation.addSource( new ResultColumnRelationElement( sourceResultSet.getColumns( )
+								.get( i ) ) );
 					}
 				}
 				else
 				{
-					ResultSet sourceResultSet = (ResultSet) ModelBindingManager
-							.getModel( stmt.getRightStmt( ) );
+					ResultSet sourceResultSet = (ResultSet) ModelBindingManager.getModel( stmt.getRightStmt( ) );
 					if ( sourceResultSet != null
 							&& sourceResultSet.getColumns( ).size( ) > i )
 					{
-						relation.addSource( new ResultColumnRelationElement(
-								sourceResultSet.getColumns( ).get( i ) ) );
+						relation.addSource( new ResultColumnRelationElement( sourceResultSet.getColumns( )
+								.get( i ) ) );
 					}
 				}
 			}
@@ -4079,42 +3729,31 @@ public class DataFlowAnalyzer
 
 				if ( table.getSubquery( ) != null )
 				{
-					QueryTable queryTable = ModelFactory
-							.createQueryTable( table );
+					QueryTable queryTable = ModelFactory.createQueryTable( table );
 					TSelectSqlStatement subquery = table.getSubquery( );
 					analyzeSelectStmt( subquery );
 
-					if ( subquery
-							.getSetOperatorType( ) != ESetOperatorType.none )
+					if ( subquery.getSetOperatorType( ) != ESetOperatorType.none )
 					{
-						SelectSetResultSet selectSetResultSetModel = (SelectSetResultSet) ModelBindingManager
-								.getModel( subquery );
-						for ( int j = 0; j < selectSetResultSetModel
-								.getColumns( ).size( ); j++ )
+						SelectSetResultSet selectSetResultSetModel = (SelectSetResultSet) ModelBindingManager.getModel( subquery );
+						for ( int j = 0; j < selectSetResultSetModel.getColumns( )
+								.size( ); j++ )
 						{
-							ResultColumn sourceColumn = selectSetResultSetModel
-									.getColumns( ).get( j );
-							ResultColumn targetColumn = ModelFactory
-									.createSelectSetResultColumn( queryTable,
-											sourceColumn,
-											j );
-							DataFlowRelation selectSetRalation = ModelFactory
-									.createDataFlowRelation( );
-							selectSetRalation
-									.setTarget( new ResultColumnRelationElement(
-											targetColumn ) );
-							selectSetRalation
-									.addSource( new ResultColumnRelationElement(
-											sourceColumn ) );
+							ResultColumn sourceColumn = selectSetResultSetModel.getColumns( )
+									.get( j );
+							ResultColumn targetColumn = ModelFactory.createSelectSetResultColumn( queryTable,
+									sourceColumn,
+									j );
+							DataFlowRelation selectSetRalation = ModelFactory.createDataFlowRelation( );
+							selectSetRalation.setTarget( new ResultColumnRelationElement( targetColumn ) );
+							selectSetRalation.addSource( new ResultColumnRelationElement( sourceColumn ) );
 						}
 					}
 				}
 				else if ( table.getCTE( ) != null
-						&& ModelBindingManager
-								.getModel( table.getCTE( ) ) == null )
+						&& ModelBindingManager.getModel( table.getCTE( ) ) == null )
 				{
-					QueryTable queryTable = ModelFactory
-							.createQueryTable( table );
+					QueryTable queryTable = ModelFactory.createQueryTable( table );
 					TObjectNameList cteColumns = table.getCTE( )
 							.getColumnList( );
 					if ( cteColumns != null )
@@ -4131,16 +3770,14 @@ public class DataFlowAnalyzer
 					{
 						analyzeSelectStmt( subquery );
 
-						if ( subquery
-								.getSetOperatorType( ) != ESetOperatorType.none )
+						if ( subquery.getSetOperatorType( ) != ESetOperatorType.none )
 						{
-							SelectSetResultSet selectSetResultSetModel = (SelectSetResultSet) ModelBindingManager
-									.getModel( subquery );
-							for ( int j = 0; j < selectSetResultSetModel
-									.getColumns( ).size( ); j++ )
+							SelectSetResultSet selectSetResultSetModel = (SelectSetResultSet) ModelBindingManager.getModel( subquery );
+							for ( int j = 0; j < selectSetResultSetModel.getColumns( )
+									.size( ); j++ )
 							{
-								ResultColumn sourceColumn = selectSetResultSetModel
-										.getColumns( ).get( j );
+								ResultColumn sourceColumn = selectSetResultSetModel.getColumns( )
+										.get( j );
 								ResultColumn targetColumn = null;
 								if ( cteColumns != null )
 								{
@@ -4149,31 +3786,23 @@ public class DataFlowAnalyzer
 								}
 								else
 								{
-									targetColumn = ModelFactory
-											.createSelectSetResultColumn(
-													queryTable,
-													sourceColumn,
-													j );
+									targetColumn = ModelFactory.createSelectSetResultColumn( queryTable,
+											sourceColumn,
+											j );
 								}
-								DataFlowRelation selectSetRalation = ModelFactory
-										.createDataFlowRelation( );
-								selectSetRalation.setTarget(
-										new ResultColumnRelationElement(
-												targetColumn ) );
-								selectSetRalation.addSource(
-										new ResultColumnRelationElement(
-												sourceColumn ) );
+								DataFlowRelation selectSetRalation = ModelFactory.createDataFlowRelation( );
+								selectSetRalation.setTarget( new ResultColumnRelationElement( targetColumn ) );
+								selectSetRalation.addSource( new ResultColumnRelationElement( sourceColumn ) );
 							}
 						}
 						else
 						{
-							ResultSet resultSetModel = (ResultSet) ModelBindingManager
-									.getModel( subquery );
+							ResultSet resultSetModel = (ResultSet) ModelBindingManager.getModel( subquery );
 							for ( int j = 0; j < resultSetModel.getColumns( )
 									.size( ); j++ )
 							{
-								ResultColumn sourceColumn = resultSetModel
-										.getColumns( ).get( j );
+								ResultColumn sourceColumn = resultSetModel.getColumns( )
+										.get( j );
 								ResultColumn targetColumn = null;
 								if ( cteColumns != null )
 								{
@@ -4182,37 +3811,27 @@ public class DataFlowAnalyzer
 								}
 								else
 								{
-									targetColumn = ModelFactory
-											.createSelectSetResultColumn(
-													queryTable,
-													sourceColumn,
-													j );
+									targetColumn = ModelFactory.createSelectSetResultColumn( queryTable,
+											sourceColumn,
+											j );
 								}
-								DataFlowRelation selectSetRalation = ModelFactory
-										.createDataFlowRelation( );
-								selectSetRalation.setTarget(
-										new ResultColumnRelationElement(
-												targetColumn ) );
-								selectSetRalation.addSource(
-										new ResultColumnRelationElement(
-												sourceColumn ) );
+								DataFlowRelation selectSetRalation = ModelFactory.createDataFlowRelation( );
+								selectSetRalation.setTarget( new ResultColumnRelationElement( targetColumn ) );
+								selectSetRalation.addSource( new ResultColumnRelationElement( sourceColumn ) );
 							}
 						}
 					}
 					else if ( table.getCTE( ).getUpdateStmt( ) != null )
 					{
-						analyzeCustomSqlStmt(
-								table.getCTE( ).getUpdateStmt( ) );
+						analyzeCustomSqlStmt( table.getCTE( ).getUpdateStmt( ) );
 					}
 					else if ( table.getCTE( ).getInsertStmt( ) != null )
 					{
-						analyzeCustomSqlStmt(
-								table.getCTE( ).getInsertStmt( ) );
+						analyzeCustomSqlStmt( table.getCTE( ).getInsertStmt( ) );
 					}
 					else if ( table.getCTE( ).getDeleteStmt( ) != null )
 					{
-						analyzeCustomSqlStmt(
-								table.getCTE( ).getDeleteStmt( ) );
+						analyzeCustomSqlStmt( table.getCTE( ).getDeleteStmt( ) );
 					}
 				}
 				else if ( table.getObjectNameReferences( ) != null
@@ -4239,26 +3858,21 @@ public class DataFlowAnalyzer
 
 			if ( stmt.getResultColumnList( ) != null )
 			{
-				Object queryModel = ModelBindingManager
-						.getModel( stmt.getResultColumnList( ) );
+				Object queryModel = ModelBindingManager.getModel( stmt.getResultColumnList( ) );
 
 				if ( queryModel == null )
 				{
-					TSelectSqlStatement parentStmt = getParentSetSelectStmt(
-							stmt );
+					TSelectSqlStatement parentStmt = getParentSetSelectStmt( stmt );
 					if ( stmt.getParentStmt( ) == null || parentStmt == null )
 					{
-						SelectResultSet resultSetModel = ModelFactory
-								.createResultSet( stmt,
-										stmt.getParentStmt( ) == null );
-						for ( int i = 0; i < stmt.getResultColumnList( )
-								.size( ); i++ )
+						SelectResultSet resultSetModel = ModelFactory.createResultSet( stmt,
+								stmt.getParentStmt( ) == null );
+						for ( int i = 0; i < stmt.getResultColumnList( ).size( ); i++ )
 						{
 							TResultColumn column = stmt.getResultColumnList( )
 									.getResultColumn( i );
 
-							if ( column.getExpr( )
-									.getComparisonType( ) == EComparisonType.equals
+							if ( column.getExpr( ).getComparisonType( ) == EComparisonType.equals
 									&& column.getExpr( )
 											.getLeftOperand( )
 											.getObjectOperand( ) != null )
@@ -4267,68 +3881,56 @@ public class DataFlowAnalyzer
 										.getLeftOperand( )
 										.getObjectOperand( );
 
-								ResultColumn resultColumn = ModelFactory
-										.createResultColumn( resultSetModel,
-												columnObject );
+								ResultColumn resultColumn = ModelFactory.createResultColumn( resultSetModel,
+										columnObject );
 
 								columnsInExpr visitor = new columnsInExpr( );
 								column.getExpr( )
 										.getRightOperand( )
 										.inOrderTraverse( visitor );
 
-								List<TObjectName> objectNames = visitor
-										.getObjectNames( );
+								List<TObjectName> objectNames = visitor.getObjectNames( );
 								analyzeDataFlowRelation( resultColumn,
 										objectNames );
 							}
 							else
 							{
-								ResultColumn resultColumn = ModelFactory
-										.createResultColumn( resultSetModel,
-												column );
+								ResultColumn resultColumn = ModelFactory.createResultColumn( resultSetModel,
+										column );
 
 								if ( "*".equals( column.getColumnNameOnly( ) ) )
 								{
-									TObjectName columnObject = column
-											.getFieldAttr( );
-									TTable sourceTable = columnObject
-											.getSourceTable( );
+									TObjectName columnObject = column.getFieldAttr( );
+									TTable sourceTable = columnObject.getSourceTable( );
 									if ( columnObject.getTableToken( ) != null
 											&& sourceTable != null )
 									{
-										TObjectName[] columns = ModelBindingManager
-												.getTableColumns( sourceTable );
+										TObjectName[] columns = ModelBindingManager.getTableColumns( sourceTable );
 										for ( int j = 0; j < columns.length; j++ )
 										{
 											TObjectName columnName = columns[j];
-											if ( "*".equals( getColumnName(
-													columnName ) ) )
+											if ( "*".equals( getColumnName( columnName ) ) )
 											{
 												continue;
 											}
-											resultColumn.bindStarLinkColumn(
-													columnName );
+											resultColumn.bindStarLinkColumn( columnName );
 										}
 									}
 									else
 									{
 										TTableList tables = stmt.getTables( );
-										for ( int k = 0; k < tables
-												.size( ); k++ )
+										for ( int k = 0; k < tables.size( ); k++ )
 										{
 											TTable table = tables.getTable( k );
-											TObjectName[] columns = ModelBindingManager
-													.getTableColumns( table );
+											TObjectName[] columns = ModelBindingManager.getTableColumns( table );
 											for ( int j = 0; j < columns.length; j++ )
 											{
 												TObjectName columnName = columns[j];
-												if ( "*".equals( getColumnName(
-														columnName ) ) )
+												if ( "*".equals( getColumnName( columnName ) ) )
 												{
 													continue;
 												}
-												resultColumn.bindStarLinkColumn(
-														columnName );
+												resultColumn.bindStarLinkColumn( columnName );
 											}
 										}
 									}
@@ -4340,40 +3942,32 @@ public class DataFlowAnalyzer
 
 					TSelectSqlStatement parent = getParentSetSelectStmt( stmt );
 					if ( parent != null
-							&& parent
-									.getSetOperatorType( ) != ESetOperatorType.none )
+							&& parent.getSetOperatorType( ) != ESetOperatorType.none )
 					{
-						SelectResultSet resultSetModel = ModelFactory
-								.createResultSet( stmt, false );
-						for ( int i = 0; i < stmt.getResultColumnList( )
-								.size( ); i++ )
+						SelectResultSet resultSetModel = ModelFactory.createResultSet( stmt,
+								false );
+						for ( int i = 0; i < stmt.getResultColumnList( ).size( ); i++ )
 						{
 							TResultColumn column = stmt.getResultColumnList( )
 									.getResultColumn( i );
-							ResultColumn resultColumn = ModelFactory
-									.createResultColumn( resultSetModel,
-											column );
+							ResultColumn resultColumn = ModelFactory.createResultColumn( resultSetModel,
+									column );
 							if ( "*".equals( column.getColumnNameOnly( ) ) )
 							{
-								TObjectName columnObject = column
-										.getFieldAttr( );
-								TTable sourceTable = columnObject
-										.getSourceTable( );
+								TObjectName columnObject = column.getFieldAttr( );
+								TTable sourceTable = columnObject.getSourceTable( );
 								if ( columnObject.getTableToken( ) != null
 										&& sourceTable != null )
 								{
-									TObjectName[] columns = ModelBindingManager
-											.getTableColumns( sourceTable );
+									TObjectName[] columns = ModelBindingManager.getTableColumns( sourceTable );
 									for ( int j = 0; j < columns.length; j++ )
 									{
 										TObjectName columnName = columns[j];
-										if ( "*".equals(
-												getColumnName( columnName ) ) )
+										if ( "*".equals( getColumnName( columnName ) ) )
 										{
 											continue;
 										}
-										resultColumn.bindStarLinkColumn(
-												columnName );
+										resultColumn.bindStarLinkColumn( columnName );
 									}
 								}
 								else
@@ -4382,18 +3976,15 @@ public class DataFlowAnalyzer
 									for ( int k = 0; k < tables.size( ); k++ )
 									{
 										TTable table = tables.getTable( k );
-										TObjectName[] columns = ModelBindingManager
-												.getTableColumns( table );
+										TObjectName[] columns = ModelBindingManager.getTableColumns( table );
 										for ( int j = 0; j < columns.length; j++ )
 										{
 											TObjectName columnName = columns[j];
-											if ( "*".equals( getColumnName(
-													columnName ) ) )
+											if ( "*".equals( getColumnName( columnName ) ) )
 											{
 												continue;
 											}
-											resultColumn.bindStarLinkColumn(
-													columnName );
+											resultColumn.bindStarLinkColumn( columnName );
 										}
 									}
 								}
@@ -4404,8 +3995,7 @@ public class DataFlowAnalyzer
 				}
 				else
 				{
-					for ( int i = 0; i < stmt.getResultColumnList( )
-							.size( ); i++ )
+					for ( int i = 0; i < stmt.getResultColumnList( ).size( ); i++ )
 					{
 						TResultColumn column = stmt.getResultColumnList( )
 								.getResultColumn( i );
@@ -4414,13 +4004,13 @@ public class DataFlowAnalyzer
 
 						if ( queryModel instanceof QueryTable )
 						{
-							resultColumn = ModelFactory.createResultColumn(
-									(QueryTable) queryModel, column );
+							resultColumn = ModelFactory.createResultColumn( (QueryTable) queryModel,
+									column );
 						}
 						else if ( queryModel instanceof ResultSet )
 						{
-							resultColumn = ModelFactory.createResultColumn(
-									(ResultSet) queryModel, column );
+							resultColumn = ModelFactory.createResultColumn( (ResultSet) queryModel,
+									column );
 						}
 						else
 						{
@@ -4434,18 +4024,15 @@ public class DataFlowAnalyzer
 							if ( columnObject.getTableToken( ) != null
 									&& sourceTable != null )
 							{
-								TObjectName[] columns = ModelBindingManager
-										.getTableColumns( sourceTable );
+								TObjectName[] columns = ModelBindingManager.getTableColumns( sourceTable );
 								for ( int j = 0; j < columns.length; j++ )
 								{
 									TObjectName columnName = columns[j];
-									if ( "*".equals(
-											getColumnName( columnName ) ) )
+									if ( "*".equals( getColumnName( columnName ) ) )
 									{
 										continue;
 									}
-									resultColumn
-											.bindStarLinkColumn( columnName );
+									resultColumn.bindStarLinkColumn( columnName );
 								}
 							}
 							else
@@ -4454,18 +4041,15 @@ public class DataFlowAnalyzer
 								for ( int k = 0; k < tables.size( ); k++ )
 								{
 									TTable table = tables.getTable( k );
-									TObjectName[] columns = ModelBindingManager
-											.getTableColumns( table );
+									TObjectName[] columns = ModelBindingManager.getTableColumns( table );
 									for ( int j = 0; j < columns.length; j++ )
 									{
 										TObjectName columnName = columns[j];
-										if ( "*".equals(
-												getColumnName( columnName ) ) )
+										if ( "*".equals( getColumnName( columnName ) ) )
 										{
 											continue;
 										}
-										resultColumn.bindStarLinkColumn(
-												columnName );
+										resultColumn.bindStarLinkColumn( columnName );
 									}
 								}
 							}
@@ -4507,8 +4091,8 @@ public class DataFlowAnalyzer
 
 				if ( stmt.getGroupByClause( ).getHavingClause( ) != null )
 				{
-					analyzeAggregate(
-							stmt.getGroupByClause( ).getHavingClause( ) );
+					analyzeAggregate( stmt.getGroupByClause( )
+							.getHavingClause( ) );
 				}
 			}
 
@@ -4539,8 +4123,7 @@ public class DataFlowAnalyzer
 		}
 	}
 
-	private TSelectSqlStatement getParentSetSelectStmt(
-			TSelectSqlStatement stmt )
+	private TSelectSqlStatement getParentSetSelectStmt( TSelectSqlStatement stmt )
 	{
 		TCustomSqlStatement parent = stmt.getParentStmt( );
 		if ( parent == null )
@@ -4582,36 +4165,31 @@ public class DataFlowAnalyzer
 			for ( int i = 0; i < columnList.size( ); i++ )
 			{
 				TResultColumn column = columnList.getResultColumn( i );
-				ResultColumn resultColumn = ModelFactory
-						.createSelectSetResultColumn( resultSet, column, i );
+				ResultColumn resultColumn = ModelFactory.createSelectSetResultColumn( resultSet,
+						column,
+						i );
 
 				if ( resultColumn.getColumnObject( ) instanceof TResultColumn )
 				{
-					TResultColumn columnObject = (TResultColumn) resultColumn
-							.getColumnObject( );
+					TResultColumn columnObject = (TResultColumn) resultColumn.getColumnObject( );
 					if ( columnObject.getFieldAttr( ) != null )
 					{
-						if ( "*".equals( getColumnName(
-								columnObject.getFieldAttr( ) ) ) )
+						if ( "*".equals( getColumnName( columnObject.getFieldAttr( ) ) ) )
 						{
-							TObjectName fieldAttr = columnObject
-									.getFieldAttr( );
+							TObjectName fieldAttr = columnObject.getFieldAttr( );
 							TTable sourceTable = fieldAttr.getSourceTable( );
 							if ( fieldAttr.getTableToken( ) != null
 									&& sourceTable != null )
 							{
-								TObjectName[] columns = ModelBindingManager
-										.getTableColumns( sourceTable );
+								TObjectName[] columns = ModelBindingManager.getTableColumns( sourceTable );
 								for ( int j = 0; j < columns.length; j++ )
 								{
 									TObjectName columnName = columns[j];
-									if ( "*".equals(
-											getColumnName( columnName ) ) )
+									if ( "*".equals( getColumnName( columnName ) ) )
 									{
 										continue;
 									}
-									resultColumn
-											.bindStarLinkColumn( columnName );
+									resultColumn.bindStarLinkColumn( columnName );
 								}
 							}
 							else
@@ -4620,18 +4198,15 @@ public class DataFlowAnalyzer
 								for ( int k = 0; k < tables.size( ); k++ )
 								{
 									TTable tableElement = tables.getTable( k );
-									TObjectName[] columns = ModelBindingManager
-											.getTableColumns( tableElement );
+									TObjectName[] columns = ModelBindingManager.getTableColumns( tableElement );
 									for ( int j = 0; j < columns.length; j++ )
 									{
 										TObjectName columnName = columns[j];
-										if ( "*".equals(
-												getColumnName( columnName ) ) )
+										if ( "*".equals( getColumnName( columnName ) ) )
 										{
 											continue;
 										}
-										resultColumn.bindStarLinkColumn(
-												columnName );
+										resultColumn.bindStarLinkColumn( columnName );
 									}
 								}
 							}
@@ -4704,8 +4279,7 @@ public class DataFlowAnalyzer
 
 		ImpactRelation relation = ModelFactory.createImpactRelation( );
 
-		relation.setTarget( new ResultColumnRelationElement(
-				(ResultColumn) ModelBindingManager.getModel( column ) ) );
+		relation.setTarget( new ResultColumnRelationElement( (ResultColumn) ModelBindingManager.getModel( column ) ) );
 
 		TCustomSqlStatement stmt = stmtStack.peek( );
 
@@ -4718,25 +4292,20 @@ public class DataFlowAnalyzer
 			{
 				if ( ModelBindingManager.getModel( table ) instanceof Table )
 				{
-					Table tableModel = (Table) ModelBindingManager
-							.getModel( table );
+					Table tableModel = (Table) ModelBindingManager.getModel( table );
 					if ( tableModel != null )
 					{
-						TableColumn columnModel = ModelFactory
-								.createTableColumn( tableModel, columnName );
-						relation.addSource(
-								new TableColumnRelationElement( columnModel ) );
+						TableColumn columnModel = ModelFactory.createTableColumn( tableModel,
+								columnName );
+						relation.addSource( new TableColumnRelationElement( columnModel ) );
 					}
 				}
-				else if ( ModelBindingManager
-						.getModel( table ) instanceof QueryTable )
+				else if ( ModelBindingManager.getModel( table ) instanceof QueryTable )
 				{
-					ResultColumn resultColumn = (ResultColumn) ModelBindingManager
-							.getModel( columnName.getSourceColumn( ) );
+					ResultColumn resultColumn = (ResultColumn) ModelBindingManager.getModel( columnName.getSourceColumn( ) );
 					if ( resultColumn != null )
 					{
-						relation.addSource( new ResultColumnRelationElement(
-								resultColumn ) );
+						relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 					}
 				}
 			}
@@ -4750,31 +4319,29 @@ public class DataFlowAnalyzer
 			return;
 
 		RecordSetRelation relation = ModelFactory.createRecordSetRelation( );
-		relation.setTarget( new ResultColumnRelationElement(
-				(ResultColumn) ModelBindingManager.getModel( column ) ) );
+		relation.setTarget( new ResultColumnRelationElement( (ResultColumn) ModelBindingManager.getModel( column ) ) );
 
 		for ( int i = 0; i < functions.size( ); i++ )
 		{
 			TFunctionCall function = functions.get( i );
 			if ( stmtStack.peek( ).getTables( ).size( ) == 1 )
 			{
-				Object tableObject = ModelBindingManager.getModel(
-						stmtStack.peek( ).getTables( ).getTable( 0 ) );
+				Object tableObject = ModelBindingManager.getModel( stmtStack.peek( )
+						.getTables( )
+						.getTable( 0 ) );
 				if ( tableObject instanceof Table )
 				{
 					Table tableModel = (Table) tableObject;
-					relation.addSource(
-							new TableRelationElement( tableModel ) );
-					relation.setAggregateFunction(
-							function.getFunctionName( ).toString( ) );
+					relation.addSource( new TableRelationElement( tableModel ) );
+					relation.setAggregateFunction( function.getFunctionName( )
+							.toString( ) );
 				}
 				else if ( tableObject instanceof QueryTable )
 				{
 					QueryTable tableModel = (QueryTable) tableObject;
-					relation.addSource(
-							new QueryTableRelationElement( tableModel ) );
-					relation.setAggregateFunction(
-							function.getFunctionName( ).toString( ) );
+					relation.addSource( new QueryTableRelationElement( tableModel ) );
+					relation.setAggregateFunction( function.getFunctionName( )
+							.toString( ) );
 				}
 			}
 		}
@@ -4801,8 +4368,7 @@ public class DataFlowAnalyzer
 
 		if ( modelObject instanceof ResultColumn )
 		{
-			relation.setTarget( new ResultColumnRelationElement(
-					(ResultColumn) modelObject ) );
+			relation.setTarget( new ResultColumnRelationElement( (ResultColumn) modelObject ) );
 
 			if ( "*".equals( ( (ResultColumn) modelObject ).getName( ) ) )
 			{
@@ -4818,8 +4384,7 @@ public class DataFlowAnalyzer
 		}
 		else if ( modelObject instanceof TableColumn )
 		{
-			relation.setTarget( new TableColumnRelationElement(
-					(TableColumn) modelObject ) );
+			relation.setTarget( new TableColumnRelationElement( (TableColumn) modelObject ) );
 
 			if ( "*".equals( ( (TableColumn) modelObject ).getName( ) ) )
 			{
@@ -4835,8 +4400,7 @@ public class DataFlowAnalyzer
 		}
 		else if ( modelObject instanceof ViewColumn )
 		{
-			relation.setTarget(
-					new ViewColumnRelationElement( (ViewColumn) modelObject ) );
+			relation.setTarget( new ViewColumnRelationElement( (ViewColumn) modelObject ) );
 
 			if ( "*".equals( ( (ViewColumn) modelObject ).getName( ) ) )
 			{
@@ -4885,15 +4449,12 @@ public class DataFlowAnalyzer
 
 							TTable tTable = stmt.tables.getTable( j );
 							if ( tTable.getObjectNameReferences( ) != null
-									&& tTable.getObjectNameReferences( )
-											.size( ) > 0 )
+									&& tTable.getObjectNameReferences( ).size( ) > 0 )
 							{
-								for ( int z = 0; z < tTable
-										.getObjectNameReferences( )
+								for ( int z = 0; z < tTable.getObjectNameReferences( )
 										.size( ); z++ )
 								{
-									TObjectName refer = tTable
-											.getObjectNameReferences( )
+									TObjectName refer = tTable.getObjectNameReferences( )
 											.getObjectName( z );
 									if ( "*".equals( getColumnName( refer ) ) )
 										continue;
@@ -4905,13 +4466,7 @@ public class DataFlowAnalyzer
 								}
 							}
 							else if ( columnName.getTableToken( ) != null
-									&& ( columnName.getTableToken( ).astext
-											.equalsIgnoreCase(
-													tTable.getName( ) )
-											|| columnName
-													.getTableToken( ).astext
-															.equalsIgnoreCase(
-																	tTable.getAliasName( ) ) ) )
+									&& ( columnName.getTableToken( ).astext.equalsIgnoreCase( tTable.getName( ) ) || columnName.getTableToken( ).astext.equalsIgnoreCase( tTable.getAliasName( ) ) ) )
 							{
 								table = tTable;
 								break;
@@ -4942,51 +4497,38 @@ public class DataFlowAnalyzer
 				TTable table = tables.get( k );
 				if ( table != null )
 				{
-					if ( ModelBindingManager
-							.getModel( table ) instanceof Table )
+					if ( ModelBindingManager.getModel( table ) instanceof Table )
 					{
-						Table tableModel = (Table) ModelBindingManager
-								.getModel( table );
+						Table tableModel = (Table) ModelBindingManager.getModel( table );
 						if ( tableModel != null )
 						{
 							if ( !isStar
-									&& getColumnName( columnName )
-											.equals( "*" ) )
+									&& getColumnName( columnName ).equals( "*" ) )
 							{
-								TObjectName[] columns = ModelBindingManager
-										.getTableColumns( table );
+								TObjectName[] columns = ModelBindingManager.getTableColumns( table );
 								for ( int j = 0; j < columns.length; j++ )
 								{
 									TObjectName objectName = columns[j];
-									if ( "*".equals(
-											getColumnName( objectName ) ) )
+									if ( "*".equals( getColumnName( objectName ) ) )
 									{
 										continue;
 									}
-									TableColumn columnModel = ModelFactory
-											.createTableColumn( tableModel,
-													objectName );
-									relation.addSource(
-											new TableColumnRelationElement(
-													columnModel ) );
+									TableColumn columnModel = ModelFactory.createTableColumn( tableModel,
+											objectName );
+									relation.addSource( new TableColumnRelationElement( columnModel ) );
 								}
 							}
 							else
 							{
-								TableColumn columnModel = ModelFactory
-										.createTableColumn( tableModel,
-												columnName );
-								relation.addSource(
-										new TableColumnRelationElement(
-												columnModel ) );
+								TableColumn columnModel = ModelFactory.createTableColumn( tableModel,
+										columnName );
+								relation.addSource( new TableColumnRelationElement( columnModel ) );
 							}
 						}
 					}
-					else if ( ModelBindingManager
-							.getModel( table ) instanceof QueryTable )
+					else if ( ModelBindingManager.getModel( table ) instanceof QueryTable )
 					{
-						QueryTable queryTable = (QueryTable) ModelBindingManager
-								.getModel( table );
+						QueryTable queryTable = (QueryTable) ModelBindingManager.getModel( table );
 
 						TObjectNameList cteColumns = null;
 						TSelectSqlStatement subquery = null;
@@ -5015,25 +4557,20 @@ public class DataFlowAnalyzer
 						}
 
 						if ( subquery != null
-								&& subquery
-										.getSetOperatorType( ) != ESetOperatorType.none )
+								&& subquery.getSetOperatorType( ) != ESetOperatorType.none )
 						{
-							SelectSetResultSet selectSetResultSetModel = (SelectSetResultSet) ModelBindingManager
-									.getModel( subquery );
+							SelectSetResultSet selectSetResultSetModel = (SelectSetResultSet) ModelBindingManager.getModel( subquery );
 
 							if ( cteColumns != null )
 							{
 								if ( getColumnName( columnName ).equals( "*" ) )
 								{
-									for ( int j = 0; j < cteColumns
-											.size( ); j++ )
+									for ( int j = 0; j < cteColumns.size( ); j++ )
 									{
-										ResultColumn targetColumn = queryTable
-												.getColumns( ).get( j );
+										ResultColumn targetColumn = queryTable.getColumns( )
+												.get( j );
 
-										relation.addSource(
-												new ResultColumnRelationElement(
-														targetColumn ) );
+										relation.addSource( new ResultColumnRelationElement( targetColumn ) );
 									}
 									break;
 								}
@@ -5041,23 +4578,16 @@ public class DataFlowAnalyzer
 								{
 									boolean flag = false;
 
-									for ( int j = 0; j < cteColumns
-											.size( ); j++ )
+									for ( int j = 0; j < cteColumns.size( ); j++ )
 									{
-										TObjectName sourceColumn = cteColumns
-												.getObjectName( j );
+										TObjectName sourceColumn = cteColumns.getObjectName( j );
 
-										if ( getColumnName( sourceColumn )
-												.equalsIgnoreCase(
-														getColumnName(
-																columnName ) ) )
+										if ( getColumnName( sourceColumn ).equalsIgnoreCase( getColumnName( columnName ) ) )
 										{
-											ResultColumn targetColumn = queryTable
-													.getColumns( ).get( j );
+											ResultColumn targetColumn = queryTable.getColumns( )
+													.get( j );
 
-											relation.addSource(
-													new ResultColumnRelationElement(
-															targetColumn ) );
+											relation.addSource( new ResultColumnRelationElement( targetColumn ) );
 											flag = true;
 											break;
 										}
@@ -5067,16 +4597,13 @@ public class DataFlowAnalyzer
 									{
 										break;
 									}
-									else if ( columnIndex < selectSetResultSetModel
-											.getColumns( ).size( )
+									else if ( columnIndex < selectSetResultSetModel.getColumns( )
+											.size( )
 											&& columnIndex != -1 )
 									{
-										ResultColumn targetColumn = queryTable
-												.getColumns( )
+										ResultColumn targetColumn = queryTable.getColumns( )
 												.get( columnIndex );
-										relation.addSource(
-												new ResultColumnRelationElement(
-														targetColumn ) );
+										relation.addSource( new ResultColumnRelationElement( targetColumn ) );
 										break;
 									}
 								}
@@ -5085,21 +4612,17 @@ public class DataFlowAnalyzer
 							{
 								if ( getColumnName( columnName ).equals( "*" ) )
 								{
-									for ( int j = 0; j < selectSetResultSetModel
-											.getColumns( ).size( ); j++ )
+									for ( int j = 0; j < selectSetResultSetModel.getColumns( )
+											.size( ); j++ )
 									{
-										ResultColumn sourceColumn = selectSetResultSetModel
-												.getColumns( ).get( j );
+										ResultColumn sourceColumn = selectSetResultSetModel.getColumns( )
+												.get( j );
 
-										ResultColumn targetColumn = ModelFactory
-												.createSelectSetResultColumn(
-														queryTable,
-														sourceColumn,
-														j );
+										ResultColumn targetColumn = ModelFactory.createSelectSetResultColumn( queryTable,
+												sourceColumn,
+												j );
 
-										relation.addSource(
-												new ResultColumnRelationElement(
-														targetColumn ) );
+										relation.addSource( new ResultColumnRelationElement( targetColumn ) );
 									}
 									break;
 								}
@@ -5107,26 +4630,20 @@ public class DataFlowAnalyzer
 								{
 									boolean flag = false;
 
-									for ( int j = 0; j < selectSetResultSetModel
-											.getColumns( ).size( ); j++ )
+									for ( int j = 0; j < selectSetResultSetModel.getColumns( )
+											.size( ); j++ )
 									{
-										ResultColumn sourceColumn = selectSetResultSetModel
-												.getColumns( ).get( j );
+										ResultColumn sourceColumn = selectSetResultSetModel.getColumns( )
+												.get( j );
 
 										if ( sourceColumn.getName( )
-												.equalsIgnoreCase(
-														getColumnName(
-																columnName ) ) )
+												.equalsIgnoreCase( getColumnName( columnName ) ) )
 										{
-											ResultColumn targetColumn = ModelFactory
-													.createSelectSetResultColumn(
-															queryTable,
-															sourceColumn,
-															j );
+											ResultColumn targetColumn = ModelFactory.createSelectSetResultColumn( queryTable,
+													sourceColumn,
+													j );
 
-											relation.addSource(
-													new ResultColumnRelationElement(
-															targetColumn ) );
+											relation.addSource( new ResultColumnRelationElement( targetColumn ) );
 											flag = true;
 											break;
 										}
@@ -5136,21 +4653,16 @@ public class DataFlowAnalyzer
 									{
 										break;
 									}
-									else if ( columnIndex < selectSetResultSetModel
-											.getColumns( ).size( )
+									else if ( columnIndex < selectSetResultSetModel.getColumns( )
+											.size( )
 											&& columnIndex != -1 )
 									{
-										ResultColumn targetColumn = ModelFactory
-												.createSelectSetResultColumn(
-														queryTable,
-														selectSetResultSetModel
-																.getColumns( )
-																.get( columnIndex ),
-														columnIndex );
+										ResultColumn targetColumn = ModelFactory.createSelectSetResultColumn( queryTable,
+												selectSetResultSetModel.getColumns( )
+														.get( columnIndex ),
+												columnIndex );
 
-										relation.addSource(
-												new ResultColumnRelationElement(
-														targetColumn ) );
+										relation.addSource( new ResultColumnRelationElement( targetColumn ) );
 										break;
 									}
 								}
@@ -5158,48 +4670,37 @@ public class DataFlowAnalyzer
 
 							if ( columnName.getSourceColumn( ) != null )
 							{
-								Object model = ModelBindingManager.getModel(
-										columnName.getSourceColumn( ) );
+								Object model = ModelBindingManager.getModel( columnName.getSourceColumn( ) );
 								if ( model instanceof ResultColumn )
 								{
 									ResultColumn resultColumn = (ResultColumn) model;
-									relation.addSource(
-											new ResultColumnRelationElement(
-													resultColumn ) );
+									relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 								}
 							}
 							else if ( columnName.getSourceTable( ) != null )
 							{
-								Object tablModel = ModelBindingManager.getModel(
-										columnName.getSourceTable( ) );
+								Object tablModel = ModelBindingManager.getModel( columnName.getSourceTable( ) );
 								if ( tablModel instanceof Table )
 								{
-									Object model = ModelBindingManager.getModel(
-											new Pair<Table, TObjectName>(
-													(Table) tablModel,
-													columnName ) );
+									Object model = ModelBindingManager.getModel( new Pair<Table, TObjectName>( (Table) tablModel,
+											columnName ) );
 									if ( model instanceof TableColumn )
 									{
-										relation.addSource(
-												new TableColumnRelationElement(
-														(TableColumn) model ) );
+										relation.addSource( new TableColumnRelationElement( (TableColumn) model ) );
 									}
 								}
 							}
 						}
 						else
 						{
-							List<ResultColumn> columns = queryTable
-									.getColumns( );
+							List<ResultColumn> columns = queryTable.getColumns( );
 							if ( getColumnName( columnName ).equals( "*" ) )
 							{
 								for ( int j = 0; j < queryTable.getColumns( )
 										.size( ); j++ )
 								{
-									relation.addSource(
-											new ResultColumnRelationElement(
-													queryTable.getColumns( )
-															.get( j ) ) );
+									relation.addSource( new ResultColumnRelationElement( queryTable.getColumns( )
+											.get( j ) ) );
 								}
 							}
 							else
@@ -5209,18 +4710,12 @@ public class DataFlowAnalyzer
 									for ( k = 0; k < columns.size( ); k++ )
 									{
 										ResultColumn column = columns.get( k );
-										if ( SQLUtil
-												.trimObjectName( getColumnName(
-														columnName ) )
-												.equalsIgnoreCase( SQLUtil
-														.trimObjectName( column
-																.getName( ) ) ) )
+										if ( SQLUtil.trimObjectName( getColumnName( columnName ) )
+												.equalsIgnoreCase( SQLUtil.trimObjectName( column.getName( ) ) ) )
 										{
 											if ( !column.equals( modelObject ) )
 											{
-												relation.addSource(
-														new ResultColumnRelationElement(
-																column ) );
+												relation.addSource( new ResultColumnRelationElement( column ) );
 											}
 											break;
 										}
@@ -5230,71 +4725,47 @@ public class DataFlowAnalyzer
 								{
 									if ( columnName.getSourceColumn( ) != null )
 									{
-										Object model = ModelBindingManager
-												.getModel( columnName
-														.getSourceColumn( ) );
+										Object model = ModelBindingManager.getModel( columnName.getSourceColumn( ) );
 										if ( model instanceof ResultColumn )
 										{
 											ResultColumn resultColumn = (ResultColumn) model;
-											relation.addSource(
-													new ResultColumnRelationElement(
-															resultColumn ) );
+											relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 										}
 									}
-									else if ( columnName
-											.getSourceTable( ) != null )
+									else if ( columnName.getSourceTable( ) != null )
 									{
-										Object tableModel = ModelBindingManager
-												.getModel( columnName
-														.getSourceTable( ) );
+										Object tableModel = ModelBindingManager.getModel( columnName.getSourceTable( ) );
 										if ( tableModel instanceof Table )
 										{
-											Object model = ModelBindingManager
-													.getModel(
-															new Pair<Table, TObjectName>(
-																	(Table) tableModel,
-																	columnName ) );
+											Object model = ModelBindingManager.getModel( new Pair<Table, TObjectName>( (Table) tableModel,
+													columnName ) );
 											if ( model instanceof TableColumn )
 											{
-												relation.addSource(
-														new TableColumnRelationElement(
-																(TableColumn) model ) );
+												relation.addSource( new TableColumnRelationElement( (TableColumn) model ) );
 											}
 										}
 										else if ( tableModel instanceof QueryTable )
 										{
-											List<ResultColumn> queryColumns = ( (QueryTable) tableModel )
-													.getColumns( );
+											List<ResultColumn> queryColumns = ( (QueryTable) tableModel ).getColumns( );
 											boolean flag = false;
-											for ( int l = 0; l < queryColumns
-													.size( ); l++ )
+											for ( int l = 0; l < queryColumns.size( ); l++ )
 											{
-												ResultColumn column = queryColumns
-														.get( l );
-												if ( getColumnName( columnName )
-														.equalsIgnoreCase(
-																column.getName( ) ) )
+												ResultColumn column = queryColumns.get( l );
+												if ( getColumnName( columnName ).equalsIgnoreCase( column.getName( ) ) )
 												{
-													if ( !column.equals(
-															modelObject ) )
+													if ( !column.equals( modelObject ) )
 													{
-														relation.addSource(
-																new ResultColumnRelationElement(
-																		column ) );
+														relation.addSource( new ResultColumnRelationElement( column ) );
 														flag = true;
 													}
 													break;
 												}
 											}
 											if ( !flag
-													&& columnIndex < queryColumns
-															.size( )
+													&& columnIndex < queryColumns.size( )
 													&& columnIndex != -1 )
 											{
-												relation.addSource(
-														new ResultColumnRelationElement(
-																queryColumns
-																		.get( columnIndex ) ) );
+												relation.addSource( new ResultColumnRelationElement( queryColumns.get( columnIndex ) ) );
 											}
 										}
 									}
@@ -5328,11 +4799,8 @@ public class DataFlowAnalyzer
 			if ( isAggregateFunction( column.getExpr( ).getFunctionCall( ) ) )
 			{
 				relation = ModelFactory.createRecordSetRelation( );
-				relation.setTarget( new ResultColumnRelationElement(
-						(ResultColumn) ModelBindingManager
-								.getModel( column ) ) );
-				( (RecordSetRelation) relation ).setAggregateFunction( column
-						.getExpr( )
+				relation.setTarget( new ResultColumnRelationElement( (ResultColumn) ModelBindingManager.getModel( column ) ) );
+				( (RecordSetRelation) relation ).setAggregateFunction( column.getExpr( )
 						.getFunctionCall( )
 						.getFunctionName( )
 						.toString( ) );
@@ -5340,9 +4808,7 @@ public class DataFlowAnalyzer
 			else
 			{
 				relation = ModelFactory.createImpactRelation( );
-				relation.setTarget( new ResultColumnRelationElement(
-						(ResultColumn) ModelBindingManager
-								.getModel( column ) ) );
+				relation.setTarget( new ResultColumnRelationElement( (ResultColumn) ModelBindingManager.getModel( column ) ) );
 			}
 
 			for ( int j = 0; j < objectNames.size( ); j++ )
@@ -5352,29 +4818,22 @@ public class DataFlowAnalyzer
 				TTable table = ModelBindingManager.getTable( stmt, columnName );
 				if ( table != null )
 				{
-					if ( ModelBindingManager
-							.getModel( table ) instanceof Table )
+					if ( ModelBindingManager.getModel( table ) instanceof Table )
 					{
-						Table tableModel = (Table) ModelBindingManager
-								.getModel( table );
+						Table tableModel = (Table) ModelBindingManager.getModel( table );
 						if ( tableModel != null )
 						{
-							TableColumn columnModel = ModelFactory
-									.createTableColumn( tableModel,
-											columnName );
-							relation.addSource( new TableColumnRelationElement(
-									columnModel ) );
+							TableColumn columnModel = ModelFactory.createTableColumn( tableModel,
+									columnName );
+							relation.addSource( new TableColumnRelationElement( columnModel ) );
 						}
 					}
-					else if ( ModelBindingManager
-							.getModel( table ) instanceof QueryTable )
+					else if ( ModelBindingManager.getModel( table ) instanceof QueryTable )
 					{
-						ResultColumn resultColumn = (ResultColumn) ModelBindingManager
-								.getModel( columnName.getSourceColumn( ) );
+						ResultColumn resultColumn = (ResultColumn) ModelBindingManager.getModel( columnName.getSourceColumn( ) );
 						if ( resultColumn != null )
 						{
-							relation.addSource( new ResultColumnRelationElement(
-									resultColumn ) );
+							relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 						}
 					}
 				}
@@ -5405,31 +4864,27 @@ public class DataFlowAnalyzer
 				TResultColumn column = columns.getResultColumn( i );
 
 				AbstractRelation relation;
-				if ( isAggregateFunction(
-						column.getExpr( ).getFunctionCall( ) ) )
+				if ( isAggregateFunction( column.getExpr( ).getFunctionCall( ) ) )
 				{
 					relation = ModelFactory.createRecordSetRelation( );
-					relation.setTarget( new ResultColumnRelationElement(
-							(ResultColumn) ModelBindingManager
-									.getModel( column ) ) );
-					( (RecordSetRelation) relation )
-							.setAggregateFunction( column.getExpr( )
-									.getFunctionCall( )
-									.getFunctionName( )
-									.toString( ) );
+					relation.setTarget( new ResultColumnRelationElement( (ResultColumn) ModelBindingManager.getModel( column ) ) );
+					( (RecordSetRelation) relation ).setAggregateFunction( column.getExpr( )
+							.getFunctionCall( )
+							.getFunctionName( )
+							.toString( ) );
 				}
 				else
 				{
 					relation = ModelFactory.createImpactRelation( );
-					if(column.getExpr( ).getExpressionType( ) == EExpressionType.assignment_t){
-						relation.setTarget( new ResultColumnRelationElement(
-								(ResultColumn) ModelBindingManager
-										.getModel( column.getExpr( ).getLeftOperand( ).getObjectOperand( ) ) ) );
+					if ( column.getExpr( ).getExpressionType( ) == EExpressionType.assignment_t )
+					{
+						relation.setTarget( new ResultColumnRelationElement( (ResultColumn) ModelBindingManager.getModel( column.getExpr( )
+								.getLeftOperand( )
+								.getObjectOperand( ) ) ) );
 					}
-					else{
-						relation.setTarget( new ResultColumnRelationElement(
-								(ResultColumn) ModelBindingManager
-										.getModel( column ) ) );
+					else
+					{
+						relation.setTarget( new ResultColumnRelationElement( (ResultColumn) ModelBindingManager.getModel( column ) ) );
 					}
 				}
 
@@ -5441,31 +4896,22 @@ public class DataFlowAnalyzer
 							columnName );
 					if ( table != null )
 					{
-						if ( ModelBindingManager
-								.getModel( table ) instanceof Table )
+						if ( ModelBindingManager.getModel( table ) instanceof Table )
 						{
-							Table tableModel = (Table) ModelBindingManager
-									.getModel( table );
+							Table tableModel = (Table) ModelBindingManager.getModel( table );
 							if ( tableModel != null )
 							{
-								TableColumn columnModel = ModelFactory
-										.createTableColumn( tableModel,
-												columnName );
-								relation.addSource(
-										new TableColumnRelationElement(
-												columnModel ) );
+								TableColumn columnModel = ModelFactory.createTableColumn( tableModel,
+										columnName );
+								relation.addSource( new TableColumnRelationElement( columnModel ) );
 							}
 						}
-						else if ( ModelBindingManager
-								.getModel( table ) instanceof QueryTable )
+						else if ( ModelBindingManager.getModel( table ) instanceof QueryTable )
 						{
-							ResultColumn resultColumn = (ResultColumn) ModelBindingManager
-									.getModel( columnName.getSourceColumn( ) );
+							ResultColumn resultColumn = (ResultColumn) ModelBindingManager.getModel( columnName.getSourceColumn( ) );
 							if ( resultColumn != null )
 							{
-								relation.addSource(
-										new ResultColumnRelationElement(
-												resultColumn ) );
+								relation.addSource( new ResultColumnRelationElement( resultColumn ) );
 							}
 						}
 					}
@@ -5506,16 +4952,14 @@ public class DataFlowAnalyzer
 		public boolean exprVisit( TParseTreeNode pNode, boolean isLeafNode )
 		{
 			TExpression lcexpr = (TExpression) pNode;
-			if ( lcexpr
-					.getExpressionType( ) == EExpressionType.simple_constant_t )
+			if ( lcexpr.getExpressionType( ) == EExpressionType.simple_constant_t )
 			{
 				if ( lcexpr.getConstantOperand( ) != null )
 				{
 					constants.add( lcexpr.getConstantOperand( ) );
 				}
 			}
-			else if ( lcexpr
-					.getExpressionType( ) == EExpressionType.simple_object_name_t )
+			else if ( lcexpr.getExpressionType( ) == EExpressionType.simple_object_name_t )
 			{
 				if ( lcexpr.getObjectOperand( ) != null
 						&& !isFunctionName( lcexpr.getObjectOperand( ) ) )
@@ -5523,8 +4967,7 @@ public class DataFlowAnalyzer
 					objectNames.add( lcexpr.getObjectOperand( ) );
 				}
 			}
-			else if ( lcexpr
-					.getExpressionType( ) == EExpressionType.function_t )
+			else if ( lcexpr.getExpressionType( ) == EExpressionType.function_t )
 			{
 				TFunctionCall func = lcexpr.getFunctionCall( );
 				if ( isAggregateFunction( func ) )
@@ -5593,10 +5036,8 @@ public class DataFlowAnalyzer
 				TWhenClauseItemList list = expr.getWhenClauseItemList( );
 				for ( int i = 0; i < list.size( ); i++ )
 				{
-					TWhenClauseItem element = (TWhenClauseItem) list
-							.getElement( i );
-					( ( (TWhenClauseItem) element ).getReturn_expr( ) )
-							.inOrderTraverse( this );
+					TWhenClauseItem element = (TWhenClauseItem) list.getElement( i );
+					( ( (TWhenClauseItem) element ).getReturn_expr( ) ).inOrderTraverse( this );
 				}
 			}
 			else if ( lcexpr.getSubQuery( ) != null )
@@ -5613,8 +5054,7 @@ public class DataFlowAnalyzer
 		{
 			if ( select.getResultColumnList( ) != null )
 			{
-				for ( int i = 0; i < select.getResultColumnList( )
-						.size( ); i++ )
+				for ( int i = 0; i < select.getResultColumnList( ).size( ); i++ )
 				{
 					select.getResultColumnList( )
 							.getResultColumn( i )
@@ -5648,8 +5088,7 @@ public class DataFlowAnalyzer
 					|| ( t == EExpressionType.group_comparison_t )
 					|| ( t == EExpressionType.in_t )
 					|| ( t == EExpressionType.pattern_matching_t )
-					|| ( t == EExpressionType.left_join_t )
-					|| ( t == EExpressionType.right_join_t ) );
+					|| ( t == EExpressionType.left_join_t ) || ( t == EExpressionType.right_join_t ) );
 		}
 
 		@Override
@@ -5661,17 +5100,14 @@ public class DataFlowAnalyzer
 				TExpression leftExpr = expr.getLeftOperand( );
 				columnsInExpr leftVisitor = new columnsInExpr( );
 				leftExpr.inOrderTraverse( leftVisitor );
-				List<TObjectName> leftObjectNames = leftVisitor
-						.getObjectNames( );
+				List<TObjectName> leftObjectNames = leftVisitor.getObjectNames( );
 
 				TExpression rightExpr = expr.getRightOperand( );
 				columnsInExpr rightVisitor = new columnsInExpr( );
 				rightExpr.inOrderTraverse( rightVisitor );
-				List<TObjectName> rightObjectNames = rightVisitor
-						.getObjectNames( );
+				List<TObjectName> rightObjectNames = rightVisitor.getObjectNames( );
 
-				if ( !leftObjectNames.isEmpty( )
-						&& !rightObjectNames.isEmpty( ) )
+				if ( !leftObjectNames.isEmpty( ) && !rightObjectNames.isEmpty( ) )
 				{
 					TCustomSqlStatement stmt = stmtStack.peek( );
 
@@ -5680,12 +5116,22 @@ public class DataFlowAnalyzer
 						TObjectName leftObjectName = leftObjectNames.get( i );
 						TTable leftTable = ModelBindingManager.getTable( stmt,
 								leftObjectName );
+						if ( leftTable == null )
+						{
+							leftTable = leftObjectName.getSourceTable( );
+						}
+
+						if ( leftTable == null )
+						{
+							leftTable = ModelBindingManager.guessTable( stmt,
+									leftObjectName );
+						}
+						
 						if ( leftTable != null )
 						{
 							for ( int j = 0; j < rightObjectNames.size( ); j++ )
 							{
-								JoinRelation joinRelation = ModelFactory
-										.createJoinRelation( );
+								JoinRelation joinRelation = ModelFactory.createJoinRelation( );
 								if ( joinType != null )
 								{
 									joinRelation.setJoinType( joinType );
@@ -5695,135 +5141,105 @@ public class DataFlowAnalyzer
 									if ( expr.getLeftOperand( )
 											.isOracleOuterJoin( ) )
 									{
-										joinRelation
-												.setJoinType( EJoinType.right );
+										joinRelation.setJoinType( EJoinType.right );
 									}
 									else if ( expr.getRightOperand( )
 											.isOracleOuterJoin( ) )
 									{
-										joinRelation
-												.setJoinType( EJoinType.left );
+										joinRelation.setJoinType( EJoinType.left );
 									}
-									else if ( expr
-											.getExpressionType( ) == EExpressionType.left_join_t )
+									else if ( expr.getExpressionType( ) == EExpressionType.left_join_t )
 									{
-										joinRelation
-												.setJoinType( EJoinType.left );
+										joinRelation.setJoinType( EJoinType.left );
 									}
-									else if ( expr
-											.getExpressionType( ) == EExpressionType.right_join_t )
+									else if ( expr.getExpressionType( ) == EExpressionType.right_join_t )
 									{
-										joinRelation
-												.setJoinType( EJoinType.right );
+										joinRelation.setJoinType( EJoinType.right );
 									}
 									else
 									{
-										joinRelation
-												.setJoinType( EJoinType.inner );
+										joinRelation.setJoinType( EJoinType.inner );
 									}
 								}
 
-								joinRelation
-										.setJoinClauseType( joinClauseType );
-								joinRelation
-										.setJoinCondition( expr.toScript( ) );
+								joinRelation.setJoinClauseType( joinClauseType );
+								joinRelation.setJoinCondition( expr.toScript( ) );
 
-								if ( ModelBindingManager.getModel(
-										leftTable ) instanceof Table )
+								if ( ModelBindingManager.getModel( leftTable ) instanceof Table )
 								{
-									Table tableModel = (Table) ModelBindingManager
-											.getModel( leftTable );
+									Table tableModel = (Table) ModelBindingManager.getModel( leftTable );
 									if ( tableModel != null )
 									{
-										TableColumn columnModel = ModelFactory
-												.createTableColumn( tableModel,
-														leftObjectName );
-										joinRelation.addSource(
-												new TableColumnRelationElement(
-														columnModel ) );
+										TableColumn columnModel = ModelFactory.createTableColumn( tableModel,
+												leftObjectName );
+										joinRelation.addSource( new TableColumnRelationElement( columnModel ) );
 									}
 								}
-								else if ( ModelBindingManager.getModel(
-										leftTable ) instanceof QueryTable )
+								else if ( ModelBindingManager.getModel( leftTable ) instanceof QueryTable )
 								{
-									if ( leftObjectName
-											.getSourceColumn( ) != null )
+									if ( leftObjectName.getSourceColumn( ) != null )
 									{
-										ResultColumn resultColumn = (ResultColumn) ModelBindingManager
-												.getModel( leftObjectName
-														.getSourceColumn( ) );
+										ResultColumn resultColumn = (ResultColumn) ModelBindingManager.getModel( leftObjectName.getSourceColumn( ) );
 										if ( resultColumn != null )
 										{
-											joinRelation.addSource(
-													new ResultColumnRelationElement(
-															resultColumn ) );
+											joinRelation.addSource( new ResultColumnRelationElement( resultColumn ) );
 										}
-									}else{
-										QueryTable table = (QueryTable) ModelBindingManager
-												.getModel( leftTable );
-										ResultColumn resultColumn = matchResultColumn(
-												table.getColumns( ),
+									}
+									else
+									{
+										QueryTable table = (QueryTable) ModelBindingManager.getModel( leftTable );
+										ResultColumn resultColumn = matchResultColumn( table.getColumns( ),
 												leftObjectName );
 										if ( resultColumn != null )
 										{
-											joinRelation.setTarget(
-													new ResultColumnRelationElement(
-															resultColumn ) );
+											joinRelation.setTarget( new ResultColumnRelationElement( resultColumn ) );
 										}
 									}
 								}
 
-								TObjectName rightObjectName = rightObjectNames
-										.get( j );
-								TTable rightTable = ModelBindingManager
-										.getTable( stmt, rightObjectName );
+								TObjectName rightObjectName = rightObjectNames.get( j );
+								TTable rightTable = ModelBindingManager.getTable( stmt,
+										rightObjectName );
 								if ( rightTable == null )
 								{
-									rightTable = rightObjectName
-											.getSourceTable( );
+									rightTable = rightObjectName.getSourceTable( );
 								}
-
-								if ( ModelBindingManager.getModel(
-										rightTable ) instanceof Table )
+								
+								if ( rightTable == null )
 								{
-									Table tableModel = (Table) ModelBindingManager
-											.getModel( rightTable );
+									rightTable = ModelBindingManager.guessTable( stmt,
+											rightObjectName );
+								}
+								
+
+								if ( ModelBindingManager.getModel( rightTable ) instanceof Table )
+								{
+									Table tableModel = (Table) ModelBindingManager.getModel( rightTable );
 									if ( tableModel != null )
 									{
-										TableColumn columnModel = ModelFactory
-												.createTableColumn( tableModel,
-														rightObjectName );
-										joinRelation.setTarget(
-												new TableColumnRelationElement(
-														columnModel ) );
+										TableColumn columnModel = ModelFactory.createTableColumn( tableModel,
+												rightObjectName );
+										joinRelation.setTarget( new TableColumnRelationElement( columnModel ) );
 									}
 								}
-								else if ( ModelBindingManager.getModel(
-										rightTable ) instanceof QueryTable )
+								else if ( ModelBindingManager.getModel( rightTable ) instanceof QueryTable )
 								{
-									if ( rightObjectName
-											.getSourceColumn( ) != null )
+									if ( rightObjectName.getSourceColumn( ) != null )
 									{
-										ResultColumn resultColumn = (ResultColumn) ModelBindingManager
-												.getModel( rightObjectName
-														.getSourceColumn( ) );
+										ResultColumn resultColumn = (ResultColumn) ModelBindingManager.getModel( rightObjectName.getSourceColumn( ) );
 										if ( resultColumn != null )
 										{
-											joinRelation.setTarget(
-													new ResultColumnRelationElement(
-															resultColumn ) );
+											joinRelation.setTarget( new ResultColumnRelationElement( resultColumn ) );
 										}
-									}else{
-										QueryTable table = (QueryTable) ModelBindingManager
-												.getModel( rightTable );
-										ResultColumn resultColumn = matchResultColumn(
-												table.getColumns( ),
+									}
+									else
+									{
+										QueryTable table = (QueryTable) ModelBindingManager.getModel( rightTable );
+										ResultColumn resultColumn = matchResultColumn( table.getColumns( ),
 												rightObjectName );
 										if ( resultColumn != null )
 										{
-											joinRelation.setTarget(
-													new ResultColumnRelationElement(
-															resultColumn ) );
+											joinRelation.setTarget( new ResultColumnRelationElement( resultColumn ) );
 										}
 									}
 								}
@@ -5840,23 +5256,15 @@ public class DataFlowAnalyzer
 	{
 		if ( args.length < 1 )
 		{
-			System.out.println(
-					"Usage: java DataFlowAnalyzer [/f <path_to_sql_file>] [/d <path_to_directory_includes_sql_files>] [/s [/text]] [/t <database type>] [/o <output file path>]" );
-			System.out.println(
-					"/f: Option, specify the sql file path to analyze dataflow relation." );
-			System.out.println(
-					"/d: Option, specify the sql directory path to analyze dataflow relation." );
+			System.out.println( "Usage: java DataFlowAnalyzer [/f <path_to_sql_file>] [/d <path_to_directory_includes_sql_files>] [/s [/text]] [/t <database type>] [/o <output file path>]" );
+			System.out.println( "/f: Option, specify the sql file path to analyze dataflow relation." );
+			System.out.println( "/d: Option, specify the sql directory path to analyze dataflow relation." );
 			System.out.println( "/j: Option, analyze the join relation." );
-			System.out.println(
-					"/s: Option, simple output, ignore the intermediate results." );
-			System.out.println(
-					"/text: Option, print the plain text format output." );
-			System.out.println(
-					"/t: Option, set the database type. Support oracle, mysql, mssql, db2, netezza, teradata, informix, sybase, postgresql, hive, greenplum and redshift, the default type is oracle" );
-			System.out.println(
-					"/o: Option, write the output stream to the specified file." );
-			System.out.println(
-					"/log: Option, generate a dataflow.log file to log information." );
+			System.out.println( "/s: Option, simple output, ignore the intermediate results." );
+			System.out.println( "/text: Option, print the plain text format output." );
+			System.out.println( "/t: Option, set the database type. Support oracle, mysql, mssql, db2, netezza, teradata, informix, sybase, postgresql, hive, greenplum and redshift, the default type is oracle" );
+			System.out.println( "/o: Option, write the output stream to the specified file." );
+			System.out.println( "/log: Option, generate a dataflow.log file to log information." );
 			return;
 		}
 
@@ -5886,8 +5294,7 @@ public class DataFlowAnalyzer
 		}
 		else
 		{
-			System.out.println(
-					"Please specify a sql file path or directory path to analyze dlineage." );
+			System.out.println( "Please specify a sql file path or directory path to analyze dlineage." );
 			return;
 		}
 
@@ -6073,22 +5480,19 @@ public class DataFlowAnalyzer
 			EDbVendor vendor = object.getGsqlparser( ).getDbVendor( );
 			if ( vendor == EDbVendor.dbvteradata )
 			{
-				boolean result = TERADATA_BUILTIN_FUNCTIONS
-						.contains( object.toString( ) );
+				boolean result = TERADATA_BUILTIN_FUNCTIONS.contains( object.toString( ) );
 				if ( result )
 				{
 					return true;
 				}
 			}
 
-			List<String> versions = functionChecker
-					.getAvailableDbVersions( vendor );
+			List<String> versions = functionChecker.getAvailableDbVersions( vendor );
 			if ( versions != null && versions.size( ) > 0 )
 			{
 				for ( int i = 0; i < versions.size( ); i++ )
 				{
-					boolean result = functionChecker.isBuiltInFunction(
-							object.toString( ),
+					boolean result = functionChecker.isBuiltInFunction( object.toString( ),
 							object.getGsqlparser( ).getDbVendor( ),
 							versions.get( i ) );
 					if ( !result )
@@ -6097,8 +5501,7 @@ public class DataFlowAnalyzer
 					}
 				}
 
-				boolean result = TERADATA_BUILTIN_FUNCTIONS
-						.contains( object.toString( ) );
+				boolean result = TERADATA_BUILTIN_FUNCTIONS.contains( object.toString( ) );
 				if ( result )
 				{
 					return true;

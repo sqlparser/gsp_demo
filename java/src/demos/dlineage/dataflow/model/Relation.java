@@ -9,4 +9,6 @@ public interface Relation
 	RelationElement<?>[] getSources( );
 
 	RelationType getRelationType( );
+	
+	EffectType getEffectType( );
 }

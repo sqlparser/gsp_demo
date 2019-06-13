@@ -11,6 +11,8 @@ public abstract class AbstractRelation implements Relation
 
 	private int id;
 
+	private EffectType effectType;
+
 	protected RelationElement<?> target;
 	protected List<RelationElement<?>> sources = new ArrayList<RelationElement<?>>( );
 
@@ -46,4 +48,15 @@ public abstract class AbstractRelation implements Relation
 			sources.add( source );
 		}
 	}
+
+	public EffectType getEffectType( )
+	{
+		return effectType;
+	}
+
+	public void setEffectType( EffectType effectType )
+	{
+		this.effectType = effectType;
+	}
+
 }
