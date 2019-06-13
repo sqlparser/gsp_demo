@@ -1,11 +1,11 @@
 
 package demos.dlineage.dataflow.model.xml;
 
-import java.util.List;
-
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
+
+import java.util.List;
 
 public class relation implements Cloneable
 {
@@ -15,7 +15,7 @@ public class relation implements Cloneable
 
 	@Attribute(required = false)
 	private String type;
-	
+
 	@Attribute(required = false)
 	private String effectType;
 
@@ -106,17 +106,14 @@ public class relation implements Cloneable
 
 	public boolean isDataFlow( )
 	{
-		return "dataflow".equals( type );
+		return "fdd".equals( type );
 	}
-	
-	public String getEffectType( )
-	{
+
+	public String getEffectType() {
 		return effectType;
 	}
 
-	
-	public void setEffectType( String effectType )
-	{
+	public void setEffectType(String effectType) {
 		this.effectType = effectType;
 	}
 

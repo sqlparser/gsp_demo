@@ -2,5 +2,5 @@
 package demos.dlineage.dataflow.model;
 
 public enum RelationType {
-	dataflow, dataflow_recordset, impact, join
+    fdd, fddi, fdr, frd, join
 }

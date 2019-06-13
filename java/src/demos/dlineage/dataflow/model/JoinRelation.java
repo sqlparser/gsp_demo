@@ -3,53 +3,45 @@ package demos.dlineage.dataflow.model;
 
 import gudusoft.gsqlparser.EJoinType;
 
-public class JoinRelation extends AbstractRelation
-{
+public class JoinRelation extends AbstractRelation {
 
-	public static enum JoinClauseType {
-		on, where
-	}
+    public static enum JoinClauseType {
+        on, where
+    }
 
-	private EJoinType joinType;
+    private EJoinType joinType;
 
-	private String joinCondition;
+    private String joinCondition;
 
-	private JoinClauseType joinClauseType;
+    private JoinClauseType joinClauseType;
 
-	@Override
-	public RelationType getRelationType( )
-	{
-		return RelationType.join;
-	}
+    @Override
+    public RelationType getRelationType() {
+        return RelationType.join;
+    }
 
-	public EJoinType getJoinType( )
-	{
-		return joinType;
-	}
+    public EJoinType getJoinType() {
+        return joinType;
+    }
 
-	public void setJoinType( EJoinType joinType )
-	{
-		this.joinType = joinType;
-	}
+    public void setJoinType(EJoinType joinType) {
+        this.joinType = joinType;
+    }
 
-	public String getJoinCondition( )
-	{
-		return joinCondition;
-	}
+    public String getJoinCondition() {
+        return joinCondition;
+    }
 
-	public void setJoinCondition( String joinCondition )
-	{
-		this.joinCondition = joinCondition;
-	}
+    public void setJoinCondition(String joinCondition) {
+        this.joinCondition = joinCondition;
+    }
 
-	public JoinClauseType getJoinClauseType( )
-	{
-		return joinClauseType;
-	}
+    public JoinClauseType getJoinClauseType() {
+        return joinClauseType;
+    }
 
-	public void setJoinClauseType( JoinClauseType joinClauseType )
-	{
-		this.joinClauseType = joinClauseType;
-	}
+    public void setJoinClauseType(JoinClauseType joinClauseType) {
+        this.joinClauseType = joinClauseType;
+    }
 
 }

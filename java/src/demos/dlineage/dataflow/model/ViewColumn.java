@@ -8,94 +8,82 @@ import gudusoft.gsqlparser.TSourceToken;
 import gudusoft.gsqlparser.nodes.TObjectName;
 import demos.dlineage.util.Pair;
 
-public class ViewColumn
-{
+public class ViewColumn {
 
-	private View view;
+    private View view;
 
-	private int id;
-	private String name;
+    private int id;
+    private String name;
 
-	private Pair<Long, Long> startPosition;
-	private Pair<Long, Long> endPosition;
+    private Pair<Long, Long> startPosition;
+    private Pair<Long, Long> endPosition;
 
-	private TObjectName columnObject;
-	private List<TObjectName> starLinkColumns = new ArrayList<TObjectName>( );
+    private TObjectName columnObject;
+    private List<TObjectName> starLinkColumns = new ArrayList<TObjectName>();
 
-	private int columnIndex;
+    private int columnIndex;
 
-	public ViewColumn( View view, TObjectName columnObject, int index )
-	{
-		if ( view == null || columnObject == null )
-			throw new IllegalArgumentException( "TableColumn arguments can't be null." );
+    public ViewColumn(View view, TObjectName columnObject, int index) {
+        if (view == null || columnObject == null)
+            throw new IllegalArgumentException("TableColumn arguments can't be null.");
 
-		id = ++TableColumn.TABLE_COLUMN_ID;
+        id = ++ModelBindingManager.get().TABLE_COLUMN_ID;
 
-		this.columnObject = columnObject;
+        this.columnObject = columnObject;
 
-		TSourceToken startToken = columnObject.getStartToken( );
-		TSourceToken endToken = columnObject.getEndToken( );
-		this.startPosition = new Pair<Long, Long>( startToken.lineNo,
-				startToken.columnNo );
-		this.endPosition = new Pair<Long, Long>( endToken.lineNo,
-				endToken.columnNo + endToken.astext.length( ) );
+        TSourceToken startToken = columnObject.getStartToken();
+        TSourceToken endToken = columnObject.getEndToken();
+        this.startPosition = new Pair<Long, Long>(startToken.lineNo,
+                startToken.columnNo);
+        this.endPosition = new Pair<Long, Long>(endToken.lineNo,
+                endToken.columnNo + endToken.astext.length());
 
-		if ( !"".equals( columnObject.getColumnNameOnly( ) ) )
-			this.name = columnObject.getColumnNameOnly( );
-		else
-			this.name = columnObject.toString( );
+        if (!"".equals(columnObject.getColumnNameOnly()))
+            this.name = columnObject.getColumnNameOnly();
+        else
+            this.name = columnObject.toString();
 
-		this.view = view;
-		this.columnIndex = index;
-		view.addColumn( this );
-	}
+        this.view = view;
+        this.columnIndex = index;
+        view.addColumn(this);
+    }
 
-	public View getView( )
-	{
-		return view;
-	}
+    public View getView() {
+        return view;
+    }
 
-	public int getId( )
-	{
-		return id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public String getName( )
-	{
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public Pair<Long, Long> getStartPosition( )
-	{
-		return startPosition;
-	}
+    public Pair<Long, Long> getStartPosition() {
+        return startPosition;
+    }
 
-	public Pair<Long, Long> getEndPosition( )
-	{
-		return endPosition;
-	}
+    public Pair<Long, Long> getEndPosition() {
+        return endPosition;
+    }
 
-	public TObjectName getColumnObject( )
-	{
-		return columnObject;
-	}
+    public TObjectName getColumnObject() {
+        return columnObject;
+    }
 
-	public void bindStarLinkColumns( List<TObjectName> starLinkColumns )
-	{
-		if ( starLinkColumns != null && !starLinkColumns.isEmpty( ) )
-		{
-			this.starLinkColumns = starLinkColumns;
-		}
-	}
+    public void bindStarLinkColumns(List<TObjectName> starLinkColumns) {
+        if (starLinkColumns != null && !starLinkColumns.isEmpty()) {
+            this.starLinkColumns = starLinkColumns;
+        }
+    }
 
-	public List<TObjectName> getStarLinkColumns( )
-	{
-		return starLinkColumns;
-	}
+    public List<TObjectName> getStarLinkColumns() {
+        return starLinkColumns;
+    }
 
-	public int getColumnIndex( )
-	{
-		return columnIndex;
-	}
+    public int getColumnIndex() {
+        return columnIndex;
+    }
 
 }

@@ -1,14 +1,13 @@
 
 package demos.dlineage.dataflow.model;
 
-public interface Relation
-{
+public interface Relation {
 
-	RelationElement<?> getTarget( );
+    RelationElement<?> getTarget();
 
-	RelationElement<?>[] getSources( );
+    RelationElement<?>[] getSources();
 
-	RelationType getRelationType( );
-	
-	EffectType getEffectType( );
+    RelationType getRelationType();
+
+    EffectType getEffectType();
 }
