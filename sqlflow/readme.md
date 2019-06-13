@@ -53,21 +53,21 @@ for further processing in your own program.
 ## Type of the column relationships in JSON snippet
 
 * **fdd**,  the value of target column is come from source column, such as: t = s + 2
-
-		You may check `effectType` to see how the target column is changed.
-			- `effectType = select`, the source data is from select.
-			- `effectType = insert`, the source data is from insert.
-			- `effectType = update`, the source data is from update.
-			- `effectType = merge_update`, the source data is merge update.
-			- `effectType = merege_insert`, the source data is from merege insert.
-			- `effectType = create_view`, the source data is from create view.
+	
+	You may check `effectType` to see how the target column is changed.
+		- `effectType = select`, the source data is from select.
+		- `effectType = insert`, the source data is from insert.
+		- `effectType = update`, the source data is from update.
+		- `effectType = merge_update`, the source data is merge update.
+		- `effectType = merege_insert`, the source data is from merege insert.
+		- `effectType = create_view`, the source data is from create view.
 		
-* **fddi**, the value of the target column is not derived from the source column directly, but it is effected by the source column.
+* **fddi**, the value of the target column is not derived from the source column directly, but it is affected by the source column.
 		However, it's difficult to determine this kind of relation, take this syntax for example: t=fx(s).
 		so the relationship of the source and target column is `fdd` in a function call unless we know clearly that `t` will not 
 		include value from `s`.
 		
-		In this sample SQL, the relationship of teur and kamut is fddi.
+		In this sample SQL, the relationship between teur and kamut is fddi.
 
 	```sql
 	select
@@ -82,11 +82,11 @@ for further processing in your own program.
 		
 	
 		
-* **fdr**, the value of taraget column effected by the row number of the source table. It always happens when the aggregate function is used.
-	the soruce column will be appeard in the where，group by clause. This kind of relationship may also appears between the target column and the source table.
+* **fdr**, the value of target column affected by the row number of the source table. It always happens when the aggregate function is used.
+	the source column will be appeared in the where，group by clause. This kind of relationship may also appear between the target column and the source table.
 	
 	
-* **frd**, the row number of target column is effected by the value of source column. The source column usually appears in the where clause.
+* **frd**, the row number of target column is affected by the value of source column. The source column usually appears in the where clause.
 	
 		
 The meaning of the letter in `fdd`, `fddi`, `fdr`, `frd`, f: dataflow, d: data value, r: record set.
@@ -95,7 +95,7 @@ The first letter is always f，the second letter represents the target column，
 
 
 ### fdd
-The value of target column is derived from the source column directly.
+The value of the target column is derived from the source column directly.
 ```sql
 create view vEmp(eName) as
 SELECT a.empName "eName"
@@ -106,7 +106,7 @@ Where sal > 1000
 `vEmp.eName` <- fdd <- `"eName"` <- fdd <- `scott.emp.empName`
 
 ### fdr
-The value of the target columns are influenced by a source table itself, for example by the number of records. 
+The value of the target column is influenced by a source table itself, for example by the number of records. 
 This is caused by the use of aggregate function in the query.
 ```sql
 create view vSal as
@@ -128,7 +128,7 @@ This is due to the use of aggregate function `COUNT()`, `SUM()` in the query,
 `vSal.Salary` also depends on the `scott.emp.deptno` column which is used in the 
 group by clause.
 
-The `city` column in the where clause also determine the value of `vSal.Salary`.
+The `city` column in the where clause also determines the value of `vSal.Salary`.
 
 The chain of the dataflow is:
 
@@ -172,7 +172,7 @@ so this tool record this kind of relationship as well
 `vEmp.eName` <- fdd <- `query_resultset."eName"` <- frd <- `scott.emp.sal`
 
 ### fddi
-The value of target column is depends on the value of the source column, but not come from the source column.
+The value of the target column depends on the value of the source column, but not come from the source column.
 ```sql
 select
 	case when a.kamut=1 and b.teur IS null
@@ -184,8 +184,8 @@ select
 from tbl a left join TT b on (a.key=b.key)
 ```
 
-The value of select result: `teur` depends on the source column `tbl.kamut` 
-in the case expression, although it’s value is not derived from `tbl.kamut` directly.
+The value of the select result: `teur` depends on the source column `tbl.kamut` 
+in the case expression, although it values is not derived from `tbl.kamut` directly.
 
 `query_result.teur` <- fddi <- `tbl.kamut`
 
