@@ -14,6 +14,38 @@ namespace gudusoft.gsqlparser.test.scriptWriter
     [TestClass]
     public class testScriptGenerator
     {
+        [TestMethod]
+        public virtual void testMySQLUpdateJoins()
+        {
+            TGSqlParser sqlparser = new TGSqlParser(EDbVendor.dbvmysql);
+            sqlparser.sqltext = @"update user u join user_info ui on u.id=ui.userid set u.summa = 999 where u.id=1";
+
+            sqlparser.parse();
+            // Console.Out.WriteLine(formatSql(EDbVendor.dbvmysql,sqlparser.sqlstatements.get(0).ToScript()));
+            Assert.IsTrue(verifyScript(EDbVendor.dbvmysql, sqlparser.sqlstatements.get(0).ToString(), sqlparser.sqlstatements.get(0).ToScript()));
+        }
+
+        [TestMethod]
+        public virtual void testMySQLOnduplicate()
+        {
+            TGSqlParser sqlparser = new TGSqlParser(EDbVendor.dbvmysql);
+            sqlparser.sqltext = @"insert into user (id, name, summa) values(104,'Melony',2999) on duplicate key update sum=values(suma)";
+
+            sqlparser.parse();
+           // Console.Out.WriteLine(formatSql(EDbVendor.dbvmysql,sqlparser.sqlstatements.get(0).ToScript()));
+            Assert.IsTrue(verifyScript(EDbVendor.dbvmysql, sqlparser.sqlstatements.get(0).ToString(), sqlparser.sqlstatements.get(0).ToScript()));
+        }
+
+        [TestMethod]
+        public virtual void testMySQLDelteFrom()
+        {
+            TGSqlParser sqlparser = new TGSqlParser(EDbVendor.dbvmysql);
+            sqlparser.sqltext = @"delete from user where id=1";
+
+            sqlparser.parse();
+            // Console.Out.WriteLine(formatSql(EDbVendor.dbvmysql,sqlparser.sqlstatements.get(0).ToScript()));
+            Assert.IsTrue(verifyScript(EDbVendor.dbvmysql, sqlparser.sqlstatements.get(0).ToString(), sqlparser.sqlstatements.get(0).ToScript()));
+        }
 
         [TestMethod]
         public virtual void testSQLServerColumnAlias()
