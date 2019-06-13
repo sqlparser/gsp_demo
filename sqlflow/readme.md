@@ -14,6 +14,9 @@ highlight the dataflow in the diagram with a simple mouse click.
 You can also call the RESTful API provided by this tool in your own program and 
 get the data lineage and diagram model information in the JSON format to make further usage.
 
+### SQLFlow Live
+[SQLFlow Live](https://www.gudusoft.com/sqlflow)
+
 ### How it works
 
 #### SQLFlow architecture
@@ -21,7 +24,7 @@ get the data lineage and diagram model information in the JSON format to make fu
 
 #### SQLFlow backend
 1. Receive the SQL script from the frontend and parse the SQL script into parse tree nodes
-by utilizing [the GSP library](http://wwww.sqlparser.com).
+by utilizing [the GSP library](http://www.sqlparser.com).
 
 2. Analyze the SQL parse tree to generate the data lineage which includes the relationship
 of database objects such as table/view and columns used in the SQL.
