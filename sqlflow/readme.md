@@ -68,7 +68,7 @@ for further processing in your own program.
 		so the relationship of the source and target column is `fdd` in a function call unless we know clearly that `t` will not 
 		include value from `s`.
 		
-		In this sample SQL, the relationship between teur and kamut is fddi.
+	In this sample SQL, the relationship between `teur` and `kamut` is fddi.
 
 	```sql
 	select
@@ -84,7 +84,7 @@ for further processing in your own program.
 	
 		
 * **fdr**, the value of target column affected by the row number of the source table. It always happens when the aggregate function is used.
-	the source column will be appeared in the where，group by clause. This kind of relationship may also appear between the target column and the source table.
+	the source column may be appeared in the where，group by clause. This kind of relationship may also appear between the target column and the source table.
 	
 	
 * **frd**, the row number of target column is affected by the value of source column. The source column usually appears in the where clause.
