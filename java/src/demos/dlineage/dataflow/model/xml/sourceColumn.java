@@ -31,6 +31,9 @@ public class sourceColumn
 
 	@Attribute(required = false)
 	private String coordinate;
+	
+	@Attribute(required = false)
+	private String clauseType;
 
 	public String getCoordinate( )
 	{
