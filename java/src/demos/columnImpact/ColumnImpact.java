@@ -435,6 +435,8 @@ public class ColumnImpact {
 				vendor = EDbVendor.dbvnetezza;
 			} else if (args[index + 1].equalsIgnoreCase("teradata")) {
 				vendor = EDbVendor.dbvteradata;
+			} else if (args[index + 1].equalsIgnoreCase("snowflake")) {
+				vendor = EDbVendor.dbvsnowflake;
 			}
 		}
 

@@ -66,6 +66,10 @@ public class toXml
 			{
 				dbVendor = EDbVendor.dbvmdx;
 			}
+			else if ( args[index + 1].equalsIgnoreCase( "postgresql" ) )
+			{
+				dbVendor = EDbVendor.dbvpostgresql;
+			}
 		}
 		System.out.println( "Selected SQL dialect: " + dbVendor.toString( ) );
 

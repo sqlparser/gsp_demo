@@ -20,6 +20,31 @@ import junit.framework.TestCase;
 public class testScriptGenerator extends TestCase
 {
 
+
+	public void testMySQLFunctionAddDate( )
+	{
+		TGSqlParser sqlparser = new TGSqlParser( EDbVendor.dbvmysql );
+		sqlparser.sqltext = "SELECT adddate(date, 10*10) as date from program";
+
+		sqlparser.parse( );
+
+		//System.out.println(sqlparser.sqlstatements.get(0).toScript());
+		assertTrue(verifyScript(EDbVendor.dbvmysql,sqlparser.sqlstatements.get(0).toString(),sqlparser.sqlstatements.get(0).toScript()));
+
+	}
+
+	public void testMySQLAssignmentOperator( )
+	{
+		TGSqlParser sqlparser = new TGSqlParser( EDbVendor.dbvmysql );
+		sqlparser.sqltext = "select  @csum := 0  from  dual";
+
+		sqlparser.parse( );
+
+		//System.out.println(sqlparser.sqlstatements.get(0).toScript());
+		assertTrue(verifyScript(EDbVendor.dbvmysql,sqlparser.sqlstatements.get(0).toString(),sqlparser.sqlstatements.get(0).toScript()));
+
+	}
+
 	public void testBindVar( )
 	{
 		TGSqlParser sqlparser = new TGSqlParser( EDbVendor.dbvoracle );
