@@ -5487,6 +5487,10 @@ public class DataFlowAnalyzer
 			{
 				vendor = EDbVendor.dbvredshift;
 			}
+			else if ( args[index + 1].equalsIgnoreCase( "snowflake" ) )
+			{
+				vendor = EDbVendor.dbvsnowflake;
+			}
 		}
 
 		String outputFile = null;
