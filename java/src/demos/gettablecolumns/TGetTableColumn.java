@@ -422,6 +422,7 @@ public class TGetTableColumn{
             removeDuplicateAndSort(indexList);
 
             printArray("Tables:", tablelist);
+            outputResult("");
             printArray("Fields:",fieldlist);
             if(showIndex && (indexList.size() > 0)){
                 printArray("Indexs:",indexList);
@@ -466,6 +467,7 @@ public class TGetTableColumn{
                     }
                 }
             }
+            outputResult("");
             outputResult("Columns:");
             for(int j=0;j<columnClauses.size();j++){
             	outputResult("\t"+columnClauses.get(j).toString());

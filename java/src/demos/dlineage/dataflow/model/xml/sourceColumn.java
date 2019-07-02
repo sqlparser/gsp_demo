@@ -31,6 +31,9 @@ public class sourceColumn
 
 	@Attribute(required = false)
 	private String coordinate;
+	
+	@Attribute(required = false)
+	private String clauseType;
 
 	public String getCoordinate( )
 	{
@@ -112,4 +115,15 @@ public class sourceColumn
 		this.source_id = source_id;
 	}
 
+	
+	public String getClauseType( )
+	{
+		return clauseType;
+	}
+
+	
+	public void setClauseType( String clauseType )
+	{
+		this.clauseType = clauseType;
+	}
 }
