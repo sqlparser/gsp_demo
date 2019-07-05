@@ -23,7 +23,7 @@ public class testMySQL extends TestCase {
         doTest("SELECT 1 FROM table1 WHERE table1.field1 = \"Z\" or table.field1 = 'X'",
                 "Tables:\n" +
                         "table1\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "table1.field1");
     }
 
@@ -31,7 +31,7 @@ public class testMySQL extends TestCase {
         doTest("alter table test_1 drop column new_column23;",
                 "Tables:\n" +
                         "test_1\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "test_1.new_column23");
     }
 
@@ -39,7 +39,7 @@ public class testMySQL extends TestCase {
         doTest("alter table test_1 change column  id id123 varchar(1000) not null;",
                 "Tables:\n" +
                         "test_1\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "test_1.id\n" +
                         "test_1.id123");
     }
@@ -48,7 +48,7 @@ public class testMySQL extends TestCase {
         doTest("alter table test_3 add constraint pk primary key(id);",
                 "Tables:\n" +
                         "test_3\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "test_3.id");
     }
 
@@ -57,7 +57,7 @@ public class testMySQL extends TestCase {
                 "Tables:\n" +
                         "city\n" +
                         "test_3\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "city.id\n" +
                         "test_3.id");
     }
@@ -71,7 +71,7 @@ public class testMySQL extends TestCase {
                         "  CONSTRAINT customers_pk PRIMARY KEY (customer_id));",
                 "Tables:\n" +
                         "customers\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "customers.customer_id\n" +
                         "customers.customer_id:int\n" +
                         "customers.favorite_website:char:50\n" +
@@ -89,7 +89,7 @@ public class testMySQL extends TestCase {
                         "  CONSTRAINT contacts_unique UNIQUE (contact_id));",
                 "Tables:\n" +
                         "contacts\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "contacts.birthday:date\n" +
                         "contacts.contact_id\n" +
                         "contacts.contact_id:int:11\n" +
@@ -103,7 +103,7 @@ public class testMySQL extends TestCase {
                         "ADD CONSTRAINT contact_name_unique UNIQUE (last_name, first_name);",
                 "Tables:\n" +
                         "contacts\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "contacts.first_name\n" +
                         "contacts.last_name");
     }

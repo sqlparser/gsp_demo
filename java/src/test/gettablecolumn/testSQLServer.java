@@ -41,7 +41,7 @@ public class testSQLServer extends TestCase {
                 "Tables:\n" +
                         "Cerner.Encounter.EncounterToPersonnelRelationship\n" +
                         "Shared.Clinical.EncounterLink\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "Cerner.Encounter.EncounterToPersonnelRelationship.ActiveStatusCVCD\n" +
                         "Cerner.Encounter.EncounterToPersonnelRelationship.ContributorSystemCVCD\n" +
                         "Cerner.Encounter.EncounterToPersonnelRelationship.EDWLastModifiedDTS\n" +
@@ -171,7 +171,7 @@ public class testSQLServer extends TestCase {
                 "Tables:\n" +
                         "dbo.Tealeaf\n" +
                         "dbo.TealeafPerformance\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "dbo.Tealeaf.Calendar_Month\n" +
                         "dbo.Tealeaf.Calendar_Month_Name\n" +
                         "dbo.Tealeaf.Calendar_Quarter\n" +

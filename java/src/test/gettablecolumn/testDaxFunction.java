@@ -38,7 +38,7 @@ public class testDaxFunction extends TestCase {
     public static void testEDate() {
         doTest("=EDATE([TransactionDate],3)","Tables:\n" +
                 "default\n" +
-                "Fields:\n" +
+                "\nFields:\n" +
                 "default[TransactionDate]");
     }
 
@@ -46,7 +46,7 @@ public class testDaxFunction extends TestCase {
         doTest("=DAY([Birthdate])",
                 "Tables:\n" +
                         "default\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "default[Birthdate]" );
     }
 
@@ -55,7 +55,7 @@ public class testDaxFunction extends TestCase {
                 "Tables:\n" +
                         "Forecast\n" +
                         "Sales\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "Forecast[Date]\n" +
                         "Sales[Date]");
     }
@@ -64,27 +64,27 @@ public class testDaxFunction extends TestCase {
         doTest("=HOUR('Orders'[TransactionTime])",
                 "Tables:\n" +
                         "'Orders'\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "'Orders'[TransactionTime]" );
     }
 
     public static void testNow(){
         doTest("=NOW()+3.5",
                 "Tables:\n" +
-                        "Fields:" );
+                        "\nFields:" );
     }
 
     public static void testYear(){
         doTest("=YEAR(TODAY())-1963",
                 "Tables:\n" +
-                        "Fields:" );
+                        "\nFields:" );
     }
 
     public static void testYEARFRAC(){
         doTest("=YEARFRAC(Orders[TransactionDate],Orders[ShippingDate]) ",
                 "Tables:\n" +
                         "Orders\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "Orders[ShippingDate]\n" +
                         "Orders[TransactionDate]" );
     }
@@ -97,7 +97,7 @@ public class testDaxFunction extends TestCase {
                 "Tables:\n" +
                         "DateTime\n" +
                         "ProductInventory\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "DateTime[DateKey]\n" +
                         "ProductInventory[UnitCost]\n" +
                         "ProductInventory[UnitsBalance]" );
@@ -107,7 +107,7 @@ public class testDaxFunction extends TestCase {
         doTest("=DATEADD(DateTime[DateKey],-1,year)",
                 "Tables:\n" +
                         "DateTime\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "DateTime[DateKey]" );
     }
 
@@ -117,7 +117,7 @@ public class testDaxFunction extends TestCase {
                 "Tables:\n" +
                         "DateTime\n" +
                         "InternetSales_USD\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "DateTime[DateKey]\n" +
                         "InternetSales_USD[SalesAmount_USD]" );
     }
@@ -126,7 +126,7 @@ public class testDaxFunction extends TestCase {
         doTest("=SUMX(ResellerSales_USD, ResellerSales_USD[SalesAmount_USD])/SUMX(ALL(ResellerSales_USD), ResellerSales_USD[SalesAmount_USD])  ",
                 "Tables:\n" +
                         "ResellerSales_USD\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "ResellerSales_USD[SalesAmount_USD]" );
     }
 
@@ -135,7 +135,7 @@ public class testDaxFunction extends TestCase {
                 "Tables:\n" +
                         "DateTime\n" +
                         "ResellerSales_USD\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "DateTime[CalendarYear]\n" +
                         "ResellerSales_USD[SalesAmount_USD]" );
     }
@@ -144,7 +144,7 @@ public class testDaxFunction extends TestCase {
         doTest("= COUNTROWS(ALLNOBLANKROW('DateTime'))",
                 "Tables:\n" +
                         "'DateTime'\n" +
-                        "Fields:" );
+                        "\nFields:" );
     }
 
     public static void testCALCULATETABLE(){
@@ -153,7 +153,7 @@ public class testDaxFunction extends TestCase {
                 "Tables:\n" +
                         "'DateTime'\n" +
                         "'InternetSales_USD'\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "'DateTime'[CalendarYear]\n" +
                         "'InternetSales_USD'[SalesAmount_USD]" );
     }
@@ -164,7 +164,7 @@ public class testDaxFunction extends TestCase {
                         "default\n" +
                         "DimProduct\n" +
                         "FactInternetSales\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "default[Distinct Count of ProductKey]\n" +
                         "DimProduct[ProductKey]\n" +
                         "FactInternetSales[ProductKey]" );
@@ -176,7 +176,7 @@ public class testDaxFunction extends TestCase {
                 "Tables:\n" +
                         "'InternetSales_USD'\n" +
                         "'SalesTerritory'\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "'InternetSales_USD'[SalesAmount_USD]\n" +
                         "'SalesTerritory'[SalesTerritoryCountry]" );
     }
@@ -186,7 +186,7 @@ public class testDaxFunction extends TestCase {
                         "     , [SalesAmount_USD])  ",
                 "Tables:\n" +
                         "'InternetSales_USD'\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "'InternetSales_USD'[SalesAmount_USD]" );
     }
 
@@ -195,7 +195,7 @@ public class testDaxFunction extends TestCase {
                 "Tables:\n" +
                         "'InternetSales_USD'\n" +
                         "'InternetSales_USD2'\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "'InternetSales_USD'[SalesAmount_USD]\n" +
                         "'InternetSales_USD2'[SalesAmount_USD]" );
     }
@@ -204,7 +204,7 @@ public class testDaxFunction extends TestCase {
         doTest("=COUNTROWS(VALUES('InternetSales_USD'[SalesOrderNumber])) ",
                 "Tables:\n" +
                         "'InternetSales_USD'\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "'InternetSales_USD'[SalesOrderNumber]" );
     }
 
@@ -212,7 +212,7 @@ public class testDaxFunction extends TestCase {
         doTest("=COUNTROWS(VALUES([SalesOrderNumber])) ",
                 "Tables:\n" +
                         "default\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "default[SalesOrderNumber]" );
     }
 
@@ -220,7 +220,7 @@ public class testDaxFunction extends TestCase {
         doTest("=CONTAINS(InternetSales, [ProductKey], 214, [CustomerKey], 11185)",
                 "Tables:\n" +
                         "InternetSales\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "InternetSales[CustomerKey]\n" +
                         "InternetSales[ProductKey]" );
     }
@@ -228,7 +228,7 @@ public class testDaxFunction extends TestCase {
     public static void testCUSTOMDATA(){
         doTest("=IF(CUSTOMDATA()=\"OK\", \"Correct Custom data in connection string\", \"No custom data in connection string property or unexpected value\") ",
                 "Tables:\n" +
-                        "Fields:" );
+                        "\nFields:" );
     }
 
     public static void testISBLANK(){
@@ -238,7 +238,7 @@ public class testDaxFunction extends TestCase {
                         "      /'CalculatedMeasures'[PreviousYearTotalSales])",
                 "Tables:\n" +
                         "'CalculatedMeasures'\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "'CalculatedMeasures'[PreviousYearTotalSales]\n" +
                         "'CalculatedMeasures'[Total Sales]" );
     }
@@ -247,7 +247,7 @@ public class testDaxFunction extends TestCase {
         doTest("=FILTER(Info, ISONORAFTER(Info[Country], \"IND\", ASC, Info[State], \"MH\", ASC))  ",
                 "Tables:\n" +
                         "Info\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "Info[Country]\n" +
                         "Info[State]" );
     }
@@ -255,7 +255,7 @@ public class testDaxFunction extends TestCase {
         doTest("=LOOKUPVALUE(Product[SafetyStockLevel], [ProductName], \" Mountain-400-W Silver, 46\")  ",
                 "Tables:\n" +
                         "Product\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "Product[ProductName]\n" +
                         "Product[SafetyStockLevel]" );
     }
@@ -272,7 +272,7 @@ public class testDaxFunction extends TestCase {
                         "'DateTime'\n" +
                         "'InternetSales_USD'\n" +
                         "'ResellerSales_USD'\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "'DateTime'[DateKey]\n" +
                         "'InternetSales_USD'[SalesAmount_USD]\n" +
                         "'ResellerSales_USD'[SalesAmount_USD]" );
@@ -282,7 +282,7 @@ public class testDaxFunction extends TestCase {
         doTest("=IF([StateProvinceCode]= \"CA\" && ([MaritalStatus] = \"M\" || [NumberChildrenAtHome] >1),[City])  ",
                 "Tables:\n" +
                         "default\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "default[City]\n" +
                         "default[MaritalStatus]\n" +
                         "default[NumberChildrenAtHome]\n" +
@@ -293,7 +293,7 @@ public class testDaxFunction extends TestCase {
         doTest("=NOT([CalculatedColumn1])",
                 "Tables:\n" +
                         "default\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "default[CalculatedColumn1]" );
     }
 
@@ -308,7 +308,7 @@ public class testDaxFunction extends TestCase {
                         "'DateTime'\n" +
                         "'ProductSubcategory'\n" +
                         "'ResellerSales_USD'\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "'DateTime'[CalendarYear]\n" +
                         "'ProductSubcategory'[ProductSubcategoryName]\n" +
                         "'ResellerSales_USD'[SalesAmount_USD]" );
@@ -319,7 +319,7 @@ public class testDaxFunction extends TestCase {
         doTest("=ABS([DealerPrice]-[ListPrice])  ",
                 "Tables:\n" +
                         "default\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "default[DealerPrice]\n" +
                         "default[ListPrice]" );
     }
@@ -327,7 +327,7 @@ public class testDaxFunction extends TestCase {
         doTest("=EXP([Power])  ",
                 "Tables:\n" +
                         "default\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "default[Power]" );
     }
 
@@ -335,7 +335,7 @@ public class testDaxFunction extends TestCase {
         doTest("=FLOOR(InternetSales[Total Product Cost],.5)",
                 "Tables:\n" +
                         "InternetSales\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "InternetSales[Total Product Cost]" );
     }
 
@@ -343,7 +343,7 @@ public class testDaxFunction extends TestCase {
         doTest("=PRODUCT( Annuity[AdjustedRates] ) ",
                 "Tables:\n" +
                         "Annuity\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "Annuity[AdjustedRates]" );
     }
 
@@ -352,7 +352,7 @@ public class testDaxFunction extends TestCase {
                 "Tables:\n" +
                         "AnnuityPeriods\n" +
                         "default\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "AnnuityPeriods[FixedInterestRate]\n" +
                         "default[PresentValue]" );
     }
@@ -361,7 +361,7 @@ public class testDaxFunction extends TestCase {
         doTest("=SIGN( ([Sale Price] - [Cost]) ) ",
                 "Tables:\n" +
                         "default\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "default[Cost]\n" +
                         "default[Sale Price]" );
     }
@@ -370,7 +370,7 @@ public class testDaxFunction extends TestCase {
         doTest("=SUMX(FILTER(InternetSales, InternetSales[SalesTerritoryID]=5),[Freight])  ",
                 "Tables:\n" +
                         "InternetSales\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "InternetSales[Freight]\n" +
                         "InternetSales[SalesTerritoryID]" );
     }
@@ -388,7 +388,7 @@ public class testDaxFunction extends TestCase {
                         "           )",
                 "Tables:\n" +
                         "default\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "default\"Name\"\n" +
                         "default\"Region\"" );
     }
@@ -398,7 +398,7 @@ public class testDaxFunction extends TestCase {
                 "Tables:\n" +
                         "States1\n" +
                         "States2\n" +
-                        "Fields:" );
+                        "\nFields:" );
     }
 
     public static void testGROUPBY(){
@@ -412,7 +412,7 @@ public class testDaxFunction extends TestCase {
                         "Geography\n" +
                         "Product\n" +
                         "Sales\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "Geography[Country]\n" +
                         "Product[Category]\n" +
                         "Sales[Price]\n" +
@@ -430,7 +430,7 @@ public class testDaxFunction extends TestCase {
                         "DateTime\n" +
                         "ProductCategory\n" +
                         "ResellerSales_USD\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "DateTime[CalendarYear]\n" +
                         "ProductCategory[ProductCategoryName]\n" +
                         "ResellerSales_USD[DiscountAmount]\n" +
@@ -442,7 +442,7 @@ public class testDaxFunction extends TestCase {
                 "Tables:\n" +
                         "ColourFruit\n" +
                         "FruitPrice\n" +
-                        "Fields:" );
+                        "\nFields:" );
     }
 
     public static void testSUMMARIZECOLUMNS(){
@@ -450,7 +450,7 @@ public class testDaxFunction extends TestCase {
                 "Tables:\n" +
                         "'Customer'\n" +
                         "'Sales Territory'\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "'Customer'[First Name]\n" +
                         "'Sales Territory'[Category]" );
     }
@@ -460,7 +460,7 @@ public class testDaxFunction extends TestCase {
                 "Tables:\n" +
                         "'Customer'\n" +
                         "'Sales Territory'\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "'Customer'[Education]\n" +
                         "'Customer'[First Name]\n" +
                         "'Sales Territory'[Category]" );
@@ -470,7 +470,7 @@ public class testDaxFunction extends TestCase {
         doTest("=SUMMARIZECOLUMNS( Sales[CustomerId], \"Total Qty\", IGNORE( SUM( Sales[Qty] ) ), \"BlankIfTotalQtyIsNot3\", IF( SUM( Sales[Qty] )=3, 3 ) )",
                 "Tables:\n" +
                         "Sales\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "Sales\"BlankIfTotalQtyIsNot3\"\n" +
                         "Sales\"Total Qty\"\n" +
                         "Sales[CustomerId]\n" +
@@ -482,7 +482,7 @@ public class testDaxFunction extends TestCase {
                 "Tables:\n" +
                         "Regions\n" +
                         "Sales\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "Regions\"Total Qty\"\n" +
                         "Regions[State]\n" +
                         "Sales\"IsCustomerSubtotal\"\n" +
@@ -496,7 +496,7 @@ public class testDaxFunction extends TestCase {
                 "Tables:\n" +
                         "Regions\n" +
                         "Sales\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "Regions\"Total Qty\"\n" +
                         "Regions[State]\n" +
                         "Sales\"IsCustomerSubtotal\"\n" +
@@ -515,7 +515,7 @@ public class testDaxFunction extends TestCase {
                         "default\n" +
                         "Regions\n" +
                         "Sales\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "default\"IsCityStateSubtotal\"\n" +
                         "default\"Total Qty\"\n" +
                         "Regions[City]\n" +
@@ -529,7 +529,7 @@ public class testDaxFunction extends TestCase {
         doTest("=PATH(Employee[EmployeeKey], Employee[ParentEmployeeKey])",
                 "Tables:\n" +
                         "Employee\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "Employee[EmployeeKey]\n" +
                         "Employee[ParentEmployeeKey]" );
     }
@@ -538,7 +538,7 @@ public class testDaxFunction extends TestCase {
         doTest("=PATHCONTAINS(PATH(Employee[EmployeeKey], Employee[ParentEmployeeKey]), \"23\")  ",
                 "Tables:\n" +
                         "Employee\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "Employee[EmployeeKey]\n" +
                         "Employee[ParentEmployeeKey]" );
     }
@@ -547,7 +547,7 @@ public class testDaxFunction extends TestCase {
         doTest("=PATHITEM(PATH(Employee[EmployeeKey], Employee[ParentEmployeeKey]), 3, 1) ",
                 "Tables:\n" +
                         "Employee\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "Employee[EmployeeKey]\n" +
                         "Employee[ParentEmployeeKey]" );
     }
@@ -556,7 +556,7 @@ public class testDaxFunction extends TestCase {
         doTest("=PATHITEMREVERSE(PATH(Employee[EmployeeKey], Employee[ParentEmployeeKey]), 3, 1)",
                 "Tables:\n" +
                         "Employee\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "Employee[EmployeeKey]\n" +
                         "Employee[ParentEmployeeKey]" );
     }
@@ -565,7 +565,7 @@ public class testDaxFunction extends TestCase {
         doTest("=PATHLENGTH(PATH(Employee[EmployeeKey], Employee[ParentEmployeeKey])) ",
                 "Tables:\n" +
                         "Employee\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "Employee[EmployeeKey]\n" +
                         "Employee[ParentEmployeeKey]" );
     }
@@ -578,7 +578,7 @@ public class testDaxFunction extends TestCase {
                         "InternetSales_USD\n" +
                         "ProductCategory\n" +
                         "ResellerSales_USD\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "InternetSales_USD[SalesAmount_USD]\n" +
                         "ProductCategory\"Internet Sales\"\n" +
                         "ProductCategory\"Reseller Sales\"\n" +
@@ -589,7 +589,7 @@ public class testDaxFunction extends TestCase {
         doTest("=AVERAGEA([Amount])",
                 "Tables:\n" +
                         "default\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "default[Amount]" );
     }
 
@@ -597,7 +597,7 @@ public class testDaxFunction extends TestCase {
         doTest("=COUNTAX(FILTER('Reseller',[Status]=\"Active\"),[Phone])  ",
                 "Tables:\n" +
                         "'Reseller'\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "'Reseller'[Phone]\n" +
                         "'Reseller'[Status]" );
     }
@@ -606,7 +606,7 @@ public class testDaxFunction extends TestCase {
         doTest("=COUNTROWS('Orders')",
                 "Tables:\n" +
                         "'Orders'\n" +
-                        "Fields:" );
+                        "\nFields:" );
     }
 
     public static void testCOUNTX(){
@@ -614,7 +614,7 @@ public class testDaxFunction extends TestCase {
                 "Tables:\n" +
                         "Product\n" +
                         "ProductSubcategory\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "Product[ListPrice]\n" +
                         "ProductSubcategory[EnglishProductSubcategoryName]" );
     }
@@ -632,7 +632,7 @@ public class testDaxFunction extends TestCase {
                         "ProductCategory\n" +
                         "ResellerSales_USD\n" +
                         "SalesTerritory\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "ProductCategory[ProductCategoryName]\n" +
                         "ResellerSales_USD[SalesAmount_USD]\n" +
                         "SalesTerritory[SalesTerritoryGroup]" );
@@ -642,7 +642,7 @@ public class testDaxFunction extends TestCase {
         doTest("=MINX( FILTER(InternetSales, [SalesTerritoryKey] = 5),[Freight]) ",
                 "Tables:\n" +
                         "InternetSales\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "InternetSales[Freight]\n" +
                         "InternetSales[SalesTerritoryKey]" );
     }
@@ -651,7 +651,7 @@ public class testDaxFunction extends TestCase {
         doTest("=RANK.EQ(InternetSales_USD[SalesAmount_USD], InternetSales_USD[SalesAmount_USD]) ",
                 "Tables:\n" +
                         "InternetSales_USD\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "InternetSales_USD[SalesAmount_USD]" );
     }
 
@@ -662,7 +662,7 @@ public class testDaxFunction extends TestCase {
                         "default\n" +
                         "InternetSales_USD\n" +
                         "ResellerSales_USD\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "default\"Internet Total Sales (USD)\"\n" +
                         "default\"Resellers Total Sales (USD)\"\n" +
                         "InternetSales_USD[SalesAmount_USD]\n" +
@@ -673,7 +673,7 @@ public class testDaxFunction extends TestCase {
         doTest("=SAMPLE(10,InternetSales_USD,[SalesAmount_USD]+1,asc)",
                 "Tables:\n" +
                         "InternetSales_USD\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "InternetSales_USD[SalesAmount_USD]" );
     }
 
@@ -681,7 +681,7 @@ public class testDaxFunction extends TestCase {
         doTest("=SELECTCOLUMNS(Info, \"StateCountry\", [State]&\", \"&[Country])",
                 "Tables:\n" +
                         "Info\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "Info\"StateCountry\"\n" +
                         "Info[Country]\n" +
                         "Info[State]" );
@@ -691,7 +691,7 @@ public class testDaxFunction extends TestCase {
         doTest("=STDEVX.P(RELATEDTABLE(InternetSales_USD), InternetSales_USD[UnitPrice_USD] - (InternetSales_USD[DiscountAmount_USD]/InternetSales_USD[OrderQuantity])) ",
                 "Tables:\n" +
                         "InternetSales_USD\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "InternetSales_USD[DiscountAmount_USD]\n" +
                         "InternetSales_USD[OrderQuantity]\n" +
                         "InternetSales_USD[UnitPrice_USD]" );
@@ -710,7 +710,7 @@ public class testDaxFunction extends TestCase {
                         "InternetSales_USD\n" +
                         "Product\n" +
                         "ResellerSales_USD\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "InternetSales_USD[SalesAmount_USD]\n" +
                         "Product[ProductKey]\n" +
                         "ResellerSales_USD[SalesAmount_USD]" );
@@ -720,7 +720,7 @@ public class testDaxFunction extends TestCase {
         doTest("=VARX.P(InternetSales_USD, InternetSales_USD[UnitPrice_USD] -(InternetSales_USD[DiscountAmount_USD]/InternetSales_USD[OrderQuantity]))\n",
                 "Tables:\n" +
                         "InternetSales_USD\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "InternetSales_USD[DiscountAmount_USD]\n" +
                         "InternetSales_USD[OrderQuantity]\n" +
                         "InternetSales_USD[UnitPrice_USD]" );
@@ -730,7 +730,7 @@ public class testDaxFunction extends TestCase {
         doTest("=XNPV( CashFlows, [Payment], [Date], 0.09 )  ",
                 "Tables:\n" +
                         "CashFlows\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "CashFlows[Date]\n" +
                         "CashFlows[Payment]" );
     }
@@ -739,7 +739,7 @@ public class testDaxFunction extends TestCase {
         doTest("=CONCATENATEX(Employees, [FirstName] & \" \" & [LastName], \",\")",
                 "Tables:\n" +
                         "Employees\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "Employees[FirstName]\n" +
                         "Employees[LastName]" );
     }
@@ -747,7 +747,7 @@ public class testDaxFunction extends TestCase {
     public static void testFIND(){
         doTest("=FIND(\"BMX\",\"line of BMX racing goods\")",
                 "Tables:\n" +
-                        "Fields:" );
+                        "\nFields:" );
     }
 
     public static void testLEFT(){
@@ -755,7 +755,7 @@ public class testDaxFunction extends TestCase {
                 "Tables:\n" +
                         "'Reseller'\n" +
                         "default\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "'Reseller'[ResellerName]\n" +
                         "default[GeographyKey]" );
     }
@@ -765,7 +765,7 @@ public class testDaxFunction extends TestCase {
         doTest("=LEN([AddressLine1])+LEN([AddressLin2]) ",
                 "Tables:\n" +
                         "default\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "default[AddressLin2]\n" +
                         "default[AddressLine1]" );
     }
@@ -774,7 +774,7 @@ public class testDaxFunction extends TestCase {
         doTest("=RIGHT('New Products'[ProductCode],[MyCount]) ",
                 "Tables:\n" +
                         "'New Products'\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "'New Products'[MyCount]\n" +
                         "'New Products'[ProductCode]" );
     }
@@ -819,7 +819,7 @@ public class testDaxFunction extends TestCase {
                         "'Geography'\n" +
                         "'Internet Sales'\n" +
                         "default\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "'Geography'[State Province Code]\n" +
                         "'Internet Sales'[Internet Total Sales]\n" +
                         "default\"$$ in WA !!\"\n" +
@@ -844,7 +844,7 @@ public class testDaxFunction extends TestCase {
                         ")",
                 "Tables:\n" +
                         "Product\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "Product\"SalesOfProduct\"\n" +
                         "Product[Color]\n" +
                         "Product[Product Name]\n" +
@@ -867,7 +867,7 @@ public class testDaxFunction extends TestCase {
                         "    Product[Color] = \"Black\")",
                 "Tables:\n" +
                         "Product\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "Product\"SalesOfProduct\"\n" +
                         "Product[Color]\n" +
                         "Product[Product Name]\n" +
@@ -896,7 +896,7 @@ public class testDaxFunction extends TestCase {
                 "Tables:\n" +
                         "'Date'\n" +
                         "Sales\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "'Date'[Date]\n" +
                         "Sales[Quantity]" );
     }
@@ -916,7 +916,7 @@ public class testDaxFunction extends TestCase {
                         "'Date'\n" +
                         "Product\n" +
                         "Sales\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "'Date'[Date]\n" +
                         "Product[Color]\n" +
                         "Sales[Quantity]" );
@@ -957,7 +957,7 @@ public class testDaxFunction extends TestCase {
                         "'Reseller Sales'\n" +
                         "'Sales Territory'\n" +
                         "crossjoin\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "'Date'[Calendar Year]\n" +
                         "'Product Category'[Product Category Name]\n" +
                         "'Promotion'[Promotion Type]\n" +

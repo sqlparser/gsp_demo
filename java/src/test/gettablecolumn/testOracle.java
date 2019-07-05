@@ -33,7 +33,7 @@ public class testOracle extends TestCase {
                         "dest_tab2\n" +
                         "dest_tab3\n" +
                         "source_tab\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "source_tab.description1\n" +
                         "source_tab.description2\n" +
                         "source_tab.description3\n" +

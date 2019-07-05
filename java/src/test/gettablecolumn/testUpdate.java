@@ -31,7 +31,7 @@ public class testUpdate extends TestCase {
                 "Tables:\n" +
                         "basic_svc\n" +
                         "IWVIEWS_SRD.AR_EMF_CONFIG_ID_VALUES\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "basic_svc.emf_config_id\n" +
                         "basic_svc.product\n" +
                         "IWVIEWS_SRD.AR_EMF_CONFIG_ID_VALUES.close_dt\n" +
@@ -57,7 +57,7 @@ public class testUpdate extends TestCase {
                         "b_rate_plan\n" +
                         "ipshare_ofccplv.cprof_d_period_dates_ref\n" +
                         "SPCOMM.L_FIXED_RATE_PLAN_REF\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "b_rate_plan.accs_fee\n" +
                         "b_rate_plan.prod_grp_lvl3\n" +
                         "b_rate_plan.rate_plan_lvl3\n" +
