@@ -92,7 +92,7 @@ public static String getDesiredTablesColumns(String sqlfile){
                     if (line.toLowerCase().indexOf("fields:") >= 0 ) {
                        isTable = false;
                         isColumn =true;
-                        sb.append(line+newline);
+                        sb.append(newline+line+newline);
                        continue;
                     }
 
@@ -175,7 +175,7 @@ public static String getDesiredTablesColumns(String sqlfile){
       //System.out.println(strActual);
       assertTrue(strActual.trim().equalsIgnoreCase("Tables:\n" +
               "emp\n" +
-              "Fields:\n" +
+              "\nFields:\n" +
               "emp.ename"));
 
   }

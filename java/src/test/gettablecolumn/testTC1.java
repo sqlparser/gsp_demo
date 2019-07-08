@@ -92,7 +92,7 @@ public class testTC1 extends TestCase {
       assertTrue(strActual.trim().equalsIgnoreCase("Tables:\n" +
               "dw.acctinfo_pt\n" +
               "dw.imsysinfo_bc\n" +
-              "Fields:\n" +
+              "\nFields:\n" +
               "dw.acctinfo_pt.*\n" +
               "dw.acctinfo_pt.acct_id\n" +
               "dw.acctinfo_pt.acctstatus\n" +

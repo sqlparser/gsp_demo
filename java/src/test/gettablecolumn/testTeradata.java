@@ -29,7 +29,7 @@ public class testTeradata  extends TestCase {
                 "Tables:\n" +
                         "table1\n" +
                         "table2\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "table1.col\n" +
                         "table1.id\n" +
                         "table2.id2");
@@ -41,7 +41,7 @@ public class testTeradata  extends TestCase {
                         "A\n" +
                         "B\n" +
                         "C\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "A.id\n" +
                         "C.id");
     }
@@ -104,7 +104,7 @@ public class testTeradata  extends TestCase {
                 "Tables:\n" +
                         "DB51_CAD.CAD_RK_1\n" +
                         "DB51_CAD.ESKP_ZABEZP_RLNP_STG_8\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "DB51_CAD.CAD_RK_1.a\n" +
                         "DB51_CAD.CAD_RK_1.data_danych\n" +
                         "DB51_CAD.CAD_RK_1.dost_zabezp_grupa\n" +
@@ -158,7 +158,7 @@ public class testTeradata  extends TestCase {
                 "Tables:\n" +
                         "DB51_CAD.CAD_FX\n" +
                         "DB51_CAD.TAB_FX_4\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "DB51_CAD.CAD_FX.data_danych\n" +
                         "DB51_CAD.CAD_FX.fund_wlasne\n" +
                         "DB51_CAD.CAD_FX.id_banku\n" +
@@ -175,7 +175,7 @@ public class testTeradata  extends TestCase {
                         "                        WHERE calendar_date = CURRENT_DATE)",
                 "Tables:\n" +"SWSMBBI.F_MOB_MOBILEBASE_EDW\n" +
                         "SYS_CALENDAR.CALENDAR\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "SWSMBBI.F_MOB_MOBILEBASE_EDW.per_end_dt\n" +
                         "SYS_CALENDAR.CALENDAR.calendar_date");
     }
@@ -221,7 +221,7 @@ public class testTeradata  extends TestCase {
                 "Tables:\n" +
                         "A\n" +
                         "test\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "A.ID\n" +
                         "A.t2\n" +
                         "A.t3\n" +
@@ -242,7 +242,7 @@ public class testTeradata  extends TestCase {
                 "Tables:\n" +
                         "A\n" +
                         "test\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "test.COST_VOICE_NETCO\n" +
                         "test.CVM_TYPE_IND");
     }
@@ -272,7 +272,7 @@ public class testTeradata  extends TestCase {
                         "SYS_CALENDAR.CALENDAR\n" +
                         "VT_ACCT_BASE\n" +
                         "VT_DATES\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "KEY_ACCT.ACCT_ID\n" +
                         "KEY_ACCT.SRC_ACCOUNT_NUMBER\n" +
                         "KEY_ACCT.SRC_SYSTEM_CD\n" +
@@ -289,7 +289,7 @@ public class testTeradata  extends TestCase {
                 "Tables:\n" +
                         "table1\n" +
                         "table2\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "table1.date\n" +
                         "table2.id");
     }
@@ -306,7 +306,7 @@ public class testTeradata  extends TestCase {
                 "Tables:\n" +
                         "DBC.Accounts\n" +
                         "td_unpivot\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "DBC.Accounts.'AccountName'\n" +
                         "DBC.Accounts.'RowType'\n" +
                         "DBC.Accounts.'UserId'");
@@ -324,7 +324,7 @@ public class testTeradata  extends TestCase {
                 "Tables:\n" +
                         "T\n" +
                         "td_unpivot\n" +
-                        "Fields:\n" +
+                        "\nFields:\n" +
                         "T.'dec_sales'\n" +
                         "T.'feb_sales'\n" +
                         "T.'jan_sales'\n" +
