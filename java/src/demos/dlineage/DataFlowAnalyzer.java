@@ -83,6 +83,8 @@ import org.w3c.dom.Element;
 
 import demos.dlineage.dataflow.listener.DataFlowHandleListener;
 import demos.dlineage.dataflow.model.AbstractRelation;
+import demos.dlineage.dataflow.model.Constant;
+import demos.dlineage.dataflow.model.ConstantRelationElement;
 import demos.dlineage.dataflow.model.CursorResultSet;
 import demos.dlineage.dataflow.model.DataFlowRelation;
 import demos.dlineage.dataflow.model.EffectType;
@@ -1263,6 +1265,11 @@ public class DataFlowAnalyzer
 										objectNames,
 										EffectType.merge_update );
 
+								List<TConstant> constants = visitor.getConstants( );
+								analyzeConstantDataFlowRelation( updateColumn,
+										constants,
+										EffectType.merge_update );
+
 								TableColumn tableColumn = modelFactory.createTableColumn( tableModel,
 										columnObject );
 
@@ -1315,6 +1322,11 @@ public class DataFlowAnalyzer
 											objectNames,
 											EffectType.merge_insert );
 
+									List<TConstant> constants = visitor.getConstants( );
+									analyzeConstantDataFlowRelation( insertColumn,
+											constants,
+											EffectType.merge_insert );
+
 									TableColumn tableColumn = modelFactory.createTableColumn( tableModel,
 											columnObject );
 
@@ -1358,6 +1370,11 @@ public class DataFlowAnalyzer
 								List<TObjectName> objectNames = visitor.getObjectNames( );
 								analyzeDataFlowRelation( insertColumn,
 										objectNames,
+										EffectType.merge_insert );
+
+								List<TConstant> constants = visitor.getConstants( );
+								analyzeConstantDataFlowRelation( insertColumn,
+										constants,
 										EffectType.merge_insert );
 
 								TableColumn tableColumn = modelFactory.createTableColumn( tableModel,
@@ -2007,6 +2024,7 @@ public class DataFlowAnalyzer
 						columnsInExpr visitor = new columnsInExpr( );
 						valueExpr.inOrderTraverse( visitor );
 						List<TObjectName> objectNames = visitor.getObjectNames( );
+						List<TConstant> constants = visitor.getConstants( );
 
 						for ( int x = 0; x < objectNames.size( ); x++ )
 						{
@@ -2045,6 +2063,16 @@ public class DataFlowAnalyzer
 								}
 							}
 						}
+
+						for ( int x = 0; x < constants.size( ); x++ )
+						{
+							TConstant value = constants.get( x );
+							DataFlowRelation relation = modelFactory.createDataFlowRelation( );
+							relation.setEffectType( EffectType.insert );
+							relation.setTarget( new TableColumnRelationElement( tableColumn ) );
+							relation.addSource( new ConstantRelationElement( new Constant( value ) ) );
+						}
+
 						j++;
 					}
 				}
@@ -2261,6 +2289,11 @@ public class DataFlowAnalyzer
 							objectNames,
 							EffectType.update );
 
+					List<TConstant> constants = visitor.getConstants( );
+					analyzeConstantDataFlowRelation( updateColumn,
+							constants,
+							EffectType.update );
+
 					TableColumn tableColumn = modelFactory.createTableColumn( tableModel,
 							columnObject );
 
@@ -2301,6 +2334,43 @@ public class DataFlowAnalyzer
 					JoinClauseType.where,
 					EffectType.update );
 		}
+	}
+
+	private void analyzeConstantDataFlowRelation( Object modelObject,
+			List<TConstant> constants, EffectType effectType )
+	{
+		if ( constants == null || constants.size( ) == 0 )
+			return;
+
+		DataFlowRelation relation = modelFactory.createDataFlowRelation( );
+		relation.setEffectType( effectType );
+
+		if ( modelObject instanceof ResultColumn )
+		{
+			relation.setTarget( new ResultColumnRelationElement( (ResultColumn) modelObject ) );
+
+		}
+		else if ( modelObject instanceof TableColumn )
+		{
+			relation.setTarget( new TableColumnRelationElement( (TableColumn) modelObject ) );
+
+		}
+		else if ( modelObject instanceof ViewColumn )
+		{
+			relation.setTarget( new ViewColumnRelationElement( (ViewColumn) modelObject ) );
+
+		}
+		else
+		{
+			throw new UnsupportedOperationException( );
+		}
+
+		for ( int i = 0; i < constants.size( ); i++ )
+		{
+			TConstant constant = constants.get( i );
+			relation.addSource( new ConstantRelationElement( new Constant( constant ) ) );
+		}
+
 	}
 
 	private void analyzeCreateViewStmt( TCustomSqlStatement stmt,
@@ -2903,6 +2973,25 @@ public class DataFlowAnalyzer
 										.getId( ) ) );
 						source.setAttribute( "parent_name",
 								getTableName( sourceColumn.getTable( ) ) );
+						if ( sourceColumn.getStartPosition( ) != null
+								&& sourceColumn.getEndPosition( ) != null )
+						{
+							source.setAttribute( "coordinate",
+									sourceColumn.getStartPosition( )
+											+ ","
+											+ sourceColumn.getEndPosition( ) );
+						}
+						append = true;
+						relationElement.appendChild( source );
+					}
+					else if ( sourceElement instanceof Constant )
+					{
+						Constant sourceColumn = (Constant) sourceElement;
+						Element source = doc.createElement( "source" );
+						source.setAttribute( "id",
+								String.valueOf( sourceColumn.getId( ) ) );
+						source.setAttribute( "column", sourceColumn.getName( ) );
+						source.setAttribute( "column_type", "constant" );
 						if ( sourceColumn.getStartPosition( ) != null
 								&& sourceColumn.getEndPosition( ) != null )
 						{
@@ -4000,6 +4089,11 @@ public class DataFlowAnalyzer
 								analyzeDataFlowRelation( resultColumn,
 										objectNames,
 										EffectType.select );
+
+								List<TConstant> constants = visitor.getConstants( );
+								analyzeConstantDataFlowRelation( resultColumn,
+										constants,
+										EffectType.select );
 							}
 							else
 							{
@@ -4340,6 +4434,11 @@ public class DataFlowAnalyzer
 		List<TFunctionCall> functions = visitor.getFunctions( );
 
 		analyzeDataFlowRelation( column, objectNames, effectType );
+
+		List<TConstant> constants = visitor.getConstants( );
+		Object columnObject = modelManager.getModel( column );
+		analyzeConstantDataFlowRelation( columnObject, constants, effectType );
+
 		analyzeRecordSetRelation( column, functions, effectType );
 		analyzeResultColumnImpact( column, effectType );
 	}

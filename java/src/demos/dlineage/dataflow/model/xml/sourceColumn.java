@@ -24,6 +24,9 @@ public class sourceColumn
 	private String source_name;
 
 	@Attribute(required = false)
+	private String column_type;
+
+	@Attribute(required = false)
 	private String parent_id;
 
 	@Attribute(required = false)
@@ -31,7 +34,7 @@ public class sourceColumn
 
 	@Attribute(required = false)
 	private String coordinate;
-	
+
 	@Attribute(required = false)
 	private String clauseType;
 
@@ -115,15 +118,24 @@ public class sourceColumn
 		this.source_id = source_id;
 	}
 
-	
 	public String getClauseType( )
 	{
 		return clauseType;
 	}
 
-	
 	public void setClauseType( String clauseType )
 	{
 		this.clauseType = clauseType;
 	}
+
+	public String getColumn_type( )
+	{
+		return column_type;
+	}
+
+	public void setColumn_type( String column_type )
+	{
+		this.column_type = column_type;
+	}
+
 }
