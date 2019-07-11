@@ -5796,6 +5796,6 @@ public class DataFlowAnalyzer
 				"VAR_ SAMP",
 				"VARI ANCE",
 				"XMLAGG"
-		} ).contains( func.getFunctionName( ).toString( ) );
+		} ).contains( func.getFunctionName( ).toString( ).toUpperCase( ) );
 	}
 }
