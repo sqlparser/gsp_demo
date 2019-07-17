@@ -4643,7 +4643,12 @@ public class DataFlowAnalyzer
 			{
 				TCustomSqlStatement stmt = stmtStack.peek( );
 
-				TTable table = modelManager.getTable( stmt, columnName );
+				TTable table = columnName.getSourceTable( );
+
+				if ( table == null )
+				{
+					table = modelManager.getTable( stmt, columnName );
+				}
 
 				if ( table == null )
 				{
