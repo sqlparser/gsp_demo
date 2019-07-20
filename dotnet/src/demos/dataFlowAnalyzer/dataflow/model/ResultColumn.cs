@@ -99,22 +99,29 @@
 
 				this.name = this.alias;
 			}
-			else
-			{
-				if (resultColumnObject.Expr.ExpressionType == EExpressionType.simple_constant_t)
-				{
-                    if (resultSet is SelectResultSet)
-                    {
-                        this.name = "DUMMY" + getIndexOf(((SelectResultSet)resultSet).ResultColumnObject, resultColumnObject);
-                    }
-                    else if (resultSet is SelectSetResultSet)
-                    {
-                        this.name = "DUMMY" + getIndexOf(((SelectSetResultSet)resultSet).ResultColumnObject, resultColumnObject);
-                    }
-                    else
-                    {
-                        this.name = resultColumnObject.ToString();
-                    }
+            else
+            {
+                if (resultColumnObject.Expr.ExpressionType == EExpressionType.simple_constant_t)
+                {
+                    this.name = resultColumnObject.ToString();
+                }
+                else if (resultColumnObject.Expr.ExpressionType == EExpressionType.sqlserver_proprietary_column_alias_t)
+                {
+                    TSourceToken startToken1 = resultColumnObject.Expr
+                            .LeftOperand
+                            .startToken;
+                    TSourceToken endToken1 = resultColumnObject.Expr
+                            .LeftOperand
+                            .endToken;
+                    this.alias = resultColumnObject.Expr
+                            .LeftOperand
+                            .ToString();
+                    this.aliasStartPosition = new Tuple<long, long>(startToken1.lineNo,
+                            startToken1.columnNo);
+                    this.aliasEndPosition = new Tuple<long, long>(endToken1.lineNo,
+                            endToken1.columnNo + endToken1.astext.Length);
+
+                    this.name = this.alias;
                 }
                 else if (resultColumnObject.Expr.ExpressionType == EExpressionType.function_t)
                 {
@@ -123,7 +130,8 @@
                             .FunctionName
                             .ToString();
                 }
-                else if (resultColumnObject.ColumnNameOnly != null && !"".Equals(resultColumnObject.ColumnNameOnly))
+                else if (resultColumnObject.ColumnNameOnly != null
+                      && !"".Equals(resultColumnObject.ColumnNameOnly))
                 {
                     this.name = resultColumnObject.ColumnNameOnly;
                 }

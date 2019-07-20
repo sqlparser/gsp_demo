@@ -2476,7 +2476,12 @@ namespace gudusoft.gsqlparser.demos.dlineage
                 {
                     TCustomSqlStatement stmt = stmtStack.Peek();
 
-                    TTable table = ModelBindingManager.getTable(stmt, columnName);
+                    TTable table = columnName.SourceTable;
+
+                    if (table == null)
+                    {
+                        table = ModelBindingManager.getTable(stmt, columnName);
+                    }
 
                     if (table == null)
                     {
@@ -2650,6 +2655,22 @@ namespace gudusoft.gsqlparser.demos.dlineage
                                             if (model is TableColumn)
                                             {
                                                 relation.addSource(new TableColumnRelationElement((TableColumn)model));
+                                            }
+                                        }
+                                        else if (tablModel is QueryTable)
+                                        {
+                                            IList<ResultColumn> queryColumns = ((QueryTable)tablModel).Columns;
+                                            for (int l = 0; l < queryColumns.Count; l++)
+                                            {
+                                                ResultColumn column = queryColumns[l];
+                                                if (getColumnName(columnName).Equals(column.Name,StringComparison.OrdinalIgnoreCase))
+                                                {
+                                                    if (!column.Equals(modelObject))
+                                                    {
+                                                        relation.addSource(new ResultColumnRelationElement(column));
+                                                    }
+                                                    break;
+                                                }
                                             }
                                         }
                                     }
