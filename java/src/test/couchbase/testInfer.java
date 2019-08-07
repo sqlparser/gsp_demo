@@ -4,9 +4,7 @@ import gudusoft.gsqlparser.EDbVendor;
 import gudusoft.gsqlparser.EExpressionType;
 import gudusoft.gsqlparser.TGSqlParser;
 import gudusoft.gsqlparser.nodes.TExpression;
-import gudusoft.gsqlparser.nodes.couchbase.TKeyspaceRef;
 import gudusoft.gsqlparser.nodes.couchbase.TObjectConstruct;
-import gudusoft.gsqlparser.stmt.TCreateIndexSqlStatement;
 import gudusoft.gsqlparser.stmt.couchbase.TInferKeyspaceStmt;
 import junit.framework.TestCase;
 

@@ -9,7 +9,6 @@ import gudusoft.gsqlparser.stmt.TInsertSqlStatement;
 import gudusoft.gsqlparser.stmt.mssql.TMssqlCreateProcedure;
 import gudusoft.gsqlparser.stmt.teradata.TTeradataCreateProcedure;
 import junit.framework.TestCase;
-import gudusoft.gsqlparser.nodes.TTable;
 import gudusoft.gsqlparser.stmt.TSelectSqlStatement;
 
 public class testToString extends TestCase {

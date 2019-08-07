@@ -11,9 +11,6 @@ import gudusoft.gsqlparser.stmt.TCreateSequenceStmt;
 import junit.framework.TestCase;
 import gudusoft.gsqlparser.TGSqlParser;
 import gudusoft.gsqlparser.EDbVendor;
-import gudusoft.gsqlparser.nodes.TDummyList;
-import gudusoft.gsqlparser.nodes.TDummy;
-import gudusoft.gsqlparser.stmt.TCreateSequenceStmt;
 
 public class testCreateSequenceStmt extends TestCase {
 

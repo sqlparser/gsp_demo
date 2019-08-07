@@ -9,7 +9,6 @@ import gudusoft.gsqlparser.TGSqlParser;
 import gudusoft.gsqlparser.nodes.TMergeInsertClause;
 import gudusoft.gsqlparser.nodes.TMergeWhenClause;
 import gudusoft.gsqlparser.stmt.TMergeSqlStatement;
-import gudusoft.gsqlparser.stmt.teradata.TTeradataGive;
 import junit.framework.TestCase;
 
 public class testMerge extends TestCase {

@@ -2,12 +2,9 @@ package test.sybase;
 
 
 import gudusoft.gsqlparser.EDbVendor;
-import gudusoft.gsqlparser.EExpressionType;
 import gudusoft.gsqlparser.ETableSource;
 import gudusoft.gsqlparser.TGSqlParser;
-import gudusoft.gsqlparser.nodes.TExpression;
 import gudusoft.gsqlparser.nodes.TObjectName;
-import gudusoft.gsqlparser.nodes.TResultColumn;
 import gudusoft.gsqlparser.nodes.TTable;
 import gudusoft.gsqlparser.stmt.TSelectSqlStatement;
 import junit.framework.TestCase;

@@ -4,7 +4,6 @@ package test.mysql;
 import gudusoft.gsqlparser.EDbVendor;
 import gudusoft.gsqlparser.TGSqlParser;
 import gudusoft.gsqlparser.stmt.TDeleteSqlStatement;
-import gudusoft.gsqlparser.stmt.mysql.TMySQLCallStmt;
 import junit.framework.TestCase;
 
 public class testDelete  extends TestCase {

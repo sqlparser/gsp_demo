@@ -44,4 +44,17 @@ public class testMySQL extends TestCase
        // System.out.println(sqlparser.sqlstatements.get(0).toScript());
         assertTrue(testScriptGenerator.verifyScript(EDbVendor.dbvmysql, sqlparser.sqlstatements.get(0).toString(), sqlparser.sqlstatements.get(0).toScript()));
     }
+
+    public void testTimeStampDiff( )
+    {
+        TGSqlParser sqlparser = new TGSqlParser( EDbVendor.dbvmysql );
+        sqlparser.sqltext = "select TIMESTAMPDIFF(SECOND,lt.loginDate,lt.logoutDate) as temp from table";
+
+        sqlparser.parse( );
+
+       //  System.out.println(sqlparser.sqlstatements.get(0).toScript());
+        assertTrue(testScriptGenerator.verifyScript(EDbVendor.dbvmysql, sqlparser.sqlstatements.get(0).toString(), sqlparser.sqlstatements.get(0).toScript()));
+    }
+
+
 }

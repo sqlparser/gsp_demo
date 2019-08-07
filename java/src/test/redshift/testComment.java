@@ -4,7 +4,6 @@ import gudusoft.gsqlparser.EDbObjectType;
 import gudusoft.gsqlparser.EDbVendor;
 import gudusoft.gsqlparser.ESqlStatementType;
 import gudusoft.gsqlparser.TGSqlParser;
-import gudusoft.gsqlparser.stmt.redshift.TRedshiftClose;
 import gudusoft.gsqlparser.stmt.redshift.TRedshiftComment;
 import junit.framework.TestCase;
 

@@ -1,7 +1,6 @@
 package test.oracle;
 
 import gudusoft.gsqlparser.EDbVendor;
-import gudusoft.gsqlparser.EExpressionType;
 import gudusoft.gsqlparser.TGSqlParser;
 import gudusoft.gsqlparser.nodes.oracle.TErrorLoggingClause;
 import gudusoft.gsqlparser.stmt.TMergeSqlStatement;

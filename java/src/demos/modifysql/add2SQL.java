@@ -4,9 +4,7 @@ package demos.modifysql;
  * Time: 11:18:02
  */
 
-import gudusoft.gsqlparser.TCustomSqlStatement;
 import gudusoft.gsqlparser.EDbVendor;
-import gudusoft.gsqlparser.ESqlStatementType;
 import gudusoft.gsqlparser.TGSqlParser;
 import gudusoft.gsqlparser.stmt.TSelectSqlStatement;
 

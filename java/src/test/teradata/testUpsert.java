@@ -5,7 +5,6 @@ import gudusoft.gsqlparser.ESqlStatementType;
 import gudusoft.gsqlparser.TGSqlParser;
 import gudusoft.gsqlparser.stmt.TInsertSqlStatement;
 import gudusoft.gsqlparser.stmt.TUpdateSqlStatement;
-import gudusoft.gsqlparser.stmt.teradata.TTeradataUsing;
 import junit.framework.TestCase;
 
 

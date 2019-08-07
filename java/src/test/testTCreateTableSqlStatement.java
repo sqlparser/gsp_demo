@@ -8,11 +8,8 @@ import junit.framework.TestCase;
 import gudusoft.gsqlparser.TGSqlParser;
 import gudusoft.gsqlparser.EDbVendor;
 import gudusoft.gsqlparser.stmt.TCreateTableSqlStatement;
-import gudusoft.gsqlparser.stmt.TSelectSqlStatement;
-import gudusoft.gsqlparser.nodes.TTableElementList;
 import gudusoft.gsqlparser.nodes.TColumnDefinitionList;
 import gudusoft.gsqlparser.nodes.TConstraintList;
-import gudusoft.gsqlparser.nodes.TColumnDefinition;
 
 public class testTCreateTableSqlStatement extends TestCase {
 

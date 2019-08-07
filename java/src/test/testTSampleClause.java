@@ -7,7 +7,6 @@ package test;
 import junit.framework.TestCase;
 import gudusoft.gsqlparser.TGSqlParser;
 import gudusoft.gsqlparser.EDbVendor;
-import gudusoft.gsqlparser.nodes.TResultColumn;
 import gudusoft.gsqlparser.nodes.TSampleClause;
 import gudusoft.gsqlparser.nodes.TWhenClauseItem;
 import gudusoft.gsqlparser.stmt.TSelectSqlStatement;

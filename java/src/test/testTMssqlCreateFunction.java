@@ -1,7 +1,7 @@
 package test;
 /*
  * Date: 11-1-26
- * Time: ионГ10:49
+ * Time: О©╫О©╫О©╫О©╫10:49
  */
 
 import gudusoft.gsqlparser.EDbVendor;

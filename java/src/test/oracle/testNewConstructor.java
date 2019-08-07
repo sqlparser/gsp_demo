@@ -2,12 +2,8 @@ package test.oracle;
 
 import gudusoft.gsqlparser.EDbVendor;
 import gudusoft.gsqlparser.EExpressionType;
-import gudusoft.gsqlparser.EJoinType;
 import gudusoft.gsqlparser.TGSqlParser;
-import gudusoft.gsqlparser.nodes.TJoin;
-import gudusoft.gsqlparser.nodes.TJoinItem;
 import gudusoft.gsqlparser.stmt.TReturnStmt;
-import gudusoft.gsqlparser.stmt.TSelectSqlStatement;
 import gudusoft.gsqlparser.stmt.oracle.TPlsqlCreateFunction;
 import junit.framework.TestCase;
 

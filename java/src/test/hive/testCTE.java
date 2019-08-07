@@ -1,10 +1,7 @@
 package test.hive;
 
 import gudusoft.gsqlparser.*;
-import gudusoft.gsqlparser.nodes.TAliasClause;
 import gudusoft.gsqlparser.nodes.TCTE;
-import gudusoft.gsqlparser.nodes.TColumnDefinition;
-import gudusoft.gsqlparser.nodes.hive.THiveTransformClause;
 import gudusoft.gsqlparser.stmt.TSelectSqlStatement;
 import gudusoft.gsqlparser.stmt.hive.THiveFromQuery;
 import junit.framework.TestCase;

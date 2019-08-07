@@ -197,6 +197,10 @@ public class runGetTableColumn
 			{
 				vendor = EDbVendor.dbvcouchbase;
 			}
+			else if ( args[index + 1].equalsIgnoreCase( "snowflake" ) )
+			{
+				vendor = EDbVendor.dbvsnowflake;
+			}
 		}
 
 		TGetTableColumn getTableColumn = new TGetTableColumn( vendor );

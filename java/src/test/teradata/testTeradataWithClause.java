@@ -7,7 +7,6 @@ package test.teradata;
 import junit.framework.TestCase;
 import gudusoft.gsqlparser.TGSqlParser;
 import gudusoft.gsqlparser.EDbVendor;
-import gudusoft.gsqlparser.nodes.TResultColumn;
 import gudusoft.gsqlparser.nodes.TTeradataWithClause;
 import gudusoft.gsqlparser.nodes.TTeradataWithClauseItem;
 import gudusoft.gsqlparser.stmt.TSelectSqlStatement;

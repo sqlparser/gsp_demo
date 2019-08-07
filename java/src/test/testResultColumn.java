@@ -5,11 +5,8 @@ package test;
 
 import gudusoft.gsqlparser.EDbVendor;
 import gudusoft.gsqlparser.TGSqlParser;
-import gudusoft.gsqlparser.nodes.TCallSpec;
 import gudusoft.gsqlparser.nodes.TResultColumn;
 import gudusoft.gsqlparser.stmt.TSelectSqlStatement;
-import gudusoft.gsqlparser.stmt.oracle.TPlsqlCreateFunction;
-import gudusoft.gsqlparser.stmt.oracle.TPlsqlCreatePackage;
 import junit.framework.TestCase;
 
 public class testResultColumn extends TestCase {

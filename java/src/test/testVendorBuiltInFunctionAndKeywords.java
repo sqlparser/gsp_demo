@@ -7,8 +7,6 @@ import gudusoft.gsqlparser.EDbVendor;
 import gudusoft.gsqlparser.util.functionChecker;
 import junit.framework.TestCase;
 
-import java.util.List;
-
 public class testVendorBuiltInFunctionAndKeywords extends TestCase {
 
     public void testFunctionDBVersion(){

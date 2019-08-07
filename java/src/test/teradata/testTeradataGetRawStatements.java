@@ -30,7 +30,7 @@ public class testTeradataGetRawStatements extends TestCase {
             "USING (zonedec CHARACTER(4))\n" +
             "BEGIN TRANSACTION\n" +
             "; INSERT INTO Dectest (Colz = :zonedec (DECIMAL(4), FORMAT\n" +
-            "¡¯9999S¡¯)) ;\n" +
+            "ï¿½ï¿½9999Sï¿½ï¿½)) ;\n" +
             "\n" +
             "USING\n" +
             "cunicode(CHAR(10))\n" +
@@ -117,7 +117,7 @@ public class testTeradataGetRawStatements extends TestCase {
                 "\n" +
                 "-- searched\n" +
                 "SELECT SUM(CASE\n" +
-                "WHEN part=¡®1¡®\n" +
+                "WHEN part=ï¿½ï¿½1ï¿½ï¿½\n" +
                 "THEN cost\n" +
                 "ELSE 0\n" +
                 "END\n" +
@@ -142,17 +142,17 @@ public class testTeradataGetRawStatements extends TestCase {
                 "END;\n" +
                 "\n" +
                 "SELECT MONTH, SUM(CASE\n" +
-                "WHEN Region=¡¯NE¡¯\n" +
+                "WHEN Region=ï¿½ï¿½NEï¿½ï¿½\n" +
                 "THEN Revenue\n" +
                 "ELSE 0\n" +
                 "END),\n" +
                 "SUM(CASE\n" +
-                "WHEN Region=¡¯NW¡¯\n" +
+                "WHEN Region=ï¿½ï¿½NWï¿½ï¿½\n" +
                 "THEN Revenue\n" +
                 "ELSE 0\n" +
                 "END),\n" +
                 "SUM(CASE\n" +
-                "WHEN Region LIKE ¡®N%¡¯\n" +
+                "WHEN Region LIKE ï¿½ï¿½N%ï¿½ï¿½\n" +
                 "THEN Revenue\n" +
                 "ELSE 0\n" +
                 "END)\n" +
@@ -214,17 +214,17 @@ public class testTeradataGetRawStatements extends TestCase {
                 "\n" +
                 "SELECT CASE NULL\n" +
                 "WHEN 10\n" +
-                "THEN ¡¯TEN¡¯\n" +
+                "THEN ï¿½ï¿½TENï¿½ï¿½\n" +
                 "END;\n" +
                 "\n" +
                 "SELECT CASE NULL + 1\n" +
                 "WHEN 10\n" +
-                "THEN ¡¯TEN¡¯\n" +
+                "THEN ï¿½ï¿½TENï¿½ï¿½\n" +
                 "END;\n" +
                 "\n" +
                 "SELECT CASE\n" +
                 "WHEN column_1 IS NULL\n" +
-                "THEN ¡¯NULL¡¯\n" +
+                "THEN ï¿½ï¿½NULLï¿½ï¿½\n" +
                 "END\n" +
                 "FROM table_1;\n" +
                 "\n" +

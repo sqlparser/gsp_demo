@@ -5,7 +5,6 @@ package test.postgresql;
 
 import gudusoft.gsqlparser.EDataType;
 import gudusoft.gsqlparser.EDbVendor;
-import gudusoft.gsqlparser.EExpressionType;
 import gudusoft.gsqlparser.TGSqlParser;
 import gudusoft.gsqlparser.nodes.*;
 import gudusoft.gsqlparser.stmt.TCreateTableSqlStatement;

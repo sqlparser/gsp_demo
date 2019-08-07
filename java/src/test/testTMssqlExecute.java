@@ -10,7 +10,6 @@ import gudusoft.gsqlparser.TGSqlParser;
 import gudusoft.gsqlparser.EDbVendor;
 import gudusoft.gsqlparser.TBaseType;
 import gudusoft.gsqlparser.nodes.TExecParameter;
-import gudusoft.gsqlparser.stmt.mssql.TMssqlSet;
 import gudusoft.gsqlparser.stmt.mssql.TMssqlExecute;
 
 public class testTMssqlExecute extends TestCase {

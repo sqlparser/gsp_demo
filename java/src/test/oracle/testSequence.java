@@ -5,9 +5,7 @@ package test.oracle;
 
 import gudusoft.gsqlparser.EDbVendor;
 import gudusoft.gsqlparser.TGSqlParser;
-import gudusoft.gsqlparser.nodes.TDummy;
 import gudusoft.gsqlparser.nodes.TSequenceOption;
-import gudusoft.gsqlparser.stmt.TCreateSequenceStmt;
 import gudusoft.gsqlparser.stmt.TCreateSequenceStmt;
 import junit.framework.TestCase;
 

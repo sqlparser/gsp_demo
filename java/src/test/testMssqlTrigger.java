@@ -4,6 +4,12 @@ package test;
  * Time: 16:36:33
  */
 
+import gudusoft.gsqlparser.ESqlStatementType;
+import gudusoft.gsqlparser.ETriggerActionTime;
+import gudusoft.gsqlparser.nodes.TDmlEventClause;
+import gudusoft.gsqlparser.nodes.TDmlEventItem;
+import gudusoft.gsqlparser.nodes.TSimpleDmlTriggerClause;
+import gudusoft.gsqlparser.stmt.TCreateTriggerStmt;
 import junit.framework.TestCase;
 import gudusoft.gsqlparser.TGSqlParser;
 import gudusoft.gsqlparser.EDbVendor;
@@ -42,9 +48,19 @@ public class testMssqlTrigger extends TestCase {
                 "RETURN \n" +
                 "END;" ;
         assertTrue(parser.parse() == 0);
-        TMssqlCreateTrigger stmt = (TMssqlCreateTrigger)parser.sqlstatements.get(0);
-        assertTrue(stmt.getTriggerName().toString().equalsIgnoreCase("Purchasing.LowCredit"));
+        TCreateTriggerStmt stmt = (TCreateTriggerStmt)parser.sqlstatements.get(0);
+        assertEquals(true, stmt.getTriggerName().toString().equalsIgnoreCase("Purchasing.LowCredit"));
         assertTrue(stmt.getOnTable().toString().equalsIgnoreCase("Purchasing.PurchaseOrderHeader"));
+
+        // dml trigger
+        assertTrue(stmt.getTriggeringClause() instanceof TSimpleDmlTriggerClause);
+        TSimpleDmlTriggerClause dmlTriggerClause = (TSimpleDmlTriggerClause)stmt.getTriggeringClause();
+        assertTrue(dmlTriggerClause.getActionTime() == ETriggerActionTime.tatAfter);
+        TDmlEventClause dmlEventClause = (TDmlEventClause)dmlTriggerClause.getEventClause();
+        assertTrue(dmlEventClause.getTableName().toString().equalsIgnoreCase("Purchasing.PurchaseOrderHeader"));
+        TDmlEventItem eventItem = (TDmlEventItem)dmlEventClause.getEventItems().get(0);
+        assertTrue(eventItem.getDmlType() == ESqlStatementType.sstinsert);
+
         assertTrue(stmt.getBodyStatements().size() == 2);
         TMssqlDeclare declare = (TMssqlDeclare)stmt.getBodyStatements().get(0);
         assertTrue(declare.getVariables().size() == 2);

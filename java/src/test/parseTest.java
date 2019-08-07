@@ -1,6 +1,5 @@
 package test;
 
-import demos.visitors.xmlVisitor;
 import junit.framework.TestCase;
 
 

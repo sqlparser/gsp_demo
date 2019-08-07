@@ -4,7 +4,6 @@ import gudusoft.gsqlparser.EDbVendor;
 import gudusoft.gsqlparser.TGSqlParser;
 import gudusoft.gsqlparser.nodes.TColumnDefinition;
 import gudusoft.gsqlparser.stmt.TCreateTableSqlStatement;
-import gudusoft.gsqlparser.stmt.TSelectSqlStatement;
 import junit.framework.TestCase;
 
 public class testColumnDefinition extends TestCase {

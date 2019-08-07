@@ -3,12 +3,8 @@ package test.oracle;
  * Date: 13-3-27
  */
 
-import gudusoft.gsqlparser.EAlterTableOptionType;
 import gudusoft.gsqlparser.EDbVendor;
 import gudusoft.gsqlparser.TGSqlParser;
-import gudusoft.gsqlparser.nodes.TAlterTableOption;
-import gudusoft.gsqlparser.nodes.TAlterTableOptionList;
-import gudusoft.gsqlparser.stmt.TAlterTableStatement;
 import gudusoft.gsqlparser.stmt.oracle.TPlsqlCreateFunction;
 import junit.framework.TestCase;
 

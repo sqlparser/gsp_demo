@@ -3,7 +3,6 @@ package test.vertica;
 import gudusoft.gsqlparser.EDbVendor;
 import gudusoft.gsqlparser.ESqlStatementType;
 import gudusoft.gsqlparser.TGSqlParser;
-import gudusoft.gsqlparser.stmt.TExplainPlan;
 import gudusoft.gsqlparser.stmt.TSelectSqlStatement;
 import gudusoft.gsqlparser.stmt.vertica.TProfileStmt;
 import junit.framework.TestCase;

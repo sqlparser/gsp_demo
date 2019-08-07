@@ -5,7 +5,6 @@ import gudusoft.gsqlparser.nodes.TColumnDefinition;
 import gudusoft.gsqlparser.nodes.TConstraint;
 import gudusoft.gsqlparser.stmt.TCreateTableSqlStatement;
 import gudusoft.gsqlparser.stmt.TSelectSqlStatement;
-import gudusoft.gsqlparser.stmt.redshift.TRedshiftCreateSchema;
 import junit.framework.TestCase;
 
 

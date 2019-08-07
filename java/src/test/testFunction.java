@@ -9,7 +9,6 @@ import gudusoft.gsqlparser.nodes.TFunctionCall;
 import gudusoft.gsqlparser.stmt.TAssignStmt;
 import gudusoft.gsqlparser.stmt.TCommonBlock;
 import gudusoft.gsqlparser.stmt.TSelectSqlStatement;
-import gudusoft.gsqlparser.stmt.oracle.TBasicStmt;
 import junit.framework.TestCase;
 
 public class testFunction extends TestCase {

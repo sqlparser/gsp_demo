@@ -5,7 +5,6 @@ package test.gettablecolumn;
 
 import gudusoft.gsqlparser.TCustomSqlStatement;
 import gudusoft.gsqlparser.EDbVendor;
-import gudusoft.gsqlparser.ESqlStatementType;
 import gudusoft.gsqlparser.TGSqlParser;
 import test.gspCommon;
 import test.metaDB;

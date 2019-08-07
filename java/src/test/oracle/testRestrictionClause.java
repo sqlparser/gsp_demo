@@ -8,7 +8,6 @@ import gudusoft.gsqlparser.ERestrictionType;
 import gudusoft.gsqlparser.TGSqlParser;
 import gudusoft.gsqlparser.nodes.TRestrictionClause;
 import gudusoft.gsqlparser.stmt.TCreateViewSqlStatement;
-import gudusoft.gsqlparser.stmt.TSelectSqlStatement;
 import junit.framework.TestCase;
 
 public class testRestrictionClause extends TestCase {

@@ -8,7 +8,6 @@ import gudusoft.gsqlparser.stmt.TCreateSynonymStmt;
 import junit.framework.TestCase;
 import gudusoft.gsqlparser.TGSqlParser;
 import gudusoft.gsqlparser.EDbVendor;
-import gudusoft.gsqlparser.stmt.TCreateSynonymStmt;
 
 public class testTCreateSynonymStmt extends TestCase {
 

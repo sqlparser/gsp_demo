@@ -7,10 +7,8 @@ import gudusoft.gsqlparser.TGSqlParser;
 import gudusoft.gsqlparser.nodes.TExpression;
 import gudusoft.gsqlparser.nodes.TMultiTarget;
 import gudusoft.gsqlparser.nodes.TResultColumn;
-import gudusoft.gsqlparser.nodes.couchbase.TObjectConstruct;
 import gudusoft.gsqlparser.stmt.TInsertSqlStatement;
 import gudusoft.gsqlparser.stmt.TSelectSqlStatement;
-import gudusoft.gsqlparser.stmt.couchbase.TInferKeyspaceStmt;
 import junit.framework.TestCase;
 
 public class testInsert extends TestCase {

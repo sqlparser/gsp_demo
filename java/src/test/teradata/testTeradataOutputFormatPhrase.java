@@ -1,7 +1,6 @@
 package test.teradata;
 
 
-import com.sun.org.apache.xerces.internal.impl.xs.SchemaSymbols;
 import gudusoft.gsqlparser.EDataTypeAttribute;
 import gudusoft.gsqlparser.EExpressionType;
 import gudusoft.gsqlparser.nodes.TDatatypeAttribute;

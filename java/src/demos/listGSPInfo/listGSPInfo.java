@@ -7,7 +7,6 @@ package demos.listGSPInfo;
 
 import gudusoft.gsqlparser.*;
 
-import java.io.File;
 import java.util.*;
 
 

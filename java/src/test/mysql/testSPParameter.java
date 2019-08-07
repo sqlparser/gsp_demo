@@ -4,9 +4,7 @@ package test.mysql;
  */
 
 import gudusoft.gsqlparser.*;
-import gudusoft.gsqlparser.nodes.TLimitClause;
 import gudusoft.gsqlparser.nodes.TParameterDeclaration;
-import gudusoft.gsqlparser.stmt.TSelectSqlStatement;
 import gudusoft.gsqlparser.stmt.mysql.TMySQLCreateProcedure;
 import junit.framework.TestCase;
 

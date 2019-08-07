@@ -4,7 +4,6 @@ package test.mysql;
  */
 
 import gudusoft.gsqlparser.EDbVendor;
-import gudusoft.gsqlparser.ETableSource;
 import gudusoft.gsqlparser.TGSqlParser;
 import gudusoft.gsqlparser.nodes.TTable;
 import gudusoft.gsqlparser.nodes.TTableList;

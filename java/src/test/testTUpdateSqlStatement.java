@@ -14,7 +14,6 @@ import gudusoft.gsqlparser.EDbVendor;
 import gudusoft.gsqlparser.nodes.TResultColumn;
 import gudusoft.gsqlparser.nodes.TExpression;
 import gudusoft.gsqlparser.stmt.TUpdateSqlStatement;
-import gudusoft.gsqlparser.stmt.TDeleteSqlStatement;
 
 public class testTUpdateSqlStatement extends TestCase {
 

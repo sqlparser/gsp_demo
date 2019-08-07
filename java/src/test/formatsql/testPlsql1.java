@@ -10,7 +10,6 @@ import gudusoft.gsqlparser.pp.para.GFmtOptFactory;
 import gudusoft.gsqlparser.pp.para.styleenums.TAlignOption;
 import gudusoft.gsqlparser.pp.para.styleenums.TAlignStyle;
 import gudusoft.gsqlparser.pp.para.styleenums.TLinefeedsCommaOption;
-import gudusoft.gsqlparser.pp.stmtformatter.FormatterFactory;
 import gudusoft.gsqlparser.stmt.oracle.TPlsqlCreateProcedure;
 import junit.framework.TestCase;
 

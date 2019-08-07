@@ -7,10 +7,7 @@ import gudusoft.gsqlparser.*;
 import gudusoft.gsqlparser.nodes.*;
 import gudusoft.gsqlparser.nodes.hive.THiveSortBy;
 import gudusoft.gsqlparser.stmt.TSelectSqlStatement;
-import junit.framework.Assert;
 import junit.framework.TestCase;
-
-import javax.swing.text.TabExpander;
 
 public class testSelect extends TestCase {
 

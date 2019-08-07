@@ -6,7 +6,6 @@ package test;
 import gudusoft.gsqlparser.EDbVendor;
 import gudusoft.gsqlparser.ESqlStatementType;
 import gudusoft.gsqlparser.TGSqlParser;
-import gudusoft.gsqlparser.stmt.TDropTableSqlStatement;
 import junit.framework.TestCase;
 
 public class testGetTables extends TestCase {

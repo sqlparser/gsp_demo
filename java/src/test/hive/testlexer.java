@@ -1,7 +1,6 @@
 package test.hive;
 
 import gudusoft.gsqlparser.*;
-import gudusoft.gsqlparser.stmt.TAlterIndexStmt;
 import junit.framework.TestCase;
 
 /**

@@ -4,7 +4,6 @@ package demos.dlineage.dataflow.model;
 import gudusoft.gsqlparser.TCustomSqlStatement;
 import gudusoft.gsqlparser.TSourceToken;
 import gudusoft.gsqlparser.nodes.TObjectName;
-import gudusoft.gsqlparser.stmt.TCreateViewSqlStatement;
 
 import java.util.ArrayList;
 import java.util.List;

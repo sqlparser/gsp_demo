@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using gudusoft.gsqlparser;
 using System.IO;
+using gudusoft.gsqlparser.stmt;
 
 namespace gudusoft.gsqlparser.test
 {
@@ -105,6 +106,17 @@ namespace gudusoft.gsqlparser.test
                 UnitTestCommon.checkFile(parser, info.FullName);
                 cnt++;
             }
+        }
+
+
+        [TestMethod]
+        public void TestCreateSchema()
+        {
+            TGSqlParser sqlparser = new TGSqlParser(EDbVendor.dbvpostgresql);
+            sqlparser.sqltext = @"CREATE SCHEMA ""test""";
+            Assert.IsTrue(sqlparser.parse() == 0);
+            TCreateSchemaSqlStatement createSchemaSqlStatement = (TCreateSchemaSqlStatement)sqlparser.sqlstatements.get(0);
+            Assert.IsTrue(createSchemaSqlStatement.SchemaName.ToString().Equals("\"test\"", StringComparison.CurrentCultureIgnoreCase));
         }
 
     }

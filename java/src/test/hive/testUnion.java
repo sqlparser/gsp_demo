@@ -3,7 +3,6 @@ package test.hive;
 import gudusoft.gsqlparser.*;
 import gudusoft.gsqlparser.nodes.*;
 import gudusoft.gsqlparser.nodes.hive.THiveClusterBy;
-import gudusoft.gsqlparser.nodes.hive.THiveHintClause;
 import gudusoft.gsqlparser.stmt.TCreateViewSqlStatement;
 import gudusoft.gsqlparser.stmt.TSelectSqlStatement;
 import gudusoft.gsqlparser.stmt.hive.THiveFromQuery;

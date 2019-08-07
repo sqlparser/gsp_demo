@@ -1,8 +1,6 @@
 package test;
 
-import gudusoft.gsqlparser.EAlterTableOptionType;
 import gudusoft.gsqlparser.EDbVendor;
-import gudusoft.gsqlparser.TBaseType;
 import gudusoft.gsqlparser.TGSqlParser;
 import gudusoft.gsqlparser.nodes.TAlterTableOption;
 import gudusoft.gsqlparser.nodes.TColumnDefinition;
@@ -12,7 +10,6 @@ import gudusoft.gsqlparser.stmt.TAlterTableStatement;
 import gudusoft.gsqlparser.stmt.TCreateTableSqlStatement;
 import junit.framework.TestCase;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -25,10 +22,7 @@ import javax.xml.XMLConstants;
 
 import org.xml.sax.SAXException;
 
-import org.jdom.Document;
 import org.jdom.Element;
-import org.jdom.output.XMLOutputter;
-import org.jdom.output.Format;
 
 /**
  * @deprecated

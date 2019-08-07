@@ -5,7 +5,6 @@ package test.mssql;
 
 import gudusoft.gsqlparser.*;
 import gudusoft.gsqlparser.nodes.TParameterDeclaration;
-import gudusoft.gsqlparser.nodes.TTypeName;
 import gudusoft.gsqlparser.stmt.TStoredProcedureSqlStatement;
 import junit.framework.TestCase;
 

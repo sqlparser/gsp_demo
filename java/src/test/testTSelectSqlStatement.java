@@ -5,7 +5,6 @@ package test;
  */
 
 import gudusoft.gsqlparser.EExpressionType;
-import gudusoft.gsqlparser.stmt.TCreateViewSqlStatement;
 import junit.framework.TestCase;
 import gudusoft.gsqlparser.TGSqlParser;
 import gudusoft.gsqlparser.EDbVendor;

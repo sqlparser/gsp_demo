@@ -3,7 +3,6 @@ package demos.gettablecolumns;
 
 import gudusoft.gsqlparser.*;
 import gudusoft.gsqlparser.nodes.TObjectName;
-import gudusoft.gsqlparser.nodes.TResultColumnList;
 import gudusoft.gsqlparser.nodes.TTable;
 import gudusoft.gsqlparser.stmt.TDeleteSqlStatement;
 import gudusoft.gsqlparser.stmt.TInsertSqlStatement;

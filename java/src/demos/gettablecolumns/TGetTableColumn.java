@@ -8,8 +8,6 @@ import gudusoft.gsqlparser.nodes.TTable;
 import gudusoft.gsqlparser.nodes.TTypeName;
 import gudusoft.gsqlparser.stmt.TStoredProcedureSqlStatement;
 
-import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;

@@ -7,7 +7,6 @@ import gudusoft.gsqlparser.EDbVendor;
 import gudusoft.gsqlparser.TGSqlParser;
 import gudusoft.gsqlparser.pp.para.GFmtOpt;
 import gudusoft.gsqlparser.pp.para.GFmtOptFactory;
-import gudusoft.gsqlparser.pp.para.styleenums.TAlignOption;
 import gudusoft.gsqlparser.pp.para.styleenums.TLinefeedsCommaOption;
 import gudusoft.gsqlparser.pp.stmtformatter.FormatterFactory;
 import junit.framework.TestCase;

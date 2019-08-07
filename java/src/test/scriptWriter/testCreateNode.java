@@ -2,65 +2,14 @@
 package test.scriptWriter;
 
 import gudusoft.gsqlparser.*;
-import gudusoft.gsqlparser.nodes.TAliasClause;
-import gudusoft.gsqlparser.nodes.TColumnDefinition;
-import gudusoft.gsqlparser.nodes.TColumnDefinitionList;
-import gudusoft.gsqlparser.nodes.TColumnWithSortOrder;
-import gudusoft.gsqlparser.nodes.TConstant;
-import gudusoft.gsqlparser.nodes.TConstraint;
-import gudusoft.gsqlparser.nodes.TConstraintList;
-import gudusoft.gsqlparser.nodes.TDeclareVariable;
-import gudusoft.gsqlparser.nodes.TDeclareVariableList;
-import gudusoft.gsqlparser.nodes.TDropIndexItem;
-import gudusoft.gsqlparser.nodes.TDropIndexItemList;
-import gudusoft.gsqlparser.nodes.TExecParameter;
-import gudusoft.gsqlparser.nodes.TExecParameterList;
-import gudusoft.gsqlparser.nodes.TExpression;
-import gudusoft.gsqlparser.nodes.TExpressionList;
-import gudusoft.gsqlparser.nodes.TFunctionCall;
-import gudusoft.gsqlparser.nodes.TGroupBy;
-import gudusoft.gsqlparser.nodes.TGroupByItem;
-import gudusoft.gsqlparser.nodes.TJoin;
-import gudusoft.gsqlparser.nodes.TJoinItem;
-import gudusoft.gsqlparser.nodes.TJoinList;
-import gudusoft.gsqlparser.nodes.TMultiTarget;
-import gudusoft.gsqlparser.nodes.TMultiTargetList;
-import gudusoft.gsqlparser.nodes.TObjectName;
-import gudusoft.gsqlparser.nodes.TObjectNameList;
-import gudusoft.gsqlparser.nodes.TOrderBy;
-import gudusoft.gsqlparser.nodes.TOrderByItem;
-import gudusoft.gsqlparser.nodes.TOrderByItemList;
-import gudusoft.gsqlparser.nodes.TPTNodeList;
-import gudusoft.gsqlparser.nodes.TParameterDeclaration;
-import gudusoft.gsqlparser.nodes.TParameterDeclarationList;
-import gudusoft.gsqlparser.nodes.TResultColumn;
-import gudusoft.gsqlparser.nodes.TResultColumnList;
-import gudusoft.gsqlparser.nodes.TTable;
-import gudusoft.gsqlparser.nodes.TTypeName;
-import gudusoft.gsqlparser.nodes.TVarDeclStmt;
-import gudusoft.gsqlparser.nodes.TViewAliasClause;
-import gudusoft.gsqlparser.nodes.TViewAliasItem;
-import gudusoft.gsqlparser.nodes.TViewAliasItemList;
-import gudusoft.gsqlparser.nodes.TWhereClause;
+import gudusoft.gsqlparser.nodes.*;
 import gudusoft.gsqlparser.nodes.oracle.TInvokerRightsClause;
 import gudusoft.gsqlparser.pp.para.GFmtOpt;
 import gudusoft.gsqlparser.pp.para.GFmtOptFactory;
 import gudusoft.gsqlparser.pp.para.styleenums.TCaseOption;
 import gudusoft.gsqlparser.pp.stmtformatter.FormatterFactory;
-import gudusoft.gsqlparser.stmt.TAssignStmt;
-import gudusoft.gsqlparser.stmt.TCreateIndexSqlStatement;
-import gudusoft.gsqlparser.stmt.TCreateTableSqlStatement;
-import gudusoft.gsqlparser.stmt.TCreateViewSqlStatement;
-import gudusoft.gsqlparser.stmt.TDeleteSqlStatement;
-import gudusoft.gsqlparser.stmt.TDropIndexSqlStatement;
-import gudusoft.gsqlparser.stmt.TElsifStmt;
-import gudusoft.gsqlparser.stmt.TIfStmt;
-import gudusoft.gsqlparser.stmt.TInsertSqlStatement;
-import gudusoft.gsqlparser.stmt.TSelectSqlStatement;
-import gudusoft.gsqlparser.stmt.TUpdateSqlStatement;
-import gudusoft.gsqlparser.stmt.TUseDatabase;
+import gudusoft.gsqlparser.stmt.*;
 import gudusoft.gsqlparser.stmt.mssql.TMssqlBlock;
-import gudusoft.gsqlparser.stmt.mssql.TMssqlCreateTrigger;
 import gudusoft.gsqlparser.stmt.mssql.TMssqlDeclare;
 import gudusoft.gsqlparser.stmt.mssql.TMssqlExecute;
 import gudusoft.gsqlparser.stmt.mssql.TMssqlIfElse;
@@ -68,6 +17,8 @@ import gudusoft.gsqlparser.stmt.mssql.TMssqlPrint;
 import gudusoft.gsqlparser.stmt.mssql.TMssqlRaiserror;
 import gudusoft.gsqlparser.stmt.oracle.TPlsqlCreateProcedure;
 import junit.framework.TestCase;
+
+import java.util.ArrayList;
 
 
 public class testCreateNode extends TestCase
@@ -258,17 +209,27 @@ public class testCreateNode extends TestCase
 
 	public void testMssqlCreateTrigger( )
 	{
-		TMssqlCreateTrigger createTrigger = new TMssqlCreateTrigger( EDbVendor.dbvmssql );
+		TCreateTriggerStmt createTrigger = new TCreateTriggerStmt( EDbVendor.dbvmssql );
 
 		createTrigger.setTriggerName(SQLServerParser.parseObjectName("reminder"));
 
-		TTable table = new TTable( );
-		table.setTableName( SQLServerParser.parseObjectName("titles") );
-		createTrigger.setOnTable(table);
+		TSimpleDmlTriggerClause dmlTriggerClause = new TSimpleDmlTriggerClause();
+		dmlTriggerClause.setActionTime(ETriggerActionTime.tatFor);
 
-		createTrigger.setTimingPoint( ETriggerTimingPoint.ttpFor );
-		createTrigger.getDmlTypes( ).add(ETriggerDmlType.tdtInsert);
-		createTrigger.getDmlTypes( ).add(ETriggerDmlType.tdtUpdate);
+		TDmlEventClause dmlEventClause = new TDmlEventClause();
+		dmlEventClause.setTableName(SQLServerParser.parseObjectName("titles"));
+		ArrayList<TTriggerEventItem> dmlEventItems = new ArrayList<TTriggerEventItem>();
+		TDmlEventItem dmlEventItem1 = new TDmlEventItem();
+		dmlEventItem1.setDmlType(ESqlStatementType.sstinsert);
+		TDmlEventItem dmlEventItem2 = new TDmlEventItem();
+		dmlEventItem2.setDmlType(ESqlStatementType.sstupdate);
+		dmlEventItems.add(dmlEventItem1);
+		dmlEventItems.add(dmlEventItem2);
+		dmlEventClause.setEventItems(dmlEventItems);
+
+		dmlTriggerClause.setEventClause(dmlEventClause);
+		createTrigger.setTriggeringClause(dmlTriggerClause);
+
 
 		TStatementList stmts = new TStatementList( );
 
@@ -295,17 +256,25 @@ public class testCreateNode extends TestCase
 
 	public void testMssqlCreateTrigger1( )
 	{
-		TMssqlCreateTrigger createTrigger = new TMssqlCreateTrigger( EDbVendor.dbvmssql );
-		
+		TCreateTriggerStmt createTrigger = new TCreateTriggerStmt( EDbVendor.dbvmssql );
 		createTrigger.setTriggerName(SQLServerParser.parseObjectName("reminder"));
 
-		TTable table = new TTable( );
-		table.setTableName( SQLServerParser.parseObjectName("titles") );
-		createTrigger.setOnTable(table);
+		TSimpleDmlTriggerClause dmlTriggerClause = new TSimpleDmlTriggerClause();
+		dmlTriggerClause.setActionTime(ETriggerActionTime.tatInsteadOf);
 
-		createTrigger.setTimingPoint( ETriggerTimingPoint.ttpTinsteadOf );
-		createTrigger.getDmlTypes( ).add(ETriggerDmlType.tdtInsert);
-		createTrigger.getDmlTypes( ).add(ETriggerDmlType.tdtUpdate);
+		TDmlEventClause dmlEventClause = new TDmlEventClause();
+		dmlEventClause.setTableName(SQLServerParser.parseObjectName("titles"));
+		ArrayList<TTriggerEventItem> dmlEventItems = new ArrayList<TTriggerEventItem>();
+		TDmlEventItem dmlEventItem1 = new TDmlEventItem();
+		dmlEventItem1.setDmlType(ESqlStatementType.sstinsert);
+		TDmlEventItem dmlEventItem2 = new TDmlEventItem();
+		dmlEventItem2.setDmlType(ESqlStatementType.sstupdate);
+		dmlEventItems.add(dmlEventItem1);
+		dmlEventItems.add(dmlEventItem2);
+		dmlEventClause.setEventItems(dmlEventItems);
+
+		dmlTriggerClause.setEventClause(dmlEventClause);
+		createTrigger.setTriggeringClause(dmlTriggerClause);
 
 		TStatementList stmts = new TStatementList( );
 
@@ -333,18 +302,28 @@ public class testCreateNode extends TestCase
 
 	public void testMssqlAlterTrigger2( )
 	{
-		TMssqlCreateTrigger createTrigger = new TMssqlCreateTrigger( EDbVendor.dbvmssql );
+		TCreateTriggerStmt createTrigger = new TCreateTriggerStmt( EDbVendor.dbvmssql );
 
 		createTrigger.setTriggerName(SQLServerParser.parseObjectName("reminder"));
 		createTrigger.setAlterTrigger( true );
 
-		TTable table = new TTable( );
-		table.setTableName( SQLServerParser.parseObjectName("titles") );
-		createTrigger.setOnTable(table);
+		TSimpleDmlTriggerClause dmlTriggerClause = new TSimpleDmlTriggerClause();
+		dmlTriggerClause.setActionTime(ETriggerActionTime.tatInsteadOf);
 
-		createTrigger.setTimingPoint( ETriggerTimingPoint.ttpTinsteadOf );
-		createTrigger.getDmlTypes( ).add(ETriggerDmlType.tdtInsert);
-		createTrigger.getDmlTypes( ).add(ETriggerDmlType.tdtUpdate);
+		TDmlEventClause dmlEventClause = new TDmlEventClause();
+		dmlEventClause.setTableName(SQLServerParser.parseObjectName("titles"));
+		ArrayList<TTriggerEventItem> dmlEventItems = new ArrayList<TTriggerEventItem>();
+		TDmlEventItem dmlEventItem1 = new TDmlEventItem();
+		dmlEventItem1.setDmlType(ESqlStatementType.sstinsert);
+		TDmlEventItem dmlEventItem2 = new TDmlEventItem();
+		dmlEventItem2.setDmlType(ESqlStatementType.sstupdate);
+		dmlEventItems.add(dmlEventItem1);
+		dmlEventItems.add(dmlEventItem2);
+		dmlEventClause.setEventItems(dmlEventItems);
+
+		dmlTriggerClause.setEventClause(dmlEventClause);
+		createTrigger.setTriggeringClause(dmlTriggerClause);
+
 
 		TStatementList stmts = new TStatementList( );
 
@@ -367,22 +346,29 @@ public class testCreateNode extends TestCase
 				,createTriggerQuery
 		));
 
-
 	}
 
 	public void testMssqlCreateTrigger3( )
 	{
-		TMssqlCreateTrigger createTrigger = new TMssqlCreateTrigger( EDbVendor.dbvmssql );
-
+		TCreateTriggerStmt createTrigger = new TCreateTriggerStmt( EDbVendor.dbvmssql );
 		createTrigger.setTriggerName(SQLServerParser.parseObjectName("reminder"));
 
-		TTable table = new TTable( );
-		table.setTableName( SQLServerParser.parseObjectName("titles") );
-		createTrigger.setOnTable(table);
+		TSimpleDmlTriggerClause dmlTriggerClause = new TSimpleDmlTriggerClause();
+		dmlTriggerClause.setActionTime(ETriggerActionTime.tatInsteadOf);
 
-		createTrigger.setTimingPoint( ETriggerTimingPoint.ttpTinsteadOf );
-		createTrigger.getDmlTypes( ).add(ETriggerDmlType.tdtInsert);
-		createTrigger.getDmlTypes( ).add(ETriggerDmlType.tdtUpdate);
+		TDmlEventClause dmlEventClause = new TDmlEventClause();
+		dmlEventClause.setTableName(SQLServerParser.parseObjectName("titles"));
+		ArrayList<TTriggerEventItem> dmlEventItems = new ArrayList<TTriggerEventItem>();
+		TDmlEventItem dmlEventItem1 = new TDmlEventItem();
+		dmlEventItem1.setDmlType(ESqlStatementType.sstinsert);
+		TDmlEventItem dmlEventItem2 = new TDmlEventItem();
+		dmlEventItem2.setDmlType(ESqlStatementType.sstupdate);
+		dmlEventItems.add(dmlEventItem1);
+		dmlEventItems.add(dmlEventItem2);
+		dmlEventClause.setEventItems(dmlEventItems);
+
+		dmlTriggerClause.setEventClause(dmlEventClause);
+		createTrigger.setTriggeringClause(dmlTriggerClause);
 
 		TMssqlIfElse ifstmt = new TMssqlIfElse( EDbVendor.dbvmssql );
 		ifstmt.setCondition(SQLServerParser.parseExpression("update(col1)"));
@@ -408,17 +394,25 @@ public class testCreateNode extends TestCase
 
 	public void testMssqlCreateTrigger4( )
 	{
-		TMssqlCreateTrigger createTrigger = new TMssqlCreateTrigger( EDbVendor.dbvmssql );
-
+		TCreateTriggerStmt createTrigger = new TCreateTriggerStmt( EDbVendor.dbvmssql );
 		createTrigger.setTriggerName(SQLServerParser.parseObjectName("reminder"));
 
-		TTable table = new TTable( );
-		table.setTableName( SQLServerParser.parseObjectName("titles") );
-		createTrigger.setOnTable(table);
+		TSimpleDmlTriggerClause dmlTriggerClause = new TSimpleDmlTriggerClause();
+		dmlTriggerClause.setActionTime(ETriggerActionTime.tatInsteadOf);
 
-		createTrigger.setTimingPoint( ETriggerTimingPoint.ttpTinsteadOf );
-		createTrigger.getDmlTypes( ).add(ETriggerDmlType.tdtInsert);
-		createTrigger.getDmlTypes( ).add(ETriggerDmlType.tdtUpdate);
+		TDmlEventClause dmlEventClause = new TDmlEventClause();
+		dmlEventClause.setTableName(SQLServerParser.parseObjectName("titles"));
+		ArrayList<TTriggerEventItem> dmlEventItems = new ArrayList<TTriggerEventItem>();
+		TDmlEventItem dmlEventItem1 = new TDmlEventItem();
+		dmlEventItem1.setDmlType(ESqlStatementType.sstinsert);
+		TDmlEventItem dmlEventItem2 = new TDmlEventItem();
+		dmlEventItem2.setDmlType(ESqlStatementType.sstupdate);
+		dmlEventItems.add(dmlEventItem1);
+		dmlEventItems.add(dmlEventItem2);
+		dmlEventClause.setEventItems(dmlEventItems);
+
+		dmlTriggerClause.setEventClause(dmlEventClause);
+		createTrigger.setTriggeringClause(dmlTriggerClause);
 
 		TMssqlIfElse ifstmt = new TMssqlIfElse( EDbVendor.dbvmssql );
 		ifstmt.setCondition(SQLServerParser.parseExpression("update(col1)"));
@@ -449,18 +443,29 @@ public class testCreateNode extends TestCase
 
 	public void testMssqlCreateTrigger5( )
 	{
-		TMssqlCreateTrigger createTrigger = new TMssqlCreateTrigger( EDbVendor.dbvmssql );
-
+		TCreateTriggerStmt createTrigger = new TCreateTriggerStmt( EDbVendor.dbvmssql );
 		createTrigger.setTriggerName(SQLServerParser.parseObjectName("reminder"));
 
-		TTable table = new TTable( );
-		table.setTableName( SQLServerParser.parseObjectName("titles") );
-		createTrigger.setOnTable(table);
+		TSimpleDmlTriggerClause dmlTriggerClause = new TSimpleDmlTriggerClause();
+		dmlTriggerClause.setActionTime(ETriggerActionTime.tatInsteadOf);
 
-		createTrigger.setTimingPoint( ETriggerTimingPoint.ttpTinsteadOf );
-		createTrigger.getDmlTypes( ).add(ETriggerDmlType.tdtDelete);
-		createTrigger.getDmlTypes( ).add(ETriggerDmlType.tdtInsert);
-		createTrigger.getDmlTypes( ).add( ETriggerDmlType.tdtUpdate );
+		TDmlEventClause dmlEventClause = new TDmlEventClause();
+		dmlEventClause.setTableName(SQLServerParser.parseObjectName("titles"));
+		ArrayList<TTriggerEventItem> dmlEventItems = new ArrayList<TTriggerEventItem>();
+		TDmlEventItem dmlEventItem0 = new TDmlEventItem();
+		dmlEventItem0.setDmlType(ESqlStatementType.sstdelete);
+		TDmlEventItem dmlEventItem1 = new TDmlEventItem();
+		dmlEventItem1.setDmlType(ESqlStatementType.sstinsert);
+		TDmlEventItem dmlEventItem2 = new TDmlEventItem();
+		dmlEventItem2.setDmlType(ESqlStatementType.sstupdate);
+		dmlEventItems.add(dmlEventItem0);
+		dmlEventItems.add(dmlEventItem1);
+		dmlEventItems.add(dmlEventItem2);
+		dmlEventClause.setEventItems(dmlEventItems);
+
+		dmlTriggerClause.setEventClause(dmlEventClause);
+		createTrigger.setTriggeringClause(dmlTriggerClause);
+
 
 		TMssqlExecute exec = new TMssqlExecute( EDbVendor.dbvmssql );
 		exec.setModuleName(SQLServerParser.parseObjectName("master..xp_sendmail"));
@@ -489,17 +494,26 @@ public class testCreateNode extends TestCase
 
 	public void testMssqlCreateTrigger6( )
 	{
-		TMssqlCreateTrigger createTrigger = new TMssqlCreateTrigger( EDbVendor.dbvmssql );
+		TCreateTriggerStmt createTrigger = new TCreateTriggerStmt( EDbVendor.dbvmssql );
+		createTrigger.setTriggerName(SQLServerParser.parseObjectName("employee_insupd"));
 
-		createTrigger.setTriggerName( SQLServerParser.parseObjectName("employee_insupd") );
+		TSimpleDmlTriggerClause dmlTriggerClause = new TSimpleDmlTriggerClause();
+		dmlTriggerClause.setActionTime(ETriggerActionTime.tatFor);
 
-		TTable table = new TTable( );
-		table.setTableName( SQLServerParser.parseObjectName("employee") );
-		createTrigger.setOnTable( table );
+		TDmlEventClause dmlEventClause = new TDmlEventClause();
+		dmlEventClause.setTableName(SQLServerParser.parseObjectName("employee"));
+		ArrayList<TTriggerEventItem> dmlEventItems = new ArrayList<TTriggerEventItem>();
+		TDmlEventItem dmlEventItem1 = new TDmlEventItem();
+		dmlEventItem1.setDmlType(ESqlStatementType.sstinsert);
+		TDmlEventItem dmlEventItem2 = new TDmlEventItem();
+		dmlEventItem2.setDmlType(ESqlStatementType.sstupdate);
+		dmlEventItems.add(dmlEventItem1);
+		dmlEventItems.add(dmlEventItem2);
+		dmlEventClause.setEventItems(dmlEventItems);
 
-		createTrigger.setTimingPoint( ETriggerTimingPoint.ttpFor );
-		createTrigger.getDmlTypes( ).add( ETriggerDmlType.tdtInsert );
-		createTrigger.getDmlTypes( ).add( ETriggerDmlType.tdtUpdate );
+		dmlTriggerClause.setEventClause(dmlEventClause);
+		createTrigger.setTriggeringClause(dmlTriggerClause);
+
 
 		TMssqlDeclare declare = new TMssqlDeclare( EDbVendor.dbvmssql );
 		TDeclareVariableList vars = new TDeclareVariableList( );
@@ -616,19 +630,29 @@ public class testCreateNode extends TestCase
 
 	public void testMssqlCreateTrigger7( )
 	{
-		TMssqlCreateTrigger createTrigger = new TMssqlCreateTrigger( EDbVendor.dbvmssql );
-
+		TCreateTriggerStmt createTrigger = new TCreateTriggerStmt( EDbVendor.dbvmssql );
 		createTrigger.setTriggerName(SQLServerParser.parseObjectName("trig1"));
 
-		TTable table = new TTable( );
-		table.setTableName( SQLServerParser.parseObjectName("authors") );
-		createTrigger.setOnTable( table );
+		TSimpleDmlTriggerClause dmlTriggerClause = new TSimpleDmlTriggerClause();
+		dmlTriggerClause.setActionTime(ETriggerActionTime.tatFor);
 
-		createTrigger.setTimingPoint( ETriggerTimingPoint.ttpFor );
+		TDmlEventClause dmlEventClause = new TDmlEventClause();
+		dmlEventClause.setTableName(SQLServerParser.parseObjectName("authors"));
+		ArrayList<TTriggerEventItem> dmlEventItems = new ArrayList<TTriggerEventItem>();
+		TDmlEventItem dmlEventItem0 = new TDmlEventItem();
+		dmlEventItem0.setDmlType(ESqlStatementType.sstdelete);
+		TDmlEventItem dmlEventItem1 = new TDmlEventItem();
+		dmlEventItem1.setDmlType(ESqlStatementType.sstinsert);
+		TDmlEventItem dmlEventItem2 = new TDmlEventItem();
+		dmlEventItem2.setDmlType(ESqlStatementType.sstupdate);
+		dmlEventItems.add(dmlEventItem0);
+		dmlEventItems.add(dmlEventItem1);
+		dmlEventItems.add(dmlEventItem2);
+		dmlEventClause.setEventItems(dmlEventItems);
 
-		createTrigger.getDmlTypes( ).add( ETriggerDmlType.tdtDelete );
-		createTrigger.getDmlTypes( ).add( ETriggerDmlType.tdtInsert );
-		createTrigger.getDmlTypes( ).add( ETriggerDmlType.tdtUpdate );
+		dmlTriggerClause.setEventClause(dmlEventClause);
+		createTrigger.setTriggeringClause(dmlTriggerClause);
+
 
 		createTrigger.getBodyStatements( )
 				.add( SQLServerParser.parseSubquery("SELECT a.au_lname, a.au_fname, x.info\r\n"
@@ -651,18 +675,25 @@ public class testCreateNode extends TestCase
 
 	public void testMssqlCreateTrigger8( )
 	{
-		TMssqlCreateTrigger createTrigger = new TMssqlCreateTrigger( EDbVendor.dbvmssql );
-
+		TCreateTriggerStmt createTrigger = new TCreateTriggerStmt( EDbVendor.dbvmssql );
 		createTrigger.setTriggerName(SQLServerParser.parseObjectName("trig2"));
 
-		TTable table = new TTable( );
-		table.setTableName( SQLServerParser.parseObjectName("authors") );
-		createTrigger.setOnTable(table);
+		TSimpleDmlTriggerClause dmlTriggerClause = new TSimpleDmlTriggerClause();
+		dmlTriggerClause.setActionTime(ETriggerActionTime.tatFor);
 
-		createTrigger.setTimingPoint( ETriggerTimingPoint.ttpFor );
+		TDmlEventClause dmlEventClause = new TDmlEventClause();
+		dmlEventClause.setTableName(SQLServerParser.parseObjectName("authors"));
+		ArrayList<TTriggerEventItem> dmlEventItems = new ArrayList<TTriggerEventItem>();
+		TDmlEventItem dmlEventItem1 = new TDmlEventItem();
+		dmlEventItem1.setDmlType(ESqlStatementType.sstinsert);
+		TDmlEventItem dmlEventItem2 = new TDmlEventItem();
+		dmlEventItem2.setDmlType(ESqlStatementType.sstupdate);
+		dmlEventItems.add(dmlEventItem1);
+		dmlEventItems.add(dmlEventItem2);
+		dmlEventClause.setEventItems(dmlEventItems);
 
-		createTrigger.getDmlTypes( ).add(ETriggerDmlType.tdtInsert);
-		createTrigger.getDmlTypes( ).add(ETriggerDmlType.tdtUpdate);
+		dmlTriggerClause.setEventClause(dmlEventClause);
+		createTrigger.setTriggeringClause(dmlTriggerClause);
 
 		TMssqlDeclare declare = new TMssqlDeclare( EDbVendor.dbvmssql );
 		TDeclareVariableList vars = new TDeclareVariableList( );
@@ -697,16 +728,23 @@ public class testCreateNode extends TestCase
 
 	public void testMssqlCreateTrigger9( )
 	{
-		TMssqlCreateTrigger createTrigger = new TMssqlCreateTrigger( EDbVendor.dbvmssql );
+		TCreateTriggerStmt createTrigger = new TCreateTriggerStmt( EDbVendor.dbvmssql );
+		createTrigger.setTriggerName(SQLServerParser.parseObjectName("updEmployeeData"));
 
-		createTrigger.setTriggerName( SQLServerParser.parseObjectName("updEmployeeData") );
+		TSimpleDmlTriggerClause dmlTriggerClause = new TSimpleDmlTriggerClause();
+		dmlTriggerClause.setActionTime(ETriggerActionTime.tatFor);
 
-		TTable table = new TTable( );
-		table.setTableName( SQLServerParser.parseObjectName("employeeData") );
-		createTrigger.setOnTable( table );
+		TDmlEventClause dmlEventClause = new TDmlEventClause();
+		dmlEventClause.setTableName(SQLServerParser.parseObjectName("employeeData"));
+		ArrayList<TTriggerEventItem> dmlEventItems = new ArrayList<TTriggerEventItem>();
+		TDmlEventItem dmlEventItem2 = new TDmlEventItem();
+		dmlEventItem2.setDmlType(ESqlStatementType.sstupdate);
+		dmlEventItems.add(dmlEventItem2);
+		dmlEventClause.setEventItems(dmlEventItems);
 
-		createTrigger.setTimingPoint( ETriggerTimingPoint.ttpFor );
-		createTrigger.getDmlTypes( ).add( ETriggerDmlType.tdtUpdate );
+		dmlTriggerClause.setEventClause(dmlEventClause);
+		createTrigger.setTriggeringClause(dmlTriggerClause);
+
 
 		TMssqlIfElse ifElse = new TMssqlIfElse( EDbVendor.dbvmssql );
 		ifElse.setCondition( SQLServerParser.parseExpression("(COLUMNS_UPDATED() & 14) > 0") );
@@ -799,16 +837,23 @@ public class testCreateNode extends TestCase
 
 	public void testMssqlCreateTrigger10( )
 	{
-		TMssqlCreateTrigger createTrigger = new TMssqlCreateTrigger( EDbVendor.dbvmssql );
-
+		TCreateTriggerStmt createTrigger = new TCreateTriggerStmt( EDbVendor.dbvmssql );
 		createTrigger.setTriggerName(SQLServerParser.parseObjectName("tr1"));
 
-		TTable table = new TTable( );
-		table.setTableName( SQLServerParser.parseObjectName("Customers") );
-		createTrigger.setOnTable(table);
+		TSimpleDmlTriggerClause dmlTriggerClause = new TSimpleDmlTriggerClause();
+		dmlTriggerClause.setActionTime(ETriggerActionTime.tatFor);
 
-		createTrigger.setTimingPoint( ETriggerTimingPoint.ttpFor );
-		createTrigger.getDmlTypes( ).add(ETriggerDmlType.tdtUpdate);
+		TDmlEventClause dmlEventClause = new TDmlEventClause();
+		dmlEventClause.setTableName(SQLServerParser.parseObjectName("Customers"));
+		ArrayList<TTriggerEventItem> dmlEventItems = new ArrayList<TTriggerEventItem>();
+		TDmlEventItem dmlEventItem2 = new TDmlEventItem();
+		dmlEventItem2.setDmlType(ESqlStatementType.sstupdate);
+		dmlEventItems.add(dmlEventItem2);
+		dmlEventClause.setEventItems(dmlEventItems);
+
+		dmlTriggerClause.setEventClause(dmlEventClause);
+		createTrigger.setTriggeringClause(dmlTriggerClause);
+
 
 		TMssqlIfElse ifStmt = new TMssqlIfElse( EDbVendor.dbvmssql );
 		ifStmt.setCondition(SQLServerParser.parseExpression("( (SUBSTRING(COLUMNS_UPDATED(),1,1)=power(2,(3 - 1))\r\n"

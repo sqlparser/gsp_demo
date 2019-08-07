@@ -2,7 +2,6 @@ package test.gettablecolumn;
 
 
 import demos.gettablecolumns.TGetTableColumn;
-import gudusoft.gsqlparser.EDbObjectType;
 import gudusoft.gsqlparser.EDbVendor;
 import junit.framework.TestCase;
 

@@ -5,7 +5,6 @@ package test.mssql;
 
 import gudusoft.gsqlparser.EDbVendor;
 import gudusoft.gsqlparser.EExpressionType;
-import gudusoft.gsqlparser.TBaseType;
 import gudusoft.gsqlparser.TGSqlParser;
 import gudusoft.gsqlparser.nodes.TExpression;
 import gudusoft.gsqlparser.stmt.TSelectSqlStatement;

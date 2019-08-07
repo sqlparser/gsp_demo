@@ -1,20 +1,15 @@
 
 package test.scriptWriter;
 
-import gudusoft.gsqlparser.EComparisonType;
 import gudusoft.gsqlparser.EDbVendor;
-import gudusoft.gsqlparser.EExpressionType;
-import gudusoft.gsqlparser.EQuantifierType;
 import gudusoft.gsqlparser.ETokenType;
 import gudusoft.gsqlparser.TBaseType;
 import gudusoft.gsqlparser.TGSqlParser;
 import gudusoft.gsqlparser.TSourceTokenList;
-import gudusoft.gsqlparser.nodes.TExpression;
 import gudusoft.gsqlparser.pp.para.GFmtOpt;
 import gudusoft.gsqlparser.pp.para.GFmtOptFactory;
 import gudusoft.gsqlparser.pp.para.styleenums.TCaseOption;
 import gudusoft.gsqlparser.pp.stmtformatter.FormatterFactory;
-import gudusoft.gsqlparser.stmt.TAssignStmt;
 import junit.framework.TestCase;
 
 public class testScriptGenerator extends TestCase

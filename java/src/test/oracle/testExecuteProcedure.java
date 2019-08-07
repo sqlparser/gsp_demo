@@ -4,10 +4,6 @@ package test.oracle;
  */
 
 import gudusoft.gsqlparser.*;
-import gudusoft.gsqlparser.nodes.TAlterTableOption;
-import gudusoft.gsqlparser.nodes.TAlterTableOptionList;
-import gudusoft.gsqlparser.stmt.TAlterTableStatement;
-import gudusoft.gsqlparser.stmt.TSelectSqlStatement;
 import gudusoft.gsqlparser.stmt.oracle.TOracleExecuteProcedure;
 import junit.framework.TestCase;
 

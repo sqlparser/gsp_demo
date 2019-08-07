@@ -4,12 +4,8 @@ package test;
  */
 
 import gudusoft.gsqlparser.EDbVendor;
-import gudusoft.gsqlparser.TCustomSqlStatement;
 import gudusoft.gsqlparser.TGSqlParser;
 
-import gudusoft.gsqlparser.stmt.TDeleteSqlStatement;
-import gudusoft.gsqlparser.stmt.TInsertSqlStatement;
-import gudusoft.gsqlparser.stmt.TUpdateSqlStatement;
 import junit.framework.TestCase;
 
 public class testLongStatement extends TestCase {

@@ -8,7 +8,6 @@ import gudusoft.gsqlparser.nodes.TJoin;
 import gudusoft.gsqlparser.nodes.TJoinItem;
 import gudusoft.gsqlparser.nodes.TJoinList;
 import gudusoft.gsqlparser.stmt.TSelectSqlStatement;
-import junit.framework.Assert;
 import junit.framework.TestCase;
 
 public class testJoins extends TestCase {

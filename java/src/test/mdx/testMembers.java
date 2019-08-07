@@ -1,13 +1,8 @@
 package test.mdx;
 
 import gudusoft.gsqlparser.EDbVendor;
-import gudusoft.gsqlparser.EExpressionType;
-import gudusoft.gsqlparser.EFunctionType;
 import gudusoft.gsqlparser.TGSqlParser;
-import gudusoft.gsqlparser.nodes.TExpression;
-import gudusoft.gsqlparser.nodes.TFunctionCall;
 import gudusoft.gsqlparser.nodes.mdx.*;
-import gudusoft.gsqlparser.stmt.mdx.TMdxCreateMeasure;
 import gudusoft.gsqlparser.stmt.mdx.TMdxSelect;
 import junit.framework.TestCase;
 

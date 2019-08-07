@@ -4,9 +4,6 @@ package demos.modifysql;
  */
 
 import gudusoft.gsqlparser.*;
-import gudusoft.gsqlparser.nodes.TTable;
-import gudusoft.gsqlparser.stmt.TInsertSqlStatement;
-import gudusoft.gsqlparser.stmt.TSelectSqlStatement;
 
 public class replaceConstant {
 

@@ -1,13 +1,9 @@
 package demos.gettablecolumns;
 
-import gudusoft.gsqlparser.TCustomSqlStatement;
 import gudusoft.gsqlparser.EDbVendor;
-import gudusoft.gsqlparser.ESqlStatementType;
 import gudusoft.gsqlparser.TGSqlParser;
 import gudusoft.gsqlparser.nodes.TResultColumnList;
 import gudusoft.gsqlparser.stmt.TSelectSqlStatement;
-
-import java.io.File;
 
 public class getResultColumn  {
 

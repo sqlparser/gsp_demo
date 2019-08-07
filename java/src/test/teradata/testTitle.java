@@ -1,11 +1,8 @@
 package test.teradata;
 
-import gudusoft.gsqlparser.EDataTypeAttribute;
 import gudusoft.gsqlparser.EDbVendor;
 import gudusoft.gsqlparser.TGSqlParser;
-import gudusoft.gsqlparser.nodes.TDatatypeAttribute;
 import gudusoft.gsqlparser.nodes.TResultColumn;
-import gudusoft.gsqlparser.nodes.teradata.TExpandOnClause;
 import gudusoft.gsqlparser.stmt.TSelectSqlStatement;
 import junit.framework.TestCase;
 
