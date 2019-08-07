@@ -551,16 +551,33 @@ public class TGetTableColumn{
             }
             infoList.add(tableRecord);
 
-                if (lcTable.getTableType() == ETableSource.subquery) {
-                    tn = "(subquery, alias:" + lcTable.getAliasName() + ")";
-                }else{
-                    tn = lcTable.getTableName().toString();
-                    if (lcTable.isLinkTable()){
-                        tn = tn+"("+lcTable.getLinkTable().getTableName().toString()+")";
-                    }else if (lcTable.isCTEName()){
-                       tn = tn+"(CTE)";
-                    }
-                }
+			if ( lcTable.getTableType( ) == ETableSource.subquery )
+			{
+				tn = "(subquery, alias:" + lcTable.getAliasName( ) + ")";
+			}
+			else if ( lcTable.getTableType( ) == ETableSource.tableExpr )
+			{
+				tn = "(table expression, alias:"
+						+ lcTable.getAliasName( )
+						+ ")";
+			}
+			else if ( lcTable.getTableName( ) != null )
+			{
+				tn = lcTable.getTableName( ).toString( );
+				if ( lcTable.isLinkTable( ) )
+				{
+					tn = tn
+							+ "("
+							+ lcTable.getLinkTable( )
+									.getTableName( )
+									.toString( )
+							+ ")";
+				}
+				else if ( lcTable.isCTEName( ) )
+				{
+					tn = tn + "(CTE)";
+				}
+			}
                 //System.out.println(numberOfSpace(pNest+1)+tn.getName());
                 if ((showTableEffect) &&(lcTable.isBaseTable())){
                     infos.append(numberOfSpace(pNest+1)+ tn+"("+lcTable.getEffectType()+")"+newline);
@@ -570,7 +587,7 @@ public class TGetTableColumn{
 
                 tableColumnList.append(","+tn);
 
-                if (!((lcTable.getTableType() == ETableSource.subquery) || (lcTable.isCTEName()))) {
+                if (!((lcTable.getTableType() == ETableSource.subquery) || (lcTable.isCTEName())) && lcTable.getTableName()!=null) {
                    if (lcTable.isLinkTable()){
                       // tablelist.append(lcTable.getLinkTable().toString()+newline);
                        tablelist.add(lcTable.getLinkTable().toString());

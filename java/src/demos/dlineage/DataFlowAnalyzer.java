@@ -4643,7 +4643,12 @@ public class DataFlowAnalyzer
 			{
 				TCustomSqlStatement stmt = stmtStack.peek( );
 
-				TTable table = modelManager.getTable( stmt, columnName );
+				TTable table = columnName.getSourceTable( );
+
+				if ( table == null )
+				{
+					table = modelManager.getTable( stmt, columnName );
+				}
 
 				if ( table == null )
 				{
@@ -5498,7 +5503,7 @@ public class DataFlowAnalyzer
 			System.out.println( "/text: Option, print the plain text format output." );
 			System.out.println( "/t: Option, set the database type. Support oracle, mysql, mssql, db2, netezza, teradata, informix, sybase, postgresql, hive, greenplum and redshift, the default type is oracle" );
 			System.out.println( "/o: Option, write the output stream to the specified file." );
-			System.out.println( "/log: Option, generate a fdd.log file to log information." );
+			System.out.println( "/log: Option, generate a dataflow.log file to log information." );
 			return;
 		}
 
@@ -5689,7 +5694,7 @@ public class DataFlowAnalyzer
 				{
 					try
 					{
-						pw = new PrintStream( new File( ".", "fdd.log" ) );
+						pw = new PrintStream( new File( ".", "dataflow.log" ) );
 						pw.print( errorMessage );
 					}
 					catch ( FileNotFoundException e )
@@ -5796,6 +5801,6 @@ public class DataFlowAnalyzer
 				"VAR_ SAMP",
 				"VARI ANCE",
 				"XMLAGG"
-		} ).contains( func.getFunctionName( ).toString( ) );
+		} ).contains( func.getFunctionName( ).toString( ).toUpperCase( ) );
 	}
 }
