@@ -6,6 +6,7 @@ import gudusoft.gsqlparser.TCustomSqlStatement;
 import gudusoft.gsqlparser.nodes.*;
 import gudusoft.gsqlparser.stmt.TCursorDeclStmt;
 import gudusoft.gsqlparser.stmt.TSelectSqlStatement;
+import gudusoft.gsqlparser.stmt.TStoredProcedureSqlStatement;
 
 public class ModelFactory {
 
@@ -304,5 +305,25 @@ public class ModelFactory {
         modelManager.bindModel(stmt, resultSet);
         return resultSet;
     }
+    
+	public Procedure createProcedure(TStoredProcedureSqlStatement stmt) {
+		if (this.modelManager.getModel(stmt) instanceof Procedure) {
+			return (Procedure) this.modelManager.getModel(stmt);
+		} else {
+			Procedure procedure = new Procedure(stmt);
+			this.modelManager.bindModel(stmt, procedure);
+			return procedure;
+		}
+	}
+
+	public Argument createProcedureArgument(Procedure procedure, TParameterDeclaration parameter) {
+		if (this.modelManager.getModel(parameter) instanceof Argument) {
+			return (Argument) this.modelManager.getModel(parameter);
+		} else {
+			Argument argumentModel = new Argument(procedure, parameter);
+			this.modelManager.bindModel(parameter, argumentModel);
+			return argumentModel;
+		}
+	}
 
 }

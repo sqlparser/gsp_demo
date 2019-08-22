@@ -1,6 +1,74 @@
 
 package demos.dlineage;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Stack;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import demos.dlineage.dataflow.listener.DataFlowHandleListener;
+import demos.dlineage.dataflow.model.AbstractRelation;
+import demos.dlineage.dataflow.model.Argument;
+import demos.dlineage.dataflow.model.Constant;
+import demos.dlineage.dataflow.model.ConstantRelationElement;
+import demos.dlineage.dataflow.model.CursorResultSet;
+import demos.dlineage.dataflow.model.DataFlowRelation;
+import demos.dlineage.dataflow.model.EffectType;
+import demos.dlineage.dataflow.model.ImpactRelation;
+import demos.dlineage.dataflow.model.IndirectImpactRelation;
+import demos.dlineage.dataflow.model.JoinRelation;
+import demos.dlineage.dataflow.model.JoinRelation.JoinClauseType;
+import demos.dlineage.dataflow.model.ModelBindingManager;
+import demos.dlineage.dataflow.model.ModelFactory;
+import demos.dlineage.dataflow.model.Procedure;
+import demos.dlineage.dataflow.model.QueryTable;
+import demos.dlineage.dataflow.model.QueryTableRelationElement;
+import demos.dlineage.dataflow.model.RecordSetRelation;
+import demos.dlineage.dataflow.model.Relation;
+import demos.dlineage.dataflow.model.RelationElement;
+import demos.dlineage.dataflow.model.RelationType;
+import demos.dlineage.dataflow.model.ResultColumn;
+import demos.dlineage.dataflow.model.ResultColumnRelationElement;
+import demos.dlineage.dataflow.model.ResultSet;
+import demos.dlineage.dataflow.model.SelectResultSet;
+import demos.dlineage.dataflow.model.SelectSetResultSet;
+import demos.dlineage.dataflow.model.Table;
+import demos.dlineage.dataflow.model.TableColumn;
+import demos.dlineage.dataflow.model.TableColumnRelationElement;
+import demos.dlineage.dataflow.model.TableRelationElement;
+import demos.dlineage.dataflow.model.View;
+import demos.dlineage.dataflow.model.ViewColumn;
+import demos.dlineage.dataflow.model.ViewColumnRelationElement;
+import demos.dlineage.dataflow.model.xml.column;
+import demos.dlineage.dataflow.model.xml.dataflow;
+import demos.dlineage.dataflow.model.xml.relation;
+import demos.dlineage.dataflow.model.xml.sourceColumn;
+import demos.dlineage.dataflow.model.xml.table;
+import demos.dlineage.dataflow.model.xml.targetColumn;
+import demos.dlineage.util.Pair;
+import demos.dlineage.util.SQLUtil;
+import demos.dlineage.util.XML2Model;
+import demos.dlineage.util.XMLUtil;
 import gudusoft.gsqlparser.EComparisonType;
 import gudusoft.gsqlparser.EDbVendor;
 import gudusoft.gsqlparser.EExpressionType;
@@ -32,6 +100,8 @@ import gudusoft.gsqlparser.nodes.TMultiTarget;
 import gudusoft.gsqlparser.nodes.TMultiTargetList;
 import gudusoft.gsqlparser.nodes.TObjectName;
 import gudusoft.gsqlparser.nodes.TObjectNameList;
+import gudusoft.gsqlparser.nodes.TParameterDeclaration;
+import gudusoft.gsqlparser.nodes.TParameterDeclarationList;
 import gudusoft.gsqlparser.nodes.TParseTreeNode;
 import gudusoft.gsqlparser.nodes.TResultColumn;
 import gudusoft.gsqlparser.nodes.TResultColumnList;
@@ -55,73 +125,7 @@ import gudusoft.gsqlparser.stmt.TSelectSqlStatement;
 import gudusoft.gsqlparser.stmt.TStoredProcedureSqlStatement;
 import gudusoft.gsqlparser.stmt.TUpdateSqlStatement;
 import gudusoft.gsqlparser.util.functionChecker;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Stack;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
-import demos.dlineage.dataflow.listener.DataFlowHandleListener;
-import demos.dlineage.dataflow.model.AbstractRelation;
-import demos.dlineage.dataflow.model.Constant;
-import demos.dlineage.dataflow.model.ConstantRelationElement;
-import demos.dlineage.dataflow.model.CursorResultSet;
-import demos.dlineage.dataflow.model.DataFlowRelation;
-import demos.dlineage.dataflow.model.EffectType;
-import demos.dlineage.dataflow.model.ImpactRelation;
-import demos.dlineage.dataflow.model.IndirectImpactRelation;
-import demos.dlineage.dataflow.model.JoinRelation;
-import demos.dlineage.dataflow.model.JoinRelation.JoinClauseType;
-import demos.dlineage.dataflow.model.ModelBindingManager;
-import demos.dlineage.dataflow.model.ModelFactory;
-import demos.dlineage.dataflow.model.QueryTable;
-import demos.dlineage.dataflow.model.QueryTableRelationElement;
-import demos.dlineage.dataflow.model.RecordSetRelation;
-import demos.dlineage.dataflow.model.Relation;
-import demos.dlineage.dataflow.model.RelationElement;
-import demos.dlineage.dataflow.model.RelationType;
-import demos.dlineage.dataflow.model.ResultColumn;
-import demos.dlineage.dataflow.model.ResultColumnRelationElement;
-import demos.dlineage.dataflow.model.ResultSet;
-import demos.dlineage.dataflow.model.SelectResultSet;
-import demos.dlineage.dataflow.model.SelectSetResultSet;
-import demos.dlineage.dataflow.model.Table;
-import demos.dlineage.dataflow.model.TableColumn;
-import demos.dlineage.dataflow.model.TableColumnRelationElement;
-import demos.dlineage.dataflow.model.TableRelationElement;
-import demos.dlineage.dataflow.model.View;
-import demos.dlineage.dataflow.model.ViewColumn;
-import demos.dlineage.dataflow.model.ViewColumnRelationElement;
-import demos.dlineage.dataflow.model.xml.column;
-import demos.dlineage.dataflow.model.xml.dataflow;
-import demos.dlineage.dataflow.model.xml.relation;
-import demos.dlineage.dataflow.model.xml.sourceColumn;
-import demos.dlineage.dataflow.model.xml.table;
-import demos.dlineage.dataflow.model.xml.targetColumn;
-import demos.dlineage.util.Pair;
-import demos.dlineage.util.SQLUtil;
-import demos.dlineage.util.XML2Model;
-import demos.dlineage.util.XMLUtil;
+import gudusoft.gsqlparser.util.keywordChecker;
 
 public class DataFlowAnalyzer
 {
@@ -915,6 +919,7 @@ public class DataFlowAnalyzer
 				}
 			}
 
+			appendProcedures(doc, dlineageResult);
 			appendTables( doc, dlineageResult );
 			appendViews( doc, dlineageResult );
 			appendResultSets( doc, dlineageResult );
@@ -943,7 +948,12 @@ public class DataFlowAnalyzer
 			return;
 		}
 
-		if ( stmt instanceof TCreateTableSqlStatement )
+		if (stmt instanceof TStoredProcedureSqlStatement) {
+			this.stmtStack.push(stmt);
+			this.analyzeStoredProcedureStmt((TStoredProcedureSqlStatement) stmt);
+			this.stmtStack.pop();
+		} 
+		else if ( stmt instanceof TCreateTableSqlStatement )
 		{
 			stmtStack.push( stmt );
 			analyzeCreateTableStmt( (TCreateTableSqlStatement) stmt );
@@ -1013,6 +1023,23 @@ public class DataFlowAnalyzer
 		}
 	}
 
+	private void analyzeStoredProcedureStmt(TStoredProcedureSqlStatement stmt) {
+		Procedure procedure = this.modelFactory.createProcedure(stmt);
+		if (stmt.getParameterDeclarations() != null) {
+			TParameterDeclarationList parameters = stmt.getParameterDeclarations();
+
+			for (int i = 0; i < parameters.size(); ++i) {
+				TParameterDeclaration parameter = parameters.getParameterDeclarationItem(i);
+				this.modelFactory.createProcedureArgument(procedure, parameter);
+			}
+		}
+
+		for (int i = 0; i < stmt.getStatements().size(); ++i) {
+			this.analyzeCustomSqlStmt(stmt.getStatements().get(i));
+		}
+
+	}
+    
 	private void analyzeLoopStmt( TLoopStmt stmt )
 	{
 
@@ -3747,6 +3774,40 @@ public class DataFlowAnalyzer
 		}
 	}
 
+	private void appendProcedures(Document doc, Element dlineageResult) {
+		List<TStoredProcedureSqlStatement> procedures = this.modelManager.getProcedures();
+
+		for (int i = 0; i < procedures.size(); ++i) {
+			Procedure model = (Procedure) this.modelManager.getModel(procedures.get(i));
+			Element procedureElement = doc.createElement("procedure");
+			procedureElement.setAttribute("id", String.valueOf(model.getId()));
+			procedureElement.setAttribute("name", model.getFullName());
+			procedureElement.setAttribute("type", model.getType().name().replace("sst", ""));
+			if (model.getStartPosition() != null && model.getEndPosition() != null) {
+				procedureElement.setAttribute("coordinate", model.getStartPosition() + "," + model.getEndPosition());
+			}
+
+			dlineageResult.appendChild(procedureElement);
+			List<Argument> arguments = model.getArguments();
+
+			for (int j = 0; j < arguments.size(); ++j) {
+				Argument argumentModel = (Argument) arguments.get(j);
+				Element argumentElement = doc.createElement("argument");
+				argumentElement.setAttribute("id", String.valueOf(argumentModel.getId()));
+				argumentElement.setAttribute("name", argumentModel.getName());
+				if (argumentModel.getStartPosition() != null && argumentModel.getEndPosition() != null) {
+					argumentElement.setAttribute("coordinate",
+							argumentModel.getStartPosition() + "," + argumentModel.getEndPosition());
+				}
+
+				argumentElement.setAttribute("datatype", argumentModel.getDataType().getDataTypeName());
+				argumentElement.setAttribute("inout", argumentModel.getMode().name());
+				procedureElement.appendChild(argumentElement);
+			}
+		}
+
+	}
+
 	private void appendTables( Document doc, Element dlineageResult )
 	{
 		List<TTable> tables = modelManager.getBaseTables( );
@@ -4995,6 +5056,9 @@ public class DataFlowAnalyzer
 					}
 				}
 			}
+			if(relation.getSources().length == 0 && isKeyword(columnName)) {
+				relation.addSource(new ConstantRelationElement(new Constant(columnName)));
+			}
 		}
 	}
 
@@ -5748,6 +5812,36 @@ public class DataFlowAnalyzer
 				if ( result )
 				{
 					return true;
+				}
+			}
+		}
+		catch ( Exception e )
+		{
+		}
+
+		return false;
+	}
+	
+	public boolean isKeyword( TObjectName object )
+	{
+		if ( object == null || object.getGsqlparser( ) == null )
+			return false;
+		try
+		{
+			EDbVendor vendor = object.getGsqlparser( ).getDbVendor( );
+			
+
+			List<String> versions = keywordChecker.getAvailableDbVersions( vendor );
+			if ( versions != null && versions.size( ) > 0 )
+			{
+				for ( int i = 0; i < versions.size( ); i++ )
+				{
+					boolean result = keywordChecker.isKeyword(object.toString( ),
+							object.getGsqlparser( ).getDbVendor( ),
+							versions.get( i ), false );
+					if(result) {
+						return result;
+					}
 				}
 			}
 		}

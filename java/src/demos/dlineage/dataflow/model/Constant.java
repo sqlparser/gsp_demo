@@ -1,9 +1,9 @@
 
 package demos.dlineage.dataflow.model;
 
-import gudusoft.gsqlparser.TSourceToken;
-import gudusoft.gsqlparser.nodes.TConstant;
 import demos.dlineage.util.Pair;
+import gudusoft.gsqlparser.TSourceToken;
+import gudusoft.gsqlparser.nodes.TParseTreeNode;
 
 public class Constant
 {
@@ -16,9 +16,9 @@ public class Constant
 	protected Pair<Long, Long> startPosition;
 	protected Pair<Long, Long> endPosition;
 
-	protected TConstant constant;
+	protected TParseTreeNode constant;
 
-	public Constant( TConstant constant )
+	public Constant( TParseTreeNode constant )
 	{
 		if ( constant == null )
 			throw new IllegalArgumentException( "Constant arguments can't be null." );
@@ -60,7 +60,7 @@ public class Constant
 		return endPosition;
 	}
 
-	public TConstant getConstantObject( )
+	public TParseTreeNode getConstantObject( )
 	{
 		return constant;
 	}
