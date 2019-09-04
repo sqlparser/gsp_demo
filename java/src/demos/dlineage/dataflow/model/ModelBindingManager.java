@@ -575,5 +575,20 @@ public class ModelBindingManager {
                         .get(cursorName.toScript()))
                         .getResultColumnObject()));
     }
+    
+	public List<TStoredProcedureSqlStatement> getProcedures() {
+		List<TStoredProcedureSqlStatement> procedures = new ArrayList();
+		Iterator iter = this.modelBindingMap.keySet().iterator();
+
+		while (iter.hasNext()) {
+			Object key = iter.next();
+			if (key instanceof TStoredProcedureSqlStatement) {
+				TStoredProcedureSqlStatement procedure = (TStoredProcedureSqlStatement) key;
+				procedures.add(procedure);
+			}
+		}
+
+		return procedures;
+	}
 
 }
