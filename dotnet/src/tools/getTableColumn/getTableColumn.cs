@@ -164,7 +164,7 @@ namespace gudusoft.gsqlparser.tools.getTableColumn
             int count = 0;
             for (int i = 0; i < files.Count; i++)
             {
-                if (count >= 30)
+                if (count >= 3000)
                 {
                     isOver = true;
                     break;
